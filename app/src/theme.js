@@ -11,7 +11,6 @@ const styles = {
       // markdown specific colors (both for light and darkmode)
       "--markdown-text": mode("#24292f", "#c9d1d9")(props),
       "--markdown-text-inverse": mode("#c9d1d9", "#24292f")(props),
-      "--markdown-text-inverse": mode("#c9d1d9", "#24292f")(props),
       "--markdown-code-bg": mode("#f6f8fa", "#161b22")(props),
       "--markdown-link": mode("#0969da", "#58a6ff")(props),
       "--markdown-accent": "#FF784F"
@@ -23,9 +22,6 @@ const styles = {
     },
   }),
 };
-
-const components = {
-}
 
 const config = {
   useSystemColorMode: true,

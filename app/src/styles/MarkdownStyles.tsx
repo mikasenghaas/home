@@ -8,6 +8,8 @@ import {
   Link as ChakraLink,
   Badge as ChakraBadge,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
+import EmojiDict from '../lib/emojis'
 var Latex = require("react-latex");
 
 export const H1 = (props: any) => {
@@ -49,7 +51,7 @@ export const H2 = (props: any) => {
 
 export const H3 = (props: any) => {
   return (
-    <Heading mt='1.5rem' size="l" color="var(--markdown-text)" {...props}>
+    <Heading mt="1.5rem" size="l" color="var(--markdown-text)" {...props}>
       {props.children}
     </Heading>
   );
@@ -58,6 +60,14 @@ export const H3 = (props: any) => {
 export const P = (props: any) => {
   return (
     <Text my=".5rem" color="var(--markdown-text)" {...props}>
+      {props.children}
+    </Text>
+  );
+};
+
+export const Accent = (props: any) => {
+  return (
+    <Text fontWeight='bold' color="var(--markdown-accent)" {...props}>
       {props.children}
     </Text>
   );
@@ -85,11 +95,24 @@ export const Badge = (props: any) => {
 };
 
 export const Link = (props: any) => {
-  return (
-    <ChakraLink href={props.url} color="var(--markdown-link)" {...props}>
-      {props.children}
-    </ChakraLink>
-  );
+  if (props.to) {
+    return (
+      <ChakraLink
+        as={RouterLink}
+        to={props.to}
+        color="var(--markdown-link)"
+        {...props}
+      >
+        {props.children}
+      </ChakraLink>
+    );
+  } else {
+    return (
+      <ChakraLink href={props.url} color="var(--markdown-link)" {...props}>
+        {props.children}
+      </ChakraLink>
+    );
+  }
 };
 
 export const InlineCode = (props: any) => {
@@ -128,17 +151,19 @@ export const CodeBlock = (props: any) => {
 };
 
 export const InlineMath = (props: any) => {
+  console.log(props.children)
   return (
     <P>
-      <Latex fontSize="10px">{props.children}</Latex>
+      <Latex fontSize="10px">{props.children[0]}</Latex>
     </P>
   );
 };
 
 export const MathBlock = (props: any) => {
+  console.log(props.children)
   return (
     <P fontSize="1.1em">
-      <Latex displayMode={true}>{props.children}</Latex>
+      <Latex displayMode={true}>{props.children[0]}</Latex>
     </P>
   );
 };
@@ -156,4 +181,16 @@ export const Divider = ({ height = 1.5, lineType = "solid" }: DividerProps) => {
       }}
     ></hr>
   );
+};
+
+export const Emoji = (props: any) => {
+  return (
+    <span
+      role="img"
+      aria-label={props.label ? props.label : ""}
+      aria-hidden={props.label ? "false" : "true"}
+    >
+      {EmojiDict[props.children]}
+    </span>
+  )
 };

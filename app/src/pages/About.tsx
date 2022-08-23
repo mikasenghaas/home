@@ -27,13 +27,13 @@ const About = () => {
 
   return (
     <Box zIndex={50}>
-      <md.H2 mt="50px">About</md.H2>
+      <md.H1 mt='1.5rem'>About</md.H1>
       <md.Divider />
       <md.P mt="20px">
         <md.InlineCode>Hej</md.InlineCode>!
       </md.P>
       <md.P>
-        My name is mika. I am a 20-year old student from Germany who is
+        My name is Mika. I am a 20-year old student from Germany who is
         currently studying Data Science at the{" "}
         <md.Link url="https://en.itu.dk/" isExternal>
           IT University of Copenhagen
@@ -45,19 +45,19 @@ const About = () => {
       </md.P>
       <UnorderedList spacing={1} my=".5rem">
         <ListItem>
-            <md.Inline>machine learning</md.Inline>
+          <md.Inline>machine learning</md.Inline>
         </ListItem>
         <ListItem>
-            <md.Inline>linear algebra and optimisation</md.Inline>
+          <md.Inline>linear algebra and optimisation</md.Inline>
         </ListItem>
         <ListItem>
-            <md.Inline>applied statistics</md.Inline>
+          <md.Inline>applied statistics</md.Inline>
         </ListItem>
         <ListItem>
-            <md.Inline>algorithms and data structures</md.Inline>
+          <md.Inline>algorithms and data structures</md.Inline>
         </ListItem>
         <ListItem>
-            <md.Inline>introduction to data science and programming</md.Inline>
+          <md.Inline>introduction to data science and programming</md.Inline>
         </ListItem>
       </UnorderedList>
       This webpage hosts assisting material for exercise classes, that many of

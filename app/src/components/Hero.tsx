@@ -1,6 +1,5 @@
 // Hero.tsx
 // By: Mika Senghaas
-import { Box } from "@chakra-ui/react";
 import { AspectRatio } from "@chakra-ui/react";
 
 // components

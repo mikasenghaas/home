@@ -2,13 +2,13 @@
 // By: Mika Senghaas
 
 // imports
-import { useEffect } from "react";
+import { useState } from "react";
 import { ChakraProvider, Flex } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import './App.css'
+import "./App.css";
 
-import theme from './theme'
+import theme from "./theme";
 
 // components
 import Container from "./components/Container";
@@ -28,35 +28,136 @@ import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
-  useEffect(() => {
-    console.log(theme)
-  }, [])
+  const [state, setState] = useState({
+    courses: [
+      {
+        name: "Machine Learning",
+        short: "ml",
+        tags: ["fall 2002", "therese graversen"],
+        materials: [
+          {
+            name: "week-0-introduction",
+            created_at: "23/08/22",
+            edited_at: "23/08/22",
+            markdown: `
+# 00 Introduction
+
+This is a test of a markdown document.
+
+And this is a [link](https://www.github.com/jonas-mika)
+`,
+          },
+          {
+            name: "week-01-test",
+            created_at: "23/08/22",
+            edited_at: "23/08/22",
+            markdown: `# 01 Test
+
+This is a test of a **markdown document**.
+
+---
+
+And this is a [link](https://www.github.com/jonas-mika)
+`,
+          },
+        ],
+      },
+      {
+        name: "Linear Algebra and Optimisation",
+        short: "lao",
+        tags: ["fall 2002", "rasmus ejlers"],
+        materials: [
+          {
+            name: "week-0-introduction",
+            created_at: "23/08/22",
+            edited_at: "23/08/22",
+            markdown: `
+# 00 Introduction
+
+This is a test of a markdown document.
+
+---
+
+### H3 Headline
+
+---
+
+And this is a [link](https://www.github.com/jonas-mika).
+<InlineMath>This is some cool math $1+1=2$</InlineMath>
+
+<MathBlock>
+$$
+\\sqrt{16}=4
+$$
+</MathBlock>
+
+<Emoji>sparkles</Emoji> This is a test
+
+And this is code
+
+\`\`\`python
+print('hello world')
+\`\`\`
+`,
+          },
+          {
+            name: "week-01-test",
+            created_at: "23/08/22",
+            edited_at: "23/08/22",
+            markdown: `
+# 01 Test
+
+This is a test of a markdown document.
+
+knd this is a [link](https://www.github.com/jonas-mika)
+`,
+          },
+        ],
+      },
+    ],
+    projects: [
+      {
+        name: "Test",
+        short: "test",
+        bio: "description",
+        material: {},
+      },
+      {
+        name: "Test2",
+        short: "test2",
+        bio: "description",
+        material: {},
+      },
+    ],
+  });
 
   return (
     <ChakraProvider theme={theme}>
       <BrowserRouter>
         <Container>
-          <Flex
-            direction='column'
-            minHeight='100vh'
-          >
-          <Header />
-          <Hero />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/teaching" element={<Teaching />}>
-              <Route path=":course" element={<Course />}>
-                <Route path=":material" element={<Material />} />
-              </Route>
-            </Route>
-            <Route path="/projects" element={<Projects />}>
-              <Route path=":project" element={<Project />}></Route>
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Footer />
+          <Flex direction="column" minHeight="100vh">
+            <Header />
+            <Hero />
+            <Routes>
+              <Route path="/about" element={<About />} />
+              <Route path="/admin" element={<Admin />} />
+
+              <Route
+                path="/teaching/:course_short/:material_name"
+                element={<Material state={state} />}
+              />
+              <Route
+                path="/teaching/:course_short"
+                element={<Course state={state} />}
+              />
+              <Route path="/teaching" element={<Teaching state={state} />} />
+
+              <Route path="/projects/:project" element={<Project />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/" element={<Home />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <Footer />
           </Flex>
         </Container>
       </BrowserRouter>

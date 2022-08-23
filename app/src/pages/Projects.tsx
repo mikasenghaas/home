@@ -1,9 +1,14 @@
 // Projects.tsx
 // By: Mika Senghaas
+import { Box } from '@chakra-ui/react'
+import * as md from '../styles/MarkdownStyles'
 
-const Projects = () => {
+const Projects = (props: any) => {
   return (
-    <h1>Projects</h1>
+    <Box zIndex={50}>
+      <md.H1 mt='1.5rem'>Projects</md.H1>
+      <md.Divider />
+    </Box>
   )
 }
 
