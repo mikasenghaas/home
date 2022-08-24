@@ -3,7 +3,13 @@
 
 import { Flex, Box, UnorderedList, ListItem } from "@chakra-ui/react";
 import { useParams, Link as RouterLink } from "react-router-dom";
+
+// custom styles
 import * as md from "../styles/MarkdownStyles";
+
+// custom components
+import PageBox from '../components/PageBox'
+import TraceBack from '../components/TraceBack'
 
 const MaterialBox = (props: any) => {
   const { material } = props;
@@ -12,7 +18,7 @@ const MaterialBox = (props: any) => {
       <RouterLink to={material.name}>
         <Flex>
           <md.Link>{material.name}</md.Link>
-       </Flex>
+        </Flex>
       </RouterLink>
     </ListItem>
   );
@@ -25,8 +31,8 @@ const Course = (props: any) => {
   const course = courses.find((c: any) => c.short === course_short);
 
   return (
-    <Box zIndex={50}>
-      <md.Accent>{`teaching >`}</md.Accent>
+    <PageBox>
+      <TraceBack />
       <md.H1>{course.name}</md.H1>
       <md.Divider />
       <Flex>
@@ -45,15 +51,15 @@ const Course = (props: any) => {
         Material
       </md.H3>
       <UnorderedList>
-      {
-        course.materials.map((material: any, i: number) => {
-          return (
-            <MaterialBox key={i} material={material} />
-          )
-        })
-      }
+        {
+          course.materials.map((material: any, i: number) => {
+            return (
+              <MaterialBox key={i} material={material} />
+            )
+          })
+        }
       </UnorderedList>
-    </Box>
+    </PageBox>
   );
 };
 

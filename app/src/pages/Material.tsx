@@ -9,6 +9,7 @@ import * as md from "../styles/MarkdownStyles";
 
 // custom components
 import PageBox from '../components/PageBox'
+import TraceBack from '../components/TraceBack'
 
 const Material = (props: any) => {
   const { course_short, material_name } = useParams();
@@ -36,14 +37,9 @@ const Material = (props: any) => {
     },
   };
 
-  console.log(material.markdown)
-
   return (
     <PageBox>
-      <md.Accent>
-        {"> "}teaching{" > "}
-        {course_short}
-      </md.Accent>
+      <TraceBack />
       <Markdown options={options}>{material.markdown}</Markdown>
     </PageBox>
   );
