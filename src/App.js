@@ -30,8 +30,8 @@ import NotFound from "./pages/NotFound";
 
 const App = () => {
   const [state, setState] = useState({
-    courses: {},
-    material: {},
+    courses: JSON.parse(sessionStorage.getItem('courses')) || {},
+    material: JSON.parse(sessionStorage.getItem('material')) || {},
     loadingCourses: true,
     loadingMaterial: true,
   })
@@ -45,6 +45,7 @@ const App = () => {
           courses: res.data,
           loadingCourses: false
         }))
+        sessionStorage.setItem('courses', JSON.stringify(res.data))
       })
 
     httpClient.get('/api/get_material')
@@ -55,6 +56,7 @@ const App = () => {
           material: res.data,
           loadingMaterial: false
         }))
+        sessionStorage.setItem('material', JSON.stringify(res.data))
       })
 
   }, [])
