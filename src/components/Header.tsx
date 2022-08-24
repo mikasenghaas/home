@@ -1,5 +1,6 @@
 // Header.tsx
 // By: Mika Senghaas
+import { useState, useEffect } from "react";
 import {
   Flex,
   Heading,
@@ -10,7 +11,7 @@ import {
   MenuList,
   MenuItem,
 } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 // hooks
@@ -43,6 +44,18 @@ interface Props {
   width: number;
 }
 const MenuComponent = (props: Props) => {
+  const menuItems = ["about", "teaching", "projects"];
+  let { pathname } = useLocation();
+  const [isActive, setIsActive] = useState("");
+
+  useEffect(() => {
+    menuItems.map((menuItem: string) => {
+      if (pathname.match(menuItem)) {
+        setIsActive(menuItem);
+      }
+    });
+  }, [pathname]);
+
   if (props.width < 600) {
     return (
       <Menu>
@@ -69,15 +82,18 @@ const MenuComponent = (props: Props) => {
     // desktop
     return (
       <Flex>
-        <Link to="about">
-          <Button variant="ghost">About</Button>
-        </Link>
-        <Link to="teaching">
-          <Button variant="ghost">Teaching</Button>
-        </Link>
-        <Link to="projects">
-          <Button variant="ghost">Projects</Button>
-        </Link>
+        {menuItems.map((menuItem: string, i: number) => {
+          return (
+            <Link key={i} to={menuItem}>
+              <Button
+                mx="2px"
+                variant={isActive === menuItem ? "solid" : "ghost"}
+              >
+                {menuItem[0].toUpperCase() + menuItem.substring(1)}
+              </Button>
+            </Link>
+          );
+        })}
       </Flex>
     );
   }
@@ -87,7 +103,13 @@ const Header = () => {
   const { width } = useWindowDimensions();
 
   return (
-    <Banner position='fixed' zIndex={100} bg="blackAlpha.50" height="60px" backdropFilter='blur(10px)'>
+    <Banner
+      position="fixed"
+      zIndex={100}
+      bg="blackAlpha.50"
+      height="60px"
+      backdropFilter="blur(10px)"
+    >
       <Container>
         <Flex height="60px" alignItems="center" justifyContent="space-between">
           <Logo />
