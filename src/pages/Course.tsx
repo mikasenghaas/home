@@ -29,7 +29,7 @@ const MaterialBox = (props: any) => {
         <md.P p={0} mx="5px">
           🖇
         </md.P>
-        <md.Link>{material.title}</md.Link>
+        <md.P color='var(--markdown-link)' _hover={{ textDecoration: 'underline' }}>{material.title}</md.P>
       </Flex>
     </RouterLink>
   );

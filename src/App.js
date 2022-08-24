@@ -30,35 +30,38 @@ import NotFound from "./pages/NotFound";
 
 const App = () => {
   const [state, setState] = useState({
-    courses: JSON.parse(sessionStorage.getItem('courses')) || {},
-    material: JSON.parse(sessionStorage.getItem('material')) || {},
+    courses: JSON.parse(localStorage.getItem('courses')) || [],
+    material: JSON.parse(localStorage.getItem('material')) || [],
     loadingCourses: true,
     loadingMaterial: true,
   })
 
   useEffect(() => {
-    httpClient.get('/api/get_courses')
-      .then(res => {
-        console.log('fetched courses')
-        setState(prev => ({
-          ...prev,
-          courses: res.data,
-          loadingCourses: false
-        }))
-        sessionStorage.setItem('courses', JSON.stringify(res.data))
-      })
+    if (state.courses !== []) {
+      httpClient.get('/api/get_courses')
+        .then(res => {
+          console.log('fetched courses')
+          setState(prev => ({
+            ...prev,
+            courses: res.data,
+            loadingCourses: false
+          }))
+          localStorage.setItem('courses', JSON.stringify(res.data))
+        })
+    }
 
-    httpClient.get('/api/get_material')
-      .then(res => {
-        console.log('fetched material')
-        setState(prev => ({
-          ...prev,
-          material: res.data,
-          loadingMaterial: false
-        }))
-        sessionStorage.setItem('material', JSON.stringify(res.data))
-      })
-
+    if (state.material !== []) {
+      httpClient.get('/api/get_material')
+        .then(res => {
+          console.log('fetched material')
+          setState(prev => ({
+            ...prev,
+            material: res.data,
+            loadingMaterial: false
+          }))
+          localStorage.setItem('material', JSON.stringify(res.data))
+        })
+    }
   }, [])
 
   return (

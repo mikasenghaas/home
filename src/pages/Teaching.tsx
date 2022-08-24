@@ -26,7 +26,7 @@ const CourseBox = (props: any) => {
         <md.P p={0} mx="5px">
           📙
         </md.P>
-        <md.Link>{course.name}</md.Link>
+        <md.P color='var(--markdown-link)' _hover={{ textDecoration: 'underline' }}>{course.name}</md.P>
       </Flex>
     </RouterLink>
   );
