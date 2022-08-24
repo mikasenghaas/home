@@ -49,11 +49,15 @@ const MenuComponent = (props: Props) => {
   const [isActive, setIsActive] = useState("");
 
   useEffect(() => {
-    menuItems.map((menuItem: string) => {
-      if (pathname.match(menuItem)) {
-        setIsActive(menuItem);
-      }
-    });
+    if (pathname === "/") {
+      setIsActive("/");
+    } else {
+      menuItems.map((menuItem: string) => {
+        if (pathname.match(menuItem)) {
+          setIsActive(menuItem);
+        }
+      });
+    }
   }, [pathname]);
 
   if (props.width < 600) {
