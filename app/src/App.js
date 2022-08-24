@@ -143,7 +143,6 @@ knd this is a [link](https://www.github.com/jonas-mika)
               initial={{ x: 0 }}
               animate={{ x: 200 }}
               exit={{ x: 0 }}
-              exitBeforeEnter
             >
               <Routes>
                 <Route
