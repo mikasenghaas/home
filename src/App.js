@@ -69,11 +69,7 @@ const App = () => {
             {state.loading ? 
             <h1>Loading</h1>
               :
-            <AnimatePresence
-              initial={{ x: 0 }}
-              animate={{ x: 200 }}
-              exit={{ x: 0 }}
-            >
+            <AnimatePresence>
               <Routes>
                 <Route
                   path="/teaching/:course_short/:material_name"
