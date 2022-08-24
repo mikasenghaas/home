@@ -4,13 +4,16 @@
 // custom styles
 import * as md from "../styles/MarkdownStyles";
 
+// custom components
+import PageBox from '../components/PageBox'
+
 const Home = () => {
   return (
-    <>
-      <md.H1>Home</md.H1>
+    <PageBox>
+      <md.H1 mt='1.5rem'>Home</md.H1>
       <md.Divider />
       <md.Emoji>sparkles</md.Emoji>
-    </>
+    </PageBox>
   );
 };
 

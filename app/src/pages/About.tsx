@@ -9,12 +9,6 @@ import {
   ListItem,
   Button,
 } from "@chakra-ui/react";
-import * as md from "../styles/MarkdownStyles";
-
-// hooks
-import useWindowDimensions from "../hooks/useWindowSize";
-
-// icons
 import {
   FaFacebook,
   FaLinkedin,
@@ -22,11 +16,21 @@ import {
   FaGithub,
 } from "react-icons/fa";
 
+// custom styles
+import * as md from "../styles/MarkdownStyles";
+
+// custom hooks
+import useWindowDimensions from "../hooks/useWindowSize";
+
+// custom components
+import PageBox from '../components/PageBox'
+
+
 const About = () => {
   const { width } = useWindowDimensions();
 
   return (
-    <Box zIndex={50}>
+    <PageBox>
       <md.H1 mt='1.5rem'>About</md.H1>
       <md.Divider />
       <md.P mt="20px">
@@ -148,7 +152,7 @@ const About = () => {
           </Link>
         </Button>
       </Flex>
-    </Box>
+    </PageBox>
   );
 };
 

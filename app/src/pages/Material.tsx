@@ -2,8 +2,13 @@
 // By: Mika Senghaas
 import { Box } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import * as md from "../styles/MarkdownStyles";
 import Markdown from "markdown-to-jsx";
+
+// custom styles
+import * as md from "../styles/MarkdownStyles";
+
+// custom components
+import PageBox from '../components/PageBox'
 
 const Material = (props: any) => {
   const { course_short, material_name } = useParams();
@@ -34,13 +39,13 @@ const Material = (props: any) => {
   console.log(material.markdown)
 
   return (
-    <Box zIndex={50}>
+    <PageBox>
       <md.Accent>
         {"> "}teaching{" > "}
         {course_short}
       </md.Accent>
       <Markdown options={options}>{material.markdown}</Markdown>
-    </Box>
+    </PageBox>
   );
 };
 

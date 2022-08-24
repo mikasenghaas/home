@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { ChakraProvider, Flex } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AnimatePresence } from 'framer-motion'
 
 import "./App.css";
 
@@ -138,25 +139,32 @@ knd this is a [link](https://www.github.com/jonas-mika)
           <Flex direction="column" minHeight="100vh">
             <Header />
             <Hero />
-            <Routes>
-              <Route path="/about" element={<About />} />
-              <Route path="/admin" element={<Admin />} />
+            <AnimatePresence
+              initial={{ x: 0 }}
+              animate={{ x: 200 }}
+              exit={{ x: 0 }}
+              exitBeforeEnter
+            >
+              <Routes>
+                <Route
+                  path="/teaching/:course_short/:material_name"
+                  element={<Material state={state} />}
+                />
+                <Route
+                  path="/teaching/:course_short"
+                  element={<Course state={state} />}
+                />
+                <Route path="/teaching" element={<Teaching state={state} />} />
 
-              <Route
-                path="/teaching/:course_short/:material_name"
-                element={<Material state={state} />}
-              />
-              <Route
-                path="/teaching/:course_short"
-                element={<Course state={state} />}
-              />
-              <Route path="/teaching" element={<Teaching state={state} />} />
+                <Route path="/projects/:project" element={<Project />} />
+                <Route path="/projects" element={<Projects />} />
 
-              <Route path="/projects/:project" element={<Project />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/" element={<Home />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/" element={<Home />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </AnimatePresence>
             <Footer />
           </Flex>
         </Container>

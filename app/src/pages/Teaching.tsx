@@ -2,7 +2,12 @@
 // By: Mika Senghaas
 import { Box, Flex, UnorderedList, ListItem } from "@chakra-ui/react";
 import { Outlet, Link as RouterLink } from "react-router-dom";
+
+// custom styles
 import * as md from "../styles/MarkdownStyles";
+
+// custom componenents
+import PageBox from '../components/PageBox'
 
 const CourseBox = (props: any) => {
   const { course } = props;
@@ -11,7 +16,7 @@ const CourseBox = (props: any) => {
       <RouterLink to={course.short}>
         <Flex>
           <md.Link>{course.name}</md.Link>
-       </Flex>
+        </Flex>
       </RouterLink>
     </ListItem>
   );
@@ -21,7 +26,7 @@ const Teaching = (props: any) => {
   const { courses } = props.state;
 
   return (
-    <Box zIndex={50}>
+    <PageBox>
       <md.H1 mt="1.5rem">Teaching</md.H1>
       <md.Divider />
       <md.P>
@@ -46,7 +51,7 @@ const Teaching = (props: any) => {
         })}
       </UnorderedList>
       <Outlet />
-    </Box>
+    </PageBox>
   );
 };
 

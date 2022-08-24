@@ -1,14 +1,20 @@
 // Projects.tsx
 // By: Mika Senghaas
 import { Box } from '@chakra-ui/react'
+
+// custom styles
 import * as md from '../styles/MarkdownStyles'
+
+// custom components
+import PageBox from '../components/PageBox'
 
 const Projects = (props: any) => {
   return (
-    <Box zIndex={50}>
+    <PageBox>
       <md.H1 mt='1.5rem'>Projects</md.H1>
       <md.Divider />
-    </Box>
+      <md.P>Project will appear here soon.</md.P>
+    </PageBox>
   )
 }
 
