@@ -8,14 +8,15 @@ import Markdown from "markdown-to-jsx";
 import * as md from "../styles/MarkdownStyles";
 
 // custom components
-import PageBox from '../components/PageBox'
-import TraceBack from '../components/TraceBack'
+import PageBox from "../components/PageBox";
+import TraceBack from "../components/TraceBack";
 
 const Material = (props: any) => {
-  const { course_short, material_name } = useParams();
-  const material = props.state.courses
-    .find((c: any) => c.short === course_short)
-    .materials.find((m: any) => m.name === material_name);
+  const { material_name } = useParams();
+  const { material } = props.state;
+  console.log(material, material_name);
+
+  const document = material.find((m: any) => m.short_title === material_name);
 
   const options = {
     overrides: {
@@ -33,14 +34,14 @@ const Material = (props: any) => {
       },
       Emoji: {
         component: md.Emoji,
-      }
+      },
     },
   };
 
   return (
     <PageBox>
       <TraceBack />
-      <Markdown options={options}>{material.markdown}</Markdown>
+      <Markdown options={options}>{document.markdown}</Markdown>
     </PageBox>
   );
 };

@@ -2,14 +2,14 @@
 // By: Mika Senghaas
 
 // imports
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChakraProvider, Flex } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AnimatePresence } from 'framer-motion'
 
 import "./App.css";
-
 import theme from "./theme";
+import httpClient from './httpClient'
 
 // components
 import Container from "./components/Container";
@@ -30,107 +30,34 @@ import NotFound from "./pages/NotFound";
 
 const App = () => {
   const [state, setState] = useState({
-    courses: [
-      {
-        name: "Machine Learning",
-        short: "ml",
-        tags: ["fall 2002", "therese graversen"],
-        materials: [
-          {
-            name: "week-0-introduction",
-            created_at: "23/08/22",
-            edited_at: "23/08/22",
-            markdown: `
-# 00 Introduction
+    courses: {},
+    material: {},
+    loadingCourses: true,
+    loadingMaterial: true,
+  })
 
-This is a test of a markdown document.
+  useEffect(() => {
+    httpClient.get('/api/get_courses')
+      .then(res => {
+        console.log('fetched courses')
+        setState(prev => ({
+          ...prev,
+          courses: res.data,
+          loadingCourses: false
+        }))
+      })
 
-And this is a [link](https://www.github.com/jonas-mika)
-`,
-          },
-          {
-            name: "week-01-test",
-            created_at: "23/08/22",
-            edited_at: "23/08/22",
-            markdown: `# 01 Test
+    httpClient.get('/api/get_material')
+      .then(res => {
+        console.log('fetched material')
+        setState(prev => ({
+          ...prev,
+          material: res.data,
+          loadingMaterial: false
+        }))
+      })
 
-This is a test of a **markdown document**.
-
----
-
-And this is a [link](https://www.github.com/jonas-mika)
-`,
-          },
-        ],
-      },
-      {
-        name: "Linear Algebra and Optimisation",
-        short: "lao",
-        tags: ["fall 2002", "rasmus ejlers"],
-        materials: [
-          {
-            name: "week-0-introduction",
-            created_at: "23/08/22",
-            edited_at: "23/08/22",
-            markdown: `
-# 00 Introduction
-
-This is a test of a markdown document.
-
----
-
-### H3 Headline
-
----
-
-And this is a [link](https://www.github.com/jonas-mika).
-<InlineMath>This is some cool math $1+1=2$</InlineMath>
-
-<MathBlock>
-$$
-\\sqrt{16}=4
-$$
-</MathBlock>
-
-<Emoji>sparkles</Emoji> This is a test
-
-And this is code
-
-\`\`\`python
-print('hello world')
-\`\`\`
-`,
-          },
-          {
-            name: "week-01-test",
-            created_at: "23/08/22",
-            edited_at: "23/08/22",
-            markdown: `
-# 01 Test
-
-This is a test of a markdown document.
-
-knd this is a [link](https://www.github.com/jonas-mika)
-`,
-          },
-        ],
-      },
-    ],
-    projects: [
-      {
-        name: "Test",
-        short: "test",
-        bio: "description",
-        material: {},
-      },
-      {
-        name: "Test2",
-        short: "test2",
-        bio: "description",
-        material: {},
-      },
-    ],
-  });
+  }, [])
 
   return (
     <ChakraProvider theme={theme}>
@@ -139,6 +66,9 @@ knd this is a [link](https://www.github.com/jonas-mika)
           <Flex direction="column" minHeight="100vh">
             <Header />
             <Hero />
+            {state.loading ? 
+            <h1>Loading</h1>
+              :
             <AnimatePresence
               initial={{ x: 0 }}
               animate={{ x: 200 }}
@@ -164,6 +94,7 @@ knd this is a [link](https://www.github.com/jonas-mika)
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </AnimatePresence>
+            }
             <Footer />
           </Flex>
         </Container>

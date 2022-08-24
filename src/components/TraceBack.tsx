@@ -21,16 +21,16 @@ const TraceBack = () => {
   return (
     <Flex align='baseline'>
       {
-      pages.slice(0, -1).map((page: string, i: number) => {
-        return (
-          <>
-            <md.Link to={prevPage(page)}>
-              <md.Accent key={i} fontSize='13px'>{page}</md.Accent>
-            </md.Link>
-            <md.P mx='5px' fontSize='12px'>➡️</md.P>
-          </>
-        )
-      })
+        pages.slice(0, -1).map((page: string, i: number) => {
+          return (
+            <Flex align='center' key={i}>
+              <md.Link to={prevPage(page)}>
+                <md.Accent key={i} fontSize='13px'>{page}</md.Accent>
+              </md.Link>
+              <md.P mx='5px' fontSize='12px'>➡️</md.P>
+            </Flex>
+          )
+        })
       }
     </Flex>
   );

@@ -12,18 +12,28 @@ import PageBox from '../components/PageBox'
 const CourseBox = (props: any) => {
   const { course } = props;
   return (
-    <ListItem>
-      <RouterLink to={course.short}>
-        <Flex>
-          <md.Link>{course.name}</md.Link>
-        </Flex>
-      </RouterLink>
-    </ListItem>
+    <RouterLink
+      to={course.short_name}
+      style={{ textDecoration: "none" }}
+      role="group"
+    >
+      <Flex
+        alignItems="center"
+        justifyContent="flex-start"
+        p="5px"
+        _groupHover={{ backgroundColor: "var(--markdown-code-bg)" }}
+      >
+        <md.P p={0} mx="5px">
+          📙
+        </md.P>
+        <md.Link>{course.name}</md.Link>
+      </Flex>
+    </RouterLink>
   );
 };
 
 const Teaching = (props: any) => {
-  const { courses } = props.state;
+  const { courses, loadingCourses } = props.state;
 
   return (
     <PageBox>
@@ -44,12 +54,14 @@ const Teaching = (props: any) => {
         course. I *do not* recommend only using these notes. The content here
         should merely assist your learning.
       </md.P>
-
-      <UnorderedList>
-        {courses.map((course: any, i: number) => {
+      <md.H2 mt='2.5rem'>
+        Courses
+      </md.H2>
+      <md.Divider />
+      {!loadingCourses &&
+        courses.map((course: any, i: number) => {
           return <CourseBox key={i} course={course} />;
         })}
-      </UnorderedList>
       <Outlet />
     </PageBox>
   );
