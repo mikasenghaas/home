@@ -1,5 +1,6 @@
-// Material.tsx
+// AdminMaterial.tsx
 // By: Mika Senghaas
+// custom styles
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -24,11 +25,15 @@ import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
 import httpClient from "../httpClient";
 
-const Material = (props: any) => {
-  const { course_short, material_name } = useParams();
+// pages
+import Unauthorised from "../pages/Unauthorised";
+
+const AdminMaterial = (props: any) => {
+  const { material_id } = useParams();
   const { courses, material, admin } = props.state;
 
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [doc, setDoc] = useState({
     id: "",
     title: "",
@@ -38,16 +43,19 @@ const Material = (props: any) => {
   });
 
   useEffect(() => {
-    const edit_course = courses.find((c: any) => c.short_name === course_short);
-    const edit_material = material.find((m: any) => m.short_title === material_name && m.cid === edit_course.id);
+    const edit_material = material.find((m: any) => m.id === material_id);
 
-    setDoc({
-      id: edit_material.id,
-      title: edit_material.title,
-      short_title: edit_material.short_title,
-      markdown: edit_material.markdown,
-      coursename: edit_course.name,
-    });
+    if (edit_material) {
+      const course = courses.find((c: any) => c.id === edit_material.cid);
+
+      setDoc({
+        id: edit_material.id,
+        title: edit_material.title,
+        short_title: edit_material.short_title,
+        markdown: edit_material.markdown,
+        coursename: course.name,
+      });
+    }
   }, []);
 
   const toggleMode = () => {
@@ -83,15 +91,21 @@ const Material = (props: any) => {
   };
 
   const submit = () => {
-    httpClient
-      .post("/api/edit_material", doc)
-      .then((res: any) => {
-        props.setState((prev: any) => ({
-          ...prev,
-          admin: false
-        }))
-        window.location.reload()
-      });
+    if (!doc.id) {
+      const body = {
+        title: doc.title,
+        short_title: doc.short_title,
+        coursename: doc.coursename,
+        markdown: doc.markdown,
+      };
+      httpClient
+        .post("/api/add_material", body)
+        .then((res: any) => console.log(res));
+    } else {
+      httpClient
+        .post("/api/edit_material", doc)
+        .then((res: any) => console.log(res));
+    }
   };
 
   if (admin) {
@@ -100,12 +114,12 @@ const Material = (props: any) => {
         <Flex justifyContent="space-between" alignItems="center">
           <TraceBack />
           <Flex alignItems="center" my="1rem">
-            <md.Badge color={!edit ? "var(--markdown-accent)" : "default"}>
-              Preview
-            </md.Badge>
-            <Switch mx=".5rem" size="md" onChange={toggleMode} />
             <md.Badge color={edit ? "var(--markdown-accent)" : "default"}>
               Editor
+            </md.Badge>
+            <Switch mx=".5rem" size="md" onChange={toggleMode} />
+            <md.Badge color={!edit ? "var(--markdown-accent)" : "default"}>
+              Preview
             </md.Badge>
           </Flex>
         </Flex>
@@ -177,6 +191,8 @@ const Material = (props: any) => {
         )}
         <Flex justifyContent="center">
           <Button
+            isLoading={loading}
+            loadingText="Submitting"
             variant="outline"
             w="100%"
             my="2rem"
@@ -189,16 +205,8 @@ const Material = (props: any) => {
       </PageBox>
     );
   } else {
-    return (
-      <PageBox>
-        <Flex alignItems='center' justifyContent='space-between'>
-          <TraceBack />
-        </Flex>
-        <Markdown options={options}>{doc.markdown}</Markdown>
-      </PageBox>
-    )
+    return <Unauthorised />;
   }
-}
+};
 
-
-export default Material;
+export default AdminMaterial;

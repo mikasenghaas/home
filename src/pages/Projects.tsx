@@ -1,6 +1,5 @@
 // Projects.tsx
 // By: Mika Senghaas
-import { Box } from '@chakra-ui/react'
 
 // custom styles
 import * as md from '../styles/MarkdownStyles'

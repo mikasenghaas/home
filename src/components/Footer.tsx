@@ -2,10 +2,13 @@
 // By: Mika Senghaas
 import { Flex, Text } from '@chakra-ui/react'
 
-const Footer = () => {
+import ToggleAdmin from '../components/ToggleAdmin'
+
+const Footer = (props: any) => {
   return (
-    <Flex justifyContent='center' h='30px' marginTop='auto' py='2rem'>
-      <Text fontSize='12px'>&copy; Mika Senghaas, 2022</Text>
+    <Flex direction='column' justifyContent='center' alignItems='center' h='30px' marginTop='auto' py='2rem'>
+      <ToggleAdmin state={props.state} setState={props.setState} />
+      <Text mt='.2rem' fontSize='12px'>&copy; Mika Senghaas, 2022</Text>
     </Flex>
   )
 }

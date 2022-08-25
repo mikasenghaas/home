@@ -26,6 +26,8 @@ import Material from "./pages/Material";
 import Projects from "./pages/Projects";
 import Project from "./pages/Project";
 import Admin from "./pages/Admin";
+import NewMaterial from "./pages/NewMaterial";
+import NewCourse from "./pages/NewCourse";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
@@ -34,6 +36,7 @@ const App = () => {
     material: JSON.parse(localStorage.getItem('material')) || [],
     loadingCourses: true,
     loadingMaterial: true,
+    admin: false
   })
 
   useEffect(() => {
@@ -76,27 +79,32 @@ const App = () => {
               :
             <AnimatePresence>
               <Routes>
+                <Route path="/teaching/new-course" element={<NewCourse state={state} setState={setState}/>} />
+                <Route
+                  path="/teaching/:course_short/new-material"
+                  element={<NewMaterial state={state} setState={setState}/>}
+                />
                 <Route
                   path="/teaching/:course_short/:material_name"
-                  element={<Material state={state} />}
+                  element={<Material state={state} setState={setState}/>}
                 />
                 <Route
                   path="/teaching/:course_short"
-                  element={<Course state={state} />}
+                  element={<Course state={state} setState={setState}/>}
                 />
-                <Route path="/teaching" element={<Teaching state={state} />} />
+                <Route path="/teaching" element={<Teaching state={state} setState={setState}/>} />
 
                 <Route path="/projects/:project" element={<Project />} />
                 <Route path="/projects" element={<Projects />} />
 
-                <Route path="/admin" element={<Admin />} />
+                <Route path="/admin" element={<Admin state={state} setState={setState}/>} />
                 <Route path="/about" element={<About />} />
                 <Route path="/" element={<Home />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </AnimatePresence>
             }
-            <Footer />
+            <Footer state={state} setState={setState}/>
           </Flex>
         </Container>
       </BrowserRouter>

@@ -1,39 +1,18 @@
 // Teaching.tsx
 // By: Mika Senghaas
-import { Box, Flex, UnorderedList, ListItem } from "@chakra-ui/react";
-import { Outlet, Link as RouterLink } from "react-router-dom";
+import { Flex, Button } from "@chakra-ui/react";
+import { Outlet, Link as RouterLink, useNavigate } from "react-router-dom";
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
 
 // custom componenents
-import PageBox from '../components/PageBox'
-
-const CourseBox = (props: any) => {
-  const { course } = props;
-  return (
-    <RouterLink
-      to={course.short_name}
-      style={{ textDecoration: "none" }}
-      role="group"
-    >
-      <Flex
-        alignItems="center"
-        justifyContent="flex-start"
-        p="5px"
-        _groupHover={{ backgroundColor: "var(--markdown-code-bg)" }}
-      >
-        <md.P p={0} mx="5px">
-          📙
-        </md.P>
-        <md.P color='var(--markdown-link)' _hover={{ textDecoration: 'underline' }}>{course.name}</md.P>
-      </Flex>
-    </RouterLink>
-  );
-};
+import PageBox from "../components/PageBox";
+import CourseBox from "../components/CourseBox";
 
 const Teaching = (props: any) => {
-  const { courses, loadingCourses } = props.state;
+  const navigate = useNavigate();
+  const { courses, loadingCourses, admin } = props.state;
 
   return (
     <PageBox>
@@ -54,14 +33,23 @@ const Teaching = (props: any) => {
         course. I *do not* recommend only using these notes. The content here
         should merely assist your learning.
       </md.P>
-      <md.H2 mt='2.5rem'>
-        Courses
-      </md.H2>
+      <md.H2 mt="2.5rem">Courses</md.H2>
       <md.Divider />
       {!loadingCourses &&
         courses.map((course: any, i: number) => {
-          return <CourseBox key={i} course={course} />;
+          return <CourseBox key={i} course={course} admin={admin}/>;
         })}
+      {admin && (
+        <Button
+          variant="outline"
+          w="100%"
+          my=".5rem"
+          _hover={{ backgroundColor: "var(--markdown-accent)" }}
+          onClick={() => navigate("/teaching/new-course")}
+        >
+          Add Course
+        </Button>
+      )}
       <Outlet />
     </PageBox>
   );

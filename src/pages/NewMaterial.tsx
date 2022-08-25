@@ -1,7 +1,8 @@
-// Material.tsx
+// NewMaterial.tsx
 // By: Mika Senghaas
+// custom styles
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Flex,
   Button,
@@ -24,11 +25,16 @@ import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
 import httpClient from "../httpClient";
 
-const Material = (props: any) => {
-  const { course_short, material_name } = useParams();
+// pages
+import Unauthorised from "../pages/Unauthorised";
+
+const NewMaterial = (props: any) => {
+  const navigate = useNavigate()
+  const { course_short } = useParams()
   const { courses, material, admin } = props.state;
 
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [doc, setDoc] = useState({
     id: "",
     title: "",
@@ -36,19 +42,6 @@ const Material = (props: any) => {
     markdown: "",
     coursename: "",
   });
-
-  useEffect(() => {
-    const edit_course = courses.find((c: any) => c.short_name === course_short);
-    const edit_material = material.find((m: any) => m.short_title === material_name && m.cid === edit_course.id);
-
-    setDoc({
-      id: edit_material.id,
-      title: edit_material.title,
-      short_title: edit_material.short_title,
-      markdown: edit_material.markdown,
-      coursename: edit_course.name,
-    });
-  }, []);
 
   const toggleMode = () => {
     setEdit(!edit);
@@ -83,14 +76,21 @@ const Material = (props: any) => {
   };
 
   const submit = () => {
+    const body = {
+      title: doc.title,
+      short_title: doc.short_title,
+      coursename: doc.coursename,
+      markdown: doc.markdown,
+    };
+    console.log(body)
     httpClient
-      .post("/api/edit_material", doc)
+      .post("/api/add_material", body)
       .then((res: any) => {
         props.setState((prev: any) => ({
           ...prev,
           admin: false
         }))
-        window.location.reload()
+        navigate(-1)
       });
   };
 
@@ -100,12 +100,12 @@ const Material = (props: any) => {
         <Flex justifyContent="space-between" alignItems="center">
           <TraceBack />
           <Flex alignItems="center" my="1rem">
-            <md.Badge color={!edit ? "var(--markdown-accent)" : "default"}>
-              Preview
-            </md.Badge>
-            <Switch mx=".5rem" size="md" onChange={toggleMode} />
             <md.Badge color={edit ? "var(--markdown-accent)" : "default"}>
               Editor
+            </md.Badge>
+            <Switch mx=".5rem" size="md" onChange={toggleMode} />
+            <md.Badge color={!edit ? "var(--markdown-accent)" : "default"}>
+              Preview
             </md.Badge>
           </Flex>
         </Flex>
@@ -117,11 +117,6 @@ const Material = (props: any) => {
               <md.H1>Edit Material</md.H1>
             )}
             <md.Divider />
-            <md.P>
-              Create new or edit existing material using markdown style. Use the
-              input fields, switch to preview mode and hit save if you are happy
-              with your changes.
-            </md.P>
             <FormControl my="1rem">
               <FormLabel>Title </FormLabel>
               <Input
@@ -131,7 +126,7 @@ const Material = (props: any) => {
                 onChange={setTitle}
               />
             </FormControl>
-            <Flex alignItems="center">
+            <Flex alignItems="flex-start">
               <FormControl my="1rem">
                 <FormLabel>Short Title</FormLabel>
                 <Input
@@ -147,7 +142,7 @@ const Material = (props: any) => {
               <FormControl my="1rem">
                 <FormLabel>Course</FormLabel>
                 <Select
-                  defaultValue={doc.coursename}
+                  defaultValue='Machine Learning'
                   value={doc.coursename}
                   onChange={setCoursename}
                 >
@@ -177,28 +172,22 @@ const Material = (props: any) => {
         )}
         <Flex justifyContent="center">
           <Button
+            isLoading={loading}
+            loadingText="Submitting"
             variant="outline"
             w="100%"
             my="2rem"
             _hover={{ backgroundColor: "var(--markdown-accent)" }}
             onClick={submit}
           >
-            Save
+            Create
           </Button>
         </Flex>
       </PageBox>
     );
   } else {
-    return (
-      <PageBox>
-        <Flex alignItems='center' justifyContent='space-between'>
-          <TraceBack />
-        </Flex>
-        <Markdown options={options}>{doc.markdown}</Markdown>
-      </PageBox>
-    )
+    return <Unauthorised />;
   }
-}
+};
 
-
-export default Material;
+export default NewMaterial;
