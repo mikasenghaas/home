@@ -20,20 +20,20 @@ const TraceBack = () => {
 
   return (
     <Flex align='baseline'>
-      <Flex align='center'>
+      <Flex align='baseline'>
         <md.Link to='/'>
           <md.Accent fontSize='13px'>home</md.Accent>
         </md.Link>
-        <md.P mx='5px' fontSize='12px'>➡️</md.P>
+        <md.P mx='5px' fontSize='10px'>➡️</md.P>
       </Flex>
       {
         pages.slice(0, -1).map((page: string, i: number) => {
           return (
-            <Flex align='center' key={i}>
+            <Flex align='baseline' key={i}>
               <md.Link to={prevPage(page)}>
                 <md.Accent key={i} fontSize='13px'>{page}</md.Accent>
               </md.Link>
-              <md.P mx='5px' fontSize='12px'>➡️</md.P>
+              <md.P mx='5px' fontSize='10px'>➡️</md.P>
             </Flex>
           )
         })
