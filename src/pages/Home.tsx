@@ -1,7 +1,7 @@
 // Home.tsx
 // By: Mika Senghaas
 
-import { Flex, Box, Image, Button, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Box, Grid, Image, useColorModeValue } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 // custom styles
@@ -10,10 +10,11 @@ import * as md from "../styles/MarkdownStyles";
 // custom components
 import PageBox from "../components/PageBox";
 import CourseBox from "../components/CourseBox";
+import ProjectBox from "../components/ProjectBox";
 
 const Home = (props: any) => {
   let navigate = useNavigate();
-  const { courses, loadingCourses, admin } = props.state;
+  const { courses, projects, loadingCourses, admin } = props.state;
 
   return (
     <PageBox>
@@ -30,7 +31,7 @@ const Home = (props: any) => {
       <Flex>
         <Box flexGrow={1}>
           <md.H1>Mika Senghaas</md.H1>
-          <md.Divider />
+          <md.Divider marginBottom={0} />
           <md.P>Data Science Student / Fullstack Developer</md.P>
         </Box>
         <Box
@@ -94,7 +95,7 @@ const Home = (props: any) => {
       <Flex
         my={3}
         direction={{ base: "column", sm: "row", md: "row" }}
-        alignItems={{ base: "flex-start", sm: "row", md: "row" }}
+        alignItems={{ base: "flex-start", sm: "center", md: "center" }}
       >
         <md.H4 minWidth="200px">Fullstack Development</md.H4>
         <Flex wrap="wrap">
@@ -118,19 +119,9 @@ const Home = (props: any) => {
         . His main occupation - besides his studies - is working as a Teaching
         Assistant (TA). He has taught 5 different courses, teaching a total of{" "}
         {">"}500 students, in the span of one year. Besides, he is open to
-        freelance work - ranging from private tutoring to software development and data
-        science projects.
+        freelance work - ranging from private tutoring to software development
+        and data science projects.
       </md.P>
-
-      <Flex my={5} justifyContent="center">
-        <Button
-          css={{ backdropFilter: "blur(10px)" }}
-          onClick={() => navigate("/about")}
-          _hover={{ backgroundColor: "var(--markdown-accent)" }}
-        >
-          Find out more
-        </Button>
-      </Flex>
 
       <md.H2>Current Courses</md.H2>
       <md.Divider />
@@ -150,17 +141,16 @@ const Home = (props: any) => {
           );
         })}
 
-      <Flex my={5} justifyContent="center">
-        <Button
-          css={{ backdropFilter: "blur(10px)" }}
-          onClick={() => navigate("/teaching")}
-          _hover={{ backgroundColor: "var(--markdown-accent)" }}
-        >
-          See all courses
-        </Button>
-      </Flex>
       <md.H2>Recent Projects</md.H2>
       <md.Divider />
+      <Grid
+        templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
+        gap={6}
+      >
+        {projects.map((project: any, i: number) => {
+          return <ProjectBox project={project} />;
+        })}
+      </Grid>
     </PageBox>
   );
 };
