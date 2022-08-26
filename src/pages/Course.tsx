@@ -23,6 +23,8 @@ import options from "../lib/markdownOptions";
 import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
 import MaterialBox from "../components/MaterialBox";
+import EditorToggle from "../components/EditorToggle";
+import NotFound from "../pages/NotFound";
 import httpClient from "../httpClient";
 
 const Course = (props: any) => {
@@ -44,7 +46,7 @@ const Course = (props: any) => {
   useEffect(() => {
     if (!loadingMaterial) {
       const c = courses.find((c: any) => c.short_name === course_short);
-      setCourse(c);
+      if (c) { setCourse(c) };
     }
   }, [props.state]);
 
@@ -93,25 +95,25 @@ const Course = (props: any) => {
       props.setState((prev: any) => ({
         ...prev,
         admin: false,
+        message: 'Sucessfully edited course.'
       }));
-      window.location.reload();
     });
   };
 
-  if (admin) {
+  const order = (a: any, b: any) =>  {
+    const dateA = Date.parse(a['created'])
+    const dateB = Date.parse(b['created'])
+    return dateA > dateB ? -1 : (dateA < dateB ? 1 : 0);
+  }
+  
+  if (!course.id) {
+    return <NotFound />
+  } else if (admin) {
     return (
       <PageBox>
-        <Flex justifyContent="space-between" alignItems="center">
+        <Flex justifyContent="space-between" alignItems="center" height='50px'>
           <TraceBack />
-          <Flex alignItems="center" my="1rem">
-            <md.Badge color={!edit ? "var(--markdown-accent)" : "default"}>
-              Preview
-            </md.Badge>
-            <Switch mx=".5rem" size="md" onChange={toggleMode} />
-            <md.Badge color={edit ? "var(--markdown-accent)" : "default"}>
-              Editor
-            </md.Badge>
-          </Flex>
+          <EditorToggle edit={edit} toggleMode={toggleMode} admin={admin}/>
         </Flex>
         {edit ? (
           <>
@@ -180,7 +182,7 @@ const Course = (props: any) => {
             >
               Add Material
             </Button>
-            {courseMaterial.map((material: any, i: number) => {
+            {courseMaterial.sort(order).map((material: any, i: number) => {
               return <MaterialBox key={i} material={material} />;
             })}
           </>
@@ -190,7 +192,7 @@ const Course = (props: any) => {
   } else {
     return (
       <PageBox>
-        <Flex alignItems="center" justifyContent="space-between">
+        <Flex justifyContent="space-between" alignItems="center" height='50px'>
           <TraceBack />
         </Flex>
         {!loadingMaterial && (
@@ -198,7 +200,7 @@ const Course = (props: any) => {
             <Markdown options={options}>{course.bio}</Markdown>
             <md.H2 mt="2.5rem">Material</md.H2>
             <md.Divider />
-            {courseMaterial.map((material: any, i: number) => {
+            {courseMaterial.sort(order).map((material: any, i: number) => {
               return <MaterialBox key={i} material={material} />;
             })}
           </>

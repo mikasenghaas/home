@@ -22,7 +22,9 @@ import options from "../lib/markdownOptions";
 // custom components
 import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
+import EditorToggle from "../components/EditorToggle"
 import httpClient from "../httpClient";
+import NotFound from "../pages/NotFound"
 
 const Material = (props: any) => {
   const { course_short, material_name } = useParams();
@@ -41,13 +43,15 @@ const Material = (props: any) => {
     const edit_course = courses.find((c: any) => c.short_name === course_short);
     const edit_material = material.find((m: any) => m.short_title === material_name && m.cid === edit_course.id);
 
-    setDoc({
-      id: edit_material.id,
-      title: edit_material.title,
-      short_title: edit_material.short_title,
-      markdown: edit_material.markdown,
-      coursename: edit_course.name,
-    });
+    if (edit_material) {
+      setDoc({
+        id: edit_material.id,
+        title: edit_material.title,
+        short_title: edit_material.short_title,
+        markdown: edit_material.markdown,
+        coursename: edit_course.name,
+      });
+    }
   }, []);
 
   const toggleMode = () => {
@@ -88,26 +92,20 @@ const Material = (props: any) => {
       .then((res: any) => {
         props.setState((prev: any) => ({
           ...prev,
-          admin: false
+          admin: false,
+          message: "Successfully edited material"
         }))
-        window.location.reload()
       });
   };
 
-  if (admin) {
+  if (!doc.id) {
+    return <NotFound />
+  } else if (admin) {
     return (
       <PageBox>
-        <Flex justifyContent="space-between" alignItems="center">
+        <Flex justifyContent="space-between" alignItems="center" height='50px'>
           <TraceBack />
-          <Flex alignItems="center" my="1rem">
-            <md.Badge color={!edit ? "var(--markdown-accent)" : "default"}>
-              Preview
-            </md.Badge>
-            <Switch mx=".5rem" size="md" onChange={toggleMode} />
-            <md.Badge color={edit ? "var(--markdown-accent)" : "default"}>
-              Editor
-            </md.Badge>
-          </Flex>
+          <EditorToggle edit={edit} toggleMode={toggleMode} admin={admin} />
         </Flex>
         {edit ? (
           <>
@@ -191,7 +189,7 @@ const Material = (props: any) => {
   } else {
     return (
       <PageBox>
-        <Flex alignItems='center' justifyContent='space-between'>
+        <Flex justifyContent="space-between" alignItems="center" height='50px'>
           <TraceBack />
         </Flex>
         <Markdown options={options}>{doc.markdown}</Markdown>
