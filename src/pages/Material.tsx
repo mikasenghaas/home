@@ -11,7 +11,6 @@ import {
   Select,
   Input,
   Textarea,
-  Switch,
 } from "@chakra-ui/react";
 import Markdown from "markdown-to-jsx";
 
@@ -39,6 +38,7 @@ const Material = (props: any) => {
     coursename: "",
   });
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const edit_course = courses.find((c: any) => c.short_name === course_short);
     const edit_material = material.find((m: any) => m.short_title === material_name && m.cid === edit_course.id);

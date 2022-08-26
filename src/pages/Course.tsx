@@ -9,10 +9,9 @@ import {
   FormLabel,
   FormHelperText,
   Input,
-  Switch,
   Textarea,
 } from "@chakra-ui/react";
-import { useParams, useNavigate, Link as RouterLink } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Markdown from "markdown-to-jsx";
 
 // custom styles
