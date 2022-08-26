@@ -2,6 +2,7 @@
 // By: Mika Senghaas
 import { Flex, Button } from "@chakra-ui/react";
 import { Outlet, Link as RouterLink, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from 'framer-motion'
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
@@ -9,6 +10,8 @@ import * as md from "../styles/MarkdownStyles";
 // custom componenents
 import PageBox from "../components/PageBox";
 import CourseBox from "../components/CourseBox";
+
+const MotionButton = motion(Button)
 
 const Teaching = (props: any) => {
   const navigate = useNavigate();
@@ -37,19 +40,26 @@ const Teaching = (props: any) => {
       <md.Divider />
       {!loadingCourses &&
         courses.map((course: any, i: number) => {
-          return <CourseBox key={i} course={course} admin={admin}/>;
+          return <CourseBox key={i} course={course} admin={admin} />;
         })}
-      {admin && (
-        <Button
-          variant="outline"
-          w="100%"
-          my=".5rem"
-          _hover={{ backgroundColor: "var(--markdown-accent)" }}
-          onClick={() => navigate("/teaching/new-course")}
-        >
-          Add Course
-        </Button>
-      )}
+      <AnimatePresence>
+        {admin && (
+          <MotionButton
+            initial={{ height: 0 }}
+            animate={{ height: '40px' }}
+            exit={{ height: 0 }}
+            transition={{ duration: 0.3 }}
+
+            variant="outline"
+            w="100%"
+            my=".5rem"
+            _hover={{ backgroundColor: "var(--markdown-accent)" }}
+            onClick={() => navigate("/teaching/new-course")}
+          >
+            Add Course
+          </MotionButton>
+        )}
+      </AnimatePresence>
       <Outlet />
     </PageBox>
   );
