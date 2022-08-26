@@ -10,7 +10,7 @@ import * as md from "../styles/MarkdownStyles";
 
 const MotionFlex = motion(Flex);
 
-const ToggleAdmin = (props: any) => {
+const AdminToggle = (props: any) => {
   const { admin } = props.state;
 
   const toggleAdmin = () => {
@@ -42,9 +42,9 @@ const ToggleAdmin = (props: any) => {
         alignItems='center'
       >
         {admin ?
-          <MdDone size={10}/>
+          <MdDone size={10} />
           :
-          <FiEdit size={10}/>
+          <FiEdit size={10} />
         }
         <md.Link
           onClick={toggleAdmin}
@@ -59,4 +59,4 @@ const ToggleAdmin = (props: any) => {
   );
 };
 
-export default ToggleAdmin;
+export default AdminToggle;
