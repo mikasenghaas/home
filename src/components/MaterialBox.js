@@ -15,13 +15,16 @@ import {
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { BiTrash } from "react-icons/bi";
+import { motion, AnimatePresence } from "framer-motion";
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
 import httpClient from "../httpClient";
 
+const MotionButton = motion(Button)
+
 const MaterialBox = (props) => {
-  const { material } = props;
+  const { material, admin } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
@@ -41,6 +44,7 @@ const MaterialBox = (props) => {
     <Flex
       alignItems="center"
       justifyContent="space-between"
+      height='50'
       p="5px"
       _hover={{ backgroundColor: "var(--markdown-code-bg)" }}
     >
@@ -103,11 +107,19 @@ const MaterialBox = (props) => {
           </AlertDialogOverlay>
         </AlertDialog>
       </RouterLink>
-      {props.admin && (
-        <Button onClick={onOpen}>
-          <BiTrash />
-        </Button>
-      )}
+      <AnimatePresence >
+        {admin && (
+          <MotionButton 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }}
+            ransition={{ duration: .5 }}
+
+            onClick={onOpen}>
+            <BiTrash />
+          </MotionButton>
+        )}
+      </AnimatePresence>
     </Flex>
   );
 };
