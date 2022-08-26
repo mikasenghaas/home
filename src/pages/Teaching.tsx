@@ -40,7 +40,7 @@ const Teaching = (props: any) => {
       <md.Divider />
       {!loadingCourses &&
         courses.map((course: any, i: number) => {
-          return <CourseBox key={i} course={course} admin={admin} />;
+          return <CourseBox key={i} course={course} setState={props.setState} admin={admin} />;
         })}
       <AnimatePresence>
         {admin && (

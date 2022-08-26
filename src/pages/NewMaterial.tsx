@@ -88,7 +88,9 @@ const NewMaterial = (props: any) => {
       .then((res: any) => {
         props.setState((prev: any) => ({
           ...prev,
-          admin: false
+          admin: false,
+          material: [...prev.material, res.data.material],
+          message: res.data.msg
         }))
         navigate(-1)
       });

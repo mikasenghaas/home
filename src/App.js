@@ -16,6 +16,7 @@ import Container from "./components/Container";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Footer from "./components/Footer";
+import GlobalMessage from "./components/GlobalMessage";
 
 // pages
 import Home from "./pages/Home";
@@ -36,7 +37,8 @@ const App = () => {
     material: JSON.parse(localStorage.getItem('material')) || [],
     loadingCourses: true,
     loadingMaterial: true,
-    admin: false
+    admin: false,
+    message: ""
   })
 
   useEffect(() => {
@@ -74,37 +76,38 @@ const App = () => {
           <Flex direction="column" minHeight="100vh">
             <Header />
             <Hero />
-            {state.loading ? 
-            <h1>Loading</h1>
+            {state.loading ?
+              <h1>Loading</h1>
               :
-            <AnimatePresence>
-              <Routes>
-                <Route path="/teaching/new-course" element={<NewCourse state={state} setState={setState}/>} />
-                <Route
-                  path="/teaching/:course_short/new-material"
-                  element={<NewMaterial state={state} setState={setState}/>}
-                />
-                <Route
-                  path="/teaching/:course_short/:material_name"
-                  element={<Material state={state} setState={setState}/>}
-                />
-                <Route
-                  path="/teaching/:course_short"
-                  element={<Course state={state} setState={setState}/>}
-                />
-                <Route path="/teaching" element={<Teaching state={state} setState={setState}/>} />
+              <AnimatePresence>
+                <Routes>
+                  <Route path="/teaching/new-course" element={<NewCourse state={state} setState={setState} />} />
+                  <Route
+                    path="/teaching/:course_short/new-material"
+                    element={<NewMaterial state={state} setState={setState} />}
+                  />
+                  <Route
+                    path="/teaching/:course_short/:material_name"
+                    element={<Material state={state} setState={setState} />}
+                  />
+                  <Route
+                    path="/teaching/:course_short"
+                    element={<Course state={state} setState={setState} />}
+                  />
+                  <Route path="/teaching" element={<Teaching state={state} setState={setState} />} />
 
-                <Route path="/projects/:project" element={<Project />} />
-                <Route path="/projects" element={<Projects />} />
+                  <Route path="/projects/:project" element={<Project />} />
+                  <Route path="/projects" element={<Projects />} />
 
-                <Route path="/admin" element={<Admin state={state} setState={setState}/>} />
-                <Route path="/about" element={<About />} />
-                <Route path="/" element={<Home />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </AnimatePresence>
+                  <Route path="/admin" element={<Admin state={state} setState={setState} />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/" element={<Home />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </AnimatePresence>
             }
-            <Footer state={state} setState={setState}/>
+            <GlobalMessage state={state} setState={setState} />
+            <Footer state={state} setState={setState} />
           </Flex>
         </Container>
       </BrowserRouter>

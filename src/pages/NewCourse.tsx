@@ -82,7 +82,15 @@ const NewCourse = (props: any) => {
     };
     httpClient
       .post("/api/add_course", body)
-      .then((res: any) => navigate('/teaching'));
+      .then((res: any) => {
+        navigate('/teaching')
+        props.setState((prev: any) => ({
+          ...prev,
+          courses: [...prev.courses, res.data.course],
+          admin: false,
+          message: res.data.msg
+        }))
+      });
   };
 
   if (admin) {

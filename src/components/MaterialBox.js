@@ -1,4 +1,4 @@
-// CourseBox.tsx
+// MaterialBox.tsx
 // By: Mika Senghaas
 
 import { useRef } from "react";
@@ -20,19 +20,19 @@ import { BiTrash } from "react-icons/bi";
 import * as md from "../styles/MarkdownStyles";
 import httpClient from "../httpClient";
 
-const CourseBox = (props) => {
-  const { course } = props;
+const MaterialBox = (props) => {
+  const { material } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
-  const deleteCourse = () => {
-    httpClient.post('/api/delete_course', { id: course.id })
+  const deleteMaterial = () => {
+    httpClient.post('/api/delete_material', { id: material.id })
       .then(res => {
         props.setState(prev => ({
-          ...prev, 
-          courses: prev.courses.filter(c => c.id !== course.id),
+          ...prev,
+          material: prev.material.filter(m => m.id !== material.id),
           admin: false,
-          message: "Course successfully deleted"
+          message: "Material successfully deleted"
         }))
       })
   };
@@ -45,19 +45,28 @@ const CourseBox = (props) => {
       _hover={{ backgroundColor: "var(--markdown-code-bg)" }}
     >
       <RouterLink
-        to={course.short_name}
+        to={material.short_title}
         style={{ textDecoration: "none" }}
         role="group"
       >
-        <Flex>
-          <md.P>📙</md.P>
+        <Flex alignItems='center'>
+          <md.P>🖇</md.P>
+          <Flex ml='10px' direction='column'>
           <md.P
-            ml="10px"
             color="var(--markdown-link)"
             _hover={{ textDecoration: "underline" }}
+            m={0}
           >
-            {course.name}
+            {material.title}
           </md.P>
+          <md.P
+            m={0}
+            fontSize="7px"
+            color="var(--markdown-text-fg)"
+          >
+            Last edited: {new Date(Date.parse(material.last_edited) + 2 * 60 * 60 * 1000).toGMTString().split(' ').slice(1, 5).join(' ')}
+          </md.P>
+          </Flex>
         </Flex>
         <AlertDialog
           isOpen={isOpen}
@@ -67,7 +76,7 @@ const CourseBox = (props) => {
           <AlertDialogOverlay>
             <AlertDialogContent bgColor="var(--markdown-code-bg)">
               <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                Delete Course
+                Delete Material
               </AlertDialogHeader>
 
               <AlertDialogBody>
@@ -82,7 +91,7 @@ const CourseBox = (props) => {
                   variant="outline"
                   _hover={{ bgColor: "var(--markdown-accent)" }}
                   onClick={() => {
-                    deleteCourse();
+                    deleteMaterial();
                     onClose();
                   }}
                   ml={3}
@@ -103,4 +112,4 @@ const CourseBox = (props) => {
   );
 };
 
-export default CourseBox;
+export default MaterialBox;

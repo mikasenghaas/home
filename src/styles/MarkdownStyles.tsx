@@ -33,6 +33,7 @@ export const H1 = (props: any) => {
 export const H2 = (props: any) => {
   return (
     <Heading
+      mt='20px'
       size="xl"
       ml="-22px"
       _before={{
@@ -51,7 +52,7 @@ export const H2 = (props: any) => {
 
 export const H3 = (props: any) => {
   return (
-    <Heading mt="1.5rem" size="l" color="var(--markdown-text)" {...props}>
+    <Heading mt="10px" size="l" color="var(--markdown-text)" {...props}>
       {props.children}
     </Heading>
   );
@@ -59,7 +60,7 @@ export const H3 = (props: any) => {
 
 export const P = (props: any) => {
   return (
-    <Text my=".5rem" color="var(--markdown-text)" {...props}>
+    <Text color="var(--markdown-text)" {...props}>
       {props.children}
     </Text>
   );
