@@ -33,7 +33,7 @@ export const H1 = (props: any) => {
 export const H2 = (props: any) => {
   return (
     <Heading
-      mt='20px'
+      mt={15}
       size="xl"
       ml="-22px"
       _before={{
@@ -52,7 +52,15 @@ export const H2 = (props: any) => {
 
 export const H3 = (props: any) => {
   return (
-    <Heading mt="10px" size="l" color="var(--markdown-text)" {...props}>
+    <Heading mt={10} size="l" color="var(--markdown-text)" {...props}>
+      {props.children}
+    </Heading>
+  );
+};
+
+export const H4 = (props: any) => {
+  return (
+    <Heading size="xs" color="var(--markdown-text)" {...props}>
       {props.children}
     </Heading>
   );
@@ -60,7 +68,7 @@ export const H3 = (props: any) => {
 
 export const P = (props: any) => {
   return (
-    <Text color="var(--markdown-text)" {...props}>
+    <Text color="var(--markdown-text)" my={1.5} {...props}>
       {props.children}
     </Text>
   );
@@ -87,7 +95,7 @@ export const Badge = (props: any) => {
     <ChakraBadge
       bgColor="var(--markdown-code-bg)"
       color="var(--markdown-accent)"
-      fontSize="10px"
+      m={.5}
       {...props}
     >
       {props.children}
