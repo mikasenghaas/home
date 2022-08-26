@@ -24,6 +24,7 @@ import useWindowDimensions from "../hooks/useWindowSize";
 
 // custom components
 import PageBox from '../components/PageBox'
+import TraceBack from '../components/TraceBack'
 
 
 const About = () => {
@@ -31,6 +32,7 @@ const About = () => {
 
   return (
     <PageBox>
+      <TraceBack />
       <md.H1 mt='1.5rem'>About</md.H1>
       <md.Divider />
       <md.P mt="20px">

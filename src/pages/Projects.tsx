@@ -6,10 +6,12 @@ import * as md from '../styles/MarkdownStyles'
 
 // custom components
 import PageBox from '../components/PageBox'
+import TraceBack from "../components/TraceBack"
 
 const Projects = (props: any) => {
   return (
     <PageBox>
+      <TraceBack />
       <md.H1 mt='1.5rem'>Projects</md.H1>
       <md.Divider />
       <md.P>Project will appear here soon.</md.P>

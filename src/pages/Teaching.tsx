@@ -1,7 +1,7 @@
 // Teaching.tsx
 // By: Mika Senghaas
-import { Flex, Button } from "@chakra-ui/react";
-import { Outlet, Link as RouterLink, useNavigate } from "react-router-dom";
+import { Button } from "@chakra-ui/react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from 'framer-motion'
 
 // custom styles
@@ -10,6 +10,7 @@ import * as md from "../styles/MarkdownStyles";
 // custom componenents
 import PageBox from "../components/PageBox";
 import CourseBox from "../components/CourseBox";
+import TraceBack from "../components/TraceBack"
 
 const MotionButton = motion(Button)
 
@@ -19,6 +20,7 @@ const Teaching = (props: any) => {
 
   return (
     <PageBox>
+      <TraceBack />
       <md.H1 mt="1.5rem">Teaching</md.H1>
       <md.Divider />
       <md.P>
