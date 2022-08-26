@@ -46,6 +46,7 @@ const MaterialBox = (props) => {
       justifyContent="space-between"
       height='50'
       p="5px"
+      borderRadius='10px'
       _hover={{ backgroundColor: "var(--markdown-code-bg)" }}
     >
       <RouterLink

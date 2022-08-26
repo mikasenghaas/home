@@ -42,6 +42,7 @@ const CourseBox = (props) => {
       alignItems="center"
       justifyContent="space-between"
       p="5px"
+      borderRadius='10px'
       height='50px'
       _hover={{ backgroundColor: "var(--markdown-code-bg)" }}
     >
