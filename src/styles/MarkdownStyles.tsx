@@ -2,6 +2,7 @@
 // By: Mika Senghaas
 
 import {
+  Box,
   Heading,
   Text,
   Code,
@@ -9,20 +10,14 @@ import {
   Badge as ChakraBadge,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import EmojiDict from '../lib/emojis'
+import { FiExternalLink } from "react-icons/fi";
+import EmojiDict from "../lib/emojis";
 var Latex = require("react-latex");
 
 export const H1 = (props: any) => {
   return (
     <Heading
       size="2xl"
-      ml="-11px"
-      _before={{
-        content: '"#"',
-        position: "relative",
-        bottom: 0,
-        fontSize: 16,
-      }}
       {...props}
     >
       {props.children}
@@ -35,14 +30,6 @@ export const H2 = (props: any) => {
     <Heading
       mt={15}
       size="xl"
-      ml="-22px"
-      _before={{
-        content: '"##"',
-        position: "relative",
-        bottom: 0,
-        fontSize: 16,
-        color: "var(--markdown-text)",
-      }}
       {...props}
     >
       {props.children}
@@ -76,7 +63,7 @@ export const P = (props: any) => {
 
 export const Accent = (props: any) => {
   return (
-    <Text fontWeight='bold' color="var(--markdown-accent)" {...props}>
+    <Text fontWeight="bold" color="var(--markdown-accent)" {...props}>
       {props.children}
     </Text>
   );
@@ -95,7 +82,7 @@ export const Badge = (props: any) => {
     <ChakraBadge
       bgColor="var(--markdown-code-bg)"
       color="var(--markdown-accent)"
-      m={.5}
+      m={0.5}
       {...props}
     >
       {props.children}
@@ -118,7 +105,7 @@ export const Link = (props: any) => {
   } else {
     return (
       <ChakraLink href={props.url} color="var(--markdown-link)" {...props}>
-        {props.children}
+          {props.children}
       </ChakraLink>
     );
   }
@@ -160,7 +147,7 @@ export const CodeBlock = (props: any) => {
 };
 
 export const InlineMath = (props: any) => {
-  console.log(props.children)
+  console.log(props.children);
   return (
     <P>
       <Latex fontSize="10px">{props.children[0]}</Latex>
@@ -169,7 +156,7 @@ export const InlineMath = (props: any) => {
 };
 
 export const MathBlock = (props: any) => {
-  console.log(props.children)
+  console.log(props.children);
   return (
     <P fontSize="1.1em">
       <Latex displayMode={true}>{props.children[0]}</Latex>
@@ -178,14 +165,15 @@ export const MathBlock = (props: any) => {
 };
 
 interface DividerProps {
+  marginBottom?: number;
   height?: number;
   lineType?: string;
 }
-export const Divider = ({ height = 1.5, lineType = "solid" }: DividerProps) => {
+export const Divider = ({ marginBottom=10, height = 1.5, lineType = "solid" }: DividerProps) => {
   return (
     <hr
       style={{
-        marginBottom: 10,
+        marginBottom: marginBottom,
         borderTop: `${height}px ${lineType} var(--markdown-text-inverse)`,
       }}
     ></hr>
@@ -201,5 +189,5 @@ export const Emoji = (props: any) => {
     >
       {EmojiDict[props.children]}
     </span>
-  )
+  );
 };
