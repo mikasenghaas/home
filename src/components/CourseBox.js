@@ -42,10 +42,11 @@ const CourseBox = (props) => {
       alignItems="center"
       justifyContent="space-between"
       p="5px"
+      height='50px'
       _hover={{ backgroundColor: "var(--markdown-code-bg)" }}
     >
       <RouterLink
-        to={course.short_name}
+        to={`/teaching/${course.short_name}`}
         style={{ textDecoration: "none" }}
         role="group"
       >
