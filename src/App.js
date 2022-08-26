@@ -5,7 +5,7 @@
 import { useState, useEffect } from "react";
 import { ChakraProvider, Flex, Spinner } from "@chakra-ui/react";
 import { Routes, Route } from "react-router-dom";
-import { createBrowserHistory } from 'history';
+import { createBrowserHistory } from "history";
 import { AnimatePresence } from "framer-motion";
 
 import "./App.css";
@@ -25,6 +25,28 @@ const App = () => {
   const [state, setState] = useState({
     courses: JSON.parse(localStorage.getItem("courses")) || [],
     material: JSON.parse(localStorage.getItem("material")) || [],
+    projects: [
+      {
+        name: "Tanja Senghaas Portfolio",
+        short_name: "tanja-senghaas",
+        desc: "Portfolio website for Tanja Senghaas",
+        date: new Date("2021"),
+        topic: "webdev",
+        stack: ["React", "Framer Motion"],
+        link: "https://tanjasenghaas.netlify.app/",
+        images: ["/images/tanja-senghaas.png"],
+      },
+      {
+        name: "Verstappen vs. Hamilton",
+        short_name: "ver-vs-ham",
+        desc: "A data visualisation project displaying the close fight for the 2021 F1 Driver Championship.",
+        date: new Date("2022"),
+        topic: "Data Visualisation",
+        stack: ["Python", "Photoshop", "Tableau"],
+        link: "https://public.tableau.com/app/profile/jonas.mika.senghaas/viz/Verstappenvs_Hamilton/Dashboard",
+        images: ["/images/ver-vs-ham.png"],
+      },
+    ],
     loadingCourses: true,
     loadingMaterial: true,
     admin: false, // admin rights to edit content
