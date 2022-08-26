@@ -26,7 +26,7 @@ import httpClient from "../httpClient";
 import NotFound from "../pages/NotFound"
 
 const Material = (props: any) => {
-  const { course_short, material_name } = useParams();
+  const { course_short, material_short } = useParams();
   const { courses, material, admin } = props.state;
 
   const [edit, setEdit] = useState(false);
@@ -41,7 +41,7 @@ const Material = (props: any) => {
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const edit_course = courses.find((c: any) => c.short_name === course_short);
-    const edit_material = material.find((m: any) => m.short_title === material_name && m.cid === edit_course.id);
+    const edit_material = material.find((m: any) => m.short_title === material_short && m.cid === edit_course.id);
 
     if (edit_material) {
       setDoc({
@@ -188,7 +188,7 @@ const Material = (props: any) => {
     );
   } else {
     return (
-      <PageBox state={props.state}>
+      <PageBox>
         <Flex justifyContent="space-between" alignItems="center" height='50px'>
           <TraceBack />
         </Flex>
