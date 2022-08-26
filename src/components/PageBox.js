@@ -1,38 +1,26 @@
 // PageBox.tsx
 // By: Mika Senghaas
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate, useHistory } from "react-router-dom";
 
 const MotionBox = motion(Box);
 
-const home = {
+const fromBottom = {
   initial: { opacity: 0, y: 100 },
-  in: { opacity: 1, y: 0 },
-  out: { opacity: 0, y: -50 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 100 },
 };
 
 const PageBox = (props) => {
-  const [variant, setVariant] = useState(home)
-  let location = useLocation()
-
-  useEffect(() => {
-    if (location === '/') {
-      setVariant(home)
-    } else {
-      setVariant(home)
-    }
-  }, [])
-
-
-
   return (
     <MotionBox
       initial="initial"
-      animate="in"
-      exit="out"
-      variants={variant}
+      animate="animate"
+      exit="exit"
+      transition={{ duration: .3}}
+      variants={fromBottom}
       zIndex={50}
     >
       {props.children}

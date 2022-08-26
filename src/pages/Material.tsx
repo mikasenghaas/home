@@ -102,7 +102,7 @@ const Material = (props: any) => {
     return <NotFound />
   } else if (admin) {
     return (
-      <PageBox>
+      <PageBox state={props.state}>
         <Flex justifyContent="space-between" alignItems="center" height='50px'>
           <TraceBack />
           <EditorToggle edit={edit} toggleMode={toggleMode} admin={admin} />
@@ -188,7 +188,7 @@ const Material = (props: any) => {
     );
   } else {
     return (
-      <PageBox>
+      <PageBox state={props.state}>
         <Flex justifyContent="space-between" alignItems="center" height='50px'>
           <TraceBack />
         </Flex>
