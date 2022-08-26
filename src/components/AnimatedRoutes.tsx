@@ -37,7 +37,7 @@ const AnimatedRoutes = (props: any) => {
           element={<NewMaterial state={state} setState={setState} />}
         />
         <Route
-          path="/teaching/:course_short/:material_name"
+          path="/teaching/:course_short/:material_short"
           element={<Material state={state} setState={setState} />}
         />
         <Route
@@ -49,16 +49,16 @@ const AnimatedRoutes = (props: any) => {
           element={<Teaching state={state} setState={setState} />}
         />
 
-        <Route path="/projects/:project" element={<Project state={state}/>} />
+        <Route path="/projects/:project_short" element={<Project state={state}/>} />
         <Route path="/projects" element={<Projects state={state}/>} />
 
         <Route
           path="/admin"
           element={<Admin state={state} setState={setState} />}
         />
-        <Route path="/about" element={<About state={state}/>} />
+        <Route path="/about" element={<About />} />
         <Route path="/" element={<Home state={state} />} />
-        <Route path="*" element={<NotFound state={state} />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
   );
