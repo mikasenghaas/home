@@ -41,6 +41,7 @@ const App = () => {
     message: ""
   })
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (state.courses !== []) {
       httpClient.get('/api/get_courses')
@@ -101,7 +102,7 @@ const App = () => {
 
                   <Route path="/admin" element={<Admin state={state} setState={setState} />} />
                   <Route path="/about" element={<About />} />
-                  <Route path="/" element={<Home />} />
+                  <Route path="/" element={<Home state={state}/>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </AnimatePresence>
