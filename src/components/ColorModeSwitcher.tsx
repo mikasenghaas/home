@@ -26,7 +26,6 @@ const ColorModeSwitcher = ({ ...props }: Props) => {
         transition={{ duration: 0.1 }}
         key={useColorModeValue('light', 'dark')}
 
-        whileHover={{ scale: 1.05 }}
         size="md"
         aria-label={`Switch to ${text} mode`}
         color="current"
