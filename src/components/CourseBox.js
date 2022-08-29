@@ -21,7 +21,7 @@ import * as md from "../styles/MarkdownStyles";
 import httpClient from "../httpClient";
 
 const CourseBox = (props) => {
-  const { course } = props;
+  const { course, admin } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
@@ -96,7 +96,7 @@ const CourseBox = (props) => {
           </AlertDialogOverlay>
         </AlertDialog>
       </RouterLink>
-      {props.admin && (
+      {admin && (
         <Button onClick={onOpen}>
           <BiTrash />
         </Button>

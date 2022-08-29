@@ -188,7 +188,7 @@ const Course = (props: any) => {
               Add Material
             </Button>
             {courseMaterial.sort(order).map((material: any, i: number) => {
-              return <MaterialBox key={i} material={material} />;
+              return <MaterialBox key={i} material={material} admin={admin}/>;
             })}
           </>
         )}

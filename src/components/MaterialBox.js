@@ -15,13 +15,10 @@ import {
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { BiTrash } from "react-icons/bi";
-import { motion, AnimatePresence } from "framer-motion";
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
 import httpClient from "../httpClient";
-
-const MotionButton = motion(Button)
 
 const MaterialBox = (props) => {
   const { material, admin } = props;
@@ -29,24 +26,23 @@ const MaterialBox = (props) => {
   const cancelRef = useRef();
 
   const deleteMaterial = () => {
-    httpClient.post('/api/delete_material', { id: material.id })
-      .then(res => {
-        props.setState(prev => ({
-          ...prev,
-          material: prev.material.filter(m => m.id !== material.id),
-          admin: false,
-          message: "Material successfully deleted"
-        }))
-      })
+    httpClient.post("/api/delete_material", { id: material.id }).then((res) => {
+      props.setState((prev) => ({
+        ...prev,
+        material: prev.material.filter((m) => m.id !== material.id),
+        admin: false,
+        message: "Material successfully deleted",
+      }));
+    });
   };
 
   return (
     <Flex
       alignItems="center"
       justifyContent="space-between"
-      height='50'
+      height="50"
       p="5px"
-      borderRadius='10px'
+      borderRadius="10px"
       _hover={{ backgroundColor: "var(--markdown-code-bg)" }}
     >
       <RouterLink
@@ -54,23 +50,24 @@ const MaterialBox = (props) => {
         style={{ textDecoration: "none" }}
         role="group"
       >
-        <Flex alignItems='center'>
+        <Flex alignItems="center">
           <md.P>🖇</md.P>
-          <Flex ml='10px' direction='column'>
-          <md.P
-            color="var(--markdown-link)"
-            _hover={{ textDecoration: "underline" }}
-            m={0}
-          >
-            {material.title}
-          </md.P>
-          <md.P
-            m={0}
-            fontSize="7px"
-            color="var(--markdown-text-fg)"
-          >
-            Last edited: {new Date(Date.parse(material.last_edited) + 2 * 60 * 60 * 1000).toGMTString().split(' ').slice(1, 5).join(' ')}
-          </md.P>
+          <Flex ml="10px" direction="column">
+            <md.P
+              color="var(--markdown-link)"
+              _hover={{ textDecoration: "underline" }}
+              m={0}
+            >
+              {material.title}
+            </md.P>
+            <md.P m={0} fontSize="7px" color="var(--markdown-text-fg)">
+              Last edited:{" "}
+              {new Date(Date.parse(material.last_edited) + 2 * 60 * 60 * 1000)
+                .toGMTString()
+                .split(" ")
+                .slice(1, 5)
+                .join(" ")}
+            </md.P>
           </Flex>
         </Flex>
         <AlertDialog
@@ -108,19 +105,11 @@ const MaterialBox = (props) => {
           </AlertDialogOverlay>
         </AlertDialog>
       </RouterLink>
-      <AnimatePresence >
-        {admin && (
-          <MotionButton 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }}
-            ransition={{ duration: .5 }}
-
-            onClick={onOpen}>
-            <BiTrash />
-          </MotionButton>
-        )}
-      </AnimatePresence>
+      {admin && (
+        <MotionButton onClick={onOpen}>
+          <BiTrash />
+        </MotionButton>
+      )}
     </Flex>
   );
 };
