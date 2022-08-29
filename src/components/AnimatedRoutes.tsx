@@ -9,7 +9,6 @@ import Course from "../pages/Course";
 import Material from "../pages/Material";
 import Projects from "../pages/Projects";
 import Project from "../pages/Project";
-import Admin from "../pages/Admin";
 import NewMaterial from "../pages/NewMaterial";
 import NewCourse from "../pages/NewCourse";
 import NotFound from "../pages/NotFound";
@@ -49,13 +48,9 @@ const AnimatedRoutes = (props: any) => {
           element={<Teaching state={state} setState={setState} />}
         />
 
-        <Route path="/projects/:project_short" element={<Project state={state}/>} />
-        <Route path="/projects" element={<Projects state={state}/>} />
+        <Route path="/projects/:project_short" element={<Project state={state} />} />
+        <Route path="/projects" element={<Projects state={state} />} />
 
-        <Route
-          path="/admin"
-          element={<Admin state={state} setState={setState} />}
-        />
         <Route path="/about" element={<About />} />
         <Route path="/" element={<Home state={state} />} />
         <Route path="*" element={<NotFound />} />
