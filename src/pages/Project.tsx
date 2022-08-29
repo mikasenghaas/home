@@ -2,7 +2,7 @@
 // By: Mika Senghaas
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Flex, AspectRatio, Image } from "@chakra-ui/react";
+import { Box, Flex, AspectRatio, Image } from "@chakra-ui/react";
 
 // custom pages
 import Unauthorised from "../pages/Unauthorised";
@@ -54,32 +54,36 @@ const Project = (props: any) => {
         </Flex>
         <md.P my={5}>{project.desc}</md.P>
         <Flex
-          my={3}
           direction={{ base: "column", sm: "row", md: "row" }}
           alignItems={{ base: "flex-start", sm: "center", md: "center" }}
         >
-          <md.H4 minWidth="100px">Stack</md.H4>
-          <Flex wrap="wrap">
-            {project.stack.map((s: string, i: number) => {
-              return <md.Badge key={i}>{s}</md.Badge>;
-            })}
-          </Flex>
+          <Box minWidth="100px">
+            <md.Badge>Stack</md.Badge>
+          </Box>
+          <md.P>{project.stack}</md.P>
         </Flex>
         <Flex
-          my={3}
           direction={{ base: "column", sm: "row", md: "row" }}
           alignItems={{ base: "flex-start", sm: "center", md: "center" }}
         >
-          <md.H4 minWidth="100px">Link</md.H4>
-          <md.Link url={project.link} overflow="hidden" isExternal>
-            <md.Badge>{project.link}</md.Badge>
+          <Box minWidth="100px">
+            <md.Badge>Link</md.Badge>
+          </Box>
+          <md.Link url={project.link} width="100%" overflow="hidden" isExternal>
+            <md.P noOfLines={1}>{project.link}</md.P>
           </md.Link>
         </Flex>
         {project.images.map((img: "string", i: number) => {
-          console.log(img)
+          console.log(img);
           return (
-            <AspectRatio mt='1rem' key={i} ratio={16 / 9}>
-              <Image src={img} alt={img} width="100%" borderRadius='10px' my={5}/>
+            <AspectRatio mt="1rem" key={i} ratio={16 / 9}>
+              <Image
+                src={img}
+                alt={img}
+                width="100%"
+                borderRadius="10px"
+                my={5}
+              />
             </AspectRatio>
           );
         })}
