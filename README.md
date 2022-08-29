@@ -1,6 +1,8 @@
 # Portfolio
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+![Netlify](https://img.shields.io/netlify/0ed46b89-c12e-4434-a1d0-4e0d437af36f?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/jonas-mika/portfolio?style=flat-square)
 
 My personal portfolio website is written in `ReactJS` (Javascript/ Typescript).
 The entire frontend structure is hosted on [Netlify](https://www.netlify.com/). A single netlify application runs
