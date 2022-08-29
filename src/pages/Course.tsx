@@ -42,14 +42,16 @@ const Course = (props: any) => {
   const [courseMaterial, setCourseMaterial] = useState([]);
 
   useEffect(() => {
-    document.title = 'teaching@jonas-mika'
-  }, [])
+    document.title = "teaching@jonas-mika";
+  }, []);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (!loadingMaterial) {
       const c = courses.find((c: any) => c.short_name === course_short);
-      if (c) { setCourse(c) };
+      if (c) {
+        setCourse(c);
+      }
     }
   }, [props.state]);
 
@@ -98,25 +100,25 @@ const Course = (props: any) => {
       props.setState((prev: any) => ({
         ...prev,
         admin: false,
-        message: 'Sucessfully edited course.'
+        message: "Sucessfully edited course.",
       }));
     });
   };
 
-  const order = (a: any, b: any) =>  {
-    const dateA = Date.parse(a['created'])
-    const dateB = Date.parse(b['created'])
-    return dateA > dateB ? -1 : (dateA < dateB ? 1 : 0);
-  }
-  
+  const order = (a: any, b: any) => {
+    const dateA = Date.parse(a["created"]);
+    const dateB = Date.parse(b["created"]);
+    return dateA > dateB ? -1 : dateA < dateB ? 1 : 0;
+  };
+
   if (!course.id) {
-    return <NotFound />
+    return <NotFound />;
   } else if (admin) {
     return (
       <PageBox>
-        <Flex justifyContent="space-between" alignItems="center" height='50px'>
+        <Flex justifyContent="space-between" alignItems="center" height="50px">
           <TraceBack />
-          <EditorToggle edit={edit} toggleMode={toggleMode} admin={admin}/>
+          <EditorToggle edit={edit} toggleMode={toggleMode} admin={admin} />
         </Flex>
         {edit ? (
           <>
@@ -195,7 +197,7 @@ const Course = (props: any) => {
   } else {
     return (
       <PageBox>
-        <Flex justifyContent="space-between" alignItems="center" height='50px'>
+        <Flex justifyContent="space-between" alignItems="center" height="50px">
           <TraceBack />
         </Flex>
         {!loadingMaterial && (

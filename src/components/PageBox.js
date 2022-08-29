@@ -1,9 +1,7 @@
 // PageBox.tsx
 // By: Mika Senghaas
-import { useState, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { useLocation, useNavigate, useHistory } from "react-router-dom";
 
 const MotionBox = motion(Box);
 
@@ -19,7 +17,7 @@ const PageBox = (props) => {
       initial="initial"
       animate="animate"
       exit="exit"
-      transition={{ duration: .3}}
+      transition={{ duration: 0.3 }}
       variants={fromBottom}
       zIndex={50}
     >

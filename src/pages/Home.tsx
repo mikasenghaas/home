@@ -3,7 +3,6 @@
 
 import { Flex, Box, Grid, Image, useColorModeValue } from "@chakra-ui/react";
 import Markdown from 'markdown-to-jsx'
-import { useNavigate } from "react-router-dom";
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
@@ -14,7 +13,6 @@ import CourseBox from "../components/CourseBox";
 import ProjectBox from "../components/ProjectBox";
 
 const Home = (props: any) => {
-  let navigate = useNavigate();
   const { courses, projects, loadingCourses, admin } = props.state;
 
   return (
@@ -152,7 +150,7 @@ const Home = (props: any) => {
         gap={6}
       >
         {projects.map((project: any, i: number) => {
-          return <ProjectBox project={project} />;
+          return <ProjectBox key={i} project={project} />;
         })}
       </Grid>
     </PageBox>

@@ -21,9 +21,9 @@ import options from "../lib/markdownOptions";
 // custom components
 import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
-import EditorToggle from "../components/EditorToggle"
+import EditorToggle from "../components/EditorToggle";
 import httpClient from "../httpClient";
-import NotFound from "../pages/NotFound"
+import NotFound from "../pages/NotFound";
 
 const Material = (props: any) => {
   const { course_short, material_short } = useParams();
@@ -39,13 +39,15 @@ const Material = (props: any) => {
   });
 
   useEffect(() => {
-    document.title = 'teaching@jonas-mika'
-  }, [])
+    document.title = "teaching@jonas-mika";
+  }, []);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const edit_course = courses.find((c: any) => c.short_name === course_short);
-    const edit_material = material.find((m: any) => m.short_title === material_short && m.cid === edit_course.id);
+    const edit_material = material.find(
+      (m: any) => m.short_title === material_short && m.cid === edit_course.id
+    );
 
     if (edit_material) {
       setDoc({
@@ -91,23 +93,21 @@ const Material = (props: any) => {
   };
 
   const submit = () => {
-    httpClient
-      .post("/api/edit_material", doc)
-      .then((res: any) => {
-        props.setState((prev: any) => ({
-          ...prev,
-          admin: false,
-          message: "Successfully edited material"
-        }))
-      });
+    httpClient.post("/api/edit_material", doc).then((res: any) => {
+      props.setState((prev: any) => ({
+        ...prev,
+        admin: false,
+        message: "Successfully edited material",
+      }));
+    });
   };
 
   if (!doc.id) {
-    return <NotFound />
+    return <NotFound />;
   } else if (admin) {
     return (
       <PageBox state={props.state}>
-        <Flex justifyContent="space-between" alignItems="center" height='50px'>
+        <Flex justifyContent="space-between" alignItems="center" height="50px">
           <TraceBack />
           <EditorToggle edit={edit} toggleMode={toggleMode} admin={admin} />
         </Flex>
@@ -193,14 +193,13 @@ const Material = (props: any) => {
   } else {
     return (
       <PageBox>
-        <Flex justifyContent="space-between" alignItems="center" height='50px'>
+        <Flex justifyContent="space-between" alignItems="center" height="50px">
           <TraceBack />
         </Flex>
         <Markdown options={options}>{doc.markdown}</Markdown>
       </PageBox>
-    )
+    );
   }
-}
-
+};
 
 export default Material;

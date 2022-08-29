@@ -1,21 +1,9 @@
 // About.tsx
 // By: Mika Senghaas
 
-import { useEffect } from 'react'
-import {
-  Box,
-  Flex,
-  Link,
-  UnorderedList,
-  ListItem,
-  Button,
-} from "@chakra-ui/react";
-import {
-  FaFacebook,
-  FaLinkedin,
-  FaInstagram,
-  FaGithub,
-} from "react-icons/fa";
+import { useEffect } from "react";
+import { Flex, Link, UnorderedList, ListItem, Button } from "@chakra-ui/react";
+import { FaFacebook, FaLinkedin, FaInstagram, FaGithub } from "react-icons/fa";
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
@@ -24,22 +12,20 @@ import * as md from "../styles/MarkdownStyles";
 import useWindowDimensions from "../hooks/useWindowSize";
 
 // custom components
-import PageBox from '../components/PageBox'
-import TraceBack from '../components/TraceBack'
-
+import PageBox from "../components/PageBox";
+import TraceBack from "../components/TraceBack";
 
 const About = () => {
   const { width } = useWindowDimensions();
-  
-  useEffect(() => {
-    document.title = 'about@jonas-mika'
-  }, [])
 
+  useEffect(() => {
+    document.title = "about@jonas-mika";
+  }, []);
 
   return (
     <PageBox>
       <TraceBack />
-      <md.H1 mt='1.5rem'>About</md.H1>
+      <md.H1 mt="1.5rem">About</md.H1>
       <md.Divider />
       <md.P mt="20px">
         <md.InlineCode>Hej</md.InlineCode>!
@@ -128,10 +114,7 @@ const About = () => {
           variant="outline"
           leftIcon={<FaFacebook />}
         >
-          <Link
-            href="https://www.facebook.com/jonasmika.senghaas"
-            isExternal
-          >
+          <Link href="https://www.facebook.com/jonasmika.senghaas" isExternal>
             Facebook
           </Link>
         </Button>

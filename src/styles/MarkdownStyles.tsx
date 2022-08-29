@@ -2,7 +2,6 @@
 // By: Mika Senghaas
 
 import {
-  Box,
   Heading,
   Text,
   Code,
@@ -10,7 +9,6 @@ import {
   Badge as ChakraBadge,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { FiExternalLink } from "react-icons/fi";
 import EmojiDict from "../lib/emojis";
 var Latex = require("react-latex");
 

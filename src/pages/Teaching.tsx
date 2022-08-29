@@ -1,9 +1,9 @@
 // Teaching.tsx
 // By: Mika Senghaas
-import { useEffect } from 'react'
+import { useEffect } from "react";
 import { Button } from "@chakra-ui/react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from "framer-motion";
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
@@ -11,17 +11,17 @@ import * as md from "../styles/MarkdownStyles";
 // custom componenents
 import PageBox from "../components/PageBox";
 import CourseBox from "../components/CourseBox";
-import TraceBack from "../components/TraceBack"
+import TraceBack from "../components/TraceBack";
 
-const MotionButton = motion(Button)
+const MotionButton = motion(Button);
 
 const Teaching = (props: any) => {
   const navigate = useNavigate();
   const { courses, loadingCourses, admin } = props.state;
 
   useEffect(() => {
-    document.title = 'teaching@jonas-mika'
-  }, [])
+    document.title = "teaching@jonas-mika";
+  }, []);
 
   return (
     <PageBox>
@@ -47,16 +47,22 @@ const Teaching = (props: any) => {
       <md.Divider />
       {!loadingCourses &&
         courses.map((course: any, i: number) => {
-          return <CourseBox key={i} course={course} setState={props.setState} admin={admin} />;
+          return (
+            <CourseBox
+              key={i}
+              course={course}
+              setState={props.setState}
+              admin={admin}
+            />
+          );
         })}
       <AnimatePresence>
         {admin && (
           <MotionButton
             initial={{ height: 0 }}
-            animate={{ height: '40px' }}
+            animate={{ height: "40px" }}
             exit={{ height: 0 }}
             transition={{ duration: 0.3 }}
-
             variant="outline"
             w="100%"
             my=".5rem"
