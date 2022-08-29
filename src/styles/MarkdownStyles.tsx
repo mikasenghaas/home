@@ -87,7 +87,7 @@ export const Link = (props: any) => {
       <ChakraLink
         as={RouterLink}
         to={props.to}
-        color="var(--markdown-link)"
+        color="var(--markdown-accent)"
         {...props}
       >
         {props.children}
@@ -95,7 +95,7 @@ export const Link = (props: any) => {
     );
   } else {
     return (
-      <ChakraLink href={props.url} color="var(--markdown-link)" {...props}>
+      <ChakraLink href={props.url} color="var(--markdown-accent)" {...props}>
         {props.children}
       </ChakraLink>
     );
