@@ -59,7 +59,6 @@ const App = () => {
   useEffect(() => {
     if (state.courses !== []) {
       httpClient.get("/api/get_courses").then((res) => {
-        console.log("fetched courses");
         setState((prev) => ({
           ...prev,
           courses: res.data,
@@ -71,7 +70,6 @@ const App = () => {
 
     if (state.material !== []) {
       httpClient.get("/api/get_material").then((res) => {
-        console.log("fetched material");
         setState((prev) => ({
           ...prev,
           material: res.data,
