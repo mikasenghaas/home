@@ -1,9 +1,9 @@
 // Home.tsx
 // By: Mika Senghaas
 
-import { useEffect } from 'react'
+import { useEffect } from "react";
 import { Flex, Box, Grid, Image, useColorModeValue } from "@chakra-ui/react";
-import Markdown from 'markdown-to-jsx'
+import Markdown from "markdown-to-jsx";
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
@@ -17,8 +17,8 @@ const Home = (props: any) => {
   const { courses, projects, loadingCourses, admin } = props.state;
 
   useEffect(() => {
-    document.title = 'jonas-mika'
-  }, [])
+    document.title = "jonas-mika";
+  }, []);
 
   return (
     <PageBox>
@@ -55,10 +55,13 @@ const Home = (props: any) => {
             overflow="hidden"
           >
             <Image
-              src={`/images/mika-senghaas-${useColorModeValue('light', 'dark')}.jpeg`}
+              src={`/images/mika-senghaas-${useColorModeValue(
+                "light",
+                "dark"
+              )}.jpeg`}
               alt="profile-image"
               borderRadius="full"
-              objectFit='cover'
+              objectFit="cover"
               width="100%"
               height="100%"
             />
@@ -117,25 +120,27 @@ const Home = (props: any) => {
       <md.H2 mt={10}>About</md.H2>
       <md.Divider />
       <md.P>
-        Mika Senghaas is a 20-year old student from Germany who is currently
-        studying Data Science at the{" "}
+        I am a 20-year old student from Germany, who is currently studying Data
+        Science at the{" "}
         <md.Link url="https://en.itu.dk" isExternal>
           IT University of Copenhagen
         </md.Link>
-        . His main occupation - besides his studies - is working as a Teaching
-        Assistant (TA). He has taught 5 different courses, teaching a total of{" "}
-        {">"}500 students, in the span of one year. Besides, he is open to
-        freelance work - ranging from private tutoring to software development
-        and data science projects.
+        . My main occupation - besides my studies - is working as a Teaching
+        Assistant (TA). I have taught 5 different courses, teaching a total of{" "}
+        {">"}200 students, in the span of one year. I am open to freelance work
+        - ranging from private tutoring to software development and data science
+        projects.
       </md.P>
-      <md.Link to="/about">Learn more</md.Link>
+      <md.Link to="/about">Learn more about Mika</md.Link>
 
       <md.H2 mt={10}>Current Courses</md.H2>
       <md.Divider />
-      <md.P mb={5}>
-        I am uploading notes on lectures and solutions to exercises to the
-        courses I teach. These are the two courses I am current teaching.
+      <md.P>
+        In my position as a teaching assistant, I am uploading notes on lectures
+        and solutions to exercises in the courses that I teach. Find direct
+        links to my currently taught courses below.
       </md.P>
+      <md.Link to="/teaching">Find all teaching material</md.Link>
       {!loadingCourses &&
         courses.map((course: any, i: number) => {
           return (
