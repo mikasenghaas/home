@@ -2,7 +2,7 @@
 // By: Mika Senghaas
 
 import { useEffect } from "react";
-import { Flex, Link, UnorderedList, ListItem, Button } from "@chakra-ui/react";
+import { Box, Flex, Image, Link, UnorderedList, ListItem, Button, useColorModeValue } from "@chakra-ui/react";
 import { FaFacebook, FaLinkedin, FaInstagram, FaGithub } from "react-icons/fa";
 
 // custom styles
@@ -25,48 +25,76 @@ const About = () => {
   return (
     <PageBox>
       <TraceBack />
-      <md.H1 mt="1.5rem">About</md.H1>
-      <md.Divider />
-      <md.P mt="20px">
-        <md.InlineCode>Hej</md.InlineCode>!
-      </md.P>
+      <Flex>
+        <Box flexGrow={1}>
+          <md.H1>Mika Senghaas</md.H1>
+          <md.Divider />
+        </Box>
+        <Box
+          flexShrink={0}
+          mt={{ base: 4, md: 0 }}
+          ml={{ md: 6 }}
+          textAlign="center"
+        >
+          <Box
+            borderColor="whiteAlpha.800"
+            borderWidth={2}
+            borderStyle="solid"
+            w="100px"
+            h="100px"
+            display="inline-block"
+            borderRadius="full"
+            overflow="hidden"
+          >
+            <Image
+              src={`/images/mika-senghaas-${useColorModeValue(
+                "light",
+                "dark"
+              )}.jpeg`}
+              alt="profile-image"
+              borderRadius="full"
+              objectFit="cover"
+              width="100%"
+              height="100%"
+            />
+          </Box>
+        </Box>
+      </Flex>
       <md.P>
         My name is Mika. I am a 20-year old student from Germany who is
         currently studying Data Science at the{" "}
         <md.Link url="https://en.itu.dk/" isExternal>
           IT University of Copenhagen
         </md.Link>
-        . Since August 2021, i working as a teaching assistant in , where i
-        amongst other aid the professor with preparing exercise material,
+        . Since August 2021, I am working as a Teaching Assistant, where I
+        help the course managers with preparing exercise material,
         running exercise classes, grading assignments and assisting students
         individually. The courses I have taught so far are:
       </md.P>
       <UnorderedList spacing={1} my=".5rem">
         <ListItem>
-          <md.Inline>machine learning</md.Inline>
+          <md.Link to='/teaching/ml'>Machine Learning</md.Link>
         </ListItem>
         <ListItem>
-          <md.Inline>linear algebra and optimisation</md.Inline>
+          <md.Link to='/teaching/lao'>Linear Algebra and Optimisation</md.Link>
         </ListItem>
         <ListItem>
-          <md.Inline>applied statistics</md.Inline>
+          <md.Link to='/teaching/stats'>Applied Statistics</md.Link>
         </ListItem>
         <ListItem>
-          <md.Inline>algorithms and data structures</md.Inline>
+          <md.Link to='/teaching/algs'>Algorithms and Data Structures</md.Link>
         </ListItem>
         <ListItem>
-          <md.Inline>introduction to data science and programming</md.Inline>
+          <md.Inline>Introduction to Data Science and Programming</md.Inline>
         </ListItem>
       </UnorderedList>
-      This webpage hosts assisting material for exercise classes, that many of
-      my students use during the semester to assist their learning.
       <md.H3>Helpsome</md.H3>
       <md.P>
         Besides my studies, I am working as a student data scientist at{" "}
         <md.Link url="https://www.helpsome.com" isExternal>
           Helpsome
         </md.Link>{" "}
-        - first in part-time and since september 2022 as an external consultant.
+        - first in part-time and since September 2022 as an external consultant.
         At Helpsome, I am handling all data science related jobs in the company.
         These range from statistical analysis and modelling of psychometric data
         (e.g. imputing the O.C.E.A.N model using a custom{" "}
