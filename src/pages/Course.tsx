@@ -100,7 +100,8 @@ const Course = (props: any) => {
       props.setState((prev: any) => ({
         ...prev,
         admin: false,
-        message: "Sucessfully edited course.",
+        courses: [...prev.courses, res.data.course],
+        message: res.data.msg,
       }));
     });
   };
@@ -168,11 +169,22 @@ const Course = (props: any) => {
               _hover={{ backgroundColor: "var(--markdown-accent)" }}
               onClick={submit}
             >
-              Save Changes
+              Save
             </Button>
           </>
         ) : (
-          <Markdown options={options}>{course.bio}</Markdown>
+          <>
+            <Markdown options={options}>{course.bio}</Markdown>
+            <Button
+              variant="outline"
+              w="100%"
+              my="2rem"
+              _hover={{ backgroundColor: "var(--markdown-accent)" }}
+              onClick={submit}
+            >
+              Save
+            </Button>
+          </>
         )}
         {!loadingMaterial && (
           <>
@@ -188,7 +200,7 @@ const Course = (props: any) => {
               Add Material
             </Button>
             {courseMaterial.sort(order).map((material: any, i: number) => {
-              return <MaterialBox key={i} material={material} admin={admin}/>;
+              return <MaterialBox key={i} material={material} admin={admin} />;
             })}
           </>
         )}

@@ -35,7 +35,7 @@ const Material = (props: any) => {
     title: "",
     short_title: "",
     markdown: "",
-    coursename: "",
+    course_short: course_short,
   });
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const Material = (props: any) => {
         title: edit_material.title,
         short_title: edit_material.short_title,
         markdown: edit_material.markdown,
-        coursename: edit_course.name,
+        course_short: edit_course.short_name,
       });
     }
   }, []);
@@ -81,7 +81,7 @@ const Material = (props: any) => {
   const setCoursename = (e: any) => {
     setDoc((prev) => ({
       ...prev,
-      coursename: e.target.value,
+      course_short: e.target.value,
     }));
   };
 
@@ -97,7 +97,8 @@ const Material = (props: any) => {
       props.setState((prev: any) => ({
         ...prev,
         admin: false,
-        message: "Successfully edited material",
+        material: [...prev.material, res.data.material],
+        message: res.data.msg,
       }));
     });
   };
@@ -149,13 +150,12 @@ const Material = (props: any) => {
               <FormControl my="1rem">
                 <FormLabel>Course</FormLabel>
                 <Select
-                  defaultValue={doc.coursename}
-                  value={doc.coursename}
+                  value={doc.course_short}
                   onChange={setCoursename}
                 >
                   {courses.map((course: any, i: number) => {
                     return (
-                      <option key={i} value={course.name}>
+                      <option key={i} value={course.short_name}>
                         {course.name}
                       </option>
                     );

@@ -2,7 +2,7 @@
 // By: Mika Senghaas
 // custom styles
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Flex,
   Button,
@@ -30,6 +30,7 @@ import Unauthorised from "../pages/Unauthorised";
 
 const NewMaterial = (props: any) => {
   const navigate = useNavigate();
+  const { course_short } = useParams()
   const { courses, admin } = props.state;
 
   const [edit, setEdit] = useState(true);
@@ -38,7 +39,7 @@ const NewMaterial = (props: any) => {
     title: "",
     short_title: "",
     markdown: "",
-    coursename: "",
+    course_short: course_short,
   });
 
   useEffect(() => {
@@ -66,7 +67,7 @@ const NewMaterial = (props: any) => {
   const setCoursename = (e: any) => {
     setDoc((prev) => ({
       ...prev,
-      coursename: e.target.value,
+      course_short: e.target.value,
     }));
   };
 
@@ -81,7 +82,7 @@ const NewMaterial = (props: any) => {
     const body = {
       title: doc.title,
       short_title: doc.short_title,
-      coursename: doc.coursename,
+      course_short: doc.course_short,
       markdown: doc.markdown,
     };
     console.log(body);
@@ -144,13 +145,12 @@ const NewMaterial = (props: any) => {
               <FormControl my="1rem">
                 <FormLabel>Course</FormLabel>
                 <Select
-                  defaultValue="Machine Learning"
-                  value={doc.coursename}
+                  value={doc.course_short}
                   onChange={setCoursename}
                 >
                   {courses.map((course: any, i: number) => {
                     return (
-                      <option key={i} value={course.name}>
+                      <option key={i} value={course.short_name}>
                         {course.name}
                       </option>
                     );
