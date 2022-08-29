@@ -2,7 +2,15 @@
 // By: Mika Senghaas
 
 import { useEffect } from "react";
-import { Flex, Box, Grid, Image, useColorModeValue } from "@chakra-ui/react";
+import {
+  Flex,
+  Box,
+  Grid,
+  Image,
+  Button,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import Markdown from "markdown-to-jsx";
 
 // custom styles
@@ -14,6 +22,7 @@ import CourseBox from "../components/CourseBox";
 import ProjectBox from "../components/ProjectBox";
 
 const Home = (props: any) => {
+  let navigate = useNavigate();
   const { courses, projects, loadingCourses, admin } = props.state;
 
   useEffect(() => {
@@ -131,7 +140,16 @@ const Home = (props: any) => {
         - ranging from private tutoring to software development and data science
         projects.
       </md.P>
-      <md.Link to="/about">Learn more about Mika</md.Link>
+      <Flex justifyContent='center'>
+        <Button
+          variant="outline"
+          my="1rem"
+          _hover={{ backgroundColor: "var(--markdown-accent)" }}
+          onClick={() => navigate('/about')}
+        >
+          Read more
+        </Button>
+      </Flex>
 
       <md.H2 mt={10}>Current Courses</md.H2>
       <md.Divider />
@@ -140,18 +158,31 @@ const Home = (props: any) => {
         and solutions to exercises in the courses that I teach. Find direct
         links to my currently taught courses below.
       </md.P>
-      <md.Link to="/teaching">Find all teaching material</md.Link>
       {!loadingCourses &&
-        courses.map((course: any, i: number) => {
-          return (
-            <CourseBox
-              key={i}
-              course={course}
-              setState={props.setState}
-              admin={admin}
-            />
-          );
-        })}
+        courses
+          .filter((course: any) => {
+            return ["ml", "lao"].includes(course.short_name);
+          })
+          .map((course: any, i: number) => {
+            return (
+              <CourseBox
+                key={i}
+                course={course}
+                setState={props.setState}
+                admin={admin}
+              />
+            );
+          })}
+      <Flex justifyContent='center'>
+        <Button
+          variant="outline"
+          my="1rem"
+          _hover={{ backgroundColor: "var(--markdown-accent)" }}
+          onClick={() => navigate('/teaching')}
+        >
+          See all courses
+        </Button>
+      </Flex>
 
       <md.H2 mt={10}>Recent Projects</md.H2>
       <md.Divider />
