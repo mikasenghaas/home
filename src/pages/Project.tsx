@@ -58,7 +58,7 @@ const Project = (props: any) => {
     if (curr_project) {
       setProject(curr_project);
     }
-  }, []);
+  }, [projects]);
 
   const updatedProjects = (new_project: any) => {
     const remaining_projects = projects.filter((p: any) => p.id !== new_project.id)

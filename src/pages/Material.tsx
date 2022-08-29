@@ -58,7 +58,7 @@ const Material = (props: any) => {
         course_short: edit_course.short_name,
       });
     }
-  }, []);
+  }, [courses, material]);
 
   const toggleMode = () => {
     setEdit(!edit);
