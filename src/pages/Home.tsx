@@ -1,6 +1,7 @@
 // Home.tsx
 // By: Mika Senghaas
 
+import { useEffect } from 'react'
 import { Flex, Box, Grid, Image, useColorModeValue } from "@chakra-ui/react";
 import Markdown from 'markdown-to-jsx'
 
@@ -14,6 +15,10 @@ import ProjectBox from "../components/ProjectBox";
 
 const Home = (props: any) => {
   const { courses, projects, loadingCourses, admin } = props.state;
+
+  useEffect(() => {
+    document.title = 'jonas-mika'
+  }, [])
 
   return (
     <PageBox>
