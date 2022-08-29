@@ -59,25 +59,41 @@ const App = () => {
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (state.courses !== []) {
-      httpClient.get("/api/get_courses").then((res) => {
-        setState((prev) => ({
-          ...prev,
-          courses: res.data,
-          loadingCourses: false,
-        }));
-        localStorage.setItem("courses", JSON.stringify(res.data));
-      });
+      httpClient
+        .get("/api/get_courses")
+        .then((res) => {
+          setState((prev) => ({
+            ...prev,
+            courses: res.data,
+            loadingCourses: false,
+          }));
+          localStorage.setItem("courses", JSON.stringify(res.data));
+        })
+        .catch(() => {
+          setState((prev) => ({
+            ...prev,
+            message: "Could not fetch material. Try again later.",
+          }));
+        });
     }
 
     if (state.material !== []) {
-      httpClient.get("/api/get_material").then((res) => {
-        setState((prev) => ({
-          ...prev,
-          material: res.data,
-          loadingMaterial: false,
-        }));
-        localStorage.setItem("material", JSON.stringify(res.data));
-      });
+      httpClient
+        .get("/api/get_material")
+        .then((res) => {
+          setState((prev) => ({
+            ...prev,
+            material: res.data,
+            loadingMaterial: false,
+          }));
+          localStorage.setItem("material", JSON.stringify(res.data));
+        })
+        .catch(() => {
+          setState((prev) => ({
+            ...prev,
+            message: "Could not fetch material. Try again later.",
+          }));
+        });
     }
   }, []);
 
