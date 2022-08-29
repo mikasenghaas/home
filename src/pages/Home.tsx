@@ -2,6 +2,7 @@
 // By: Mika Senghaas
 
 import { Flex, Box, Grid, Image, useColorModeValue } from "@chakra-ui/react";
+import Markdown from 'markdown-to-jsx'
 import { useNavigate } from "react-router-dom";
 
 // custom styles
@@ -31,8 +32,8 @@ const Home = (props: any) => {
       <Flex>
         <Box flexGrow={1}>
           <md.H1>Mika Senghaas</md.H1>
-          <md.Divider marginBottom={0} />
-          <md.P>Data Science Student / Fullstack Developer</md.P>
+          <md.Divider />
+          <Markdown>*Learning* Data Scientist / Fullstack Developer</Markdown>
         </Box>
         <Box
           flexShrink={0}
@@ -51,45 +52,27 @@ const Home = (props: any) => {
             overflow="hidden"
           >
             <Image
-              src="/images/mika-senghaas.png"
-              alt="Profile-image"
+              src={`/images/mika-senghaas-${useColorModeValue('light', 'dark')}.jpeg`}
+              alt="profile-image"
               borderRadius="full"
+              objectFit='cover'
               width="100%"
               height="100%"
             />
           </Box>
         </Box>
       </Flex>
-      <md.H2>Stack</md.H2>
+      <md.H2 mt={10}>Stack</md.H2>
       <md.Divider />
       <Flex
         my={3}
         direction={{ base: "column", sm: "row", md: "row" }}
-        alignItems={{ base: "flex-start", sm: "row", md: "row" }}
+        alignItems={{ base: "flex-start", sm: "center", md: "center" }}
       >
-        <md.H4 minWidth="200px">Languages</md.H4>
-        <Flex wrap="wrap">
-          <md.Badge>Python</md.Badge>
-          <md.Badge>R</md.Badge>
-          <md.Badge>Javascript</md.Badge>
-          <md.Badge>C/ C++</md.Badge>
-          <md.Badge>Rust</md.Badge>
-        </Flex>
-      </Flex>
-
-      <Flex
-        my={3}
-        direction={{ base: "column", sm: "row", md: "row" }}
-        alignItems={{ base: "flex-start", sm: "row", md: "row" }}
-      >
-        <md.H4 minWidth="200px">Data Science</md.H4>
-        <Flex wrap="wrap">
-          <md.Badge>Statistics</md.Badge>
-          <md.Badge>Machine Learning/ Deep Learning</md.Badge>
-          <md.Badge>Network Analysis</md.Badge>
-          <md.Badge>Data Visualisation</md.Badge>
-          <md.Badge>Database Design</md.Badge>
-        </Flex>
+        <Box minWidth="200px">
+          <md.Badge>Languages</md.Badge>
+        </Box>
+        <md.P>Python, R, Javascript, C/ C++</md.P>
       </Flex>
 
       <Flex
@@ -97,18 +80,38 @@ const Home = (props: any) => {
         direction={{ base: "column", sm: "row", md: "row" }}
         alignItems={{ base: "flex-start", sm: "center", md: "center" }}
       >
-        <md.H4 minWidth="200px">Fullstack Development</md.H4>
-        <Flex wrap="wrap">
-          <md.Badge>React</md.Badge>
-          <md.Badge>React Native</md.Badge>
-          <md.Badge>Flask</md.Badge>
-          <md.Badge>PostgreSQL</md.Badge>
-          <md.Badge>Netlify/ Heroku</md.Badge>
-          <md.Badge>AWS/ Google Cloud</md.Badge>
-        </Flex>
+        <Box minWidth="200px">
+          <md.Badge>Data Science</md.Badge>
+        </Box>
+        <md.P>
+          Statistics, Machine Learning/ Deep Learning, Network Analysis, Data
+          Visualisation, Database Design
+        </md.P>
       </Flex>
 
-      <md.H2>About</md.H2>
+      <Flex
+        my={3}
+        direction={{ base: "column", sm: "row", md: "row" }}
+        alignItems={{ base: "flex-start", sm: "center", md: "center" }}
+      >
+        <Box minWidth="200px">
+          <md.Badge>Fullstack Development</md.Badge>
+        </Box>
+        <md.P>React, React Native, Flask, PostgreSQL, Netlify/ Heroku</md.P>
+      </Flex>
+
+      <Flex
+        my={3}
+        direction={{ base: "column", sm: "row", md: "row" }}
+        alignItems={{ base: "flex-start", sm: "center", md: "center" }}
+      >
+        <Box minWidth="200px">
+          <md.Badge>Collaboration</md.Badge>
+        </Box>
+        <md.P>Git, Jupyter Notebook, Google Colab, Deepnote, Overleaf</md.P>
+      </Flex>
+
+      <md.H2 mt={10}>About</md.H2>
       <md.Divider />
       <md.P>
         Mika Senghaas is a 20-year old student from Germany who is currently
@@ -122,8 +125,9 @@ const Home = (props: any) => {
         freelance work - ranging from private tutoring to software development
         and data science projects.
       </md.P>
+      <md.Link to="/about">Learn more</md.Link>
 
-      <md.H2>Current Courses</md.H2>
+      <md.H2 mt={10}>Current Courses</md.H2>
       <md.Divider />
       <md.P mb={5}>
         I am uploading notes on lectures and solutions to exercises to the
@@ -141,7 +145,7 @@ const Home = (props: any) => {
           );
         })}
 
-      <md.H2>Recent Projects</md.H2>
+      <md.H2 mt={10}>Recent Projects</md.H2>
       <md.Divider />
       <Grid
         templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
