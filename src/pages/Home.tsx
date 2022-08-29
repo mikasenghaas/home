@@ -23,7 +23,7 @@ import ProjectBox from "../components/ProjectBox";
 
 const Home = (props: any) => {
   let navigate = useNavigate();
-  const { courses, projects, loadingCourses, admin } = props.state;
+  const { courses, projects, loading, admin } = props.state;
 
   useEffect(() => {
     document.title = "Mika Senghaas";
@@ -158,7 +158,7 @@ const Home = (props: any) => {
         and solutions to exercises in the courses that I teach. Find direct
         links to my currently taught courses below.
       </md.P>
-      {!loadingCourses &&
+      {!loading &&
         courses
           .filter((course: any) => {
             return ["ml", "lao"].includes(course.short_name);
