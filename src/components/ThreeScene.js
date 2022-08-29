@@ -78,13 +78,13 @@ const ThreeScene = () => {
       setRenderer(renderer);
 
       const scene = new THREE.Scene();
-      const scale = scH * 0.005 + 4.8
+      const scale = scH * 0.001 + 2
       const camera = new THREE.OrthographicCamera(
         -scale,
         scale,
         scale,
         -scale,
-        0.01,
+        0.0001,
         1000
       );
       const target = new THREE.Vector3(-0.5, 1.2, 0);
@@ -94,12 +94,18 @@ const ThreeScene = () => {
         20 * Math.cos(0.2 * Math.PI)
       );
       const ambientLight = new THREE.AmbientLight(0xcccccc, 1);
+      const spotLight = new THREE.SpotLight(0xffffff);
+      spotLight.position.set(100, 1000, 100);
+      spotLight.castShadow = true;
+      spotLight.shadow.mapSize.width = 1024;
+      spotLight.shadow.mapSize.height = 1024;
       scene.add(ambientLight);
+      scene.add(spotLight);
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.autoRotate = true;
       controls.target = target;
 
-      loadGLTFModel(scene, "/dog.glb", {
+      loadGLTFModel(scene, "/three/voxel-computer.glb", {
         receiveShadow: true,
         castShadow: true,
       }).then(() => {
@@ -155,7 +161,7 @@ const ThreeScene = () => {
           size="xl"
           position="absolute"
           left="50%"
-          top="30%"
+          top="50%"
           ml="calc(0px - var(--spinner-size) / 2)"
           mt="calc(0px - var(--spinner-size))"
         />

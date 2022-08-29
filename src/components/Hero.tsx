@@ -9,9 +9,10 @@ const Hero = () => {
   return (
     <AspectRatio
       ratio={1}
-      maxWidth="600px"
-      mt={["-20px", "-20px", "-20px"]}
-      mb={["-40px", "-140px", "-200px"]}
+      minWidth="600px"
+      mt="-90px"
+      mb="-130px"
+      ml="-40px"
       position="relative"
     >
       <ThreeScene />
