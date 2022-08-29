@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { Box, Spinner } from '@chakra-ui/react'
+import { Box, Spinner } from "@chakra-ui/react";
 
 function loadGLTFModel(scene, glbPath, options) {
   const { receiveShadow, castShadow } = options;
@@ -21,7 +21,7 @@ function loadGLTFModel(scene, glbPath, options) {
         obj.castShadow = castShadow;
         scene.add(obj);
 
-        obj.traverse(function(child) {
+        obj.traverse(function (child) {
           if (child.isMesh) {
             child.castShadow = castShadow;
             child.receiveShadow = receiveShadow;
@@ -31,7 +31,7 @@ function loadGLTFModel(scene, glbPath, options) {
         resolve(obj);
       },
       undefined,
-      function(error) {
+      function (error) {
         console.log(error);
         reject(error);
       }
@@ -45,20 +45,20 @@ function easeOutCirc(x) {
 
 const ThreeScene = () => {
   const refContainer = useRef();
-  const refRenderer = useRef()
-  const [loading, setLoading] = useState(true)
+  const refRenderer = useRef();
+  const [loading, setLoading] = useState(true);
   const [renderer, setRenderer] = useState();
 
   const handleWindowResize = useCallback(() => {
-    const { current: renderer } = refRenderer
-    const { current: container } = refContainer
+    const { current: renderer } = refRenderer;
+    const { current: container } = refContainer;
     if (container && renderer) {
-      const scW = container.clientWidth
-      const scH = container.clientHeight
+      const scW = container.clientWidth;
+      const scH = container.clientHeight;
 
-      renderer.setSize(scW, scH)
+      renderer.setSize(scW, scH);
     }
-  }, [])
+  }, []);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
@@ -74,11 +74,11 @@ const ThreeScene = () => {
       renderer.setSize(scW, scH);
       renderer.outputEncoding = THREE.sRGBEncoding;
       container.appendChild(renderer.domElement);
-      refRenderer.current = renderer
+      refRenderer.current = renderer;
       setRenderer(renderer);
 
       const scene = new THREE.Scene();
-      const scale = scH * 0.001 + 2
+      const scale = scH * 0.001 + 2;
       const camera = new THREE.OrthographicCamera(
         -scale,
         scale,
@@ -144,19 +144,15 @@ const ThreeScene = () => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener('resize', handleWindowResize, false)
+    window.addEventListener("resize", handleWindowResize, false);
     return () => {
-      window.removeEventListener('resize', handleWindowResize, false)
-    }
-  }, [handleWindowResize])
+      window.removeEventListener("resize", handleWindowResize, false);
+    };
+  }, [handleWindowResize]);
 
   return (
-    <Box
-      ref={refContainer}
-      w='100%'
-      h='500px'
-    >
-      {loading &&
+    <Box ref={refContainer} w="100%" h="500px">
+      {loading && (
         <Spinner
           size="xl"
           position="absolute"
@@ -165,7 +161,7 @@ const ThreeScene = () => {
           ml="calc(0px - var(--spinner-size) / 2)"
           mt="calc(0px - var(--spinner-size))"
         />
-      }
+      )}
     </Box>
   );
 };

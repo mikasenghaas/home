@@ -16,7 +16,7 @@ const Hero = () => {
       position="relative"
     >
       <ThreeScene />
-    </AspectRatio >
+    </AspectRatio>
   );
 };
 

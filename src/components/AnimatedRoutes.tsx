@@ -55,9 +55,12 @@ const AnimatedRoutes = (props: any) => {
 
         <Route
           path="/projects/:project_short"
-          element={<Project state={state} setState={setState}/>}
+          element={<Project state={state} setState={setState} />}
         />
-        <Route path="/projects" element={<Projects state={state} setState={setState}/>} />
+        <Route
+          path="/projects"
+          element={<Projects state={state} setState={setState} />}
+        />
 
         <Route path="/about" element={<About />} />
         <Route path="/" element={<Home state={state} />} />

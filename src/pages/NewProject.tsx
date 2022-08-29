@@ -11,19 +11,16 @@ import {
   FormHelperText,
   Input,
   Textarea,
-  Switch,
 } from "@chakra-ui/react";
-import Markdown from "markdown-to-jsx";
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
-import options from "../lib/markdownOptions";
 
 // custom components
 import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
 import EditorToggle from "../components/EditorToggle";
-import ProjectTemplate from "../components/ProjectTemplate"
+import ProjectTemplate from "../components/ProjectTemplate";
 import httpClient from "../httpClient";
 
 // pages
@@ -48,7 +45,6 @@ const NewProject = (props: any) => {
   useEffect(() => {
     document.title = "New Project - Mika Senghaas";
   }, []);
-
 
   const submit = () => {
     const body = {
@@ -187,9 +183,7 @@ const NewProject = (props: any) => {
                   value={project.year}
                   onChange={setYear}
                 />
-                <FormHelperText>
-                  Maximal 4 characters
-                </FormHelperText>
+                <FormHelperText>Maximal 4 characters</FormHelperText>
               </FormControl>
             </Flex>
             <FormControl my="1rem">
@@ -228,7 +222,8 @@ const NewProject = (props: any) => {
                 onChange={setImages}
               />
               <FormHelperText>
-                Public URLs of images, comma-separated (will be parsed into list)
+                Public URLs of images, comma-separated (will be parsed into
+                list)
               </FormHelperText>
             </FormControl>
             <FormControl mt="1rem">

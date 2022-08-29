@@ -56,8 +56,8 @@ const GlobalMessage = (props: any) => {
           borderRadius="10px"
         >
           <CircularProgress
-            size='20px' 
-            thickness='10px'
+            size="20px"
+            thickness="10px"
             borderRadius="10px"
             color="var(--markdown-accent)"
             bgColor="var(--markdown-code-bg)"

@@ -2,7 +2,16 @@
 // By: Mika Senghaas
 
 import { useEffect } from "react";
-import { Box, Flex, Image, Link, UnorderedList, ListItem, Button, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Image,
+  Link,
+  UnorderedList,
+  ListItem,
+  Button,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { FaFacebook, FaLinkedin, FaInstagram, FaGithub } from "react-icons/fa";
 
 // custom styles
@@ -66,23 +75,23 @@ const About = () => {
         <md.Link url="https://en.itu.dk/" isExternal>
           IT University of Copenhagen
         </md.Link>
-        . Since August 2021, I am working as a Teaching Assistant, where I
-        help the course managers with preparing exercise material,
-        running exercise classes, grading assignments and assisting students
-        individually. The courses I have taught so far are:
+        . Since August 2021, I am working as a Teaching Assistant, where I help
+        the course managers with preparing exercise material, running exercise
+        classes, grading assignments and assisting students individually. The
+        courses I have taught so far are:
       </md.P>
       <UnorderedList spacing={1} my=".5rem">
         <ListItem>
-          <md.Link to='/teaching/ml'>Machine Learning</md.Link>
+          <md.Link to="/teaching/ml">Machine Learning</md.Link>
         </ListItem>
         <ListItem>
-          <md.Link to='/teaching/lao'>Linear Algebra and Optimisation</md.Link>
+          <md.Link to="/teaching/lao">Linear Algebra and Optimisation</md.Link>
         </ListItem>
         <ListItem>
-          <md.Link to='/teaching/stats'>Applied Statistics</md.Link>
+          <md.Link to="/teaching/stats">Applied Statistics</md.Link>
         </ListItem>
         <ListItem>
-          <md.Link to='/teaching/algs'>Algorithms and Data Structures</md.Link>
+          <md.Link to="/teaching/algs">Algorithms and Data Structures</md.Link>
         </ListItem>
         <ListItem>
           <md.Inline>Introduction to Data Science and Programming</md.Inline>

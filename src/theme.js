@@ -13,7 +13,7 @@ const styles = {
       "--markdown-text-inverse": mode("#c9d1d9", "#24292f")(props),
       "--markdown-code-bg": mode("#f6f8fa", "#161b22")(props),
       "--markdown-link": mode("#0969da", "#58a6ff")(props),
-      "--markdown-accent": "#FF784F"
+      "--markdown-accent": "#FF784F",
     },
     a: {
       _hover: {

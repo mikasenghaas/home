@@ -140,12 +140,12 @@ const Home = (props: any) => {
         - ranging from private tutoring to software development and data science
         projects.
       </md.P>
-      <Flex justifyContent='center'>
+      <Flex justifyContent="center">
         <Button
           variant="outline"
           my="1rem"
           _hover={{ backgroundColor: "var(--markdown-accent)" }}
-          onClick={() => navigate('/about')}
+          onClick={() => navigate("/about")}
         >
           Read more
         </Button>
@@ -173,12 +173,12 @@ const Home = (props: any) => {
               />
             );
           })}
-      <Flex justifyContent='center'>
+      <Flex justifyContent="center">
         <Button
           variant="outline"
           my="1rem"
           _hover={{ backgroundColor: "var(--markdown-accent)" }}
-          onClick={() => navigate('/teaching')}
+          onClick={() => navigate("/teaching")}
         >
           See all courses
         </Button>

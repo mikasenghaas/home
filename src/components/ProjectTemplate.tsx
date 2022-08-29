@@ -1,17 +1,11 @@
 // Project.tsx
 // By: Mika Senghaas
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { Box, Flex, AspectRatio, Image } from "@chakra-ui/react";
 
 // custom pages
 import NotFound from "../pages/NotFound";
 
-// custom components
-import PageBox from "../components/PageBox";
-import TraceBack from "../components/TraceBack";
-import EditorToggle from "../components/EditorToggle";
-
+// custom styles
 import * as md from "../styles/MarkdownStyles";
 
 const ProjectTemplate = (props: any) => {

@@ -1,17 +1,13 @@
 // ColorModeSwitcher.tsx
 // By: Mika Senghaas
 
-import {
-  IconButton,
-  useColorMode,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { IconButton, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import { FaMoon, FaSun } from "react-icons/fa";
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion } from "framer-motion";
 
-const MotionIconButton = motion(IconButton)
+const MotionIconButton = motion(IconButton);
 
-interface Props { }
+interface Props {}
 const ColorModeSwitcher = ({ ...props }: Props) => {
   const { toggleColorMode } = useColorMode();
   const text = useColorModeValue("dark", "light");
@@ -24,8 +20,7 @@ const ColorModeSwitcher = ({ ...props }: Props) => {
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: 40, opacity: 0 }}
         transition={{ duration: 0.1 }}
-        key={useColorModeValue('light', 'dark')}
-
+        key={useColorModeValue("light", "dark")}
         size="md"
         aria-label={`Switch to ${text} mode`}
         color="current"
@@ -38,4 +33,4 @@ const ColorModeSwitcher = ({ ...props }: Props) => {
   );
 };
 
-export default ColorModeSwitcher
+export default ColorModeSwitcher;

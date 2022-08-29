@@ -1,8 +1,8 @@
 const EmojiDict: any = {
-  "blush": "😊",
-  "sparkles": "✨",
-  "arrow_forward": "▶️",
-  "satelite": "🛰"
-}
+  blush: "😊",
+  sparkles: "✨",
+  arrow_forward: "▶️",
+  satelite: "🛰",
+};
 
-export default EmojiDict
+export default EmojiDict;

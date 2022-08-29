@@ -2,7 +2,7 @@
 // By: Mika Senghaas
 
 import { Flex, Spinner } from "@chakra-ui/react";
-import * as md from "../styles/MarkdownStyles"
+import * as md from "../styles/MarkdownStyles";
 
 const Loading = () => {
   return (
@@ -13,7 +13,7 @@ const Loading = () => {
       mt="auto"
     >
       <Spinner size="xl" />
-      <md.P mt='1rem'>Loading</md.P>
+      <md.P mt="1rem">Loading</md.P>
     </Flex>
   );
 };

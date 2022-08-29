@@ -3,15 +3,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
-  Box,
   Flex,
-  AspectRatio,
-  Image,
   Button,
   FormControl,
   FormLabel,
   FormHelperText,
-  Select,
   Input,
   Textarea,
 } from "@chakra-ui/react";
@@ -61,9 +57,11 @@ const Project = (props: any) => {
   }, [projects]);
 
   const updatedProjects = (new_project: any) => {
-    const remaining_projects = projects.filter((p: any) => p.id !== new_project.id)
-    return [...remaining_projects, new_project]
-  }
+    const remaining_projects = projects.filter(
+      (p: any) => p.id !== new_project.id
+    );
+    return [...remaining_projects, new_project];
+  };
 
   const submit = () => {
     httpClient
@@ -111,7 +109,7 @@ const Project = (props: any) => {
       year: e.target.value,
     }));
   };
-  
+
   const setTopic = (e: any) => {
     setProject((prev) => ({
       ...prev,
@@ -192,9 +190,7 @@ const Project = (props: any) => {
                   value={project.year}
                   onChange={setYear}
                 />
-                <FormHelperText>
-                  Maximal 4 characters
-                </FormHelperText>
+                <FormHelperText>Maximal 4 characters</FormHelperText>
               </FormControl>
             </Flex>
             <FormControl my="1rem">
@@ -233,7 +229,8 @@ const Project = (props: any) => {
                 onChange={setImages}
               />
               <FormHelperText>
-                Public URLs of images, comma-separated (will be parsed into list)
+                Public URLs of images, comma-separated (will be parsed into
+                list)
               </FormHelperText>
             </FormControl>
             <FormControl mt="1rem">

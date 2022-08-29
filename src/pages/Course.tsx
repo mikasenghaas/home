@@ -104,9 +104,11 @@ const Course = (props: any) => {
   };
 
   const updatedCourses = (new_course: any) => {
-    const remaining_courses = courses.filter((c: any) => c.id !== new_course.id)
-    return [...remaining_courses, new_course]
-  }
+    const remaining_courses = courses.filter(
+      (c: any) => c.id !== new_course.id
+    );
+    return [...remaining_courses, new_course];
+  };
 
   const submit = () => {
     httpClient
@@ -230,7 +232,14 @@ const Course = (props: any) => {
               Add Material
             </Button>
             {courseMaterial.sort(order).map((material: any, i: number) => {
-              return <MaterialBox key={i} material={material} admin={admin} setState={props.setState}/>;
+              return (
+                <MaterialBox
+                  key={i}
+                  material={material}
+                  admin={admin}
+                  setState={props.setState}
+                />
+              );
             })}
           </>
         )}

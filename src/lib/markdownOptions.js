@@ -1,4 +1,4 @@
-import * as md from '../styles/MarkdownStyles'
+import * as md from "../styles/MarkdownStyles";
 
 const options = {
   overrides: {
@@ -20,4 +20,4 @@ const options = {
   },
 };
 
-export default options
+export default options;

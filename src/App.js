@@ -3,7 +3,7 @@
 
 // imports
 import { useState, useEffect } from "react";
-import { ChakraProvider, Flex, Spinner } from "@chakra-ui/react";
+import { ChakraProvider, Flex } from "@chakra-ui/react";
 import { createBrowserHistory } from "history";
 
 import "./App.css";

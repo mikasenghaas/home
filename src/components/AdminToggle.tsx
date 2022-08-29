@@ -38,19 +38,14 @@ const AdminToggle = (props: any) => {
         exit={{ y: 10, opacity: 0 }}
         transition={{ duration: 0.2 }}
         key={admin}
-
-        alignItems='center'
+        alignItems="center"
       >
-        {admin ?
-          <MdDone size={10} />
-          :
-          <FiEdit size={10} />
-        }
+        {admin ? <MdDone size={10} /> : <FiEdit size={10} />}
         <md.Link
           onClick={toggleAdmin}
           fontSize="12px"
           color="var(--markdown-text)"
-          ml='2px'
+          ml="2px"
         >
           {admin ? "Done" : "Edit"}
         </md.Link>

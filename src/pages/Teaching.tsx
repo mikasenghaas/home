@@ -52,17 +52,16 @@ const Teaching = (props: any) => {
       <md.H2 mt="2.5rem">Courses</md.H2>
       <md.Divider />
       {!loadingCourses &&
-        courses.sort(order).
-          map((course: any, i: number) => {
-            return (
-              <CourseBox
-                key={i}
-                course={course}
-                setState={props.setState}
-                admin={admin}
-              />
-            );
-          })}
+        courses.sort(order).map((course: any, i: number) => {
+          return (
+            <CourseBox
+              key={i}
+              course={course}
+              setState={props.setState}
+              admin={admin}
+            />
+          );
+        })}
       <AnimatePresence>
         {admin && (
           <MotionButton
