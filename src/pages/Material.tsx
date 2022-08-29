@@ -38,6 +38,10 @@ const Material = (props: any) => {
     coursename: "",
   });
 
+  useEffect(() => {
+    document.title = 'teaching@jonas-mika'
+  }, [])
+
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const edit_course = courses.find((c: any) => c.short_name === course_short);

@@ -4,9 +4,7 @@
 // imports
 import { useState, useEffect } from "react";
 import { ChakraProvider, Flex, Spinner } from "@chakra-ui/react";
-import { Routes, Route } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import { AnimatePresence } from "framer-motion";
 
 import "./App.css";
 import theme from "./theme";

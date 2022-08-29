@@ -1,6 +1,7 @@
 // About.tsx
 // By: Mika Senghaas
 
+import { useEffect } from 'react'
 import {
   Box,
   Flex,
@@ -29,6 +30,11 @@ import TraceBack from '../components/TraceBack'
 
 const About = () => {
   const { width } = useWindowDimensions();
+  
+  useEffect(() => {
+    document.title = 'about@jonas-mika'
+  }, [])
+
 
   return (
     <PageBox>

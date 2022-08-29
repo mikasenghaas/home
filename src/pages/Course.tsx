@@ -41,6 +41,10 @@ const Course = (props: any) => {
   });
   const [courseMaterial, setCourseMaterial] = useState([]);
 
+  useEffect(() => {
+    document.title = 'teaching@jonas-mika'
+  }, [])
+
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (!loadingMaterial) {

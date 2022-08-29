@@ -1,5 +1,6 @@
 // Projects.tsx
 // By: Mika Senghaas
+import { useEffect } from 'react'
 import { Grid, GridItem } from "@chakra-ui/react";
 
 // custom styles
@@ -12,6 +13,10 @@ import TraceBack from "../components/TraceBack";
 
 const Projects = (props: any) => {
   const { projects } = props.state
+
+  useEffect(() => {
+    document.title = 'projects@jonas-mika'
+  }, [])
 
   return (
     <PageBox>

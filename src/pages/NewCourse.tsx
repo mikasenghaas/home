@@ -2,14 +2,13 @@
 // By: Mika Senghaas
 // custom styles
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Flex,
   Button,
   FormControl,
   FormLabel,
   FormHelperText,
-  Select,
   Input,
   Textarea,
   Switch,
@@ -29,8 +28,8 @@ import httpClient from "../httpClient";
 import Unauthorised from "../pages/Unauthorised";
 
 const NewCourse = (props: any) => {
-  const navigate = useNavigate()
-  const { courses, admin } = props.state;
+  const navigate = useNavigate();
+  const { admin } = props.state;
 
   const [edit, setEdit] = useState(true);
   const [doc, setDoc] = useState({
@@ -40,6 +39,10 @@ const NewCourse = (props: any) => {
     professor: "",
     bio: "",
   });
+
+  useEffect(() => {
+    document.title = "new-course@jonas-mika";
+  }, []);
 
   const toggleMode = () => {
     setEdit(!edit);
@@ -80,17 +83,15 @@ const NewCourse = (props: any) => {
       professor: doc.professor,
       bio: doc.bio,
     };
-    httpClient
-      .post("/api/add_course", body)
-      .then((res: any) => {
-        navigate('/teaching')
-        props.setState((prev: any) => ({
-          ...prev,
-          courses: [...prev.courses, res.data.course],
-          admin: false,
-          message: res.data.msg
-        }))
-      });
+    httpClient.post("/api/add_course", body).then((res: any) => {
+      navigate("/teaching");
+      props.setState((prev: any) => ({
+        ...prev,
+        courses: [...prev.courses, res.data.course],
+        admin: false,
+        message: res.data.msg,
+      }));
+    });
   };
 
   if (admin) {
@@ -110,11 +111,7 @@ const NewCourse = (props: any) => {
         </Flex>
         {edit ? (
           <>
-            {!doc.id ? (
-              <md.H1>Add Course</md.H1>
-            ) : (
-              <md.H1>Edit Course</md.H1>
-            )}
+            {!doc.id ? <md.H1>Add Course</md.H1> : <md.H1>Edit Course</md.H1>}
             <md.Divider />
             <FormControl my="1rem">
               <FormLabel>Title </FormLabel>

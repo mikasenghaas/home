@@ -2,7 +2,7 @@
 // By: Mika Senghaas
 // custom styles
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Flex,
   Button,
@@ -29,12 +29,10 @@ import httpClient from "../httpClient";
 import Unauthorised from "../pages/Unauthorised";
 
 const NewMaterial = (props: any) => {
-  const navigate = useNavigate()
-  const { course_short } = useParams()
-  const { courses, material, admin } = props.state;
+  const navigate = useNavigate();
+  const { courses, admin } = props.state;
 
   const [edit, setEdit] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [doc, setDoc] = useState({
     id: "",
     title: "",
@@ -42,6 +40,10 @@ const NewMaterial = (props: any) => {
     markdown: "",
     coursename: "",
   });
+
+  useEffect(() => {
+    document.title = "new-material@jonas-mika";
+  }, []);
 
   const toggleMode = () => {
     setEdit(!edit);
@@ -82,18 +84,16 @@ const NewMaterial = (props: any) => {
       coursename: doc.coursename,
       markdown: doc.markdown,
     };
-    console.log(body)
-    httpClient
-      .post("/api/add_material", body)
-      .then((res: any) => {
-        props.setState((prev: any) => ({
-          ...prev,
-          admin: false,
-          material: [...prev.material, res.data.material],
-          message: res.data.msg
-        }))
-        navigate(-1)
-      });
+    console.log(body);
+    httpClient.post("/api/add_material", body).then((res: any) => {
+      props.setState((prev: any) => ({
+        ...prev,
+        admin: false,
+        material: [...prev.material, res.data.material],
+        message: res.data.msg,
+      }));
+      navigate(-1);
+    });
   };
 
   if (admin) {
@@ -144,7 +144,7 @@ const NewMaterial = (props: any) => {
               <FormControl my="1rem">
                 <FormLabel>Course</FormLabel>
                 <Select
-                  defaultValue='Machine Learning'
+                  defaultValue="Machine Learning"
                   value={doc.coursename}
                   onChange={setCoursename}
                 >
@@ -174,8 +174,6 @@ const NewMaterial = (props: any) => {
         )}
         <Flex justifyContent="center">
           <Button
-            isLoading={loading}
-            loadingText="Submitting"
             variant="outline"
             w="100%"
             my="2rem"
