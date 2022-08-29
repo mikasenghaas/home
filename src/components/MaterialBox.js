@@ -106,9 +106,9 @@ const MaterialBox = (props) => {
         </AlertDialog>
       </RouterLink>
       {admin && (
-        <MotionButton onClick={onOpen}>
+        <Button onClick={onOpen}>
           <BiTrash />
-        </MotionButton>
+        </Button>
       )}
     </Flex>
   );
