@@ -2,7 +2,7 @@
 
 # production env
 [context.production]
-  command = "react-scripts build && mv build production"
+  command = "rm -rf production && react-scripts build && mv build production"
   publish ="./production"
 
 [context.production.environment]
@@ -12,7 +12,7 @@
 
 # dev env
 [context.staging]
-  command = "react-scripts build && mv build staging"
+  command = "rm -rf staging && react-scripts build && mv build staging"
   publish = "./staging"
 
 [context.staging.environment]
