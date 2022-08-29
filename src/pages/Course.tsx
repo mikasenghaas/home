@@ -36,8 +36,9 @@ const Course = (props: any) => {
     id: "",
     name: "",
     short_name: "",
+    semester: "",
     professor: "",
-    bio: "",
+    markdown: "",
   });
   const [courseMaterial, setCourseMaterial] = useState([]);
 
@@ -81,6 +82,13 @@ const Course = (props: any) => {
     }));
   };
 
+  const setSemester = (e: any) => {
+    setCourse((prev) => ({
+      ...prev,
+      semester: e.target.value,
+    }));
+  };
+
   const setProfessor = (e: any) => {
     setCourse((prev) => ({
       ...prev,
@@ -88,12 +96,17 @@ const Course = (props: any) => {
     }));
   };
 
-  const setBio = (e: any) => {
+  const setMarkdown = (e: any) => {
     setCourse((prev) => ({
       ...prev,
-      bio: e.target.value,
+      markdown: e.target.value,
     }));
   };
+
+  const updatedCourses = (new_course: any) => {
+    const remaining_courses = courses.filter((c: any) => c.id !== new_course.id)
+    return [...remaining_courses, new_course]
+  }
 
   const submit = () => {
     httpClient
@@ -102,7 +115,7 @@ const Course = (props: any) => {
         props.setState((prev: any) => ({
           ...prev,
           admin: false,
-          courses: [...prev.courses, res.data.course],
+          courses: updatedCourses(res.data.course),
           message: res.data.msg,
         }));
       })
@@ -154,6 +167,15 @@ const Course = (props: any) => {
                 All lowercase with dashes (used in URL)
               </FormHelperText>
             </FormControl>
+            <FormControl my="1rem">
+              <FormLabel>Semester</FormLabel>
+              <Input
+                type="text"
+                placeholder="Semester"
+                value={course.semester}
+                onChange={setSemester}
+              />
+            </FormControl>
             <FormControl mt="1rem">
               <FormLabel>Professor</FormLabel>
               <Input
@@ -166,8 +188,8 @@ const Course = (props: any) => {
               <FormLabel>Bio</FormLabel>
               <Textarea
                 placeholder="Bio (Markdown Format)"
-                value={course.bio}
-                onChange={setBio}
+                value={course.markdown}
+                onChange={setMarkdown}
               />
             </FormControl>
             <Button
@@ -182,7 +204,7 @@ const Course = (props: any) => {
           </>
         ) : (
           <>
-            <Markdown options={options}>{course.bio}</Markdown>
+            <Markdown options={options}>{course.markdown}</Markdown>
             <Button
               variant="outline"
               w="100%"
@@ -222,7 +244,7 @@ const Course = (props: any) => {
         </Flex>
         {!loadingMaterial && (
           <>
-            <Markdown options={options}>{course.bio}</Markdown>
+            <Markdown options={options}>{course.markdown}</Markdown>
             <md.H2 mt="2.5rem">Material</md.H2>
             <md.Divider />
             {courseMaterial.sort(order).map((material: any, i: number) => {

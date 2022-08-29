@@ -36,8 +36,9 @@ const NewCourse = (props: any) => {
     id: "",
     name: "",
     short_name: "",
+    semester: "",
     professor: "",
-    bio: "",
+    markdown: "",
   });
 
   useEffect(() => {
@@ -62,6 +63,13 @@ const NewCourse = (props: any) => {
     }));
   };
 
+  const setSemester = (e: any) => {
+    setDoc((prev) => ({
+      ...prev,
+      semester: e.target.value,
+    }));
+  };
+
   const setProfessor = (e: any) => {
     setDoc((prev) => ({
       ...prev,
@@ -69,10 +77,10 @@ const NewCourse = (props: any) => {
     }));
   };
 
-  const setBio = (e: any) => {
+  const setMarkdown = (e: any) => {
     setDoc((prev) => ({
       ...prev,
-      bio: e.target.value,
+      markdown: e.target.value,
     }));
   };
 
@@ -80,24 +88,25 @@ const NewCourse = (props: any) => {
     const body = {
       name: doc.name,
       short_name: doc.short_name,
+      semester: doc.semester,
       professor: doc.professor,
-      bio: doc.bio,
+      markdown: doc.markdown,
     };
     httpClient
       .post("/api/add_course", body)
       .then((res: any) => {
-        navigate("/teaching");
         props.setState((prev: any) => ({
           ...prev,
           courses: [...prev.courses, res.data.course],
           admin: false,
           message: res.data.msg,
         }));
+        navigate("/teaching");
       })
       .catch(() => {
         props.setState((prev: any) => ({
           ...prev,
-          message: "Could not add material. Try again later.",
+          message: "Could not add course. Try again later.",
         }));
         navigate(-1);
       });
@@ -144,6 +153,14 @@ const NewCourse = (props: any) => {
               </FormHelperText>
             </FormControl>
             <FormControl mt="1rem">
+              <FormLabel>Semester</FormLabel>
+              <Input
+                placeholder="Semester"
+                value={doc.semester}
+                onChange={setSemester}
+              />
+            </FormControl>
+            <FormControl mt="1rem">
               <FormLabel>Professor</FormLabel>
               <Input
                 placeholder="Professor"
@@ -152,16 +169,16 @@ const NewCourse = (props: any) => {
               />
             </FormControl>
             <FormControl mt="1rem">
-              <FormLabel>Bio</FormLabel>
+              <FormLabel>Markdown</FormLabel>
               <Textarea
-                placeholder="Bio (Markdown Format)"
-                value={doc.bio}
-                onChange={setBio}
+                placeholder="Markdown"
+                value={doc.markdown}
+                onChange={setMarkdown}
               />
             </FormControl>
           </>
         ) : (
-          <Markdown options={options}>{doc.bio}</Markdown>
+          <Markdown options={options}>{doc.markdown}</Markdown>
         )}
         <Flex justifyContent="center">
           <Button

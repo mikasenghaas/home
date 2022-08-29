@@ -36,8 +36,8 @@ const NewMaterial = (props: any) => {
   const [edit, setEdit] = useState(true);
   const [doc, setDoc] = useState({
     id: "",
-    title: "",
-    short_title: "",
+    name: "",
+    short_name: "",
     markdown: "",
     course_short: course_short,
   });
@@ -50,17 +50,17 @@ const NewMaterial = (props: any) => {
     setEdit(!edit);
   };
 
-  const setTitle = (e: any) => {
+  const setName = (e: any) => {
     setDoc((prev) => ({
       ...prev,
-      title: e.target.value,
+      name: e.target.value,
     }));
   };
 
-  const setShortTitle = (e: any) => {
+  const setShortName = (e: any) => {
     setDoc((prev) => ({
       ...prev,
-      short_title: e.target.value,
+      short_name: e.target.value,
     }));
   };
 
@@ -80,8 +80,8 @@ const NewMaterial = (props: any) => {
 
   const submit = () => {
     const body = {
-      title: doc.title,
-      short_title: doc.short_title,
+      name: doc.name,
+      short_name: doc.short_name,
       course_short: doc.course_short,
       markdown: doc.markdown,
     };
@@ -129,22 +129,22 @@ const NewMaterial = (props: any) => {
             )}
             <md.Divider />
             <FormControl my="1rem">
-              <FormLabel>Title </FormLabel>
+              <FormLabel>Name</FormLabel>
               <Input
                 type="text"
-                placeholder="Title"
-                value={doc.title}
-                onChange={setTitle}
+                placeholder="Name"
+                value={doc.name}
+                onChange={setName}
               />
             </FormControl>
             <Flex alignItems="flex-start">
               <FormControl my="1rem">
-                <FormLabel>Short Title</FormLabel>
+                <FormLabel>Short Name</FormLabel>
                 <Input
                   type="text"
-                  placeholder="Short Title"
-                  value={doc.short_title}
-                  onChange={setShortTitle}
+                  placeholder="Short Name"
+                  value={doc.short_name}
+                  onChange={setShortName}
                 />
                 <FormHelperText>
                   All lowercase with dashes (used in URL)

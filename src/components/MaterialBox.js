@@ -53,7 +53,7 @@ const MaterialBox = (props) => {
       _hover={{ backgroundColor: "var(--markdown-code-bg)" }}
     >
       <RouterLink
-        to={material.short_title}
+        to={material.short_name}
         style={{ textDecoration: "none" }}
         role="group"
       >
@@ -65,7 +65,7 @@ const MaterialBox = (props) => {
               _hover={{ textDecoration: "underline" }}
               m={0}
             >
-              {material.title}
+              {material.name}
             </md.P>
             <md.P m={0} fontSize="7px" color="var(--markdown-text-fg)">
               Last edited:{" "}

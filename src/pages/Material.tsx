@@ -32,8 +32,8 @@ const Material = (props: any) => {
   const [edit, setEdit] = useState(false);
   const [doc, setDoc] = useState({
     id: "",
-    title: "",
-    short_title: "",
+    name: "",
+    short_name: "",
     markdown: "",
     course_short: course_short,
   });
@@ -46,14 +46,14 @@ const Material = (props: any) => {
   useEffect(() => {
     const edit_course = courses.find((c: any) => c.short_name === course_short);
     const edit_material = material.find(
-      (m: any) => m.short_title === material_short && m.cid === edit_course.id
+      (m: any) => m.short_name === material_short && m.cid === edit_course.id
     );
 
     if (edit_material) {
       setDoc({
         id: edit_material.id,
-        title: edit_material.title,
-        short_title: edit_material.short_title,
+        name: edit_material.name,
+        short_name: edit_material.short_name,
         markdown: edit_material.markdown,
         course_short: edit_course.short_name,
       });
@@ -64,17 +64,17 @@ const Material = (props: any) => {
     setEdit(!edit);
   };
 
-  const setTitle = (e: any) => {
+  const setName = (e: any) => {
     setDoc((prev) => ({
       ...prev,
-      title: e.target.value,
+      name: e.target.value,
     }));
   };
 
-  const setShortTitle = (e: any) => {
+  const setShortName = (e: any) => {
     setDoc((prev) => ({
       ...prev,
-      short_title: e.target.value,
+      short_name: e.target.value,
     }));
   };
 
@@ -134,22 +134,22 @@ const Material = (props: any) => {
               with your changes.
             </md.P>
             <FormControl my="1rem">
-              <FormLabel>Title </FormLabel>
+              <FormLabel>Name</FormLabel>
               <Input
                 type="text"
-                placeholder="Title"
-                value={doc.title}
-                onChange={setTitle}
+                placeholder="Name"
+                value={doc.name}
+                onChange={setName}
               />
             </FormControl>
             <Flex alignItems="center">
               <FormControl my="1rem">
-                <FormLabel>Short Title</FormLabel>
+                <FormLabel>Short Name</FormLabel>
                 <Input
                   type="text"
-                  placeholder="Short Title"
-                  value={doc.short_title}
-                  onChange={setShortTitle}
+                  placeholder="Short Name"
+                  value={doc.short_name}
+                  onChange={setShortName}
                 />
                 <FormHelperText>
                   All lowercase with dashes (used in URL)
