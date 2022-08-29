@@ -18,6 +18,7 @@ import Footer from "./components/Footer";
 import AnimatedRoutes from "./components/AnimatedRoutes";
 import GlobalMessage from "./components/GlobalMessage";
 import HistoryRouter from "./components/HistoryRouter";
+import Loading from "./components/Loading";
 
 const App = () => {
   const [state, setState] = useState({
@@ -87,10 +88,8 @@ const App = () => {
           <Flex direction="column" minHeight="100vh">
             <Header />
             <Hero />
-            {state.loading ? (
-              <Flex justifyContent="center">
-                <Spinner />
-              </Flex>
+            {state.loadingCourses || state.loadingMaterial ? (
+              <Loading />
             ) : (
               <AnimatedRoutes state={state} setState={setState} />
             )}
