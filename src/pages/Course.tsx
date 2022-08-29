@@ -61,7 +61,7 @@ const Course = (props: any) => {
       const cm = material.filter((m: any) => m.cid === course.id);
       setCourseMaterial(cm);
     }
-  }, [course]);
+  }, [course, material]);
 
   const toggleMode = () => {
     setEdit(!edit);
@@ -96,14 +96,22 @@ const Course = (props: any) => {
   };
 
   const submit = () => {
-    httpClient.post("/api/edit_course", course).then((res: any) => {
-      props.setState((prev: any) => ({
-        ...prev,
-        admin: false,
-        courses: [...prev.courses, res.data.course],
-        message: res.data.msg,
-      }));
-    });
+    httpClient
+      .post("/api/edit_course", course)
+      .then((res: any) => {
+        props.setState((prev: any) => ({
+          ...prev,
+          admin: false,
+          courses: [...prev.courses, res.data.course],
+          message: res.data.msg,
+        }));
+      })
+      .catch(() => {
+        props.setState((prev: any) => ({
+          ...prev,
+          message: "Could not edit course. Try again later.",
+        }));
+      });
   };
 
   const order = (a: any, b: any) => {
@@ -200,7 +208,7 @@ const Course = (props: any) => {
               Add Material
             </Button>
             {courseMaterial.sort(order).map((material: any, i: number) => {
-              return <MaterialBox key={i} material={material} admin={admin} />;
+              return <MaterialBox key={i} material={material} admin={admin} setState={props.setState}/>;
             })}
           </>
         )}

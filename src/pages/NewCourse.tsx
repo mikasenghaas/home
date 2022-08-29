@@ -83,15 +83,24 @@ const NewCourse = (props: any) => {
       professor: doc.professor,
       bio: doc.bio,
     };
-    httpClient.post("/api/add_course", body).then((res: any) => {
-      navigate("/teaching");
-      props.setState((prev: any) => ({
-        ...prev,
-        courses: [...prev.courses, res.data.course],
-        admin: false,
-        message: res.data.msg,
-      }));
-    });
+    httpClient
+      .post("/api/add_course", body)
+      .then((res: any) => {
+        navigate("/teaching");
+        props.setState((prev: any) => ({
+          ...prev,
+          courses: [...prev.courses, res.data.course],
+          admin: false,
+          message: res.data.msg,
+        }));
+      })
+      .catch(() => {
+        props.setState((prev: any) => ({
+          ...prev,
+          message: "Could not add material. Try again later.",
+        }));
+        navigate(-1);
+      });
   };
 
   if (admin) {

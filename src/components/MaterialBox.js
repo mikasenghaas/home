@@ -26,14 +26,21 @@ const MaterialBox = (props) => {
   const cancelRef = useRef();
 
   const deleteMaterial = () => {
-    httpClient.post("/api/delete_material", { id: material.id }).then((res) => {
-      props.setState((prev) => ({
-        ...prev,
-        material: prev.material.filter((m) => m.id !== material.id),
-        admin: false,
-        message: "Material successfully deleted",
-      }));
-    });
+    httpClient
+      .post("/api/delete_material", { id: material.id })
+      .then((res) => {
+        props.setState((prev) => ({
+          ...prev,
+          material: prev.material.filter((m) => m.id !== material.id),
+          message: res.data.msg,
+        }));
+      })
+      .catch(() => {
+        props.setState((prev) => ({
+          ...prev,
+          message: "Could not delete material. Try again later.",
+        }));
+      });
   };
 
   return (

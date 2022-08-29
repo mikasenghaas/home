@@ -26,15 +26,21 @@ const CourseBox = (props) => {
   const cancelRef = useRef();
 
   const deleteCourse = () => {
-    httpClient.post('/api/delete_course', { id: course.id })
-      .then(res => {
-        props.setState(prev => ({
-          ...prev, 
-          courses: prev.courses.filter(c => c.id !== course.id),
-          admin: false,
-          message: "Course successfully deleted"
-        }))
+    httpClient
+      .post("/api/delete_course", { id: course.id })
+      .then((res) => {
+        props.setState((prev) => ({
+          ...prev,
+          courses: prev.courses.filter((c) => c.id !== course.id),
+          message: res.data.msg,
+        }));
       })
+      .catch(() => {
+        props.setState((prev) => ({
+          ...prev,
+          message: "Could not delete course. Try again later.",
+        }));
+      });
   };
 
   return (
@@ -42,8 +48,8 @@ const CourseBox = (props) => {
       alignItems="center"
       justifyContent="space-between"
       p="5px"
-      borderRadius='10px'
-      height='50px'
+      borderRadius="10px"
+      height="50px"
       _hover={{ backgroundColor: "var(--markdown-code-bg)" }}
     >
       <RouterLink

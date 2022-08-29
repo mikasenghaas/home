@@ -30,7 +30,7 @@ import Unauthorised from "../pages/Unauthorised";
 
 const NewMaterial = (props: any) => {
   const navigate = useNavigate();
-  const { course_short } = useParams()
+  const { course_short } = useParams();
   const { courses, admin } = props.state;
 
   const [edit, setEdit] = useState(true);
@@ -85,16 +85,24 @@ const NewMaterial = (props: any) => {
       course_short: doc.course_short,
       markdown: doc.markdown,
     };
-    console.log(body);
-    httpClient.post("/api/add_material", body).then((res: any) => {
-      props.setState((prev: any) => ({
-        ...prev,
-        admin: false,
-        material: [...prev.material, res.data.material],
-        message: res.data.msg,
-      }));
-      navigate(-1);
-    });
+    httpClient
+      .post("/api/add_material", body)
+      .then((res: any) => {
+        props.setState((prev: any) => ({
+          ...prev,
+          admin: false,
+          material: [...prev.material, res.data.material],
+          message: res.data.msg,
+        }));
+        navigate(-1);
+      })
+      .catch(() => {
+        props.setState((prev: any) => ({
+          ...prev,
+          message: "Could not add material. Try again later.",
+        }));
+        navigate(-1);
+      });
   };
 
   if (admin) {
@@ -144,10 +152,7 @@ const NewMaterial = (props: any) => {
               </FormControl>
               <FormControl my="1rem">
                 <FormLabel>Course</FormLabel>
-                <Select
-                  value={doc.course_short}
-                  onChange={setCoursename}
-                >
+                <Select value={doc.course_short} onChange={setCoursename}>
                   {courses.map((course: any, i: number) => {
                     return (
                       <option key={i} value={course.short_name}>

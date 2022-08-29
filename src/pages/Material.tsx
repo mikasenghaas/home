@@ -93,14 +93,22 @@ const Material = (props: any) => {
   };
 
   const submit = () => {
-    httpClient.post("/api/edit_material", doc).then((res: any) => {
-      props.setState((prev: any) => ({
-        ...prev,
-        admin: false,
-        material: [...prev.material, res.data.material],
-        message: res.data.msg,
-      }));
-    });
+    httpClient
+      .post("/api/edit_material", doc)
+      .then((res: any) => {
+        props.setState((prev: any) => ({
+          ...prev,
+          admin: false,
+          material: [...prev.material, res.data.material],
+          message: res.data.msg,
+        }));
+      })
+      .catch(() => {
+        props.setState((prev: any) => ({
+          ...prev,
+          message: "Could not edit material. Try again later.",
+        }));
+      });
   };
 
   if (!doc.id) {
@@ -149,10 +157,7 @@ const Material = (props: any) => {
               </FormControl>
               <FormControl my="1rem">
                 <FormLabel>Course</FormLabel>
-                <Select
-                  value={doc.course_short}
-                  onChange={setCoursename}
-                >
+                <Select value={doc.course_short} onChange={setCoursename}>
                   {courses.map((course: any, i: number) => {
                     return (
                       <option key={i} value={course.short_name}>
