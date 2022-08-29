@@ -8,6 +8,7 @@
 [context.production.environment]
   REACT_APP_BACKEND_URL = "https://jonas-mika.herokuapp.com"
   REACT_APP_ENV = "PRO"
+  CI=false
 
 # dev env
 [context.staging]
@@ -17,6 +18,7 @@
 [context.staging.environment]
   REACT_APP_BACKEND_URL = "https://jonas-mika.herokuapp.com"
   REACT_APP_ENV = "STA"
+  CI=false
 
 # redirect all subroutes to index.html
 [[redirects]]
