@@ -10,7 +10,7 @@ const Hero = () => {
     <AspectRatio
       ratio={1}
       maxWidth="600px"
-      mt={["-90px"]}
+      mt={["-30px", "-90px"]}
       mb={["-80px", "-130px"]}
       ml="-40px"
       position="relative"
