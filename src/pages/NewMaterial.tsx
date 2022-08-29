@@ -42,7 +42,7 @@ const NewMaterial = (props: any) => {
   });
 
   useEffect(() => {
-    document.title = "new-material@jonas-mika";
+    document.title = "New Material - Mika Senghaas";
   }, []);
 
   const toggleMode = () => {

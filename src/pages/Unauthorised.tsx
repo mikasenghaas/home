@@ -7,7 +7,7 @@ import * as md from "../styles/MarkdownStyles";
 
 const Unauthorised = () => {
   useEffect(() => {
-    document.title = "unauthorised@jonas-mika";
+    document.title = "Unauthorised - Mika Senghaas";
   }, []);
 
   return (

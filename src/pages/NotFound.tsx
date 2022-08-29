@@ -10,7 +10,7 @@ import PageBox from "../components/PageBox";
 
 const NotFound = () => {
   useEffect(() => {
-    document.title = "notfound@jonas-mika";
+    document.title = "Not Found - Mika Senghaas";
   }, []);
 
   return (

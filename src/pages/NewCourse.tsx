@@ -41,7 +41,7 @@ const NewCourse = (props: any) => {
   });
 
   useEffect(() => {
-    document.title = "new-course@jonas-mika";
+    document.title = "New Course - Mika Senghaas";
   }, []);
 
   const toggleMode = () => {

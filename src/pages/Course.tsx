@@ -42,7 +42,7 @@ const Course = (props: any) => {
   const [courseMaterial, setCourseMaterial] = useState([]);
 
   useEffect(() => {
-    document.title = "teaching@jonas-mika";
+    document.title = "Teaching - Mika Senghaas";
   }, []);
 
   /* eslint-disable react-hooks/exhaustive-deps */

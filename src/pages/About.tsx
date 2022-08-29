@@ -19,7 +19,7 @@ const About = () => {
   const { width } = useWindowDimensions();
 
   useEffect(() => {
-    document.title = "about@jonas-mika";
+    document.title = "About - Mika Senghaas";
   }, []);
 
   return (

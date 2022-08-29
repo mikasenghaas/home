@@ -39,7 +39,7 @@ const Material = (props: any) => {
   });
 
   useEffect(() => {
-    document.title = "teaching@jonas-mika";
+    document.title = "Teaching - Mika Senghaas";
   }, []);
 
   /* eslint-disable react-hooks/exhaustive-deps */

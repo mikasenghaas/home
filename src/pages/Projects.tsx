@@ -15,7 +15,7 @@ const Projects = (props: any) => {
   const { projects } = props.state;
 
   useEffect(() => {
-    document.title = "projects@jonas-mika";
+    document.title = "Projects - Mika Senghaas";
   }, []);
 
   return (

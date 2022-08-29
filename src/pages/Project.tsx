@@ -14,9 +14,6 @@ import TraceBack from "../components/TraceBack";
 import * as md from "../styles/MarkdownStyles";
 
 const Project = (props: any) => {
-  useEffect(() => {
-    document.title = "projects@jonas-mika";
-  }, []);
   const { project_short } = useParams();
   const { projects } = props.state;
   const [project, setProject] = useState({
@@ -31,7 +28,7 @@ const Project = (props: any) => {
   });
 
   useEffect(() => {
-    document.title = "projects@jonas-mika";
+    document.title = "Projects - Mika Senghaas";
   }, []);
 
   /* eslint-disable react-hooks/exhaustive-deps */

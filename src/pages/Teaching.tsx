@@ -20,7 +20,7 @@ const Teaching = (props: any) => {
   const { courses, loadingCourses, admin } = props.state;
 
   useEffect(() => {
-    document.title = "teaching@jonas-mika";
+    document.title = "Teaching - Mika Senghaas";
   }, []);
 
   return (
