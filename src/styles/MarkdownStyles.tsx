@@ -16,10 +16,7 @@ var Latex = require("react-latex");
 
 export const H1 = (props: any) => {
   return (
-    <Heading
-      size="2xl"
-      {...props}
-    >
+    <Heading size="2xl" {...props}>
       {props.children}
     </Heading>
   );
@@ -27,11 +24,7 @@ export const H1 = (props: any) => {
 
 export const H2 = (props: any) => {
   return (
-    <Heading
-      mt={15}
-      size="xl"
-      {...props}
-    >
+    <Heading mt={15} size="xl" {...props}>
       {props.children}
     </Heading>
   );
@@ -105,7 +98,7 @@ export const Link = (props: any) => {
   } else {
     return (
       <ChakraLink href={props.url} color="var(--markdown-link)" {...props}>
-          {props.children}
+        {props.children}
       </ChakraLink>
     );
   }
@@ -169,7 +162,11 @@ interface DividerProps {
   height?: number;
   lineType?: string;
 }
-export const Divider = ({ marginBottom=10, height = 1.5, lineType = "solid" }: DividerProps) => {
+export const Divider = ({
+  marginBottom = 10,
+  height = 1.5,
+  lineType = "solid",
+}: DividerProps) => {
   return (
     <hr
       style={{
