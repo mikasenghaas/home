@@ -11,6 +11,7 @@ import Projects from "../pages/Projects";
 import Project from "../pages/Project";
 import NewMaterial from "../pages/NewMaterial";
 import NewCourse from "../pages/NewCourse";
+import NewProject from "../pages/NewProject";
 import NotFound from "../pages/NotFound";
 
 const AnimatedRoutes = (props: any) => {
@@ -27,6 +28,10 @@ const AnimatedRoutes = (props: any) => {
       }}
     >
       <Routes location={location} key={location.pathname}>
+        <Route
+          path="/projects/new-project"
+          element={<NewProject state={state} setState={setState} />}
+        />
         <Route
           path="/teaching/new-course"
           element={<NewCourse state={state} setState={setState} />}
@@ -50,9 +55,9 @@ const AnimatedRoutes = (props: any) => {
 
         <Route
           path="/projects/:project_short"
-          element={<Project state={state} />}
+          element={<Project state={state} setState={setState}/>}
         />
-        <Route path="/projects" element={<Projects state={state} />} />
+        <Route path="/projects" element={<Projects state={state} setState={setState}/>} />
 
         <Route path="/about" element={<About />} />
         <Route path="/" element={<Home state={state} />} />

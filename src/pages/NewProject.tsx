@@ -1,40 +1,40 @@
-// Project.tsx
+// NewProject.tsx
 // By: Mika Senghaas
+
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
-  Box,
   Flex,
-  AspectRatio,
-  Image,
   Button,
   FormControl,
   FormLabel,
   FormHelperText,
-  Select,
   Input,
   Textarea,
+  Switch,
 } from "@chakra-ui/react";
+import Markdown from "markdown-to-jsx";
 
-// custom pages
-import NotFound from "../pages/NotFound";
+// custom styles
+import * as md from "../styles/MarkdownStyles";
+import options from "../lib/markdownOptions";
 
 // custom components
 import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
 import EditorToggle from "../components/EditorToggle";
-import ProjectTemplate from "../components/ProjectTemplate";
+import ProjectTemplate from "../components/ProjectTemplate"
 import httpClient from "../httpClient";
 
-import * as md from "../styles/MarkdownStyles";
+// pages
+import Unauthorised from "../pages/Unauthorised";
 
-const Project = (props: any) => {
-  const { project_short } = useParams();
-  const { projects, admin } = props.state;
+const NewProject = (props: any) => {
+  const navigate = useNavigate();
+  const { admin } = props.state;
 
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(true);
   const [project, setProject] = useState({
-    id: "",
     name: "",
     short_name: "",
     desc: "",
@@ -42,45 +42,42 @@ const Project = (props: any) => {
     topic: "",
     stack: "",
     link: "",
-    images: "",
+    images: '["/images/no-image.jpeg"]',
   });
 
   useEffect(() => {
-    document.title = "Projects - Mika Senghaas";
+    document.title = "New Project - Mika Senghaas";
   }, []);
 
-  /* eslint-disable react-hooks/exhaustive-deps */
-  useEffect(() => {
-    const curr_project = projects.find(
-      (p: any) => p.short_name === project_short
-    );
-
-    if (curr_project) {
-      setProject(curr_project);
-    }
-  }, []);
-
-  const updatedProjects = (new_project: any) => {
-    const remaining_projects = projects.filter((p: any) => p.id !== new_project.id)
-    return [...remaining_projects, new_project]
-  }
 
   const submit = () => {
+    const body = {
+      name: project.name,
+      short_name: project.short_name,
+      desc: project.desc,
+      year: project.year,
+      topic: project.topic,
+      stack: project.stack,
+      link: project.link,
+      images: project.images,
+    };
     httpClient
-      .post("/api/edit_project", project)
+      .post("/api/add_project", body)
       .then((res: any) => {
         props.setState((prev: any) => ({
           ...prev,
+          projects: [...prev.projects, res.data.project],
           admin: false,
-          projects: updatedProjects(res.data.project),
           message: res.data.msg,
         }));
+        navigate("/projects");
       })
       .catch(() => {
         props.setState((prev: any) => ({
           ...prev,
-          message: "Could not edit project. Try again later.",
+          message: "Could not add project. Try again later.",
         }));
+        navigate(-1);
       });
   };
 
@@ -111,7 +108,7 @@ const Project = (props: any) => {
       year: e.target.value,
     }));
   };
-  
+
   const setTopic = (e: any) => {
     setProject((prev) => ({
       ...prev,
@@ -144,18 +141,16 @@ const Project = (props: any) => {
     setEdit(!edit);
   };
 
-  if (!project) {
-    return <NotFound />;
-  } else if (admin) {
+  if (admin) {
     return (
       <PageBox>
-        <Flex justifyContent="space-between" alignItems="center" height="50px">
+        <Flex justifyContent="space-between" alignItems="center">
           <TraceBack />
           <EditorToggle edit={edit} toggleMode={toggleMode} admin={admin} />
         </Flex>
         {edit ? (
           <>
-            <md.H1>Edit Project</md.H1>
+            <md.H1>New Project</md.H1>
             <md.Divider />
             <md.P>
               Create new or edit existing material using markdown style. Use the
@@ -263,15 +258,8 @@ const Project = (props: any) => {
       </PageBox>
     );
   } else {
-    return (
-      <PageBox>
-        <Flex justifyContent="space-between" alignItems="center" height="50px">
-          <TraceBack />
-        </Flex>
-        <ProjectTemplate project={project} />
-      </PageBox>
-    );
+    return <Unauthorised />;
   }
 };
 
-export default Project;
+export default NewProject;

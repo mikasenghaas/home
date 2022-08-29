@@ -115,18 +115,14 @@ const Material = (props: any) => {
     return <NotFound />;
   } else if (admin) {
     return (
-      <PageBox state={props.state}>
+      <PageBox>
         <Flex justifyContent="space-between" alignItems="center" height="50px">
           <TraceBack />
           <EditorToggle edit={edit} toggleMode={toggleMode} admin={admin} />
         </Flex>
         {edit ? (
           <>
-            {!doc.id ? (
-              <md.H1>Add Material</md.H1>
-            ) : (
-              <md.H1>Edit Material</md.H1>
-            )}
+            <md.H1>Edit Material</md.H1>
             <md.Divider />
             <md.P>
               Create new or edit existing material using markdown style. Use the

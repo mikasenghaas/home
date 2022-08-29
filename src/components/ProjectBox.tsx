@@ -17,12 +17,12 @@ const ProjectBox = (props: any) => {
 
   return (
     <GridItem w="100%">
-      <Link as={RouterLink} to={`/projects/${project.short_name}`} _hover={{textDecoration: 'none'}} role="group">
+      <Link as={RouterLink} to={`/projects/${project.short_name}`} _hover={{ textDecoration: 'none' }} role="group">
         <Box>
           <AspectRatio ratio={4 / 3}>
             <Box borderRadius="15px">
               <MotionImage
-                src={project.images[0]}
+                src={JSON.parse(project.images)[0]}
                 alt={project.name}
                 objectFit='cover'
                 width='100%'
@@ -31,7 +31,7 @@ const ProjectBox = (props: any) => {
               />
             </Box>
           </AspectRatio>
-          <md.H3 mt={5} textAlign="center" _groupHover={{textDecoration: 'underline'}}>
+          <md.H3 mt={5} textAlign="center" _groupHover={{ textDecoration: 'underline' }}>
             {project.name}
           </md.H3>
           <Flex alignItems='center' justifyContent="center">
@@ -39,7 +39,7 @@ const ProjectBox = (props: any) => {
               {project.topic}
             </md.Badge>
             <md.Badge>
-              {project.date.getFullYear()}
+              {project.year}
             </md.Badge>
           </Flex>
         </Box>
