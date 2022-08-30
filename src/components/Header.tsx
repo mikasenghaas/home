@@ -10,9 +10,11 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { AiOutlineFilePdf } from "react-icons/ai";
 
 // hooks
 import useWindowDimensions from "../hooks/useWindowSize";
@@ -44,9 +46,10 @@ interface Props {
   width: number;
 }
 const MenuComponent = (props: Props) => {
-  const menuItems = ["about", "teaching", "projects"];
+  const menuItems = ["About", "Teaching", "Projects", "CV"];
   let { pathname } = useLocation();
   const [isActive, setIsActive] = useState("");
+  const current = useColorModeValue("black", "white")
 
   useEffect(() => {
     if (pathname === "/") {
@@ -60,7 +63,7 @@ const MenuComponent = (props: Props) => {
     }
   }, [pathname]);
 
-  if (props.width < 600) {
+  if (props.width < 700) {
     return (
       <Menu>
         <MenuButton
@@ -79,6 +82,12 @@ const MenuComponent = (props: Props) => {
           <Link to="projects">
             <MenuItem>Projects</MenuItem>
           </Link>
+          <Link to='/assets/cv.pdf' target='_blank' rel='noopener noreferrer'>
+            <MenuItem>
+              CV
+              <AiOutlineFilePdf style={{marginLeft: 5}} color={current}/>
+            </MenuItem>
+          </Link>
         </MenuList>
       </Menu>
     );
@@ -86,18 +95,39 @@ const MenuComponent = (props: Props) => {
     // desktop
     return (
       <Flex>
-        {menuItems.map((menuItem: string, i: number) => {
-          return (
-            <Link key={i} to={menuItem}>
-              <Button
-                mx="2px"
-                variant={isActive === menuItem ? "solid" : "ghost"}
-              >
-                {menuItem[0].toUpperCase() + menuItem.substring(1)}
-              </Button>
-            </Link>
-          );
-        })}
+        <Link to='/about'>
+          <Button
+            mx="2px"
+            variant={isActive === 'About' ? "solid" : "ghost"}
+          >
+            About
+          </Button>
+        </Link>
+        <Link to='/teaching'>
+          <Button
+            mx="2px"
+            variant={isActive === 'Teaching' ? "solid" : "ghost"}
+          >
+            Teaching
+          </Button>
+        </Link>
+        <Link to='/projects'>
+          <Button
+            mx="2px"
+            variant={isActive === 'Projects' ? "solid" : "ghost"}
+          >
+            Projects
+          </Button>
+        </Link>
+        <Link to='/assets/cv.pdf' target='_blank' rel='noopener noreferrer'>
+          <IconButton
+            mx="2px"
+            variant="solid"
+            aria-label='Open CV'
+            color={current}
+            icon={<AiOutlineFilePdf />}
+          />
+        </Link>
       </Flex>
     );
   }
