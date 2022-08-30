@@ -22,7 +22,7 @@ import CourseBox from "../components/CourseBox";
 import ProjectBox from "../components/ProjectBox";
 
 // analytics
-import ReactGA from "../lib/analytics";
+import ReactGA from "react-ga4";
 
 const Home = (props: any) => {
   ReactGA.send({ hitType: "pageview", page: "/" });

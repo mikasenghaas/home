@@ -20,6 +20,11 @@ import GlobalMessage from "./components/GlobalMessage";
 import HistoryRouter from "./components/HistoryRouter";
 import Loading from "./components/Loading";
 
+// setup analytics
+import ReactGA from "react-ga4";
+
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_MEASUREMENT_ID);
+
 const App = () => {
   const [state, setState] = useState({
     courses: [],

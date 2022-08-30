@@ -14,7 +14,7 @@ import CourseBox from "../components/CourseBox";
 import TraceBack from "../components/TraceBack";
 
 // analytics
-import ReactGA from "../lib/analytics";
+import ReactGA from "react-ga4";
 
 const MotionButton = motion(Button);
 

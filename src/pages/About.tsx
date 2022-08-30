@@ -25,7 +25,7 @@ import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
 
 // analytics
-import ReactGA from "../lib/analytics";
+import ReactGA from "react-ga4";
 
 const About = () => {
   ReactGA.send({ hitType: "pageview", page: "/about" });
