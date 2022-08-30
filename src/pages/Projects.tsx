@@ -13,12 +13,12 @@ import ProjectBox from "../components/ProjectBox";
 import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
 
-import ReactGA from "../lib/analytics";
+import ReactGA from "react-ga4";
 
 const MotionButton = motion(Button);
 
 const Projects = (props: any) => {
-  ReactGA.send({ hitType: "pageview", page: "/about" });
+  ReactGA.send({ hitType: "pageview", page: "/projects" });
 
   let navigate = useNavigate();
   const { projects, admin } = props.state;
