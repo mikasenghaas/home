@@ -13,9 +13,14 @@ import PageBox from "../components/PageBox";
 import CourseBox from "../components/CourseBox";
 import TraceBack from "../components/TraceBack";
 
+// analytics
+import ReactGA from "../lib/analytics";
+
 const MotionButton = motion(Button);
 
 const Teaching = (props: any) => {
+  ReactGA.send({ hitType: 'pageview', page: '/teaching' })
+
   const navigate = useNavigate();
   const { courses, loadingCourses, admin } = props.state;
 

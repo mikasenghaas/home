@@ -21,7 +21,12 @@ import PageBox from "../components/PageBox";
 import CourseBox from "../components/CourseBox";
 import ProjectBox from "../components/ProjectBox";
 
+// analytics
+import ReactGA from "../lib/analytics";
+
 const Home = (props: any) => {
+  ReactGA.send({ hitType: "pageview", page: "/" });
+
   let navigate = useNavigate();
   const { courses, projects, loading, admin } = props.state;
 

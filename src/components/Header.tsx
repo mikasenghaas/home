@@ -85,7 +85,7 @@ const MenuComponent = (props: Props) => {
           <Link to='/assets/cv.pdf' target='_blank' rel='noopener noreferrer'>
             <MenuItem>
               CV
-              <AiOutlineFilePdf style={{marginLeft: 5}} color={current}/>
+              <AiOutlineFilePdf style={{ marginLeft: 5 }} color={current} />
             </MenuItem>
           </Link>
         </MenuList>

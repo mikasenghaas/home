@@ -24,7 +24,11 @@ import useWindowDimensions from "../hooks/useWindowSize";
 import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
 
+// analytics
+import ReactGA from "../lib/analytics";
+
 const About = () => {
+  ReactGA.send({ hitType: "pageview", page: "/about" });
   const { width } = useWindowDimensions();
 
   useEffect(() => {
