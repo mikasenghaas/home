@@ -11,7 +11,6 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import Markdown from "markdown-to-jsx";
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
@@ -20,6 +19,7 @@ import * as md from "../styles/MarkdownStyles";
 import PageBox from "../components/PageBox";
 import CourseBox from "../components/CourseBox";
 import ProjectBox from "../components/ProjectBox";
+import Markdown from "../components/Markdown";
 
 // analytics
 import ReactGA from "react-ga4";

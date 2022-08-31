@@ -12,18 +12,19 @@ import {
   Input,
   Textarea,
 } from "@chakra-ui/react";
-import Markdown from "markdown-to-jsx";
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
-import options from "../lib/markdownOptions";
+
+// custom pages
+import NotFound from "../pages/NotFound";
 
 // custom components
 import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
 import EditorToggle from "../components/EditorToggle";
+import Markdown from "../components/Markdown";
 import httpClient from "../httpClient";
-import NotFound from "../pages/NotFound";
 
 const Material = (props: any) => {
   const { course_short, material_short } = useParams();
@@ -176,7 +177,7 @@ const Material = (props: any) => {
             </FormControl>
           </>
         ) : (
-          <Markdown options={options}>{doc.markdown}</Markdown>
+          <Markdown>{doc.markdown}</Markdown>
         )}
         <Flex justifyContent="center">
           <Button
@@ -197,7 +198,7 @@ const Material = (props: any) => {
         <Flex justifyContent="space-between" alignItems="center" height="50px">
           <TraceBack />
         </Flex>
-        <Markdown options={options}>{doc.markdown}</Markdown>
+        <Markdown>{doc.markdown}</Markdown>
       </PageBox>
     );
   }

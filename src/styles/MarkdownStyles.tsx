@@ -10,11 +10,10 @@ import {
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import EmojiDict from "../lib/emojis";
-var Latex = require("react-latex");
 
 export const H1 = (props: any) => {
   return (
-    <Heading size="2xl" {...props}>
+    <Heading my={2} size="xl" {...props}>
       {props.children}
     </Heading>
   );
@@ -22,7 +21,7 @@ export const H1 = (props: any) => {
 
 export const H2 = (props: any) => {
   return (
-    <Heading mt={15} size="xl" {...props}>
+    <Heading mt={10} mb={2} size="lg" {...props}>
       {props.children}
     </Heading>
   );
@@ -30,7 +29,7 @@ export const H2 = (props: any) => {
 
 export const H3 = (props: any) => {
   return (
-    <Heading mt={10} size="l" color="var(--markdown-text)" {...props}>
+    <Heading mt={10} mb={2} size="md" color="var(--markdown-text)" {...props}>
       {props.children}
     </Heading>
   );
@@ -38,7 +37,7 @@ export const H3 = (props: any) => {
 
 export const H4 = (props: any) => {
   return (
-    <Heading size="xs" color="var(--markdown-text)" {...props}>
+    <Heading size="sm" color="var(--markdown-text)" {...props}>
       {props.children}
     </Heading>
   );
@@ -46,7 +45,15 @@ export const H4 = (props: any) => {
 
 export const P = (props: any) => {
   return (
-    <Text color="var(--markdown-text)" my={1.5} {...props}>
+    <Text color="var(--markdown-text)" my={2} {...props}>
+      {props.children}
+    </Text>
+  );
+};
+
+export const UL = (props: any) => {
+  return (
+    <Text color="var(--markdown-text)" my={2} {...props}>
       {props.children}
     </Text>
   );
@@ -137,38 +144,15 @@ export const CodeBlock = (props: any) => {
   );
 };
 
-export const InlineMath = (props: any) => {
-  console.log(props.children);
-  return (
-    <P>
-      <Latex fontSize="10px">{props.children[0]}</Latex>
-    </P>
-  );
-};
-
-export const MathBlock = (props: any) => {
-  console.log(props.children);
-  return (
-    <P fontSize="1.1em">
-      <Latex displayMode={true}>{props.children[0]}</Latex>
-    </P>
-  );
-};
-
 interface DividerProps {
   marginBottom?: number;
   height?: number;
   lineType?: string;
 }
-export const Divider = ({
-  marginBottom = 10,
-  height = 1.5,
-  lineType = "solid",
-}: DividerProps) => {
+export const Divider = ({ height = 1.5, lineType = "solid" }: DividerProps) => {
   return (
     <hr
       style={{
-        marginBottom: marginBottom,
         borderTop: `${height}px ${lineType} var(--markdown-text-inverse)`,
       }}
     ></hr>

@@ -12,11 +12,9 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { useParams, useNavigate } from "react-router-dom";
-import Markdown from "markdown-to-jsx";
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
-import options from "../lib/markdownOptions";
 
 // custom components
 import PageBox from "../components/PageBox";
@@ -24,6 +22,7 @@ import TraceBack from "../components/TraceBack";
 import MaterialBox from "../components/MaterialBox";
 import EditorToggle from "../components/EditorToggle";
 import NotFound from "../pages/NotFound";
+import Markdown from "../components/Markdown";
 import httpClient from "../httpClient";
 
 const Course = (props: any) => {
@@ -206,7 +205,7 @@ const Course = (props: any) => {
           </>
         ) : (
           <>
-            <Markdown options={options}>{course.markdown}</Markdown>
+            <Markdown>{course.markdown}</Markdown>
             <Button
               variant="outline"
               w="100%"
@@ -253,7 +252,7 @@ const Course = (props: any) => {
         </Flex>
         {!loadingMaterial && (
           <>
-            <Markdown options={options}>{course.markdown}</Markdown>
+            <Markdown>{course.markdown}</Markdown>
             <md.H2 mt="2.5rem">Material</md.H2>
             <md.Divider />
             {courseMaterial.sort(order).map((material: any, i: number) => {

@@ -13,15 +13,14 @@ import {
   Textarea,
   Switch,
 } from "@chakra-ui/react";
-import Markdown from "markdown-to-jsx";
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
-import options from "../lib/markdownOptions";
 
 // custom components
 import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
+import Markdown from "../components/Markdown";
 import httpClient from "../httpClient";
 
 // pages
@@ -178,7 +177,7 @@ const NewCourse = (props: any) => {
             </FormControl>
           </>
         ) : (
-          <Markdown options={options}>{doc.markdown}</Markdown>
+          <Markdown>{doc.markdown}</Markdown>
         )}
         <Flex justifyContent="center">
           <Button

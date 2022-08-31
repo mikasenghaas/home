@@ -12,6 +12,7 @@ import * as md from "../styles/MarkdownStyles";
 import PageBox from "../components/PageBox";
 import CourseBox from "../components/CourseBox";
 import TraceBack from "../components/TraceBack";
+import Markdown from "../components/Markdown";
 
 // analytics
 import ReactGA from "react-ga4";
@@ -19,7 +20,7 @@ import ReactGA from "react-ga4";
 const MotionButton = motion(Button);
 
 const Teaching = (props: any) => {
-  ReactGA.send({ hitType: 'pageview', page: '/teaching' })
+  ReactGA.send({ hitType: "pageview", page: "/teaching" });
 
   const navigate = useNavigate();
   const { courses, loadingCourses, admin } = props.state;
@@ -34,26 +35,27 @@ const Teaching = (props: any) => {
     return dateA > dateB ? -1 : dateA < dateB ? 1 : 0;
   };
 
+  const text = `
+# Teaching 
+
+---
+
+In this section I gather all relevant course material (lecture notes, exercise solutions, 
+code snippets) that I believe to be helpful for my students to assist their
+learning.
+
+Most content is processed material from when I took these courses, therefore I *do
+not guarantee correctness* of all contents. You should also not take this material as an 
+excuse to not take your own notes or do the exercises yourself. 
+You learn while taking notes and doing the exercises *yourself* - so, don't skip this part. 
+Come here to verify your own understanding or when you really struggle to grasp a concept.
+`;
+
   return (
     <PageBox>
       <TraceBack />
-      <md.H1 mt="1.5rem">Teaching</md.H1>
-      <md.Divider />
-      <md.P>
-        This page is meant for my students from{" "}
-        <md.Link url="https://en.itu.dk" isExternal>
-          ITU
-        </md.Link>
-        . Prior to exercise classes, I upload lecture notes and exercise
-        material.
-      </md.P>
-      <md.P>
-        Most content is processed material from my course notes, therefore I do
-        not guarantee correctness of all contents. That said, I do believe all
-        material to be useful for verifying the own learning while taking the
-        course. I *do not* recommend only using these notes. The content here
-        should merely assist your learning.
-      </md.P>
+      <Markdown>{text}</Markdown>
+      <md.P></md.P>
       <md.H2 mt="2.5rem">Courses</md.H2>
       <md.Divider />
       {!loadingCourses &&
