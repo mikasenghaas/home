@@ -22,6 +22,8 @@ import httpClient from "../httpClient";
 
 const CourseBox = (props) => {
   const { course, admin } = props;
+
+  // states, refs
   const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
@@ -52,26 +54,30 @@ const CourseBox = (props) => {
   return (
     <Flex
       alignItems="center"
-      justifyContent="space-between"
+      justifyContent="center"
       p="5px"
       borderRadius="10px"
-      height="50px"
+      height="150px"
       _hover={{ backgroundColor: "var(--markdown-code-bg)" }}
+      border='2px solid var(--markdown-code-bg)'
     >
       <RouterLink
         to={`/teaching/${course.short_name}`}
         style={{ textDecoration: "none" }}
         role="group"
       >
-        <Flex>
+        <Flex px='20px' direction='column' justifyContent='center' alignItems='center'>
           <md.P>📙</md.P>
-          <md.P
-            ml="10px"
-            color="var(--markdown-link)"
+          <md.H3
+            mt={0}
+            textAlign='center'
             _hover={{ textDecoration: "underline" }}
           >
             {course.name}
-          </md.P>
+          </md.H3>
+        </Flex>
+        <Flex justifyContent='center'>
+          <md.Badge>{course.semester}</md.Badge>
         </Flex>
         <AlertDialog
           isOpen={isOpen}

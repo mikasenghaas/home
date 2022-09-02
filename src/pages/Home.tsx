@@ -167,20 +167,26 @@ const Home = (props: any) => {
       {loading ? (
         <Loading mt={5} size="md" />
       ) : (
-        courses
-          .filter((course: any) => {
-            return ["ml", "lao"].includes(course.short_name);
-          })
-          .map((course: any, i: number) => {
-            return (
-              <CourseBox
-                key={i}
-                course={course}
-                setState={props.setState}
-                admin={admin}
-              />
-            );
-          })
+        <Grid
+          my={4}
+          templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
+          gap={6}
+        >
+          {courses
+            .filter((course: any) => {
+              return ["ml", "lao"].includes(course.short_name);
+            })
+            .map((course: any, i: number) => {
+              return (
+                <CourseBox
+                  key={i}
+                  course={course}
+                  setState={props.setState}
+                  admin={admin}
+                />
+              );
+            })}
+        </Grid>
       )}
       <Flex justifyContent="center">
         <Button

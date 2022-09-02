@@ -1,7 +1,7 @@
 // Teaching.tsx
 // By: Mika Senghaas
 import { useEffect } from "react";
-import { Button } from "@chakra-ui/react";
+import { Grid, Button } from "@chakra-ui/react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -57,21 +57,27 @@ Come here to verify your own understanding or when you really struggle to grasp 
       <TraceBack />
       <Markdown>{text}</Markdown>
       <md.P></md.P>
-      <md.H2 mt="2.5rem">Courses</md.H2>
+      <md.H2>Courses</md.H2>
       <md.Divider />
       {props.state.loading ? (
         <Loading mt="2rem" size="md" />
       ) : (
-        courses.sort(order).map((course: any, i: number) => {
-          return (
-            <CourseBox
-              key={i}
-              course={course}
-              setState={props.setState}
-              admin={admin}
-            />
-          );
-        })
+        <Grid
+          my={4}
+          templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
+          gap={6}
+        >
+          {courses.sort(order).map((course: any, i: number) => {
+            return (
+              <CourseBox
+                key={i}
+                course={course}
+                setState={props.setState}
+                admin={admin}
+              />
+            );
+          })}
+        </Grid>
       )}
       <AnimatePresence>
         {admin && (
