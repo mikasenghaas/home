@@ -25,6 +25,7 @@ const Markdown = (props: any) => {
         h3: ({ node, ...props }) => <md.H3 {...props} />,
         hr: ({ node, ...props }) => <md.Divider {...props} />,
         p: ({ node, ...props }) => <md.P {...props} />,
+        a: ({ node, ...props }) => <md.Link {...props} />,
         b: ({ node, ...props }) => <md.P {...props} fontWeight="bold" />,
         ul: ({ node, ...props }) => <ul style={{ marginLeft: '20px' }}{...props} />,
         ol: ({ node, ...props }) => <ol style={{ marginLeft: '20px' }}{...props} />,
