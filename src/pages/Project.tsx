@@ -28,6 +28,7 @@ const Project = (props: any) => {
   const { project_short } = useParams();
   const { projects, admin } = props.state;
 
+  const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [project, setProject] = useState({
     id: "",
@@ -64,6 +65,7 @@ const Project = (props: any) => {
   };
 
   const submit = () => {
+    setLoading(true);
     httpClient
       .post("/api/edit_project", project)
       .then((res: any) => {
@@ -73,12 +75,14 @@ const Project = (props: any) => {
           projects: updatedProjects(res.data.project),
           message: res.data.msg,
         }));
+        setLoading(false);
       })
       .catch(() => {
         props.setState((prev: any) => ({
           ...prev,
           message: "Could not edit project. Try again later.",
         }));
+        setLoading(false);
       });
   };
 
@@ -248,6 +252,8 @@ const Project = (props: any) => {
         )}
         <Flex justifyContent="center">
           <Button
+            isLoading={loading}
+            loadingText="Saving..."
             variant="outline"
             w="100%"
             my="2rem"

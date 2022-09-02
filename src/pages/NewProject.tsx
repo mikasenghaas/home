@@ -30,6 +30,7 @@ const NewProject = (props: any) => {
   const navigate = useNavigate();
   const { admin } = props.state;
 
+  const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(true);
   const [project, setProject] = useState({
     name: "",
@@ -47,6 +48,7 @@ const NewProject = (props: any) => {
   }, []);
 
   const submit = () => {
+    setLoading(true);
     const body = {
       name: project.name,
       short_name: project.short_name,
@@ -66,6 +68,7 @@ const NewProject = (props: any) => {
           admin: false,
           message: res.data.msg,
         }));
+        setLoading(false);
         navigate("/projects");
       })
       .catch(() => {
@@ -73,6 +76,7 @@ const NewProject = (props: any) => {
           ...prev,
           message: "Could not add project. Try again later.",
         }));
+        setLoading(false);
         navigate(-1);
       });
   };
@@ -241,13 +245,15 @@ const NewProject = (props: any) => {
         )}
         <Flex justifyContent="center">
           <Button
+            isLoading={loading}
+            loadingText="Adding project..."
             variant="outline"
             w="100%"
             my="2rem"
             _hover={{ backgroundColor: "var(--markdown-accent)" }}
             onClick={submit}
           >
-            Save
+            Add Project
           </Button>
         </Flex>
       </PageBox>

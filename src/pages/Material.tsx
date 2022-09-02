@@ -30,6 +30,7 @@ const Material = (props: any) => {
   const { course_short, material_short } = useParams();
   const { courses, material, admin } = props.state;
 
+  const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [doc, setDoc] = useState({
     id: "",
@@ -94,6 +95,7 @@ const Material = (props: any) => {
   };
 
   const submit = () => {
+    setLoading(true);
     httpClient
       .post("/api/edit_material", doc)
       .then((res: any) => {
@@ -103,12 +105,14 @@ const Material = (props: any) => {
           material: [...prev.material, res.data.material],
           message: res.data.msg,
         }));
+        setLoading(false);
       })
       .catch(() => {
         props.setState((prev: any) => ({
           ...prev,
           message: "Could not edit material. Try again later.",
         }));
+        setLoading(false);
       });
   };
 
@@ -181,6 +185,8 @@ const Material = (props: any) => {
         )}
         <Flex justifyContent="center">
           <Button
+            isLoading={loading}
+            loadingText="Saving..."
             variant="outline"
             w="100%"
             my="2rem"

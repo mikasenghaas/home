@@ -32,6 +32,7 @@ const NewMaterial = (props: any) => {
   const { course_short } = useParams();
   const { courses, admin } = props.state;
 
+  const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(true);
   const [doc, setDoc] = useState({
     id: "",
@@ -78,6 +79,7 @@ const NewMaterial = (props: any) => {
   };
 
   const submit = () => {
+    setLoading(true);
     const body = {
       name: doc.name,
       short_name: doc.short_name,
@@ -93,6 +95,7 @@ const NewMaterial = (props: any) => {
           material: [...prev.material, res.data.material],
           message: res.data.msg,
         }));
+        setLoading(false);
         navigate(-1);
       })
       .catch(() => {
@@ -100,6 +103,7 @@ const NewMaterial = (props: any) => {
           ...prev,
           message: "Could not add material. Try again later.",
         }));
+        setLoading(false);
         navigate(-1);
       });
   };
@@ -178,13 +182,15 @@ const NewMaterial = (props: any) => {
         )}
         <Flex justifyContent="center">
           <Button
+            isLoading={loading}
+            loadingText="Adding Material..."
             variant="outline"
             w="100%"
             my="2rem"
             _hover={{ backgroundColor: "var(--markdown-accent)" }}
             onClick={submit}
           >
-            Create
+            Add Material
           </Button>
         </Flex>
       </PageBox>

@@ -1,7 +1,7 @@
 // MaterialBox.tsx
 // By: Mika Senghaas
 
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import {
   Flex,
   Button,
@@ -22,10 +22,12 @@ import httpClient from "../httpClient";
 
 const MaterialBox = (props) => {
   const { material, admin } = props;
+  const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
-  const deleteMaterial = () => {
+  const submit = () => {
+    setLoading(true);
     httpClient
       .post("/api/delete_material", { id: material.id })
       .then((res) => {
@@ -34,12 +36,16 @@ const MaterialBox = (props) => {
           material: prev.material.filter((m) => m.id !== material.id),
           message: res.data.msg,
         }));
+        setLoading(false);
+        onClose();
       })
       .catch(() => {
         props.setState((prev) => ({
           ...prev,
           message: "Could not delete material. Try again later.",
         }));
+        setLoading(false);
+        onClose();
       });
   };
 
@@ -89,7 +95,7 @@ const MaterialBox = (props) => {
               </AlertDialogHeader>
 
               <AlertDialogBody>
-                Are you sure? You can't undo this action afterwards.
+                Are you sure you want to deleted {material.name}?
               </AlertDialogBody>
 
               <AlertDialogFooter>
@@ -97,12 +103,11 @@ const MaterialBox = (props) => {
                   Cancel
                 </Button>
                 <Button
+                  isLoading={loading}
+                  loadingText="Deleting..."
                   variant="outline"
                   _hover={{ bgColor: "var(--markdown-accent)" }}
-                  onClick={() => {
-                    deleteMaterial();
-                    onClose();
-                  }}
+                  onClick={submit}
                   ml={3}
                 >
                   Delete

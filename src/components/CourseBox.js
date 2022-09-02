@@ -1,7 +1,7 @@
 // CourseBox.tsx
 // By: Mika Senghaas
 
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import {
   Flex,
   Button,
@@ -22,10 +22,12 @@ import httpClient from "../httpClient";
 
 const CourseBox = (props) => {
   const { course, admin } = props;
+  const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
-  const deleteCourse = () => {
+  const submit = () => {
+    setLoading(true);
     httpClient
       .post("/api/delete_course", { id: course.id })
       .then((res) => {
@@ -34,12 +36,16 @@ const CourseBox = (props) => {
           courses: prev.courses.filter((c) => c.id !== course.id),
           message: res.data.msg,
         }));
+        setLoading(false);
+        onClose();
       })
       .catch(() => {
         props.setState((prev) => ({
           ...prev,
           message: "Could not delete course. Try again later.",
         }));
+        setLoading(false);
+        onClose();
       });
   };
 
@@ -79,7 +85,7 @@ const CourseBox = (props) => {
               </AlertDialogHeader>
 
               <AlertDialogBody>
-                Are you sure? You can't undo this action afterwards.
+                Are you sure you want to delete {course.name}?
               </AlertDialogBody>
 
               <AlertDialogFooter>
@@ -87,12 +93,11 @@ const CourseBox = (props) => {
                   Cancel
                 </Button>
                 <Button
+                  isLoading={loading}
+                  loadingText="Deleting..."
                   variant="outline"
                   _hover={{ bgColor: "var(--markdown-accent)" }}
-                  onClick={() => {
-                    deleteCourse();
-                    onClose();
-                  }}
+                  onClick={submit}
                   ml={3}
                 >
                   Delete

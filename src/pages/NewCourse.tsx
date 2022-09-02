@@ -30,6 +30,7 @@ const NewCourse = (props: any) => {
   const navigate = useNavigate();
   const { admin } = props.state;
 
+  const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(true);
   const [doc, setDoc] = useState({
     id: "",
@@ -84,6 +85,7 @@ const NewCourse = (props: any) => {
   };
 
   const submit = () => {
+    setLoading(true);
     const body = {
       name: doc.name,
       short_name: doc.short_name,
@@ -100,6 +102,7 @@ const NewCourse = (props: any) => {
           admin: false,
           message: res.data.msg,
         }));
+        setLoading(false);
         navigate("/teaching");
       })
       .catch(() => {
@@ -107,6 +110,7 @@ const NewCourse = (props: any) => {
           ...prev,
           message: "Could not add course. Try again later.",
         }));
+        setLoading(false);
         navigate(-1);
       });
   };
@@ -181,13 +185,15 @@ const NewCourse = (props: any) => {
         )}
         <Flex justifyContent="center">
           <Button
+            isLoading={loading}
+            loadingText="Adding course..."
             variant="outline"
             w="100%"
             my="2rem"
             _hover={{ backgroundColor: "var(--markdown-accent)" }}
             onClick={submit}
           >
-            Create
+            Add Course
           </Button>
         </Flex>
       </PageBox>

@@ -30,6 +30,7 @@ const Course = (props: any) => {
   const { course_short } = useParams();
   const { courses, material, loadingMaterial, admin } = props.state;
 
+  const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [course, setCourse] = useState({
     id: "",
@@ -110,6 +111,7 @@ const Course = (props: any) => {
   };
 
   const submit = () => {
+    setLoading(true);
     httpClient
       .post("/api/edit_course", course)
       .then((res: any) => {
@@ -119,12 +121,14 @@ const Course = (props: any) => {
           courses: updatedCourses(res.data.course),
           message: res.data.msg,
         }));
+        setLoading(false);
       })
       .catch(() => {
         props.setState((prev: any) => ({
           ...prev,
           message: "Could not edit course. Try again later.",
         }));
+        setLoading(false);
       });
   };
 
@@ -188,35 +192,27 @@ const Course = (props: any) => {
             <FormControl mt="1rem">
               <FormLabel>Bio</FormLabel>
               <Textarea
+                height="500px"
                 placeholder="Bio (Markdown Format)"
                 value={course.markdown}
                 onChange={setMarkdown}
               />
             </FormControl>
-            <Button
-              variant="outline"
-              w="100%"
-              my="2rem"
-              _hover={{ backgroundColor: "var(--markdown-accent)" }}
-              onClick={submit}
-            >
-              Save
-            </Button>
           </>
         ) : (
-          <>
-            <Markdown>{course.markdown}</Markdown>
-            <Button
-              variant="outline"
-              w="100%"
-              my="2rem"
-              _hover={{ backgroundColor: "var(--markdown-accent)" }}
-              onClick={submit}
-            >
-              Save
-            </Button>
-          </>
+          <Markdown>{course.markdown}</Markdown>
         )}
+        <Button
+          isLoading={loading}
+          loadingText="Saving..."
+          variant="outline"
+          w="100%"
+          my="2rem"
+          _hover={{ backgroundColor: "var(--markdown-accent)" }}
+          onClick={submit}
+        >
+          Save
+        </Button>
         {!loadingMaterial && (
           <>
             <md.H2 mt="2.5rem">Material</md.H2>

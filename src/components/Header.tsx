@@ -85,7 +85,12 @@ const MenuComponent = (props: Props) => {
     // desktop
     return (
       <Flex>
-        <Button as={Link} to="/about" mx="2px" variant={isActive === "About" ? "solid" : "ghost"}>
+        <Button
+          as={Link}
+          to="/about"
+          mx="2px"
+          variant={isActive === "About" ? "solid" : "ghost"}
+        >
           About
         </Button>
         <Button
