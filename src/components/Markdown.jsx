@@ -1,10 +1,10 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-math";
+import remarkGfm from "remark-gfm";
+import remarkSlug from "remark-slug";
 import remarkGemoji from "remark-gemoji";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import rehypeStringify from "rehype-stringify";
 
 // syntax highlighting of code
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -16,8 +16,8 @@ const Markdown = (props: any) => {
   return (
     <ReactMarkdown
       children={props.children}
-      remarkPlugins={[remarkGfm, remarkGemoji, remarkMath]}
-      rehypePlugins={[rehypeKatex, rehypeStringify]}
+      remarkPlugins={[remarkGfm, remarkSlug, remarkGemoji, remarkMath]}
+      rehypePlugins={[rehypeKatex]}
       components={{
         h1: ({ node, ...props }) => <md.H1 {...props} />,
         h2: ({ node, ...props }) => <md.H2 {...props} />,
