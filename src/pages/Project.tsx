@@ -20,6 +20,7 @@ import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
 import EditorToggle from "../components/EditorToggle";
 import ProjectTemplate from "../components/ProjectTemplate";
+import Loading from "../components/Loading";
 import httpClient from "../httpClient";
 
 import * as md from "../styles/MarkdownStyles";
@@ -146,6 +147,9 @@ const Project = (props: any) => {
     setEdit(!edit);
   };
 
+  if (props.state.loading) {
+    return <Loading />;
+  }
   if (!project) {
     return <NotFound />;
   } else if (admin) {

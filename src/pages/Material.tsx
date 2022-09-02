@@ -24,6 +24,7 @@ import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
 import EditorToggle from "../components/EditorToggle";
 import Markdown from "../components/Markdown";
+import Loading from "../components/Loading";
 import httpClient from "../httpClient";
 
 const Material = (props: any) => {
@@ -116,7 +117,9 @@ const Material = (props: any) => {
       });
   };
 
-  if (!doc.id) {
+  if (props.state.loading) {
+    return <Loading />;
+  } else if (!doc.id) {
     return <NotFound />;
   } else if (admin) {
     return (

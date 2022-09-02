@@ -12,6 +12,7 @@ import * as md from "../styles/MarkdownStyles";
 import ProjectBox from "../components/ProjectBox";
 import PageBox from "../components/PageBox";
 import TraceBack from "../components/TraceBack";
+import Loading from "../components/Loading";
 
 import ReactGA from "react-ga4";
 
@@ -32,14 +33,19 @@ const Projects = (props: any) => {
       <TraceBack />
       <md.H1 mt="1.5rem">Projects</md.H1>
       <md.Divider />
-      <Grid
-        templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
-        gap={6}
-      >
-        {projects.map((project: any, i: number) => {
-          return <ProjectBox key={i} project={project} />;
-        })}
-      </Grid>
+      {props.state.loading ? (
+        <Loading mt="2rem" size="md" />
+      ) : (
+        <Grid
+          my={4}
+          templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
+          gap={6}
+        >
+          {projects.map((project: any, i: number) => {
+            return <ProjectBox key={i} project={project} />;
+          })}
+        </Grid>
+      )}
       <AnimatePresence>
         {admin && (
           <MotionButton

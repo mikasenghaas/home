@@ -23,6 +23,7 @@ import MaterialBox from "../components/MaterialBox";
 import EditorToggle from "../components/EditorToggle";
 import NotFound from "../pages/NotFound";
 import Markdown from "../components/Markdown";
+import Loading from "../components/Loading";
 import httpClient from "../httpClient";
 
 const Course = (props: any) => {
@@ -138,7 +139,9 @@ const Course = (props: any) => {
     return dateA > dateB ? -1 : dateA < dateB ? 1 : 0;
   };
 
-  if (!course.id) {
+  if (props.state.loading) {
+    return <Loading />;
+  } else if (!course.id) {
     return <NotFound />;
   } else if (admin) {
     return (

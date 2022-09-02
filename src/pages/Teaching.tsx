@@ -13,6 +13,7 @@ import PageBox from "../components/PageBox";
 import CourseBox from "../components/CourseBox";
 import TraceBack from "../components/TraceBack";
 import Markdown from "../components/Markdown";
+import Loading from "../components/Loading";
 
 // analytics
 import ReactGA from "react-ga4";
@@ -23,7 +24,7 @@ const Teaching = (props: any) => {
   ReactGA.send({ hitType: "pageview", page: "/teaching" });
 
   const navigate = useNavigate();
-  const { courses, loadingCourses, admin } = props.state;
+  const { courses, admin } = props.state;
 
   useEffect(() => {
     document.title = "Teaching - Mika Senghaas";
@@ -58,7 +59,9 @@ Come here to verify your own understanding or when you really struggle to grasp 
       <md.P></md.P>
       <md.H2 mt="2.5rem">Courses</md.H2>
       <md.Divider />
-      {!loadingCourses &&
+      {props.state.loading ? (
+        <Loading mt="2rem" size="md" />
+      ) : (
         courses.sort(order).map((course: any, i: number) => {
           return (
             <CourseBox
@@ -68,7 +71,8 @@ Come here to verify your own understanding or when you really struggle to grasp 
               admin={admin}
             />
           );
-        })}
+        })
+      )}
       <AnimatePresence>
         {admin && (
           <MotionButton

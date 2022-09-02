@@ -20,6 +20,7 @@ import PageBox from "../components/PageBox";
 import CourseBox from "../components/CourseBox";
 import ProjectBox from "../components/ProjectBox";
 import Markdown from "../components/Markdown";
+import Loading from "../components/Loading";
 
 // analytics
 import ReactGA from "react-ga4";
@@ -163,7 +164,9 @@ const Home = (props: any) => {
         and solutions to exercises in the courses that I teach. Find direct
         links to my currently taught courses below.
       </md.P>
-      {!loading &&
+      {loading ? (
+        <Loading mt={5} size="md" />
+      ) : (
         courses
           .filter((course: any) => {
             return ["ml", "lao"].includes(course.short_name);
@@ -177,7 +180,8 @@ const Home = (props: any) => {
                 admin={admin}
               />
             );
-          })}
+          })
+      )}
       <Flex justifyContent="center">
         <Button
           variant="outline"
@@ -191,14 +195,19 @@ const Home = (props: any) => {
 
       <md.H2 mt={10}>Recent Projects</md.H2>
       <md.Divider />
-      <Grid
-        templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
-        gap={6}
-      >
-        {projects.map((project: any, i: number) => {
-          return <ProjectBox key={i} project={project} />;
-        })}
-      </Grid>
+      {loading ? (
+        <Loading mt={5} size="md" />
+      ) : (
+        <Grid
+          my={3}
+          templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
+          gap={6}
+        >
+          {projects.map((project: any, i: number) => {
+            return <ProjectBox key={i} project={project} />;
+          })}
+        </Grid>
+      )}
     </PageBox>
   );
 };
