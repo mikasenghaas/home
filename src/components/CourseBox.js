@@ -57,8 +57,9 @@ const CourseBox = (props) => {
       justifyContent="center"
       p="5px"
       borderRadius="10px"
-      height="150px"
+      height="120px"
       _hover={{ backgroundColor: "var(--markdown-code-bg)" }}
+      transition='.2s ease-in-out'
       border='2px solid var(--markdown-code-bg)'
     >
       <RouterLink
@@ -72,6 +73,7 @@ const CourseBox = (props) => {
             mt={0}
             textAlign='center'
             _hover={{ textDecoration: "underline" }}
+            noOfLines={1} 
           >
             {course.name}
           </md.H3>

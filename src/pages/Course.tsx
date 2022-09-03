@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import {
+  Box,
   Flex,
   Button,
   FormControl,
@@ -229,16 +230,18 @@ const Course = (props: any) => {
             >
               Add Material
             </Button>
-            {courseMaterial.sort(order).map((material: any, i: number) => {
-              return (
-                <MaterialBox
-                  key={i}
-                  material={material}
-                  admin={admin}
-                  setState={props.setState}
-                />
-              );
-            })}
+            <Box mt={3}>
+              {courseMaterial.sort(order).map((material: any, i: number) => {
+                return (
+                  <MaterialBox
+                    key={i}
+                    material={material}
+                    admin={admin}
+                    setState={props.setState}
+                  />
+                );
+              })}
+            </ Box>
           </>
         )}
       </PageBox>
@@ -249,14 +252,16 @@ const Course = (props: any) => {
         <Flex justifyContent="space-between" alignItems="center" height="50px">
           <TraceBack />
         </Flex>
-        {!loadingMaterial && (
+        {!props.state.loading && (
           <>
             <Markdown>{course.markdown}</Markdown>
             <md.H2 mt="2.5rem">Material</md.H2>
             <md.Divider />
-            {courseMaterial.sort(order).map((material: any, i: number) => {
-              return <MaterialBox key={i} material={material} />;
-            })}
+            <Box mt={3}>
+              {courseMaterial.sort(order).map((material: any, i: number) => {
+                return <MaterialBox key={i} material={material} />;
+              })}
+            </Box>
           </>
         )}
       </PageBox>

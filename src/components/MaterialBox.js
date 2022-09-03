@@ -20,6 +20,9 @@ import { BiTrash } from "react-icons/bi";
 import * as md from "../styles/MarkdownStyles";
 import httpClient from "../httpClient";
 
+// helpers
+import { timeSince } from "../lib/helpers";
+
 const MaterialBox = (props) => {
   const { material, admin } = props;
   const [loading, setLoading] = useState(false);
@@ -50,79 +53,81 @@ const MaterialBox = (props) => {
   };
 
   return (
-    <Flex
-      alignItems="center"
-      justifyContent="space-between"
-      height="50"
-      p="5px"
-      borderRadius="10px"
-      _hover={{ backgroundColor: "var(--markdown-code-bg)" }}
-    >
-      <RouterLink
-        to={material.short_name}
-        style={{ textDecoration: "none" }}
-        role="group"
+    <>
+      <Flex
+        alignItems="center"
+        justifyContent="flex-start"
+        height="60px"
+        p="10px 10px 10px 20px"
+        borderRadius="10px"
+        border="2px solid var(--markdown-code-bg)"
+        my={2}
+        _hover={{ backgroundColor: "var(--markdown-code-bg)" }}
+        transition=".2s ease-in-out"
       >
-        <Flex alignItems="center">
-          <md.P>🖇</md.P>
+        <Flex
+          as={RouterLink}
+          _hover={{ textDecoration: "none" }}
+          height="100%"
+          to={material.short_name}
+          alignItems="center"
+          flex={1}
+        >
+          <md.P _hover={{ textDecoration: "none" }}>🖇</md.P>
           <Flex ml="10px" direction="column">
+            <md.H4 m={0}>{material.name}</md.H4>
             <md.P
-              color="var(--markdown-link)"
-              _hover={{ textDecoration: "underline" }}
               m={0}
+              fontSize="7px"
+              color="var(--markdown-text-fg)"
+              _groupHover={{ textDecoration: "none" }}
             >
-              {material.name}
-            </md.P>
-            <md.P m={0} fontSize="7px" color="var(--markdown-text-fg)">
               Last edited:{" "}
-              {new Date(Date.parse(material.last_edited) + 2 * 60 * 60 * 1000)
-                .toGMTString()
-                .split(" ")
-                .slice(1, 5)
-                .join(" ")}
+              {timeSince(new Date(Date.parse(material.last_edited)))}
+              {" "} ago
             </md.P>
           </Flex>
         </Flex>
-        <AlertDialog
-          isOpen={isOpen}
-          leastDestructiveRef={cancelRef}
-          onClose={onClose}
-        >
-          <AlertDialogOverlay>
-            <AlertDialogContent bgColor="var(--markdown-code-bg)">
-              <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                Delete Material
-              </AlertDialogHeader>
+        {admin && (
+          <Button onClick={onOpen}>
+            <BiTrash />
+          </Button>
+        )}
+      </Flex>
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent bgColor="var(--markdown-code-bg)">
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Delete Material
+            </AlertDialogHeader>
 
-              <AlertDialogBody>
-                Are you sure you want to deleted {material.name}?
-              </AlertDialogBody>
+            <AlertDialogBody>
+              Are you sure you want to deleted {material.name}?
+            </AlertDialogBody>
 
-              <AlertDialogFooter>
-                <Button variant="outline" ref={cancelRef} onClick={onClose}>
-                  Cancel
-                </Button>
-                <Button
-                  isLoading={loading}
-                  loadingText="Deleting..."
-                  variant="outline"
-                  _hover={{ bgColor: "var(--markdown-accent)" }}
-                  onClick={submit}
-                  ml={3}
-                >
-                  Delete
-                </Button>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialogOverlay>
-        </AlertDialog>
-      </RouterLink>
-      {admin && (
-        <Button onClick={onOpen}>
-          <BiTrash />
-        </Button>
-      )}
-    </Flex>
+            <AlertDialogFooter>
+              <Button variant="outline" ref={cancelRef} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button
+                isLoading={loading}
+                loadingText="Deleting..."
+                variant="outline"
+                _hover={{ bgColor: "var(--markdown-accent)" }}
+                onClick={submit}
+                ml={3}
+              >
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+    </>
   );
 };
 
