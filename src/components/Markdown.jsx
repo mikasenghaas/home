@@ -43,9 +43,9 @@ const Markdown = (props: any) => {
               {...props}
             />
           ) : (
-            <code className={className} {...props}>
+            <md.InlineCode {...props}>
               {children}
-            </code>
+            </md.InlineCode>
           );
         },
       }}
