@@ -17,8 +17,8 @@ import * as md from "../styles/MarkdownStyles";
 
 // custom components
 import PageBox from "../components/PageBox";
+import ProjectCarousel from "../components/ProjectCarousel"
 import CourseBox from "../components/CourseBox";
-import ProjectBox from "../components/ProjectBox";
 import Markdown from "../components/Markdown";
 import Loading from "../components/Loading";
 
@@ -204,15 +204,7 @@ const Home = (props: any) => {
       {loading ? (
         <Loading mt={5} size="md" />
       ) : (
-        <Grid
-          my={3}
-          templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
-          gap={6}
-        >
-          {projects.map((project: any, i: number) => {
-            return <ProjectBox key={i} project={project} />;
-          })}
-        </Grid>
+        <ProjectCarousel projects={projects}/>
       )}
     </PageBox>
   );
