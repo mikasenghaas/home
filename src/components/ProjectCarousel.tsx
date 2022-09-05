@@ -4,7 +4,6 @@
 import { useState, useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Box, Flex } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 
 // custom components
 import ProjectBox from "./ProjectBox";
@@ -12,7 +11,6 @@ import ProjectBox from "./ProjectBox";
 const ProjectCarousel = (props: any) => {
   const { projects } = props;
 
-  let navigate = useNavigate();
   const [emblaRef, embla] = useEmblaCarousel({ loop: true });
 
   const [current, setCurrent] = useState(0);

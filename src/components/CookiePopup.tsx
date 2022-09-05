@@ -3,7 +3,6 @@
 
 import { useState } from "react";
 import { Box, Flex, Button, Text } from "@chakra-ui/react";
-import { Cookies } from "react-cookie-consent";
 import { motion, AnimatePresence } from "framer-motion";
 
 import * as md from "../styles/MarkdownStyles";
@@ -41,20 +40,12 @@ const CookiePopup = () => {
 
   const handleDecline = () => {
     setShow(false);
-    // delete cookies
-    Cookies.remove("_ga");
-    Cookies.remove("_gat");
-    Cookies.remove("_gid");
   };
 
   const handleDrag = (_: any, info: any) => {
     if (info.point.x < 0) {
       handleAccept();
     }
-  };
-
-  const handleClose = () => {
-    handleAccept();
   };
 
   return (
@@ -71,7 +62,7 @@ const CookiePopup = () => {
           transition={{ duration: 0.5, type: "spring" }}
           drag="x"
           dragConstraints={{ left: -500, right: 0 }}
-          onDrag={(event: any, info: any) => handleDrag(event, info) }
+          onDrag={(event: any, info: any) => handleDrag(event, info)}
           position="fixed"
           bottom={0}
           left={0}
