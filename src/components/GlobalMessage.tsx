@@ -47,8 +47,8 @@ const GlobalMessage = (props: any) => {
           position="fixed"
           bottom={0}
           right={0}
-          m="2rem"
-          px="1rem"
+          m={5}
+          px={2}
           maxWidth="100%"
           alignItems="center"
           justifyContent="space-between"

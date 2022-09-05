@@ -16,7 +16,6 @@ import { FaFacebook, FaLinkedin, FaInstagram, FaGithub } from "react-icons/fa";
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
-import { capitalise } from "../lib/helpers";
 
 // custom hooks
 import useWindowDimensions from "../hooks/useWindowSize";

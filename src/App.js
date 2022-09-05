@@ -12,6 +12,7 @@ import httpClient from "./httpClient";
 
 // components
 import Container from "./components/Container";
+import CookiePopup from "./components/CookiePopup"
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Footer from "./components/Footer";
@@ -23,7 +24,7 @@ import Loading from "./components/Loading";
 // setup analytics
 import ReactGA from "react-ga4";
 
-ReactGA.initialize(process.env.REACT_APP_GOOGLE_MEASUREMENT_ID);
+// ReactGA.initialize(process.env.REACT_APP_GOOGLE_MEASUREMENT_ID);
 
 const App = () => {
   const [state, setState] = useState({
@@ -64,6 +65,7 @@ const App = () => {
     <ChakraProvider theme={theme}>
       <HistoryRouter history={history}>
         <Container>
+        <CookiePopup />
           <Flex direction="column" minHeight="100vh">
             <Header />
             <Hero />
