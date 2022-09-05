@@ -81,7 +81,7 @@ const CookiePopup = () => {
           <md.P>
             I am using personal{" "}
             <md.Link
-              href="https://developers.google.com/analytics/devguides/collection/gtagjs/cookie-usage"
+              href="https://en.wikipedia.org/wiki/HTTP_cookie"
               isExternal
             >
               cookies
