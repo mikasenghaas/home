@@ -24,3 +24,7 @@ export function timeSince(date) {
   }
   return Math.floor(seconds) + " seconds";
 }
+
+export const capitalise = (s) => {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+};

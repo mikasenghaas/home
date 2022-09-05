@@ -24,6 +24,8 @@ import ColorModeSwitcher from "./ColorModeSwitcher";
 import Banner from "./Banner";
 import Container from "./Container";
 
+import ReactGA from "react-ga4";
+
 const Logo = () => {
   return (
     <Link to="/">
@@ -53,6 +55,14 @@ const MenuComponent = (props: Props) => {
     }
   }, [pathname]);
 
+  const trackEvent = (category: string, action: string, label: string) => {
+    ReactGA.send({
+      category: category,
+      action: action,
+      label: label,
+    });
+  };
+
   if (props.width < 700) {
     return (
       <Menu>
@@ -72,7 +82,12 @@ const MenuComponent = (props: Props) => {
           <Link to="projects">
             <MenuItem>Projects</MenuItem>
           </Link>
-          <Link to="/assets/cv.pdf" target="_blank" rel="noopener noreferrer">
+          <Link
+            to="/assets/cv.pdf"
+            onClick={() => trackEvent("File Download", "CV", "Files")}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <MenuItem>
               CV
               <AiOutlineFilePdf style={{ marginLeft: 5 }} color={current} />
@@ -112,6 +127,7 @@ const MenuComponent = (props: Props) => {
         <IconButton
           as={Link}
           to="/assets/cv.pdf"
+          onClick={() => trackEvent("File Download", "CV", "Files")}
           target="_blank"
           rel="noopener noreferrer"
           mx="2px"

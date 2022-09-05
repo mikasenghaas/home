@@ -16,6 +16,7 @@ import { FaFacebook, FaLinkedin, FaInstagram, FaGithub } from "react-icons/fa";
 
 // custom styles
 import * as md from "../styles/MarkdownStyles";
+import { capitalise } from "../lib/helpers";
 
 // custom hooks
 import useWindowDimensions from "../hooks/useWindowSize";
@@ -34,6 +35,14 @@ const About = () => {
   useEffect(() => {
     document.title = "About - Mika Senghaas";
   }, []);
+
+  const trackEvent = (category: string, action: string, label: string) => {
+    ReactGA.send({
+      category: category,
+      action: action,
+      label: label,
+    });
+  };
 
   return (
     <PageBox>
@@ -123,8 +132,13 @@ const About = () => {
       <md.Divider />
       <md.P>
         You can reach me via{" "}
-        <md.Link url="mailto:contact@jonas-mika.de">mail</md.Link> or any of the
-        below socials.
+        <md.Link
+          onClick={() => trackEvent("Social Link", "E-Mail", "Button")}
+          url="mailto:contact@jonas-mika.de"
+        >
+          mail
+        </md.Link>{" "}
+        or any of the below socials.
       </md.P>
       <Flex
         my="1rem"
@@ -139,6 +153,7 @@ const About = () => {
           colorScheme="linkedin"
           variant="outline"
           leftIcon={<FaLinkedin />}
+          onClick={() => trackEvent("Social Link", "LinkedIn", "Button")}
         >
           <Link
             href="https://www.linkedin.com/in/jonas-mika-senghaas"
@@ -154,6 +169,7 @@ const About = () => {
           colorScheme="twitter"
           variant="outline"
           leftIcon={<FaFacebook />}
+          onClick={() => trackEvent("Social Link", "Facebook", "Button")}
         >
           <Link href="https://www.facebook.com/jonasmika.senghaas" isExternal>
             Facebook
@@ -166,6 +182,7 @@ const About = () => {
           colorScheme="red"
           variant="outline"
           leftIcon={<FaInstagram />}
+          onClick={() => trackEvent("Social Link", "Instagram", "Button")}
         >
           <Link href="https://instagram.com/mikasenghaas" isExternal>
             Instagram
@@ -178,6 +195,7 @@ const About = () => {
           colorScheme="purple"
           variant="outline"
           leftIcon={<FaGithub />}
+          onClick={() => trackEvent("Social Link", "GitHub", "Button")}
         >
           <Link href="https://github.com/jonas-mika" isExternal>
             GitHub
