@@ -92,6 +92,7 @@ const NewCourse = (props: any) => {
       semester: doc.semester,
       professor: doc.professor,
       markdown: doc.markdown,
+      password: process.env.REACT_APP_ADMIN_PASSWORD,
     };
     httpClient
       .post("/api/add_course", body)

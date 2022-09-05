@@ -68,7 +68,10 @@ const Project = (props: any) => {
   const submit = () => {
     setLoading(true);
     httpClient
-      .post("/api/edit_project", project)
+      .post("/api/edit_project", {
+        ...project,
+        password: process.env.REACT_APP_ADMIN_PASSWORD,
+      })
       .then((res: any) => {
         props.setState((prev: any) => ({
           ...prev,

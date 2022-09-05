@@ -31,7 +31,10 @@ const CourseBox = (props) => {
   const submit = () => {
     setLoading(true);
     httpClient
-      .post("/api/delete_course", { id: course.id })
+      .post("/api/delete_course", {
+        id: course.id,
+        password: process.env.REACT_APP_ADMIN_PASSWORD,
+      })
       .then((res) => {
         props.setState((prev) => ({
           ...prev,
@@ -59,26 +62,31 @@ const CourseBox = (props) => {
       borderRadius="10px"
       height="120px"
       _hover={{ backgroundColor: "var(--markdown-code-bg)" }}
-      transition='.2s ease-in-out'
-      border='2px solid var(--markdown-code-bg)'
+      transition=".2s ease-in-out"
+      border="2px solid var(--markdown-code-bg)"
     >
       <RouterLink
         to={`/teaching/${course.short_name}`}
         style={{ textDecoration: "none" }}
         role="group"
       >
-        <Flex px='20px' direction='column' justifyContent='center' alignItems='center'>
+        <Flex
+          px="20px"
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
           <md.P>📙</md.P>
           <md.H3
             mt={0}
-            textAlign='center'
+            textAlign="center"
             _hover={{ textDecoration: "underline" }}
-            noOfLines={1} 
+            noOfLines={1}
           >
             {course.name}
           </md.H3>
         </Flex>
-        <Flex justifyContent='center'>
+        <Flex justifyContent="center">
           <md.Badge>{course.semester}</md.Badge>
         </Flex>
         <AlertDialog

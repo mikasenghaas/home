@@ -98,7 +98,10 @@ const Material = (props: any) => {
   const submit = () => {
     setLoading(true);
     httpClient
-      .post("/api/edit_material", doc)
+      .post("/api/edit_material", {
+        ...doc,
+        password: process.env.REACT_APP_ADMIN_PASSWORD,
+      })
       .then((res: any) => {
         props.setState((prev: any) => ({
           ...prev,

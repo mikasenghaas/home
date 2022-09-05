@@ -115,7 +115,10 @@ const Course = (props: any) => {
   const submit = () => {
     setLoading(true);
     httpClient
-      .post("/api/edit_course", course)
+      .post("/api/edit_course", {
+        ...course,
+        password: process.env.REACT_APP_ADMIN_PASSWORD,
+      })
       .then((res: any) => {
         props.setState((prev: any) => ({
           ...prev,
@@ -241,7 +244,7 @@ const Course = (props: any) => {
                   />
                 );
               })}
-            </ Box>
+            </Box>
           </>
         )}
       </PageBox>

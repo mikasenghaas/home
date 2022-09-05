@@ -85,6 +85,7 @@ const NewMaterial = (props: any) => {
       short_name: doc.short_name,
       course_short: doc.course_short,
       markdown: doc.markdown,
+      password: process.env.REACT_APP_ADMIN_PASSWORD,
     };
     httpClient
       .post("/api/add_material", body)

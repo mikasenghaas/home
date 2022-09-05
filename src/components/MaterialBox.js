@@ -32,7 +32,10 @@ const MaterialBox = (props) => {
   const submit = () => {
     setLoading(true);
     httpClient
-      .post("/api/delete_material", { id: material.id })
+      .post("/api/delete_material", {
+        id: material.id,
+        password: process.env.REACT_APP_ADMIN_PASSWORD,
+      })
       .then((res) => {
         props.setState((prev) => ({
           ...prev,
@@ -83,8 +86,7 @@ const MaterialBox = (props) => {
               _groupHover={{ textDecoration: "none" }}
             >
               Last edited:{" "}
-              {timeSince(new Date(Date.parse(material.last_edited)))}
-              {" "} ago
+              {timeSince(new Date(Date.parse(material.last_edited)))} ago
             </md.P>
           </Flex>
         </Flex>

@@ -58,6 +58,7 @@ const NewProject = (props: any) => {
       stack: project.stack,
       link: project.link,
       images: project.images,
+      password: process.env.REACT_APP_ADMIN_PASSWORD,
     };
     httpClient
       .post("/api/add_project", body)

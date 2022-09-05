@@ -15,12 +15,12 @@ const styles = {
       "--markdown-link": mode("#0969da", "#58a6ff")(props),
       "--markdown-accent": "#FF784F",
     },
-    '.math-display': {
-      overflowY: 'scroll',
+    ".math-display": {
+      overflowY: "scroll",
       my: 3,
       px: 5,
-      borderRadius: '10px',
-      bgColor: 'var(--markdown-code-bg)'
+      borderRadius: "10px",
+      bgColor: "var(--markdown-code-bg)",
     },
     a: {
       _hover: {

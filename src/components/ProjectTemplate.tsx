@@ -6,7 +6,7 @@ import { Box, Flex, AspectRatio, Image } from "@chakra-ui/react";
 import NotFound from "../pages/NotFound";
 
 // custom styles
-import Markdown from "../components/Markdown"
+import Markdown from "../components/Markdown";
 import * as md from "../styles/MarkdownStyles";
 
 const ProjectTemplate = (props: any) => {
@@ -24,7 +24,8 @@ const ProjectTemplate = (props: any) => {
           <md.Badge>{project.year}</md.Badge>
         </Flex>
         <Markdown>{project.desc}</Markdown>
-        <Flex mt={5}
+        <Flex
+          mt={5}
           direction={{ base: "column", sm: "row", md: "row" }}
           alignItems={{ base: "flex-start", sm: "center", md: "center" }}
         >
