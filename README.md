@@ -45,4 +45,4 @@ netlify build --context production
 netlify deploy --dir production --prod
 ```
 
-:sparkles: The website should be live at :link: [jonas-mika.de](https:/www.jonas-mika.de)!
+:sparkles: The website should be live at :link: [jonas-mika.de](https://www.jonas-mika.de)!
