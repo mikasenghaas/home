@@ -12,7 +12,7 @@ and uses manual deploys to publish the staging and production build. The sites a
 - :link: [jonas-mika-de.netlify.app](https://jonas-mika-de.netlify.app/) (`production`)
 - :link: [staging--jonas-mika-de.netlify.app](https://staging--jonas-mika-de.netlify.app/) (`staging`)
 
-## Workflow (deploying to `sta` or `pro`)
+## Deployment Workflow
 
 New features are built locally in the `dev` branch of the repository.
 To run the app on a locally server on port `3000` (default react port), type either
