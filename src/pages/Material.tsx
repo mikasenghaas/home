@@ -29,7 +29,7 @@ import httpClient from "../httpClient";
 
 const Material = (props: any) => {
   const { course_short, material_short } = useParams();
-  const { courses, material, admin } = props.state;
+  const { courses, material, loading_material, admin } = props.state;
 
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -41,25 +41,23 @@ const Material = (props: any) => {
     course_short: course_short,
   });
 
-  useEffect(() => {
-    document.title = "Teaching - Mika Senghaas";
-  }, []);
-
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    const edit_course = courses.find((c: any) => c.short_name === course_short);
-    const edit_material = material.find(
-      (m: any) => m.short_name === material_short && m.cid === edit_course.id
-    );
+    /* search for material through requested url route */
+    if (!loading_material) {
+      const current_course = courses.find((c: any) => c.short_name === course_short);
+      const current_material = material.find(
+        (m: any) => m.short_name === material_short && m.cid === current_course.id
+      );
 
-    if (edit_material) {
-      setDoc({
-        id: edit_material.id,
-        name: edit_material.name,
-        short_name: edit_material.short_name,
-        markdown: edit_material.markdown,
-        course_short: edit_course.short_name,
-      });
+      if (current_material) {
+        setDoc({
+          ...doc,
+          ...current_material
+        });
+
+        document.title = `${current_material.name} - Mika Senghaas`;
+      }
     }
   }, [courses, material]);
 

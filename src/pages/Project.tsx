@@ -43,18 +43,16 @@ const Project = (props: any) => {
     images: "",
   });
 
-  useEffect(() => {
-    document.title = "Projects - Mika Senghaas";
-  }, []);
-
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    const curr_project = projects.find(
+    /* search for project through requested url route */
+    const current_project = projects.find(
       (p: any) => p.short_name === project_short
     );
 
-    if (curr_project) {
-      setProject(curr_project);
+    if (current_project) {
+      setProject(current_project);
+      document.title = `${current_project.name} - Mika Senghaas`;
     }
   }, [projects]);
 
