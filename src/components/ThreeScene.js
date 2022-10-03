@@ -21,7 +21,7 @@ function loadGLTFModel(scene, glbPath, options) {
         obj.castShadow = castShadow;
         scene.add(obj);
 
-        obj.traverse(function (child) {
+        obj.traverse(function(child) {
           if (child.isMesh) {
             child.castShadow = castShadow;
             child.receiveShadow = receiveShadow;
@@ -31,7 +31,7 @@ function loadGLTFModel(scene, glbPath, options) {
         resolve(obj);
       },
       undefined,
-      function (error) {
+      function(error) {
         console.log(error);
         reject(error);
       }
@@ -104,6 +104,8 @@ const ThreeScene = () => {
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.autoRotate = true;
       controls.target = target;
+      controls.minZoom = 1; // set minimum user zoom to 1
+      controls.maxZoom = 1.5; // set maximum user zoom to 2
 
       loadGLTFModel(scene, "/three/voxel-computer.glb", {
         receiveShadow: true,

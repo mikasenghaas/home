@@ -44,16 +44,14 @@ const Course = (props: any) => {
   });
   const [courseMaterial, setCourseMaterial] = useState([]);
 
-  useEffect(() => {
-    document.title = "Teaching - Mika Senghaas";
-  }, []);
-
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
+    /* search for course through requested url route */
     if (!loadingMaterial) {
-      const c = courses.find((c: any) => c.short_name === course_short);
-      if (c) {
-        setCourse(c);
+      const current_course = courses.find((c: any) => c.short_name === course_short);
+      if (current_course) {
+        setCourse(current_course);
+        document.title = `${current_course.name} - Mika Senghaas`;
       }
     }
   }, [props.state]);
