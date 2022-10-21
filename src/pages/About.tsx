@@ -155,7 +155,7 @@ const About = () => {
           onClick={() => trackEvent("Social Link", "LinkedIn", "Button")}
         >
           <Link
-            href="https://www.linkedin.com/in/jonas-mika-senghaas"
+            href="https://www.linkedin.com/in/mikasenghaas"
             isExternal
           >
             LinkedIn
@@ -170,7 +170,7 @@ const About = () => {
           leftIcon={<FaFacebook />}
           onClick={() => trackEvent("Social Link", "Facebook", "Button")}
         >
-          <Link href="https://www.facebook.com/jonasmika.senghaas" isExternal>
+          <Link href="https://www.facebook.com/mikasenghaas" isExternal>
             Facebook
           </Link>
         </Button>
@@ -196,7 +196,7 @@ const About = () => {
           leftIcon={<FaGithub />}
           onClick={() => trackEvent("Social Link", "GitHub", "Button")}
         >
-          <Link href="https://github.com/jonas-mika" isExternal>
+          <Link href="https://github.com/mikasenghaas" isExternal>
             GitHub
           </Link>
         </Button>
