@@ -1,0 +1,95 @@
+---
+id: vector-saces
+title: Vector Spaces
+tag: []
+published: 09-22-2022
+lastEdited: 09-22-2022
+---
+
+# 04: Vector Spaces
+
+---
+
+This week we are taking a leap of abstraction by looking at **vector spaces** (also called: _linear spaces_). Vector spaces are an abstract definition
+of a set of mathematical elements that fulfil a fixed list of requirements. In that sense, vector spaces can be seen as an extension of simple **set
+theory**, where a set (_an unordered collection of elements_) under some conditions may be called a vector space.
+
+This week, we are going to study the properties of vector space, which will allow us to conclude whether or not a set of mathematical elements is or
+is not a vector space and, maybe more interestingly, determine if subsets of vector space are **subspaces** (meaning that they still conform with the
+properties of vector spaces).
+
+## Definition
+
+---
+
+A **vector space** is a set whose elements, often called *vectors*, may be added together and multiplied ("scaled") by numbers called *scalars.*
+Mathematically, we denote that for any two elements in a well-defined vector space $u, v\in V$ with $u, v\ne 0$, the following properties must hold:
+
+1. Vector Addition: $u+v\in V$
+2. Scalar Multiplication: $cu, cv\in V$
+
+_Note, that technically a third condition (non-emptiness) must hold, but follows directly from the fact that $u,v\ne 0$_
+
+This means that any vector space $V$ is defined as a set of its elements (usually called _vectors_, even if the elements are not vectors in the
+classical sense), a set of scalars and two binary operations (addition and multiplication). Given these three elements, the following **vector space
+axioms** need to be fulfilled:
+
+Let $u,w,z$ be vectors in $V$ and $c,d$ scalars in $\R$, then the following 10 axioms must hold:
+
+1. **Closure under addition**, $u+v\in V$
+2. **Commutativity**, $u+v=v+u$
+3. **Associativity**, $u+(v+w)=(u+v)+w$
+4. **Additive Identity**, $u+0=u$
+5. **Additive Inverse**, $u+(-u)=u-u=0$
+
+---
+
+1. **Closure under scalar multiplication, $cu\in V$**
+2. **Scalar Distributivity, $c(u+v)=cu+cv$**
+3. **Vector Distributivity, $(c+d)u=cu+du$**
+4. **Associativity, $c(dv)=(cd)v$**
+5. **Scalar Identity, $1\cdot u=u$**
+
+## Common Known Vector Spaces
+
+---
+
+This is a list of the most common vector spaces:
+
+- $\R$: The set of all real values
+- $\R^2$: The set of all real-valued ordered tuples (points in the plane/ two-dimensional space)
+- $\R^3$: The set of all real-valued ordered triples (points in space/ three-dimensional space)
+- $\R^n$: The set of all real-valued ordered $n$ length vectors ($n$-dimensional space)
+- $P$: The set of all polynomials
+- $P_n$: The set of all polynomials of at most $n$-th degree (together with the zero polynomial)
+- $M_{m,n}$: The set of all $m\times n$ matrices
+- $M_{n,n}$: The set of all square $n\times n$ matrices
+- $C(-\infty, \infty)$: The set of all continuous functions on the real number line ($f:\R\rightarrow \R)$
+- $C(a,b)$: The set of all continuous functions defined in the interval $[a,b]$
+
+It might also be insightful to think about sets that violate one of the ten axioms of vector spaces, and are therefore not vector spaces:
+
+- $\Z$: The set of integers is not a vector space, as it is not closed under scalar multiplication.
+  → Consider an element $u=1/2$ and a scalar $c=2$, then $cu=1/2\cdot 2=1 \notin \Z$
+- $P_2$: The set of all second-degree polynomials is not a vector space, as it is not closed under vector addition.
+  → Consider two elements $u=x^2+x$ and $v=-x^2$, then $u+v=x\notin P_2$
+
+## Subspaces
+
+---
+
+In many applications vector spaces occur as subspaces of larger vector spaces. If we have a large set of elements that we know to be a vector space
+and some condition on this vector space, resulting in a smaller set of values, then we can remove this conditioned set to be a vector space, then
+called a **subspace**, by just checking three conditions (instead of the above ten axioms).
+
+If $W$ is a subset of $V$ ($W\sub V$, meaning that all elements in $W$ are also in $V$, s.t. $u\in V \ \forall\  u\in W$), then $W$ is also a vector
+(sub-)space, if following three conditions hold.
+
+Let $u, v\in W$ and $c\in\R$
+
+1. **Non-emptiness**, $W\ne \empty$
+2. **Closure under addition**, $u+v\in W$
+3. **Closure under scalar multiplication**, $cu\in W$
+
+_Note, that for each vector space there exist two trivial subspace (namely the zero subspace $W=\{0\}$ and the identity subspace $W=V$). Since this is
+true for any vector space, they are less interesting, and we are usually looking at the non-trivial/ proper subspaces._

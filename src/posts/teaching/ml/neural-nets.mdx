@@ -1,0 +1,240 @@
+---
+id: neural-nets
+title: FF Neural Networks
+tags: []
+published: 11-08-2022
+lastEdited: 11-08-2022
+---
+
+This is a `print('hello world')`
+
+In the field of machine learning, **deep learning** has grown to one of the most important topics and is currently one of the most active areas of
+research in the machine learning and artificial intelligence communities. The cornerstone of deep learning is the **neural network**, which is yet
+another supervised machine learning model capable of solving both classification and regression tasks. In this notebook, we are going to develop the
+fundamental idea of neural networks by studying the _feed-forward neural network (FFNN)_.
+
+In this notebook, we are going to step-by-step develop the building blocks needed to construct a simple neural network architecture. We are going to
+do this in a bottom-approach, so starting from the smallest unit and then iteratively adding complexity until we have a full-fetched neural network.
+
+_During this process, I am going to repeatedly make the point that most building blocks are already known to you if you have studied linear and
+logistic regression model. I want to make the point: Feed-forward neural networks are simply an extension of these models._
+
+## The Perceptron/ Neuron
+
+---
+
+The smallest entity of a neural network is the perceptron, sometimes also called a neuron. It can be seen as a computational unit (i.e. a mathematical
+function). This function is well known to us: It is simply the linear model. That is, computing the linear combination of a sequence of $p$ inputs
+$x_1, ..., x_p$ and $p$ weights connected to the corresponding inputs $w_1, ..., w_p$. As we know from multiple linear regression, we can add a bias
+$w_0$ to this computation, so in total we get the following functional form of a perceptron/ neuron:
+
+$$
+\begin{align*}Perceptron(x_1, x_2,...,x_p)&=w_0+\sum_i^pw_ix_i\\&=w_0+w_1x_1+...+w_px_p\end{align*}
+$$
+
+Note, that we can vectorise this computation by realising that we can rewrite the linear combination as a dot product of two vectors
+$\bar{w}, \bar{x}\in\R^p$
+
+$$
+\begin{align*}Perceptron(\hat{x})&=w_0+\bar{x}\cdot \bar{w}\end{align*}
+$$
+
+In this way, we can also pass in an entire feature matrix $X\in\R^{n\times p}$, instead just individual samples and get the output of all samples in a
+single matrix.
+
+$$
+\begin{align*}Perceptron(X)&=w_0+X\bar{w}\end{align*}
+$$
+
+Lastly, we can choose to write the bias into the vector of weights $\bar{w}$ directly, in order to write the entire computation of the perceptron as a
+matrix product. To make this work, we need to alter the feature matrix dimension to $X\in\R^{n\times p+1}$ by adding a column of ones. Then the matrix
+product $Xw$ is in the dimension $p+1$, which is all weights and the bias in a single vector.
+
+$$
+\begin{align*}Perceptron(X)&=X\bar{w}\end{align*}
+$$
+
+At this point you should realise, that I am not telling you anything you don’t already know. This is the equivalent steps of the linear model,
+because, well a perceptron in its core is just a linear model. Now, the only novelty comes now: A perceptron wraps another (non-linear) function
+around the simple linear model, known as an activation function. So, if we denote the output of the linear model as $z$, then the final output after
+applying a non-linear function is
+
+$$
+Perceptron(z)=\sigma(z)
+$$
+
+This output we often denote as $a$, for the _activation_ of this perceptron. There are different activation functions, but I don’t want to get into
+those and their purpose just know. The main argument I am trying to make is that a single perceptron/ neuron is just the linear model.
+
+## Stacking Neurons Vertically: A Layer
+
+---
+
+Now that we have established the notion of a single neuron, why not let multiple neurons compute an output on the same set of inputs? Visually, we
+would vertically stack a series of neurons, each computing a linear combination of the same inputs $x_1, ..., x_p$. Imagine we want $k$ of such
+parallel perceptron/ neurons, then we would write them as:
+
+$$
+\begin{align*}Perceptron_1(x_1, x_2,...,x_p)&=w_{1,0}+\sum_i^pw_{1,i}x_i\\Perceptron_2(x_1, x_2,...,x_p)&=w_{2,0}+\sum_i^pw_{2,i}x_i\\...&=...\\Perceptron_k(x_1, x_2,...,x_p)&=w_{k,0}+\sum_i^pw_{kl,i}x_i\end{align*}
+$$
+
+In this way, we are getting $k$ outputs of the $k$ linear models (each taking the linear combination of the same $p$ features, but with their own set
+of weights). At this point you should realise that this is _precisely_ what we have been doing in multi-class logistic regression. We used the output
+of multiple linear regression models (the output of all the perceptrons) and normalised using softmax to get a discrete probability distribution over
+$k$ classes. Now, if we can vectorise a single linear model, then we can also vectorise a $k$ linear models. If we let the vector of all biases be
+$\bar{b}\in\R^k$, $X\in\R^{n\times p}$ the original feature matrix and $w\in\R^{p \times k}$ be the weight matrix collecting all $p$ weights in each
+of the $k$ models, then we can rewrite all perceptron in the following way:
+
+$$
+Perceptrons(X)=\bar{b}+Xw
+$$
+
+Which will produce an output in the dimensionality $n\times k$ (for each sample, $k$ outputs). Again, we can choose to write the vector weights into
+the weight matrix $w$ and add a column of ones in the feature matrix, simplifying the entire equation to:
+
+$$
+Perceptrons(X)=Xw
+$$
+
+To apply activation functions, we would wrap a vectorised version of the activation function $\sigma$ to get the activatoin of $k$ parallel neurons.
+
+$$
+Perceptrons(X)=\sigma(Xw)
+$$
+
+Again, I want you to take a second to remember than you have already seen this. If we set $\sigma$ to be a softmax function, this is the _exact_
+decision function of multiclass logistic regression.
+
+But in neural network terms, we have now defined an expression for the activation in a _layer of $k$ neurons_ - and we are only one step away from
+understanding the entire neural network architecture.
+
+## Stacking Neurons Horizontally: Multilayer Networks
+
+---
+
+Finally, something that we haven’t seen so far: If we can stack neurons vertically, surely we can also stack layers horizontally, right? Yes, we can -
+and this is the element making neural nets so powerful. The idea is rather simple: If I can define a single layer of $k$ neurons than compute $k$
+outputs from $p$ features, why not define a second layer of $k_2$ neurons that takes the output of the $k$ neurons in the previous layer as an input
+and computes another output.
+
+This is what it means to add _hidden layers_ in a neural network. If we write a single layer $L_1$ as the layer transforming a input features matrix
+$X\in\R^{n\times p+1}$ into a matrix of activations $A_1\in\R^{n\times k_1}$. Now, I could construct another layer $L_2$ that takes the activation
+matrix $A_1$ as an input and produces another output. So, if we let $L_2$ be the matrix producing our final model output (for this example a single
+value, because we assume regression for simplicity), then $A_2$ is actually our output $O=L_2(A_1)$. Now, if we write unwrap, how we defined $A_1$,
+then we see that the fully functional form of this simple network we constructed is:
+
+$$
+Network(X)=L_2(L_1(X))
+$$
+
+If we define layer $L_2(X)=\sigma_2(Xw_2)$ and $L_1(X)=\sigma_1(Xw_1)$ then we get the extend the above equation to be a function depending on inputs
+and weights
+
+$$
+Network(X)=\sigma_2(\sigma_1(Xw))w_2
+$$
+
+The golden missing piece to understand networks seems to be in horizontally stacking layers of neurons (again remember this is just multiple linear
+models on the same set of inputs), which mathematically boils down to composing functions.
+
+This is the entire magic of neural networks.
+
+## Adding Non-Linearity: Activation Functions
+
+---
+
+Not just yet. We are missing one important piece, that I only briefly mentioned in the introduction of a single perceptron/ neuron: the activation
+function. Their are crucial for the composing of functions to actually add complexity to our decision function as we would want.
+
+To understand this, imagine you would not add an activation function to the output of each neuron: The first layer $L_1$ computes linear combinations
+of a set of input features, and the layer $L_2$ computes linear combinations of these linear combinations. Now, composing a linear with a linear
+function is, well, still linear. So, no matter how many layers we stack ,the final thing will still be linear. This is why we need the the
+non-linearities over the output of each of the neurons.
+
+### **Sigmoid Function**
+
+---
+
+This non-linear function we already know. The function is quite computationally expensive (because of exponential term) and it suffers from vanishing
+gradients (i.e. the gradients are small for large positive and negative values). Specifically, this means that numerical solvers depending on
+gradients will have problems going in the right direction if the output is very large or very small. Feature scaling is crucial here.
+
+$$
+\sigma(z)=\frac{1}{1+e^{-z}}
+$$
+
+### **Tanh Function**
+
+---
+
+Similar to the sigmoid function, but in the range of $[-1,1]$, which makes the derivatvies steeper. Still suffers from small gradients for large
+negative and postivive values and is also computationally expensive.
+
+$$
+\begin{align*}\sigma(x) &= \frac{2}{1+e^{-2x}} -1 \\\\& = 2 \sigma(2x) -1\end{align*}
+$$
+
+### **ReLu (Rectified Linear Unit)**
+
+---
+
+Simple function that is computationally light, because it is either $0$ or the regular linear function. For negative inputs, the gradients are zero,
+which means the networks stops learning (dying ReLu problem). In reality, often enough activation are positive. It is often used as default activation
+for hidden layers.
+
+$$
+\begin{align*}\sigma(x) = max(0, x)\end{align*}
+$$
+
+## FFNN Architecture
+
+---
+
+Let’s puzzle all the concepts together. In total, a basic feed-forward neural network is defined as a model that pushes information from one end - the
+input layer - to make a prediction at the other end - the output layer. On the way, it pushes the inputs through a series of layers. In this process,
+both the number of layers and the number of neurons neurons (and choice of activation function) are hyper parameters to set before training the
+network. They define what kind of architecture to use. In FFNNs we constrain ourselves to having only these hyper parameters.
+
+### Making a prediction: Forward Pass
+
+---
+
+This should be clear from all we have discussed so far. To compute the output, we pass a set of inputs through the first layer to get a set
+activations and then continue to pass those into the next layer. If we define a network with $L_1, ..., L_l$ layers, each having $k_1, ..., k_l$
+neurons, a matrix of weights $w_1, ..., w_l$ and an activation function $\sigma_1, ..., \sigma_l$ connected to it, then each layer can be written in
+vectorised form (this is equivalent to what we defined in the section of vertially stacking neurons):
+
+$$
+L_i(X)=\sigma_i(Xw_i)
+$$
+
+So stacking all layers gives us our final neural network
+
+$$
+Network(X)=L_l(...(L_2(L_1(X))))
+$$
+
+And we make a prediction, by just evaluating this function. In Python, we can represent this as a for-loop over a list of weight matrices (this
+implementation does not take activations into consideration):
+
+```python
+def predict(x, w)
+	for layer in range(len(w)):
+		x = x @ w[layer]
+	return x
+```
+
+### Learning: Backpropagation
+
+---
+
+Now, the question is, how we can train such a network.
+
+After having set our weights between each layer randomly (initialisation of weights), we can compute some initial cost of our model, that determines
+the error our model is making. As with any other ML algorithm, the goal is now to reduce the cost by efficiently changing the weights. This tuning of
+the model parameters is being done through **back-propagation**.
+
+Back-propagation is a method used to adjust the connection weights to compensate for each error found during learning. The error amount is effectively
+divided among the connections. Technically, back-prop calculates the gradient (the derivative) of the cost function associated with a given state with
+respect to the weights. The weights are then updated according to the calculated gradient to reduce the cost in the next iteration. Iteratively
+repeating this procedure is called **gradient descent algorithm**.

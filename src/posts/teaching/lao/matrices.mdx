@@ -1,0 +1,224 @@
+---
+id: matrices
+title: Matrices
+tags: []
+published: 09-07-2022
+lastEdited: 09-07-2022
+---
+
+In this week, we are going to discover one of the most fundamental elements to linear algebra - **matrices**. Although, they are just an ordered
+multi-dimensional collection of numbers they have fascinating properties with many use-cases.
+
+Getting comfortable with writing systems of linear equations in matrix equation is crucial for your success in understanding machine learning
+implementation, since modern implementations rely on fast matrix multiplication of GPUs that is used in both the learning and inference step in neural
+network models.
+
+## Definition
+
+---
+
+We have already seen matrices in terms of representing systems of linear equations (SLEs) using the coefficient matrix and augmented matrix. We will
+now take a step back and formally define what a matrix is.
+
+A **matrix** (plural: _matrices_) is a rectangular array of numbers, symbols or expressions, arranged in rows and columns. The dimension/ size of a
+matrix is give by the number of rows $m\in \N$ and number of columns $n\in \N$ and is denoted as $m\times n$, so being in $R^{m\times n}$-dimensional
+space. We denote matrices with capital letters:
+
+$$
+A=\begin{bmatrix}a_{11} & a_{12} & ...& a_{1n}\\a_{21} & a_{22} & ...& a_{2n}\\\vdots& & & \vdots\\a_{m1} & a_{12} & ...& a_{mn}\\\end{bmatrix}
+$$
+
+Here, an entry $a_{ij}\in \R$ is a located in the $i$-th row and $j$-th column. The indices $i,j$ are called row and column indices, respectively.
+
+_Note, that vectors are matrixes of size $m\times1$_ (column vector) or $1\times n$ (row vector). _For any matrix, we can rewrite it as a set of of
+$n$ column vectors and $m$ row vectors._
+
+## Types of Matrices
+
+---
+
+### **Square Matrix**
+
+If for some matrix $A$, the number of rows and columns is equal, i.e. $m=n$, then $A$ is called a square matrix. Usually, one doesn’t differentiate
+between rows and columns and simply denotes a square $n\times n$ matrix. We say, that $A$ is of order $n$. Square matrices have some special
+properties. In example, the entries $a_{ii}$ with $i\in \{i\in\N, 1\le i \le n\}$ form the main diagonal of a square matrix. They lie on the imaginary
+line that runs from the top left to the bottom right corner.
+
+$$
+A=\begin{bmatrix}a_{11} & a_{12} & a_{13}\\ a_{21} & a_{22} & a_{23}\\ a_{31} & a_{32} & a_{33} \end{bmatrix}
+$$
+
+### Diagonal Matrix
+
+A diagonal matrix is a special square matrix, where all elements outside the main diagonal are $0$
+
+$$
+A=\begin{bmatrix}a_{11} & 0 & 0\\ 0 & a_{22} & 0\\ 0 & 0 & a_{33} \end{bmatrix}
+$$
+
+### Identity Matrix
+
+A special type of diagonal matrix, where all elements on the main diagonal are $1$ and all other elements are $0$. It is denoted as $I$ or $I_n$
+(including the order of the square matrix). Any matrix multiplied with the identity matrix is the matrix again, so $AI=IA=A$, for any matrix $A$ with
+correct dimensions.
+
+$$
+A=\begin{bmatrix}1 & 0 & 0\\ 0 & 1 & 0\\ 0 & 0 & 1 \end{bmatrix}
+$$
+
+An **elementary matrix** is a matrix that only differs from the identity matrix by one ERO. We can use elementary matrices to represent EROs in matrix
+notation, and therefore decompose any matrix into a chain of elementary matrices.
+
+### Stochastic Matrix
+
+A stochastic matrix is a special case of square matrices used to describe the transition of a Markov chain. Each of its entries is a non-negative real
+number representing a probability. It is therefore also called _probability matrix, transition matrix_ or _Markov matrix_. Each columns sums to $1$
+(property of any discrete probability distribution; left stochastic matrix)
+
+$$
+A=\begin{bmatrix}.2 & .1 & .9\\ .8 & .2 & .05\\ .1 & .7 & .05 \end{bmatrix}
+$$
+
+### Upper/ Lower Triangular Matrix
+
+A lower/ upper triangular matrix is a special type of square matrix, were all elements above/ below the main diagonal are $0$.
+
+$$
+A_{UT}=\begin{bmatrix}a_{11} & a_{12}\\0 & a_{22}\end{bmatrix}, A_{LT}=\begin{bmatrix}a_{11} & 0\\a_{21} & a_{22}\end{bmatrix}
+$$
+
+### Symmetric Matrix
+
+A symmetric matrix is a special type of of square matrix, where the entries mirrored around the main diagonal are equal, i.e. $a_{ij}=a_{ji}$ for all
+$i,j$. This implies, that for some symmetric matrix $A$, it is equal to its transpose, therefore $A=A^T$.
+
+### Invertible Matrix
+
+A matrix $A$ is called invertible if there exist a matrix $B$ such, that their product is the identity matrix, i.e. $AB=BA=I$. We find the inverse $B$
+(usually denoted as $A^{-1}$ by solving a system of linear equations $n^2$ linear equations).
+
+### Transpose Matrix
+
+In linear algebra, the transpose of a matrix is an operator that flips the matrix over its main diagonal by switching the row and column indices. Once
+done for all elements in the matrix, the new matrix - the transpose - is created and denoted as $A^T$.
+
+$$
+A=\begin{bmatrix}1 & 2\end{bmatrix}^T=\begin{bmatrix}1\\ 2\end{bmatrix}
+$$
+
+## Matrix Operations
+
+---
+
+There are a number of operations that can be applied to modify matrices. These are _matrix equality, addition/ subtraction, multiplication_.
+
+### Matrix Equivalence
+
+Two matrices $A$ and $B$ are equal, when they have the same size $m\times n$ and are point-wise equal, i.e. each corresponding elements
+$a_{ij}=b_{ij}$ for all $1\le i\le m$ and $1\le j \le n$.
+
+### Matrix Addition/ Subtraction
+
+Two matrices $A$ and $B$ can be added or subtracted equal, if (and only if!) they have the same size $m\times n$. The resulting matrix is computed by
+point-wise addition/ subtraction:
+
+$$
+A+B=\begin{bmatrix}1 & 2\\ 3 & 4\end{bmatrix}+\begin{bmatrix}5 & 6\\ 7 & 8\end{bmatrix}=\begin{bmatrix}6 & 8\\ 10 & 12\end{bmatrix}=B+A
+$$
+
+$$
+B-A=\begin{bmatrix}5 & 6\\ 7 & 8\end{bmatrix}-\begin{bmatrix}1 & 2\\ 3 & 4\end{bmatrix}=\begin{bmatrix}4 & 4\\4 & 4\end{bmatrix}\ne A-B
+$$
+
+### Scalar Multiplication
+
+Multiplying a matrix of arbitrary size y a real number $c\in\R$ is similar to matrix addition/ subtraction, in that the operation is performed
+point-wise. That is the scalar $c$ is multiplied with every entry in the matrix $A$.
+
+$$
+cA=cA=\begin{bmatrix}a_{11} & a_{12} & a_{13}\\ a_{21} & a_{22} & a_{23}\\ a_{31} & a_{32} & a_{33} \end{bmatrix}=A=\begin{bmatrix}ca_{11} & ca_{12} & ca_{13}\\ ca_{21} & ca_{22} & ca_{23}\\ ca_{31} & ca_{32} & ca_{33} \end{bmatrix}
+$$
+
+### Matrix Multiplication
+
+Unlike matrix addition and scalar multiplication, matrix multiplication is not entry-wisse. Instead, two matrices are multiplied by finding the dot
+product of the row of the first matrix and the column of the second matrix.
+
+That implies that matrix multiplication is defined if and only if the number of columns of the left matrix is equal to the number of rows of the right
+matrix. Consider $A\in\R^{m\times n}$ and $B\in\R^{n\times p}$, then the product $AB$ will be in $\R^{m\times p}$ and they are only compatible because
+of the match of number of columns in $A$ and number of rows in $B$. Matrix multiplication follows the laws of associativity, distributivity, but
+usually not commutivity, meaning that generally $AB\ne BA$ (though there are some exceptions, ie. $AA^{-1}=A^{-1}A$, or $AI=IA$).
+
+Let’s see an example of a simple matrix multiplication:
+
+$$
+A=\begin{bmatrix}0 & 1\\1 & 0 \end{bmatrix}, B=\begin{bmatrix}1 \\ 2\end{bmatrix}
+$$
+
+$$
+AB= \begin{bmatrix}0 & 1\\1 & 0 \end{bmatrix}\begin{bmatrix}1 \\ 2\end{bmatrix}=\begin{bmatrix}2 \\ 1\end{bmatrix}
+$$
+
+Generally, matrices can be seen as transformations in space. The matrix above for example takes a vector in 2d and applies some transformation (here
+swapping the x-y coordinate) onto it. We could choose matrix dimension so that we squash $B$ into a lower (single value) or higher dimension (ie.
+triplet) with a $1 \times 2$ or $3\times2$ matrix respectively.
+
+## Finding Matrix Inverses
+
+Finding an inverse to any real number is very intuitive. For an arbitrary $a\in\R$, the multiplicative inverse is $1/a=a^{-1}$, since
+$aa^{-1}=a\cdot 1/a=a/a=1$. The definition is very similar for matrix algebra.
+
+A $n\times n$ square matrix is invertible (non-singular or non-degenerated) if there exists a $n\times n$ matrix $B$ that satifies the following
+equation:
+
+$$
+AB=BA=I_n
+$$
+
+In this scenario, $B$ is called the (multiplicative) inverse of $A$ and is often denoted as $A^{-1}$. By theorem, there inverses are unique, but any
+matrix $A$ does not have to have an inverse. It is then non-invertible (or: singular).
+
+### Proofing Inverses
+
+For two matrices $A$ and $B$, we can test whether they are inverses of each other, if $AB=BA=I$. Thus, we use simple matrix multiplication to proof,
+i.e.
+
+$$
+A=\begin{bmatrix}-1 & 2 \\ -1 & 1\end{bmatrix}, B=\begin{bmatrix}1 & -2 \\ 1 & -1\end{bmatrix}
+$$
+
+$$
+AB=\begin{bmatrix}-1 & 2 \\ -1 & 1\end{bmatrix}\begin{bmatrix}1 & -2 \\ 1 & -1\end{bmatrix}=\begin{bmatrix}1 & 0 \\ 0 & 1\end{bmatrix}=BA
+$$
+
+### Finding Inverses
+
+Finding the multiplicative inverse of a matrix is more difficult. To compute it, one needs to solve the SLE that the matrix equation $AX=I$ produces.
+To illustrate the inverse of the following invertible $2\times 2$ matrix $A$:
+
+$$
+A=\begin{bmatrix}1 & 4\\-1 & -3\end{bmatrix}
+$$
+
+$$
+AX=I \rightarrow \begin{bmatrix}1 & 4\\-1 & -3\end{bmatrix}\begin{bmatrix}x_{11} & a_{12}\\a_{21} & a_{22}\end{bmatrix}=\begin{bmatrix}1 & 0\\0 & 1\end{bmatrix}
+$$
+
+This leads to four linear equations in four unknowns that we need to solve. We can use our general approach, or-use a more systematic version of
+Gauss-Jordan elimination:
+
+1. Write a $n\times 2n$ matrix that consist of $A$ on the left and $I$ of order $n$ on the right to obtain $\begin{bmatrix}A & I_n\end{bmatrix}$. This
+   process is called adjoining matrix $I$ to $A$.
+2. Reduce $A$ to $I$ using ERO on the entire adjoint matrix. The result on the right side will be the inverse, such that
+   $\begin{bmatrix}I_n & A^{-1}\end{bmatrix}$. If this is not possible, $A$ is non-invertible.
+3. Verify by proofing $AA^{-1}=A^{-1}A=I$.
+
+### Properties of Inverses
+
+1. The inverse of the inverse is the original matrix, i.e. $(A^{-1})^{-1}=A$
+2. The inverse of a scaled matrix is the inverse of the matrix scaled, i.e. $(cA)^{-1}=1/cA^{-1}$
+3. The inverse of a transpose is the transpose of the inverse, i.e. $(A^T)^{-1}=(A^{-1})^T$
+4. The inverse of a product is the product of the inverses, i.e. $(AB)^{-1}=B^{-1}A^{-1}$
+
+We can use the last inverse property to find the inverse of any matrix $A$ by first deconstructing it using elementary matrices $E_1, E_2, ..., E_n$,
+such that $A=E_n\cdot...\cdot E_2E_1$, then $A^{-1}=E_1^{-1}E_2^{-1}\cdot ...\cdot E_n^{-1}$.

@@ -1,0 +1,144 @@
+---
+id: linear-regression
+title: Linear Regression
+tags: []
+published: 09-01-2022
+lastEdited: 09-01-2022
+---
+
+Linear Regression is one of the oldest, most studied statistical learning approaches for predicting a quantitative response. Though it may seem
+somewhat dull compared to more modern approaches, it is still a valid statistical learning method, not only for predicting unseen data, but also to
+infer knowledge from data.
+
+Linear Regression is a parametric model, that assumes our estimate $\hat{f}$ that models the relationship between our set of predictors $\bold{X}$ and
+the response $Y$ to be linear, ie. each feature influences the response relative to some weight.
+
+## General Form
+
+---
+
+Linear Regression is a parametric statistical learning method, that assumes our decision function $\hat{f}$ to be linear in the features. We are then
+saying that we are regressing $Y$ on (or: _onto_) $X$. We can write the general form of our decision function as follows.
+
+$$
+Y\approx \hat{f}(X)=\beta_0+\beta_1X_1+\beta_2X_2+...+\beta_pX_p
+$$
+
+_Note, that this is the general assumed form of our model $\hat{f}$ for $p$ features. It reduces the problem of estimating any function, to estimating
+the model parameters $\beta_0,\beta_1,...\beta_p$ ($p+1$) (where $\beta_0$ is called the bias) features._
+
+It is helpful to write this equation in vectorised form, how linear regression is typically implemented for performance reasons.
+
+$$
+\hat{f}(\bold{X})=\bold{X}w+\beta_0=\bold{X_{\beta_0}}
+$$
+
+We can view the sum of products $\beta_1X_1+\beta_2X_2+...+\beta_pX_p$ as the dot product in a matrix multiplication. We can choose to write the bias
+term $\beta_0$ inside the weights vector and expand our feature matrix $\bold{X}$ with a column of $1$s (usually the first column, so that the first
+element in the vector of weights represents the bias term).
+
+Note, that since the linear model is a parametric model that makes oversimplified assumptions about reality (high bias, low variance model), it allows
+for interpretation, since there are only $p+1$ many weights, that can be adjusted. Generally, we interpret the $\beta_j$ weight (also: model
+parameter) as the average effect on $y$ of a one unit increase in $X_j$, holding all other predictors fixed.
+
+## Estimating Model Weights
+
+---
+
+Out of the space of all linear functions $f:R^p \rightarrow R$ mapping a set of features $\bold{X}$ onto the response variable $Y$, some are better
+and some are worse fits. Our goal is to reduce the _reducible error_ to find the set of hyper-parameters that best-fit the training data.
+
+In order to be able to determine, what a _good_ and what a _bad fit_ is, we need a why to quantify the quality of our decision function. We generally
+do this by constructing yet another function - called the loss function (also: _cost function, error function_), that evaluates the goodness-of-fit
+between a set of true values and a set of predictions. In regression problems (like linear regression) we typically use a loss-function involving the
+squared error terms (residuals). The residuals sum squared (_RSS_, also sum squared error (_SSE_)), is defined as the sum of squared residuals of some
+set of true value/ prediction pairs:
+
+$$
+RSS=L(\bold{y}, \bold{\hat{y}})=\sum_i^n(y_i-\hat{y}_i)^2
+$$
+
+From calculus, we know how to optimise functions. We find the roots of the derivative and solve for all free parameters. In this function, the free
+parameters are the hyper parameters $\beta_0, \beta_1, ..., \beta_n$, of our model that are producing the predictions of $\hat{y}$. To make this
+clear, we can rewrite the RSS by substituting in our decision function:
+
+$$
+\begin{align*}RSS=L(\bold{y}, \bold{\hat{y}})&=\sum_i^n(y_i- \hat{f}(x_i)^2\\&=\sum_i^n(y_i-( \beta_0+\beta_1x_1+...+\beta_px_p))^2\\&=\sum_i^n(y_i- \beta_0-\beta_1x_1-...-\beta_px_p)^2\end{align*}
+$$
+
+_Note, that we could have written the RSS in using vector notation, since the linear equation is nothing more than a dot product. Then,
+$RSS=(\bold{y}-\bold{\hat{y}})^2=(\bold{y}-x^T\beta)^2$_
+
+Since this is a function in $p+1$ dimensions, we need to find all partial derivatives.
+
+$$
+\frac{dL}{d\beta_0}=-2\sum_i^ny_i-\beta_0-\beta_1x_1-...-\beta_px_p
+$$
+
+$$
+\frac{dL}{d\beta_j}=-2x_j\sum_i^ny_i-\beta_0-\beta_1x_1-...-\beta_px_p
+$$
+
+We can collect all of these $p+1$ equations in matrix notation in:
+
+$$
+X^T(Y-X^T\beta)=0
+$$
+
+Remember from linear algebra, that we can solve this system of linear equations using
+
+$$
+\hat{\beta}=(X^TX)^{-1}X^TY
+$$
+
+Using this closed matrix formula, we can find the set of parameters $\beta$ that optimises the sum of squares loss-functions and therefore finds the
+linear model best fitting some training data.
+
+See, this `Python` code for a quick implementation of (multivariate) linear regression using `numpy` on a synthetically generated data set:
+
+```python
+# exercise2.py
+# linear regression
+
+import numpy as np
+from numpy.linalg import inv
+from numpy.random import random, randn
+from matplotlib import pyplot as plt
+
+# helper functions
+add_ones = lambda x: np.c_[x , np.ones(x.shape[0]) ]
+
+# model functions
+true = lambda x: (x @ np.array([[-1, 1]]).T).reshape(-1) + randn(len(x)) # true relationship
+model = lambda x, beta: x @ beta
+loss = lambda y, y_hat: np.sum((y-y_hat) ** 2) # rss
+optimise = lambda x, y: inv(x.T @ x) @ (x.T @ y)
+
+def plot(x, y, beta):
+    xs = np.linspace(x.min(), x.max(), 100).reshape(-1, 1)
+    ys = model(add_ones(xs), beta)
+    plt.scatter(x, y)
+    plt.plot(xs, ys, c='red')
+    plt.show()
+
+def main():
+    # generate synthetic dataset
+    n, p = 100, 1
+    x = randn(n, p)
+    y = true(add_ones(x))
+
+    # predict with random hyperparameters
+    beta = random(p+1)
+    y_hat = model(add_ones(x), beta)
+    print(f"Loss before fitting {loss(y, y_hat)}")
+    plot(x, y, beta)
+
+    # predict with optimised hyperparameters
+    beta = optimise(add_ones(x), y)
+    y_hat = model(add_ones(x), beta)
+    print(f"Loss after fitting {loss(y, y_hat)}")
+    plot(x, y, beta)
+
+if __name__ == '__main__':
+    main()
+```

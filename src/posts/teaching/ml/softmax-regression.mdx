@@ -1,0 +1,149 @@
+---
+id: softmax-regression
+title: Softmax Regression
+tags: []
+published: 09-09-2022
+lastEdited: 09-09-2022
+---
+
+Last week, we have seen what adjustments are necessary to adopt the simple **linear regression model** to perform binary classification problems.
+Namely, we observed a change in the decision function by composing the linear model with the sigmoid function the posterior probability of the
+positive class, $P(Y=1\ |\ X)$ and a change in the loss-function to cross-entropy loss to more accurately penalises prediction errors involving
+probabilities.
+
+This week, we are again _extending_ our model, this time to accommodate for classification problems in more than 2 classes. We will observe
+**multinomial logistic regression** (also: **softmax regression**) as the natural extension for multi-class classification.
+
+## General Form
+
+---
+
+One solution to use logistic regression for a $k$-class classification problem is to train $k$ different classifiers, each modelling the probability
+$P(Y=k\ |\ X)$ and the complement probability of the sample belonging in one of the remaining $k-1$ classes. Besides the added computational
+complexity, this approach is not ideal, since we are for example not obtaining probabilities for each of the classes, but just a rule to decide which
+class to classify to. Sometimes, we do want to know about the modelled posterior class probabilities though.
+
+The _multinomial (softmax) logistic regression_ approach proposes a change in the decision function to not output a single probability, but a vector
+of probabilities. That is, given some realisations of the set of features $\bold{X}$, we want our decision function (model) $\hat{f}$ to estimate the
+probability that $P(Y=k|X)$ for each $k\in\{1,2,...,k\}$. We can rewrite our model as such:
+
+$$
+\hat{f}(\bold{X})= \left[\begin{matrix} P(Y=1\ | X) \\ P(Y=2\ | X)  \\ \vdots \\P(Y=k\ | X) \end{matrix}\right]
+$$
+
+_Note: Our target vector $y$ now consists of more than two distinct classes. While we started counting at $0$ in the binary case $y_i \in \{0,1\}$, it
+is a convention to name the classes starting at $1$ in the multi-class setting, such that $y_i\in\{1,2,...,k\}$ $\forall \ i$._
+
+Now, how do we model each of the posterior class probabilities $P(Y=k\ |\ X)$? Since we still want each of our features to have a linear effect on the
+response, let’s go with what we know works and construct $k$ regular linear models.
+
+$$
+\hat{y}_1=\beta_{1,0}+\beta_{1,1}x_1+...+\beta_{1, p}x_p\\\hat{y}_2=\beta_{2,0}+\beta_{2,1}x_1+...+\beta_{2, p}x_p\\\vdots\\\hat{y}_k=\beta_{k,0}+\beta_{K,1}x_1+...+\beta_{k, p}x_p
+$$
+
+Note, that in this case, for each of the $k$ models we have $p+1$ parameters (these are exactly the same as in the linear model). Again, we can write
+this in matrix notation by collecting all our feature in a design matrix $X\in \R^{n\times p+1}$, with $n$ rows (the number of samples) and $p+1$
+columns (each sample has $p$ features plus a constant term, the column of $1$s). Similary, we collect all of our $p+1\times k$ weights into a matrix
+of weights $w$. Note, that since we are modelling $k$ linear models, we have a two-dimensional weight matrix as opposed to a one-dimensional weight
+vector as in linear regression and simple logistic regression. We get:
+
+$$
+X\cdot w=\hat{y}
+$$
+
+with $X\in \R^{n\times p+1}$ and $w\in \R^{p+1 \times k}$, leads to a matrix of values $\hat{y}\in \R^{n\times k}$. Notice, that the output is now a
+matrix of values. We can interpret the output as follows: Each row contains the output of the $k$ linear models, thus in the first row, we have the
+row vector $\begin{bmatrix}\hat{y}_1 & \hat{y}_2 &  \dots  & \hat{y}_k\end{bmatrix}$. The question is now, how to convert these values into a
+prediction and class probabilities.
+
+The first question is rather easy to answer. Bayes’ classifier proves the intuitive thing to do to produce the optimal classifier. We always want to
+predict to the highest posterior probability - no matter how we map the vector
+$\begin{bmatrix}\hat{y}_1 & \hat{y}_2 &  \dots  & \hat{y}_k\end{bmatrix}$into probabilities - the highest value will always be the highest
+probability. This means, that even without any transformation we can predict the most probable class as the highest $\hat{y}_j$ in the output vector.
+Mathematically, this is equivalent to applying the the $argmax$ function to the output vector. A $hardmax$ classifier uses this simple intuition and
+converts the output vector into a binary vector with a single $1$ at the highest value. As an example, consider the output vector with $K=4$,
+$\begin{bmatrix} 1 & 4 & 2 & 1\end{bmatrix}$. The simple argmax function computes:
+
+$$
+argmax(\begin{bmatrix} 1 & 4 & 2 & 1\end{bmatrix})=\begin{bmatrix} 0 & 1 & 0 & 0\end{bmatrix}
+$$
+
+The argmax is the goal, but it's not differentiable and we can't train our model with it, since we only get binary errors (completely right or
+completely wrong), which can’t be used in iterative numerical solvers.
+
+For this reason, we are seeking for some mapping $S(y)$ that takes real-valued vector $y\in\R^k$ and outputs a transformation, such that each element
+in the vector can be interpreted as a probability (each $y_i\in[0,1]$), namely $P(Y=k\ |\ X)$ and that the vector itself describes a discrete
+probability distribution over all $k$ classes, thus $\sum_{j=1}^ky_j=1$ (since the sum of all posterior probabilities is also $1$). A standard
+normalisation (dividing each value by the sum of the vector elements) is the intuitive first thing to do:
+
+$$
+Std.\ Normalisation(\vec{y})_i=\frac{{\vec{y}_i}}{\sum_{j=1}^k {\vec{y}_j}}
+$$
+
+While this vector complies with the conditions above, the normalisation does not model mappings to conditional probabilities well. To illustrate this,
+see the transformation this normalisation does to our input vector:
+
+$$
+Std.\ Normalisation(\begin{bmatrix} 1 & 4 & 2 & 1\end{bmatrix})=\begin{bmatrix} 1/8&1/2&1/4&1/8\end{bmatrix}
+$$
+
+This vector is too far from the argmax vector that we are aiming for. We would like to increase the probability of the highest original value and
+lower all others. To do this, we introduce an exponential term (usually the natural exponential term $e^x$ for easier derivatives), in order to
+increase the probability of the highest value and decrease the probability of the lower scores when compared with standard normalization. The function
+that does this transformation is known as the **softmax** function:
+
+$$
+Softmax(\vec{y})_i=\frac{e^{\vec{y}_i}}{\sum_{j=1}^k e^{\vec{y}_j}}
+$$
+
+And we indeed observe an output vector that seems more reasonable and closer the argmax vector.
+
+$$
+Softmax(\begin{bmatrix} 1 & 4 & 2 & 1\end{bmatrix})=\begin{bmatrix} 0.05 & 0.80 & 0.10 &  0.05\end{bmatrix}
+$$
+
+We have found the **softmax** function to be optimal to map $k$ outputs of linear models into a vector of probabilities that we can optimise using
+cross-entropy (negative log-likelihood). Conceptionally, this is very similar to the steps we did to extend linear regression to logistic regression.
+Our final decision function is:
+
+$$
+\hat{f}(X)=Softmax(Xw)
+$$
+
+```python
+import numpy as np
+
+# x is the design matrix, w is a matrix of model weights
+lm = lambda x, w: x @ w
+softmax = lambda probs: (np.exp(probs).T / np.sum(np.exp(probs, axis=1))).T
+
+def softmax_regression(X, w):
+	return softmax(lm(x, w)) # composed softmax and linear model
+```
+
+## Estimating Model Weights
+
+---
+
+As in any other machine learning algorithm we have encountered so far, we need a way to evaluate how good or bad our model performs given some model
+parameters, in order to be able to optimise the model onto the data (fitting input data). We are therefore searching for the **soft-max regression
+loss function**, which is just an extension of the cross-entropy/ negative likelihood function we know from the regular logistic regression setting.
+Again, if the true labels is $y=k$, then we would like to penalise low predicted probabilities of $\hat{p_k}$ and high predicted probabilities of all
+other values. Mathematically, this means:
+
+$$
+\begin{equation*}L(\hat{y}, y) = - \sum_{i=1}^n\sum_{k=1}^K y_{ik} \log \hat{y}_{ik}\end{equation*}
+$$
+
+_First, note that we are assuming both $y,\hat{y}\in R^{n\times k}$, meaning that both are vectors of probabilities. The original target vector, needs
+to be transformed into a one-hot-encoded vector (simluate the argmax result) and $\hat{y}$ is the vector of predicted probabilities. Given these two
+matrices, we obtain a loss by iterating over each sample (in the training split), and for each iterating over the predicted probability of each class
+($\hat{y}_{ik}$). However, we are only adding to our loss, if the true value $y_{ik}$ is $1$. In that way, the loss is high, if our predicted
+probability for the true class is constantly low.\_
+
+This loss function is the natural extension of the negative log-likelihood function and has the same derivation (first constructing the likelihood,
+turning the product of predicted probabilities into a sum of log probabilities and the negating, such that we wish to minimise this function).
+
+Again, there does not exist a closed-form solution for the cross-entropy cost function, also in the multiclass settings. However, since it is a convex
+function, an optimisation algorithm like g*radient descent* is a good choice for optimising our parameters. We will learn about this later in the
+course.

@@ -1,0 +1,230 @@
+---
+id: systems-of-linear-equations
+title: System of Linear Equations
+tags: []
+published: 09-01-2022
+lastEdited: 09-01-2022
+---
+
+# 01: Systems of Linear Equations
+
+---
+
+We will start our journey into the world of linear algebra by studying **linear equations** - a concept that most of you should already know from your
+high school education.
+
+Yet, it is a fundamental concept that we will build on when exploring more advanced topics. Let’s start by defining mathematically, what we mean by a
+linear equation.
+
+## Linear Equations
+
+---
+
+A linear equation in $n$ variables $x_1,x_2,...,x_n$ has the general form
+
+$$
+a_1x_1+a_2x_2+...+a_nx_n=b
+$$
+
+Here, $a_1,a_2, ...,a_n$ are called the scalars/ coefficients of the variables $x_1, x_2,...x_n$ and $b$ is the constant term.
+
+It is useful to think about what makes an equation linear by thinking about what would make it non-linear. Non-linearities are for example the
+following (this list is probably not exhaustive):
+
+- products or quotients of variables ($x_1x_2, x_1/x_2)$
+- power/ root terms ($x^2, \sqrt{x}$)
+- exponentials/ logarithms ($e^{x}$, $log(x)$)
+- trigonometric functions ($sin(x), cos(x)$ , …)
+
+Any equations involving these terms are non-linear equations and are out of the scope of anything we are discussing in this lecture.
+
+### Solving Linear Equations
+
+---
+
+The solution to any linear equation in $n$ variables is a set of $n$ real numbers $x_1,x_2,...,x_n$ that satisfy the equation when substituted into
+the equation, that is the equivalence condition holds true (left side and right side are equal).
+
+Let’s consider a couple of simple cases with a single linear equation.
+
+1. **Case 1: One Equation/ One Variable**
+
+   If we need to solve an equation in only one variable, we use simple arithmetic operations to transform the equation to find the solution set, in
+   this case, a single number.
+
+   Let’s see an example:
+
+   $$
+   \begin{align*}3x+2&=4\\3x&=2\\x&=\frac{2}{3}\end{align*}
+   $$
+
+   We can verify the solution by substituting back into the original equation. We find that indeed $3\cdot\frac{2}{3}+2=4$, and are confident in our
+   solution.
+
+2. **Case 2: One Equation/ Multiple Variables**
+
+   Things look different when the number of variables $n$ is greater than the number of equations we have. Such systems are called underdetermined
+   system since there are fewer equations than unknowns. We will get an infinitely big solution set.
+
+   Let’s see an example:
+
+   $$
+   \begin{align*}x_1+2x_2=4\end{align*}
+   $$
+
+   We instantly see that there is a multitude of solutions, for example, $(0,2),(2, 1), (3, 1/2)$ and more. To mathematically find the set of all
+   points that satisfy this system, we arbitrarily set one of the variables (either $x_1$ or $x_2$ in this case) to be a free variable. To note that
+   we set $x_2$ as our free variable, we will replace $x_2=t$ - this is just a formality though. We now get:
+
+   $$
+   x_1+2t=4
+   $$
+
+   And we can solve for $x_1$ in dependence of $t$, like so:
+
+   $$
+   x_1=4-2t
+   $$
+
+   This means, that whatever value we choose for $x_2$, we can compute the value for $x_1=4-2t$ to find a pair of numbers that satisfy the initial
+   equation. We denote this infinite solution set as $\{(4-2t, t)|t\in \R\}$, which is a line in three-dimensional space.
+
+## Systems of Linear Equations
+
+---
+
+Once we have understood the basics of solving a single linear equation, the extension to solving systems of linear equations is relatively
+straightforward. A system of linear equations is nothing more than a set of $m$ linear equations, each in the same $n$ variables. If we write in
+standard form, we get:
+
+$$
+\begin{align*}a_{11}x_1+a_{12}x_2+...+a_{1n}x_n&=b_1\\a_{21}x_1+a_{22}x_2+...+a_{2n}x_n&=b_2\\\vdots\\a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n&=b_m\\\end{align*}
+$$
+
+For any system of linear equations - no matter the number of unknowns or equations - one of the three scenarios about solving it is true:
+
+1. The system has a _single solution_, e.g. there is a set of $n$ values that satisfy all $m$ equations
+2. The system has _infinitely many solutions_, e.g. there are infinitely many sets of $n$ values that each satisfy all $m$ equations
+3. The system has _no solution_, e.g. there is no set of $n$ values that satisfies all $m$ equations.
+
+The first two systems are called _consistent systems_, while the latter is called an _inconsistent system._ In two-dimensional space (so equations in
+two unknowns), there is a nice visual intuition for the three scenarios: Two lines (which are two linear equations) can intersect (1), lay on top of
+each other (2) or be parallel (3). This intuition does not really translate for higher dimensions, simply because we cannot visualise more than three
+dimensions.
+
+### Solving Systems of Linear Equations (SLE)
+
+---
+
+There are a number of ways for solving systems of linear equations - however, I will only showcase one approach here, since this is the one that is
+going to be used in further lectures. Generally, the process is often quite heavy in little arithmetic computations and therefore prone to small
+errors - ultimately leading to wrong results. Therefore, solve carefully and rather take some time to be sure to have the correct result at each step.
+Finding and fixing errors after having found a wrong solution is often more time-intensive and frustrating.
+
+### Classic Gaussian Elimination
+
+---
+
+The most systematic approach to solving systems of linear equations is called **elimination of variables** and the goal is to step-by-step eliminate
+variables in order to obtain a linear system in **row-echelon form (REF)**. Let’s see two equivalent systems, first the original system:
+
+$$
+\begin{align*}x-2y+3z&=9\\-x+3y&=-4\\2x-5y+5z&=17\end{align*}
+$$
+
+And then transformed into row-echelon form (notice that this form has a _stair-step_ pattern and all leading coefficients are $1$).
+
+$$
+\begin{align*}x-2y+3z&=9\\y+3z&=5\\z&=2\end{align*}
+$$
+
+Clearly, the second system is way easier to solve. The last equation holds the solution for the variable $z$. We take this solution and plug it into
+the second to obtain the result for $y$. Finally, we take the solution for $y$ and $z$, and plug it into the first equation to obtain the result for
+$x$. This process is called **back-substitution** and it is an easy way of finding a solution for a system of equations that was brought into
+row-echelon form. This leaves the question of how we obtain such a system in row-echelon form.
+
+In order to transform any linear system into row-echelon form, we need operations that modify the appearance of the system (i.e. create the
+_stair-step_ pattern and obtain leading coefficients of $1$), but not the solution set. Such systems are called **equivalent systems** and there are
+three legal operations on linear systems that produce equivalent systems:
+
+1. Interchanging two rows
+2. Multiplying an equation by a non-zero constant (scaling)
+3. Add an equation to another equation
+
+Together with (2), (3) also means subtraction of an equation from another equation (with negative scalars) and adding a multiple of an equation to
+another equation (with scalars $\ne 1$).
+
+Using these three operations, we can transform any linear system into row-echelon form and then use back-substitution to solve it. The algorithm is
+called **Gaussian elimination** and is a sequence of operations producing equivalent systems that lead to some original system being transformed into
+row-echelon form. In the exercises, we will see many examples of this.
+
+### Gaussian Elimination with Matrices
+
+---
+
+In the long process of solving a big linear system (many equations in many unknowns), it becomes tedious to carry on writing all the variables all the
+time. It is redundant information that is not really needed for solving linear systems. This led to using matrices to represent and solve linear
+systems. Handling solving linear systems in matrices is easier and requires less writing - so you should get into the habit of using them.
+
+Let’s see how we can rewrite a classical linear system into matrices. Let’s take the same system as above again.
+
+$$
+\begin{align*}x-2y+3z&=9\\-x+3y&=-4\\2x-5y+5z&=17\end{align*}
+$$
+
+There are two matrices, that are associated with this specific linear system. The first one is called the **coefficient matrix**. As the name
+suggests, it is a matrix in $\R^{m\times n}$ ($m$ rows and $n$ columns) holding all the coefficients. It is crucial to have ordered the variables in
+the original system, so don’t just blindly copy the coefficients over, when deriving the coefficient matrix. We get:
+
+$$
+\begin{bmatrix}
+1 & -2 & 3 \\
+-1 & 3 & 0 \\
+2 & -5 & 5 \\
+\end{bmatrix}
+$$
+
+The second matrix, which we are going to use to solve the system, is called the **augmented matrix**. It is the matrix that not only contains the
+coefficients, but also the constant terms of the original linear system. We write:
+
+$$
+\left[\begin{array}{ccc|c}
+1 & -2 & 3 & 9\\
+-1 & 3 & 0 & -4\\
+2 & -5 & 5 & 17\\
+\end{array}\right]
+$$
+
+To solve a system, rewritten as an augmented matrix, we are going to Gaussian elimination again, which means to step-by-step apply operations that
+lead to an equivalent system in row-echelon form. In matrix notation, these operations are now called **elementary row operations.** However, they are
+exactly the same things as the three operations we defined above for producing equivalent systems.
+
+An extension of the Gaussian elimination algorithm is called Gauss-Jordan elimination, which is essentially just combining transforming a system in
+row-echelon form and back-substituting. The idea is to apply the elementary row operations on a system in REF to bring the coefficient matrix into the
+identity matrix (diagonal of $1$s, rest $0$). This form is then called reduced row-echelon form (RREF) and the set of solutions can simply be read of.
+
+## Application: Polynomial Curve Fitting
+
+---
+
+A polynomial function of $n$-th degree in two-dimensional space has the general form:
+
+$$
+f(x)=a_nx^n+a_{n-1}x^{n-1}+...+a_1x+a_0
+$$
+
+Polynomial curve fitting is the first example that we are going to study that needs the skill of solving linear systems. Curve fitting means to
+finding a polynomial of minimum degree in two-dimensional space fitting some information that we have about this polynomial (usually coordinates,
+roots, maxima/ minima, …). With $n$ independent pieces of information, we can find a polynomial of $n-1$ degree (since we have $n+1$ coefficients in a
+$n$-th degree polynomial.
+
+The general process of solving these type of problems is the following:
+
+1. Gather all information/ data that you are asked to model the polynomial for. If the degree is not determined and you are given $n$ pieces of
+   information, assume that you are to model a $n-1$-th degree polynomial (i.e. you have two coordinates, find a line; you are given three
+   coordinates, find a quadratic function; and so on)
+2. Write out the general formula of the desired polynomial of n-th degree
+3. Substitute the data given into the general form to obtain a SLE in $n$ linear equations and $n$ unknowns modelling the coefficients of the
+   polynomial $a_0, ..., a_{n-1}$
+4. Solve the SLE to obtain the unique solution of the coefficients
+5. Write out the final polynomial and test whether it fits the initial data you were given

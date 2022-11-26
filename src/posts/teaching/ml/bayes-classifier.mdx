@@ -1,0 +1,73 @@
+---
+id: bayes-classifier
+title: Bayes Classifier + KNN
+tags: []
+published: 11-09-2022
+lastEdited: 11-09-2022
+---
+
+We have seen that we are trying to find an estimate $\hat{f}$ that describes the true relationship between the predictors $\bold{X}$ and response $Y$
+(without picking up noise, high variance or oversimplifying the relationship, high bias) and we have shown that this happens when the expected average
+loss (generalised loss, risk, test loss) is minimal. Thus, we want to minimise:
+
+$$
+E[L(y, \hat{y})]=E[L(y, \hat{f}({x}))]
+$$
+
+Bayes classifier makes the surprisingly simple assumption that the above term - the expected loss - is minimal if we always classify it to the most
+likely class given its predictor values.
+
+Mathematically, we can write this classifier as finding the class $k$, for which the conditional probability (also: posterior class probability)
+$P(Y=k\ | X=x_0)$ is maximal. We can thus write out our classifier as:
+
+$$
+argmax(P(Y=k\ |X=x_0)) \text{ for all } k\in R_Y
+$$
+
+The Bayes classifier produces the lowest possible test error rate since it minimises the expected loss. The error rate is called the _Bayes error
+rate_. Since it always classifies to the class whose posterior class probability is highest, the error rate will be
+
+$$
+\text{Bayes error rate}=1-E[max_k(P(Y=k\ |\ X=x_0)]
+$$
+
+Note, that the Bayes error rate is analogous to the irreducible error.
+
+## K-Nearest Neighbours Classifier (KNN)
+
+---
+
+In theory, we would always like to predict to qualitative responses (all classification problems) using Bayes’ classifier. But for real data, we do
+not know the conditional distributions of $Y$ given $\bold{X}$, and so computing Bayes’ classifier is impossible. For this reason, Bayes’ classifier
+is an unattainable gold standard against which to compare other methods on synthetically generated data. Many approaches try to estimate the posterior
+class probabilities $P(Y=k\ | \ X=x_0)$ and then classify to the class with the highest estimated probability, in the fashion of Bayes’ classifier.
+
+One such method is the **K-Nearest Neighbours** (KNN) classifier. Given some positive integer $K$ and a test observation $x_0$, the KNN classifier
+first identifies the $k$ points in the training data that are closest to $x_0$, represented by $N_0$ (the neighbourhood consisting of $k$ neighbours).
+It then estimates the posterior class probabilities as follows:
+
+$$
+\hat{P}(Y=k\ | X=x_0)=\frac{1}{K}\sum_{i \in N_0}I(y_i=k) \text{ for each }k
+$$
+
+_Note that this is equivalent to computing the fraction of data points that are class $k$ in the neighbourhood consisting of $K$ data points._
+
+And then classifies to the largest estimate of the posterior class conditionals:
+
+$$
+KNN=argmax(\hat{P}(Y=k\ | X=x_0))  \text{ for all }k\in R_Y
+$$
+
+**Hyperparameters**
+
+$k$ - $k$ neighbours to look at to estimate posterior class probabilities (usually odd)
+
+$\text{Distance Metric}$ - How the distances are computed (which distance metric, weighted/ linear)
+
+The choice of $K$ has a drastic effect on the KNN classifier obtained. If $K=1$ (the minimal value possible), and thus we always predict the same
+class as the closest data point, then we are likely to pick up noise (ie. one datapoint that lies in the middle of another class (class overlap) and
+thus get an overfitting model. Similarly, choosing $K$ too high (extreme looking at the entire training set, and thus always predicting the majority
+class) is prone to underfitting (high bias, low variance), since we are making a too simplistic choice.
+
+Usually, a $K$ of $3$, $5$ or $10$ is typical. The best $K$ for the data can ie. be found through cross-validation to get an empirical estimate of the
+expected loss.

@@ -1,0 +1,256 @@
+---
+id: generative-classifier
+title: Generative Classifier
+tags: []
+published: 09-22-2022
+lastEdited: 09-22-2022
+---
+
+The past week, we have learned about **soft-max regression** (the natural extension of logistic regression to multi-class classification problems) and
+**KNN** as options for tackling classification problems. Unconsciously, we have been dealing with **discriminative models**. This week, we are going
+to be explicit about the properties of discriminative models, especially in contrast to its complement: **generative models**.
+
+## Generative vs. Discriminative Classifiers
+
+---
+
+There is different approaches to understanding the difference between generative and discriminative models. I will first try to give a mathematical
+understanding, and then draw an analogy to how human decision making happens and how it translates to the notion of generative and discriminative
+models.
+
+**Bayes’ classifier** gives us a general-purpose approach to finding the ideal classifier. If the entire relationship between the features and
+response is known (i.e. we know the joint probability distribution), then predicting towards the highest posterior class probability $P(Y=k>\ |\ X)$
+is proven to result in the lowest possible expected loss (which is the statistical equivalent of the expected out-of-sample/ test performance).
+
+$$
+argmax\ P(Y=k\ |\ X)
+$$
+
+In reality, we don’t have access to the entire probability distribution, and as a corollary to the posterior probabilities. Thus, a very natural
+approach is to estimate these posterior probabilities directly, i.e. finding an estimate $\hat{P}(Y=k\ |\ X)$ for each class $k$ and the predicting to
+the highest estimated posterior. This approach is followed by **discriminative models** (like soft-max regression or KNN).
+
+A fundamentally different approach arises using basic statistical properties of conditional probabilities. After all, the posterior probability is
+simply a conditional probability distribution, conditioned on a random vector of feature random variables, and can therefore be rewritten according to
+Bayes’s Theorem. Recall, that for any conditional probability $P(B|A)$, we can compute the reverse conditional probability as
+
+$$
+P(A|B)=\frac{P(B|A)P(A)}{P(B)}
+$$
+
+This holds both, if $A$ and $B$ are two simple events, and also if they represent (possibly) multivariate probability distributions. Following this
+theorem, a second natural approach arises for modelling posterior probabilities. Instead of directly finding an estimate for $P(Y=k|X)$, we can
+instead find the reverse conditional probability $P(X\ |\ Y=k)$, in ML often referred to as a class conditional (the feature distribution within a
+class) and marginal distribution of the the target variable, in ML referred to as the class priors. Since, the target in classification problems is a
+discrete random variable, the marginal is a simple PMF, assigning a probability to each of the $k$ classes (so a $k$-dimensional vector). Given these
+two probabilities, we can model the posterior as follows:
+
+$$
+\begin{align*}P(Y=k\ |\ X)&=\frac{P(X\ |\ Y=k)P(Y=k)}{P(X)}\\&\propto P(X\ |\ Y=k)P(Y=k)\end{align*}
+$$
+
+_Notice, that no matter the class $k$, all posterior are scaled by the same feature distribution $P(X)$. It, thus, has no effect on the decision rule
+and we say that the numerator is proportional result of all posteriors and can be left out if we do not want to model the precise estimated
+probabilities._
+
+ML models that instead of directly modelling the posterior probability, model class conditionals and class priors are referred to as **generative
+models**. That is, they are trying to model the entire relationship between features and response (joint distribution) and use this to implicitly
+model the posteriors.
+
+---
+
+A nice analogy is the following: Imagine you ask two children $A$ and $B$ to tell you whether an animal in the zoo is a giraffe or a lion. Both kids
+have been in the zoo the entire day, but have learned about the animals in entirely different ways.
+
+To answer the question, child $A$ draws two images, one of a lion and one of a giraffe, and after comparing both images to the animal to classify,
+proudly concludes that the animal is a lion, because the animal is a lot closer to his image of a lion.
+
+In contrast, child $B$ just looks at the animal and also concludes the animal to be a lion, but without drawing anything. When being asked, of how it
+came to this conclusion, the child responds that the lion is missing the long neck of the giraffe, which was a strong enough indicator for him to
+conclude that the animal could not be a giraffe.
+
+This analogy quite nicely illustrates that both children arrive at the correct conclusion, that the animal is a lion, but take entirely different
+approaches. Child $A$ is what we would refer to as a **generative learner**. In order to arrive at conclusion, it tries to imagine would a typical
+feature distribution would look like in each of the classes to distinguish (in this case a typical image of each animal). It models the entire
+probability space, and then assigns the class label that to the closest typical feature distribution. Child $B$ is a classical example of a
+**discriminative learner**. It would not be able to draw both animals, but it has sharply analysed the features that identify and distinguish the
+classes, which is why it realises that an animal without a long neck, could never be a giraffe.
+
+Now, that we know how generative models differ from discriminative models, we are learning about three concrete examples of generative models. They
+all try to accomplish the same thing: modelling class conditionals and class priors, but have different sets of assumptions to do so. The different
+assumptions lead to slightly different classifiers, that have their advantages and disadvantages for different types of datasets.
+
+## Notation
+
+---
+
+We can rewrite the posterior class probability according to Bayes’s Theorem like, so
+
+$$
+P(Y=k\ |\ X=x)=\frac{P(X=x| Y=k)\ P(Y)}{P(X)}
+$$
+
+However, writing these out can get tedious, which is why sometimes we use different symbols to denote the different distributions:
+
+- **Posterior Class Probability: $P(Y=k\ |\ X=x) \Longleftrightarrow p_k(x)$** → Given a sample $x$, what is the probability that it belongs to class
+  $k$?
+- **Class Conditionals:** $P(X=x|\ Y=k\ ) \Longleftrightarrow f_k(x)$ → Given that we know the class of a sample, what is the probability to observe a
+  sample $x$?
+- **Class Priors:** $P(Y=k) \Longleftrightarrow \pi_k$ → What is the probability that a randomly chosen data point belongs to class $k$?
+
+This leads to the following - rewritten - equation:
+
+$$
+p_k(x)=\frac{f_k(x)\pi_k}{P(X)}=\frac{f_k(x)\pi_k}{\sum_{k=1}^Kf_k(x)\pi_k}\propto f_k(x)\pi_k
+$$
+
+## LDA (Linear Discriminant Analysis)
+
+---
+
+In LDA, the class priors $\pi_k$ are estimated using MLE (maximum likelihood estimation), which is simply the frequency of the class $k$ in the
+training data.
+
+$$
+\text{Class Priors: }\hat{\pi}_k=n_k/n
+$$
+
+_Note, that $n_k$ is the number of data points that belong to class $k$ in the training data and $n$ is the total number of training samples._
+
+It is more difficult to estimate the class conditionals, i.e. the function modelling the feature space for each of the $k$ classes. LDA makes the
+strong assumption of (A) assuming $f_k(x)$ to be **gaussian** (i.e. normally distributed) for each class and (B) assuming that the variance of
+faetures is constant across all classes. For a single feature $p=1$ and $k$ classes, the class conditionals are estimated through $k$ normal
+distributions $\hat{f}_k:\R\rightarrow \R$ as:
+
+$$
+\hat{f}_k(x)=\frac{1}{\sqrt{2\pi}\sigma}exp\left[-\frac{1}{2\sigma^2}(x-\mu_k)^2\right]
+$$
+
+_Note, firstly, that the we have a class-specific mean (meaning that the distribution of the features can have different mean values for each class),
+but all class conditionals are assumed to have a common variance $\sigma$._
+
+The estimates are again found through maximum likelihood estimation, i.e.:
+
+$$
+\text{Class conditionals: }\hat{f}_k(x)\sim N(\hat{\mu}_k, \hat{\sigma})
+$$
+
+$$
+\hat{\mu}_k=\frac{1}{n_k}\sum_{i:y_i=k}x_i\\ \hat{\sigma}=\frac{1}{n-K}\sum_{k=1}^K\sum_{i: y_i=k}(x_i-\hat{\mu}_k)^2
+$$
+
+_Note, that $\hat{\mu}_k$ is simply the average in the feature $x$ for the samples within the class $k$ and similarly, the estimate for the common
+variance $\hat{\sigma}$ is just the properly normalised sample variance, but broken up into $k$ classes, since we have different estimates for the
+mean for each class._
+
+And that is actually it. Using a LDA classifier, boils down to estimating $k$ class priors $\hat{\pi}_k$, $k$ means $\hat{\mu}_k$ and a common
+variance $\hat{\sigma}$ in the case of a single feature. After these estimation, training is done and new samples can be predicted by computing the
+posteriors from the estimated joint distribution and predicting to the highest value.
+
+### Multivariate Settings
+
+---
+
+If we are in the multivariate setting, where we observe $p>1$ multiple features, we need to extend our estimate for the class conditionals. If we
+assume that the set of $p$ features $\bold{X}=(X_1, X_2, ...,X_p)$ is drawn from a _multivariate gaussian_ (also: _multivariate normal distribution_),
+with a class-specific mean vector and a common covariance matrix, we can rewrite our estimate for the class conditionals.
+
+$\bold{X}\sim N(\mu, \bold{\Sigma})$, where $\mu=E(\bold{X})$ is mean of $X$ with $p$ components and $Cov(X)=\bold{\Sigma}$ is the $p\times p$
+covariance matrix of $\bold{X}$. Formally, we denote:
+
+$$
+\hat{f}_k(x)=\frac{1}{(2\pi)^{p/2}|\bold{\Sigma}|^{1/2}}exp\left(-\frac{1}{2}(x-\mu_k)^T\bold{\Sigma}^{-1}(x-\mu_k)\right)
+$$
+
+_Similarly, to the univariate setting ($p=1$), we estimate $f_k(X=x)$ with a class-specific mean vector and a common covariance matrix
+$\bold{\Sigma}$._
+
+In the single feature setting, The estimates for $\mu_k$ and $\sigma^2$ are computed as follows:
+
+$\hat{\mu}_k=\frac{1}{n_k}\sum_{i:y_i=k}x_i$ (the average value of $X$ masked, st. all values are in class $k$)
+
+$\hat{\sigma}^2=\frac{1}{n-K}\sum_{k=1}^K\sum_{i:y_i=k}(x_i-\hat{\mu}_k)^2$ (weighted average of the sample variances for each of the $K$ classes.
+
+### Linear Discriminants
+
+---
+
+We can show, that the discriminants $\delta_k(x)$ (i.e. the posterior probability distributions) are indeed linear. For simplicity, we show this in
+the univariate case. We can write up the posterior probabilities using Bayes’ Theorem and then simplify:
+
+$$
+\begin{align*}\hat{p}_k(x)&=\frac{\pi_kf_k(x)}{\sum_{l=1}^Kx_lf_l(x)}\\&=\frac{\pi_k\frac{1}{\sqrt{2\pi}\sigma}exp\left[-\frac{1}{2\sigma^2}(x-\mu_k)^2\right]}{\sum_{l=1}^Kx_l\frac{1}{\sqrt{2\pi}\sigma}exp\left[-\frac{1}{2\sigma^2}(x-\mu_l)^2\right]}\\&\propto\frac{\mu_k}{\sigma^2}x-\frac{\mu_k}{2\sigma^2}+log(\pi_k)\end{align*}
+$$
+
+_Taking the log and rearranging terms, we arrive at the final form, which is a linear equation. The word linear in the classifier's name stems from
+the fact that the discriminant functions $\hat{\delta}_k(x)$ are linear functions of $x$._
+
+## QDA (Quadratic Discriminant Analysis)
+
+---
+
+**Quadratic Discriminant Analysis (QDA)** follows the essentially same steps as LDA, but relieves the assumption of equal variance of features across
+classes. What this means, is that the class conditionals (which are still assumed to be normally distributed) can now have different variances (in the
+univariate case, and covariance matrices in the multivariate case) across classes.
+
+Therefore $QDA$ estimates a vector of class priors $(\pi_1,..., \pi_k)$, a vector of class-specific means $(\mu_1, ..., \mu_k)$ and now also a vector
+of class-specific standard deviations $(\sigma_1, ..., \sigma_k)$ (in the cases of a single feature). The estimates are computed as:
+
+$$
+\text{Class Priors: }\hat{\pi}_k=n_k/n
+$$
+
+$$
+\text{Class Conditionals: }\hat{f}_k(x)\sim N(\hat{\mu}_k, \hat{\sigma_k})
+$$
+
+$$
+\hat{\mu}_k=\frac{1}{n_k}\sum_{i:y_i=k}x_i\\ \hat{\sigma_k}=\frac{1}{n-1}\sum_{i: y_i=k}(x_i-\hat{\mu}_k)^2
+$$
+
+The same logic also applies in the multivariate case. Here, we have to find the class-specifc covariance matrix $\Sigma_k$, to model each class
+conditional $\hat{f}_k\sim N(\hat{\mu}_k, \hat{\Sigma}_k)$.
+
+### Quadratic Discriminants
+
+---
+
+With the variance being class-specific, the discriminants (derived in a similar fashion as before) now are quadratic, since the quadratic term depends
+on the class $k$.
+
+$$
+\begin{align*}\hat{p}_k(x)&=\frac{\pi_kf_k(x)}{\sum_{l=1}^Kx_lf_l(x)}\\&=\frac{\pi_k\frac{1}{\sqrt{2\pi}\sigma}exp\left[-\frac{1}{2\sigma^2}(x-\mu_k)^2\right]}{\sum_{l=1}^Kx_l\frac{1}{\sqrt{2\pi}\sigma}exp\left[-\frac{1}{2\sigma^2}(x-\mu_l)^2\right]}\\&\propto -\frac{1}{2\sigma_k^2} x^2 +\frac{\mu_k}{\sigma^2}x-\frac{\mu_k}{2\sigma^2}+log(\pi_k)-\frac{1}{2}log(2\pi o_k^2)\end{align*}
+$$
+
+This means, that each of the discriminants $\hat{p}_k$ is quadratic, and therefore the decision boundaries (which is the set of all points $x$ where
+$\hat{p}_1=...=\hat{p}_k$) are also quadratic.
+
+## Naive Bayes
+
+---
+
+The **Naive Bayes Classifier** is the third generative probabilistic model, that tries to estimate the posterior class probability $p_k(x)$ or
+$P(Y=k\ |\ X=x)$ through modelling joint distributions. It is a very popular method used besides _LDA_ and _QDA_, because it is not necessarily
+reliant on the fact of gaussian features, but can model multiple (possibly different univariate) class conditionals. To do able to so, NB makes the
+(strong!) simplifying assumption that each observed features is independent of each other feature. In the light of this assumption of total
+indepenence of the $p$ features, the multivariate class conditional function $f_k(x)$ factors out into the product of univariate class conditionals.
+
+The independence assumption of the features within some class, greatly simplifies the task of estimating the multidimensional distribution function
+$f_k(x)$, because we can simply write it as the product of univariate class conditionals, ie
+
+$$
+\hat{f}_k(x)=\hat{f}_{k1}(x_1)\cdot \hat{f}_{k2}(x_2)\cdot ... \cdot \hat{f}_{kp}(x_p)
+$$
+
+Note, that the class priors are still modelled through their maximum likelihood estimates:
+
+$$
+\hat{\pi}_k=\frac{n_k}{n}
+$$
+
+Now, the only question remains, how we estimate the individual class conditionals for the $p$ features. Generally, there exist many different
+approaches on how to approximate these distribution of features given the knowledge about some class. Usually, however, we distinguish between
+_qualitative_ and _quantitative_ features. Quantitative features are commonly estimated through a normal distribution and for qualitative features, we
+simply model the discrete probability distribution through dividing the counts in each category by the total number of observed data points. One
+strength of the Naive Bayes model over other the other two geneartive models is the freedom of probability distribution to use for modelling each of
+the features (so if applicable, we could also model a feature as samples from an exponential distribution.

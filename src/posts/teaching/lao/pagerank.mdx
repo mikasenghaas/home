@@ -1,0 +1,142 @@
+---
+id: pagerank
+title: PageRank
+tags: []
+published: 11-03-2022
+lastEdited: 11-03-2022
+---
+
+This week we are going to study an interesting application of linear algebra, specifically the theory of eigenvectors and eigenvalues that we studied
+last week, by looking at the theory behind _Google’s PageRank_ algorithm.
+
+It is the algorithm that assigns importance scores to webpages, which is used when ordering results in its search engines.
+
+## Idea
+
+---
+
+At its core, the PageRank algorithm thinks of the internet as a huge network (mathematical object of a graph), where each node represents a webpage
+and directed edges represent hyperlinks from one webpage to another.
+
+We can exhaustively define any graph using a binary matrix (because of the special property of representing a graph, it is often called an _adjacency
+matrix_) $A$ where for each entry
+
+$$
+A_{i,j}=\begin{cases}1&, \text{if edge (j,i) exists}\\0&, \text{else}\end{cases}
+$$
+
+_Note, that here the $i$-th row corresponds to all the ingoing edges of node $i$ and the $j$-th column corresponds to all outgoing edges of node $j$.
+The transpose of such a matrix, can represent the same graph if we denote the presence of an edge $(i,j)$ in the element $A_{i,j}$. For the entire
+chapter, we are going to stick to the above definition though, as this will lead to a column stochastic matrix (which is the more common way of
+representing flow in matrices)._
+
+An important webpage is now defined to be a webpage that is linked a lot. This backlinks are relative to the relevance of a webpage is an assumption
+PageRank makes, $\text{Backlinks}\sim\text{ Importance}$. Following this assumption, we can construct a vector $x$, that simply counts the number of
+webpages linking to it. Given the above matrix $A$, this corresponds to summing over each row (since those representing the pages linking to webpage
+$i$). Mathematically, we compute the importance of the webpage $i$ as
+
+$$
+x_i=\sum_j A_{i, j}
+$$
+
+So, for the entire importance vector we get
+
+$$
+x=\begin{bmatrix}\sum_j A_{0, j}\\\sum_j A_{1, j}\\\vdots \\\sum_j A_{i, j} \end{bmatrix}
+$$
+
+This approach has one major flaw. Backlinks from less important pages count equally as more important webpages. This makes this approach vulnerable to
+creating a lot of fake-websites that link to the webpage, whose importance score should be pushed in the ranking system.
+
+Therefore, we have to slightly adjust our idea by incorporating that more important webpages linking to a site $i$ should weight more than less
+important websites. This being done by defining the importance vector $x$ in terms of itself, that is the importance of the webpage $i$ is computed as
+
+$$
+x_i=\sum_j A_{ij}x_{ij}
+$$
+
+Furthermore, we change the binary adjacency matrix $A$ to a column stochastic matrix. This just counteracts the fact that the more a page links to
+other pages, the less these links should weight. This means that the element at index $(i,j)$ is now defined as
+
+$$
+A_{i,j}=\begin{cases}1/n_i&, \text{if edge (j,i) exists}\\0&, \text{else}\end{cases}
+$$
+
+Note, that $A_{i,j}$ is non-zero if there exists a link from page $j$ to page $i$. This means that we are summing the importances of all the pages
+(reversely weighted by the number of links of the linking pages) that link to page $i$.
+
+If we write out all the importances of all webpages, then we get a system of linear equations in as many unknowns and equations as we have webpages.
+
+$$
+\begin{align*}x_1&=A_{1,1}x_1+A_{1,1}x_2+...+A_{1,n}x_n\\ x_2&=A_{2,1}x_1+A_{2,2}x_2+...+A_{2,n}x_n\\... &= ...\\\ x_n&=A_{n,1}x_1+A_{n,2}x_2+...+A_{n,n}x_n\end{align*}
+$$
+
+Noice, that we can simply this system into matrix notation
+
+$$
+Ax=x
+$$
+
+Now we see the connection to our study of eigenvalues and eigenvectors. The importance vector $x$ corresponds to the eigenvector to eigenvalue
+$\lambda =1$.
+
+Another way of looking at this system is in terms of a random walk. With $A$ being column-stochastic ($A_{i, j}\ge 0$ for all $(i,j)$, $\sum_iA_{i,j}$
+for all $j$), we can view the entries as the probabilities of going from webpage to webpage if we click links at random.
+
+## Proof of Concept
+
+---
+
+Computing the eigenvector to eigenvalue $1$ for a huge system like the network of webpages of the internet takes a lot of computational effort.
+Therefore, before computing this eigenvector, we should be sure, that…
+
+1. …that it is ****\*****exists****\*****, otherwise the system does not converge and the approach fails to rank pages
+2. …that it is **\*\***unique,**\*\*** otherwise the system has multiple rankings, which is insensible
+
+### Proof of Existence
+
+---
+
+By theorem, a column stochastic matrix has an eigenvalue of $\lambda = 1$. However, our matrix $A$ is not strictly column-stochastic as there can be
+sites $j$ with no outgoing links, and therefore a column of $0$s (which violates the constraint, that the all column sums are 1 in column-stochastic
+matrices).
+
+We can counteract this, by constructing another matrix $D$, which has a $0$ at index $(i, j)$ if there exists at least 1 link from page $j$ and $1/n$
+otherwise. You can think of this matrix as “filling up” all columns with only zeros, and makes such pages link to all pages. In the random walk
+analogy, if we arrive at a page without further links, we continue at a random webpage on the internet.
+
+Mathematically, we define
+
+$$
+A+D
+$$
+
+as being column-stochastic, and therefore, by theorem, having an eigenvalue of $\lambda = 1$.
+
+### Proof of Uniqueness
+
+---
+
+Next, we should prove uniqueness, i.e., that there is a unique importance vector. This should ensure that there is a unique ranking of pages. If there
+are more than one, we need to be more precise when specifying when a page is more important than another one.
+
+This is a problem in itself, since we already know that there is always a set of eigenvector associated with an eigenvalue (the eigenspace). This is,
+however, not a problem, since if the eigenspace is one-dimensional, then the importance vectors are scalar multiples of each other, but they preserve
+the relative ordering of the values inside. This, however, is only true if the eigenspace to eigenvalue 1 is one-dimensional, which does not have to
+hold for matrix $A + D$, e.g. the following matrix
+
+$$
+A=\begin{bmatrix}0 & 1 & 0 & 0\\ 1 & 0 & 0 & 0\\0 & 0  & 0 & 1\\ 0 & 0& 1 &0\end{bmatrix}
+$$
+
+has a two-dimensional eigenspace for eigenvalue $\lambda =1$, spanned by the set $\{(1,1,0,0), (0,0,1,1)\}$ . From a graph perspective, such cases
+correspond to cases, where there webpage is divided into disconnected islands. In the above example, there is not way of getting to page $3$ or $4$ if
+we start at either $1$ or $2$, and the same holds reversely.
+
+To account for this we add a _damping factor_ $m$, $m\in\ ]0;1[$,\* which is the probability to a node at random. Mathematically, we denote
+
+$$
+(1-m)(A+D)+mS
+$$
+
+where $S$ is the matrix with $1/n$ in all entries (corresponding to random moves between all node pairs).

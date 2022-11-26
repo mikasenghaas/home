@@ -1,48 +1,34 @@
-# Portfolio
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-![Netlify](https://img.shields.io/netlify/0ed46b89-c12e-4434-a1d0-4e0d437af36f?style=flat-square)
-![GitHub last commit](https://img.shields.io/github/last-commit/jonas-mika/portfolio?style=flat-square)
+## Getting Started
 
-My personal portfolio website is written in `ReactJS` (Javascript/ Typescript).
-The entire frontend structure is hosted on [Netlify](https://www.netlify.com/). A single netlify application runs
-and uses manual deploys to publish the staging and production build. The sites are live at:
-
-- :link: [jonas-mika.de](https://www.jonas-mika.de) (`production`)
-- :link: [jonas-mika-de.netlify.app](https://jonas-mika-de.netlify.app/) (`production`)
-- :link: [staging--jonas-mika-de.netlify.app](https://staging--jonas-mika-de.netlify.app/) (`staging`)
-
-## Deployment Workflow
-
-New features are built locally in the `dev` branch of the repository.
-To run the app on a locally server on port `3000` (default react port), type either
-
-```
-npm start
-```
-
-_This is the React default_
-
-```
-netlify dev -p 8888
-```
-
-_This runs netlify in a local environment - unforunately it cannot run the app on port `3000`, so this command uses port `8888`_
-
-Once a set of features is developed and ready to be published to production, build the dev branch and then deploy.
+First, run the development server:
 
 ```bash
-netlify build --context staging
-netlify deploy --dir staging --alias staging [--prod]
+npm run dev
+# or
+yarn dev
 ```
 
-_`prod` flag will instantly publish to [https://www.staging--jonas-mika-de.netlify.app](https://www.staging--jonas-mika-de.netlify.app) - otherwise, will get preview URL_
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-If the page looks good, do the same procedure, but to the production site:
+You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-```bash
-netlify build --context production
-netlify deploy --dir production --prod
-```
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-:sparkles: The website should be live at :link: [jonas-mika.de](https://www.jonas-mika.de)!
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
