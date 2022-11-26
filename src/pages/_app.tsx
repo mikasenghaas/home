@@ -5,7 +5,6 @@ import { MDXProvider } from "@mdx-js/react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import Header from "@/components/header";
-import Breadcrumb from "@/components/breadcrumb";
 import Footer from "@/components/footer";
 
 import MDXComponents from "@/lib/mdx-components";
