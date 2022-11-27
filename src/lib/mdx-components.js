@@ -7,9 +7,9 @@ const ResponsiveImage = (props) => {
 
 const MDXComponents = {
   img: ResponsiveImage,
-  h1: (props) => <Heading {...props} variant="primary" size={{ base: "xl", md: "2xl" }} />,
+  h1: (props) => <Heading {...props} mt={20} variant="primary" size={{ base: "xl", md: "2xl" }} />,
   h2: (props) => <Heading {...props} mt={20} variant="primary" size={{ base: "lg", md: "xl" }} />,
-  h3: (props) => <Heading {...props} mt={14} variant="primary" size="lg" />,
+  h3: (props) => <Heading {...props} mt={14} variant="primary" size={{ base: "md", md: "lg" }} />,
   p: (props) => <Text {...props} variant="custom" />,
   a: (props) => <Link {...props} variant="custom" isExternal />,
   hr: (props) => <Divider {...props} variant="inText" />,

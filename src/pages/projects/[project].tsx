@@ -63,7 +63,7 @@ export default function Project({ source }: any) {
       <Scroll />
 
       <Subpage>
-        <Heading mb={5} fontSize="6xl" fontWeight={500}>
+        <Heading mb={5} fontSize={{ base: "4xl", md: "6xl" }} fontWeight={500}>
           {frontmatter.title}
         </Heading>
         <Text fontSize="md" variant="custom">
