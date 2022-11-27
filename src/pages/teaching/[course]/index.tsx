@@ -72,7 +72,7 @@ export default function Course({ courseSource, postFrontmatters }: any) {
 
   const allMeta = postFrontmatters.map((frontmatter: any) => ({
     ...frontmatter,
-    recent: Math.abs(new Date(frontmatter.published).getTime() - today.getTime()) / (24 * 60 * 60 * 1000) < 7 ? 1 : 0,
+    recent: Math.abs(new Date(frontmatter.published.replace(/-/g, "/")).getTime() - today.getTime()) / (24 * 60 * 60 * 1000) < 7 ? 1 : 0,
   }));
 
   return (

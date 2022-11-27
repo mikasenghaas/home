@@ -81,7 +81,7 @@ const LinkBox = ({ meta, href, orientation, ...props }: any) => {
               color="light.text.secondary"
               _dark={{ color: "dark.text.secondary" }}
             >
-              {new Date(meta.published).toLocaleString("en-US", { month: "short", year: "2-digit" })}
+              {new Date(meta.published.replace(/-/g, "/")).toLocaleString("en-US", { month: "short", year: "2-digit" })}
             </Text>
           )}
           <Flex align="center" mt={orientation == "vertical" ? 2 : 0}>

@@ -66,7 +66,7 @@ export default function Project({ source }: any) {
           {frontmatter.title}
         </Heading>
         <Text fontSize="md" variant="custom">
-          {new Date(frontmatter.published).toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+          {new Date(frontmatter.published.replace(/-/g, "/")).toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" })}
         </Text>
         <Flex>
           {frontmatter.tags.map((tag: string) => {

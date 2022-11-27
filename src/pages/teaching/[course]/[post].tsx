@@ -80,12 +80,13 @@ export default function Post({ source }: any) {
           {frontmatter.title}
         </Heading>
         <Text fontSize="md" variant="custom">
-          {new Date(frontmatter.published).toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+          {new Date(frontmatter.published.replace(/-/g, "/")).toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" })}
           {" / "}
           {frontmatter.readTime}
         </Text>
         <Badge fontSize="xs" mb={10} mt={2} variant="custom">
-          Last Updated {new Date(frontmatter.lastEdited).toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+          Last Updated{" "}
+          {new Date(frontmatter.lastEdited.replace(/-/g, "/")).toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" })}
         </Badge>
         <MDXRemote {...source} />
       </Subpage>
