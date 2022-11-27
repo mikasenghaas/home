@@ -15,8 +15,6 @@ export function NotFound() {
         <meta name="description" content="Sorry, this page was not found. Try going back home." />
         <meta property="og:title" content="Not Found | Mika Senghaas" />
         <meta property="og:description" content="Sorry, this page was not found. Try going back home." />
-        <meta property="og:image" content="/assets/social-preview.jpeg" />
-        <meta name="twitter:card" content="summary"></meta>
       </Head>
       <Subpage>
         <Box position="relative" width="100%" height={{ base: "200px", lg: "300px" }}>

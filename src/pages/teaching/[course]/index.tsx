@@ -82,9 +82,6 @@ export default function Course({ courseSource, postFrontmatters }: any) {
         <meta name="description" content={`${courseSource.frontmatter.summary} | Mika Senghaas`} />
         <meta property="og:title" content={`${courseSource.frontmatter.title} | Mika Senghaas`} />
         <meta name="og:description" content={`${courseSource.frontmatter.summary} | Mika Senghaas`} />
-        <meta property="og:image" content="/assets/social-preview.jpeg" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary"></meta>
       </Head>
       <Subpage>
         <MDXRemote {...courseSource} />

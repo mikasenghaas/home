@@ -71,9 +71,6 @@ export default function Post({ source }: any) {
         <meta name="description" content={`A post about ${frontmatter.title}`} />
         <meta property="og:title" content={`${frontmatter.title} | Mika Senghaas`} />
         <meta name="og:description" content={`A post about ${frontmatter.title}`} />
-        <meta property="og:image" content="/assets/social-preview.jpeg" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary"></meta>
       </Head>
       <Scroll />
       <HeaderTitle title={frontmatter.title} />

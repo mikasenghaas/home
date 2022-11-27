@@ -46,9 +46,6 @@ export default function Projects({ logSources }: any) {
         <meta name="description" content="Logging about content and ideas that resonate with me" />
         <meta property="og:title" content="Log | Mika Senghaas" />
         <meta name="og:description" content="Logging about content and ideas that resonate with me" />
-        <meta property="og:image" content="/assets/social-preview.jpeg" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary"></meta>
       </Head>
       <Subpage>
         <Heading mb={10} fontSize="4xl">

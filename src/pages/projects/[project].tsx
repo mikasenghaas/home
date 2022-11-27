@@ -59,8 +59,6 @@ export default function Project({ source }: any) {
         <meta property="og:title" content={`${frontmatter.title} | Mika Senghaas`} />
         <meta name="og:description" content={`A post about {frontmatter.title}`} />
         <meta property="og:image" content={frontmatter.img} />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary"></meta>
       </Head>
       <Scroll />
 
