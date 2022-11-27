@@ -93,9 +93,9 @@ export default function Home() {
         </Heading>
         <Text variant="custom" fontSize={{ base: "lg", sm: "xl" }} mb={2}>
           I am a 20-year old student from Germany studying my <strong>BSc. Data Science</strong> at ITU. During my studies I have developed a
-          far-reaching interest into many domains of the CS and DS field. Today, I am especially intruiged by understanding SOTA research in arificial
-          intelligence and algorithms for tackling the most complex problems to date. In spring 2023 I am writing my <strong>bachelor thesis</strong>,
-          setting out to answer to what extend we can use computer vision for building a indoor positioning system.
+          far-reaching interest into many domains of the CS and DS field. Today, I am especially intruiged by understanding SOTA research in
+          artificial intelligence and algorithms for tackling the most complex problems to date. In spring 2023 I am writing my{" "}
+          <strong>bachelor thesis</strong>, setting out to answer to what extend we can use computer vision for building a indoor positioning system.
         </Text>
         <Text variant="custom" fontSize={{ base: "lg", sm: "xl" }} mb={2}>
           Apart from my studies, I am working as a teaching assistant at ITU, helping course managers to facilitate lectures and exercise sessions.
