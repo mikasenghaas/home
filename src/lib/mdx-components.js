@@ -2,7 +2,21 @@ import Image from "next/image";
 import { Box, Heading, Text, Link, Divider, Alert } from "@chakra-ui/react";
 
 const ResponsiveImage = (props) => {
-  return <Image {...props} alt={props.alt} width={700} height={300} style={{ borderRadius: 10, paddingY: "50px", objectFit: "cover" }} priority />;
+  return (
+    <Image
+      {...props}
+      alt={props.alt}
+      width={700}
+      height={300}
+      style={{
+        borderRadius: 10,
+        marginTop: "20px",
+        marginBottom: "20px",
+        objectFit: "cover",
+      }}
+      priority
+    />
+  );
 };
 
 const MDXComponents = {
