@@ -39,7 +39,7 @@ export default function Home() {
           <Link href="https://en.itu.dk/" variant="custom" isExternal>
             IT University of Copenhagen
           </Link>{" "}
-          with a special interest in AI.
+          interested in cutting-edge AI.
         </Text>
         <Flex my={10}>
           <Tooltip label="Check out my teaching material">
@@ -71,35 +71,46 @@ export default function Home() {
           <Box minWidth="200px">
             <Badge variant="custom">Data Science</Badge>
           </Box>
-          <Text variant="custom">Statistics, ML/ DL, Network Analysis, Data Visualisation, Database Design</Text>
+          <Text variant="custom">Statistical Learning, Machine Intelligence, Network Analysis, Data Visualisation</Text>
         </Flex>
 
         <Flex my={3} direction={{ base: "column", sm: "row", md: "row" }} alignItems={{ base: "flex-start", sm: "center", md: "center" }}>
           <Box minWidth="200px">
-            <Badge variant="custom">Web/ Mobile Dev</Badge>
+            <Badge variant="custom">Software Engineering</Badge>
           </Box>
-          <Text variant="custom">React (Native), Next, Flask, PostgreSQL, Netlify, Heroku, Vercel</Text>
+          <Text variant="custom">Algorithms/ Data Structures, Operating Systems, Software Design, OOP</Text>
         </Flex>
 
         <Flex my={3} direction={{ base: "column", sm: "row", md: "row" }} alignItems={{ base: "flex-start", sm: "center", md: "center" }}>
           <Box minWidth="200px">
-            <Badge variant="custom">Collaboration</Badge>
+            <Badge variant="custom">Techstack</Badge>
           </Box>
-          <Text variant="custom">Git, Jupyter Notebook, Google Colab, Deepnote</Text>
+          <Text variant="custom">
+            Git, Numpy, Pytorch, Sci-Kit Learn, Pandas, Matplotlib, Tableau, React (Native), Next.js, Astro, Flask, PostgreSQL, Heroku, Netlify,
+            Vercel
+          </Text>
         </Flex>
 
         <Heading mt={40} mb={10} fontSize={{ base: "2xl", md: "4xl" }}>
           A few words about me
         </Heading>
         <Text variant="custom" fontSize={{ base: "lg", sm: "xl" }} mb={2}>
-          I am a 20-year old student from Germany studying my <strong>BSc. Data Science</strong> at ITU. During my studies I have developed a
-          far-reaching interest into many domains of the CS and DS field. Today, I am especially intruiged by understanding SOTA research in
-          artificial intelligence and algorithms for tackling the most complex problems to date. In spring 2023 I am writing my{" "}
-          <strong>bachelor thesis</strong>, setting out to answer to what extend we can use computer vision for building a indoor positioning system.
+          I am a 20-year old student from Germany studying my <strong>BSc. Data Science</strong> at ITU. Artificial intelligence is my primary passion
+          within the data science field. I am deeply fascinated by the theory and application of machines that learn and am convinced that it is going
+          to shape our future in ways we cannot imagine yet. In pursuit of learning within this field, I am writing my{" "}
+          <strong>bachelor thesis</strong> in computer vision this spring. I am the founder of the artificial intelligence student organisation{" "}
+          <Link href="https://aitu.group/" variant="custom" isExternal>
+            AITU
+          </Link>
+          , where we create a community around the field of AI. Moreover, I organise the event{" "}
+          <Link href="https://studentcouncil.dk/organisations/cs-coffee-talk" variant="custom" isExternal>
+            CS Coffee Talks
+          </Link>{" "}
+          and represent my university as a student ambassador.
         </Text>
         <Text variant="custom" fontSize={{ base: "lg", sm: "xl" }} mb={2}>
-          Apart from my studies, I am working as a teaching assistant at ITU, helping course managers to facilitate lectures and exercise sessions.
-          You can see the list of courses, alongside material I put up for my students, at the{" "}
+          Apart from my studies, I work as a teaching assistant at ITU, helping course managers to facilitate lectures and exercise sessions. You can
+          see the list of courses, alongside material I put up for my students, at the{" "}
           <NextLink href="/teaching" passHref legacyBehavior scroll={false}>
             <Link variant="custom">teaching</Link>
           </NextLink>{" "}
