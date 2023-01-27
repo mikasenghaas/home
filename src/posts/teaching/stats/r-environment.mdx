@@ -1,0 +1,177 @@
+---
+id: r-environment
+title: R Development Environment
+tags: []
+published: 01-27-2023
+lastEdited: 01-27-2023
+---
+
+Welcome to the first exercise session in **Applied Statistics**. As the first official lecture of the course is on Wednesday, February 1st, today's
+focus is on getting you started for the course.
+
+The main goal of this class is to set up your development environment in R, which is the programming language introduced and used in this course.
+
+> After this session, everyone is expected to have a working R installation of their local machine.
+
+Note, that in the exam you will be submitting a R-Markdown (`.rmd`) file, so having your environment setup and getting comfortable with it over the
+semester is going to be crucial for the exam.
+
+## Prerequisite: Installing R
+
+---
+
+R is an interpreted language, just like Python. This means, that executing R source code requires an **interpreter**, that translates R source code
+into machine-readable binary code. This software (alongside default libraries and more) needs to be downloaded.
+
+As some Linux distributions are shipped with natively installed R, you may skip the R installation step. To avoid re-installation, test whether you
+have R installed.
+
+```jsx
+r --version
+```
+
+If the command runs without errors and gives output stating the R version and installed platform, just make sure that you have installed at least
+version `3.3.0`, as this is required for R Studio. Ideally, install the newest version, which is version `4.4.2 (2022-10-31)` as of January 26th 2023.
+
+If the command is not recognised, it is likely that you do not have R installed on your machine. You will need to install it. For OSX (both Intel and
+Apple Silicon), I recommend installing via `homebrew` through
+
+```bash
+brew install r
+```
+
+If you prefer a default install or you are on Linux/ Windows, visit the [CRAN Archive](https://cran.rstudio.com) (kind of like PyPi for Python) and
+choose the R installation according to your machine’s requirements, i.e. choose the right operating system and processor.
+
+After installation, re-run the command `r --version` in your terminal to verify that the R install was successful and that the binary is on your path.
+
+## Option 1: R Studio
+
+---
+
+> This option is the official course recommendation
+
+R Studio is the IDE (Integrated Development Environment) that is built and maintained by the original R developers and is widely adopted in industry
+for statistical programming using R. With the tight connection to the language, the IDE is highly optimised for statistical programming in R. Some of
+the features that are specific to R are visual interfaces for handling R installations, R packages, a built-in R console (with history) and R Viewer
+(to view plots). In addition, it has the regular IDE features, like code highlighting, linting, formatting, auto-suggestions and much more.
+
+On OSX, you can install R Studio using `homebrew`, which all install the latest software release.
+
+```bash
+brew install --cask rstudio
+```
+
+Alternatively, visit the official [Posit](https://posit.co/download/rstudio-desktop/) webpage and download R Studio Desktop. The webpage should
+automatically detect your operating system, so you just press the button to install the application.
+
+To check the installation, launch the `R Studio` application. In its base configuration, you should be able to see a screen similar to this one.
+
+![r-studio example](/assets/rstudio.png)
+
+If you see this screen: Congratulations, you are done with your setup 🚀. From here, you can customise your IDE experience by, for example, adjusting
+visual appearance, pane layout and much more. I generally recommend, keeping user settings to a minimum and only setting options that are absolutely
+necessary. R Studio comes with a lot of shortcuts (which you can also customise). I highly recommend getting familiar with some of those shortcuts. To
+not overload you from the start, consider the below selection, which I find useful in my workflow.
+
+1. `Ctrl + 1`: Switch to Editor
+2. `Ctrl + 2`: Switch to R Console
+3. `Ctrl + Shift + 1`: Maximise Editor Pane
+4. `Ctrl + Shift + 0`: Back to Multi-Pane Layout
+5. `Cmd + =/-`: Zoom In/ Out
+6. `Cmd + 0`: Default Zoom
+7. `Cmd/ Ctrl + Enter`: Execute Current Line (+ cursor jumps to next line)
+8. `Cmd/ Ctrl + Shift + Enter`: Execute R Script/ Current R Chunk (in R Markdown) with Echo
+9. `Cmd/ Ctrl + Shift + s`: Execute R Script without Echo
+10. `Ctrl + Tab`: Next Pane (in editor pane)
+11. `Ctrl + Shift + Tab`: Previous Pane (in editor pane)
+
+Additionally, I use the `vim` keybindings in the editor pane. Only turn on this option if you have experience with vim as an editor.
+
+## Option 2: VS Code
+
+---
+
+> This option is for everyone, who does everything in VS Code
+
+Visual Studio Code is a relatively light-weight, but highly extensible and customisable, code editor that is maintained by Microsoft. It is arguably
+the most popular code editors and used by software developers in all domains. If VS Code feels like home to you and have already customised it to your
+personal needs, you might find it nicer to extend VS Code to write R, instead of learning a new IDE.
+
+In order to get an “R Studio”-like experience in VS Code, you will need to extend the editor:
+
+1. **Official R Extension for Visual Studio Code**
+
+   Extended syntax highlighting, R Console, Keyboard Shortcuts for R Script execution, Viewing Data, Plots, Workspace Variables and R Markdown
+
+2. **R Language Server**
+
+   Run `install.packages("languageserver")` in the VS Code R Console to get richer auto-suggestions
+
+You should be good to go and start editing regular R Scripts, as well as R Markdown. You will get most of the features that R Studio provides, but
+with the VS Code feeling. I have found most basic things to be working, although code linting and auto-suggestions (especially for external packages)
+seem to be stronger out-of-the-box in R Studio. You can also customise settings, shortcuts and more in the regular VS Code settings (UI/ JSON).
+
+## Option 3: R from Terminal
+
+---
+
+> This setup option is for everyone, who is already doing the vast majority of their software development work in Terminal and have loads of
+> experience with text-based editors. I do not recommend only using this development environment for the course, as it does have good support for R
+> Markdown.
+
+If you are like me, then you love developing software straight from your Terminal. It is incredibly light-weight and highly customisable. Over the
+years, I have tweaked my [terminal-based development environment](https://www.github.com/mikasenghaas/dotfiles) to my needs and as part of that I also
+explored how to best interact with R.
+
+I do want to note, that I recommend going with R Studio for 99% of developers because of the ease of setup and use. This is just aimed at people, who
+already have prior experience with terminal-based editing or would like to get into it. For this course specifically the setup is not ideal, since the
+format you will be interacting with R the most are R Markdown (`.rmd`) files, which - similarly to Jupyter Notebook - are a mix of Markdown, Latex and
+code blocks. Text-based editors in Terminal naturally defeat the purpose of such tools and you will find working in IDE’s a lot more convenient.
+
+From here on, I assume that you have a working distribution of (Neo)vim that you have prior experience with. Without any further installations than
+the R language, there are two main ways to interact with R from Terminal:
+
+1. **R Console**
+
+   To open the R Console, simply type `R` or `r` and you are in an interactive shell environment. Similarly to the Python interactive shell, you
+   should use this for quick calculations, tiny (non-reproducible) experiments, minimalistic exploratory data analysis or to pull up the _Help_ pane
+   for built-in R functions. You can close the shell by typing `quit()` or `q()` and can choose to save the session (variables, functions etc. that
+   you assigned) before closing the console.
+
+2. **R Scripts**
+
+   For any larger “project” you should switch to R scripts, which are again very similar to Python scripts. Write R code in a source file with the
+   `.r` or `.R` extension and then execute using the command `rscript <file>.r`. I typically open the script in Neovim in one tmux pane, and have
+   another pane for executing the script in my shell. Alternatively you can also run R scripts from console (this is what happens in R Studio, when
+   you press “Run File”) by typing `source("<file>.r")`.
+
+These two options will already get you pretty far, but it does not support, line-by-line execution, as well as many useful IDE features, such as
+auto-suggestions, linting and many more. To get the R-Studio like experience into your Terminal, you will need to use plugins:
+
+1. **R Language Server**
+
+   An R language server checks your R code for errors, provides auto-suggestions and more. LSP and completion engines can be installed in different
+   ways and are too complicated to go into detail here. In short, my setup uses [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) as a
+   wrapper for Neovim’s default LSP settings, [mason](https://github.com/williamboman/mason.nvim) to manage all installed language servers and
+   [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) for code suggestion and completion. I go more in depth for my Neovim configs in this
+   [repository](https://www.github.com/mikasenghaas/dotfiles).
+
+2. **Nvim-R**
+
+   [NvimR](https://github.com/jalvesaq/Nvim-R) brings many nice features of R Studio into your terminal setup. The best additional feature is an
+   integrated communication of the Neo(vim) session with an R Console, which means that the script you are editing in is connected to an R console,
+   which allows for line or block execution.
+
+My final setup looks like this, but there is obviously infinitely many options to tune.
+
+![terminal-based-r-ide](/assets/terminal-r.png)
+
+## Optional: Radian (Modern R-Console)
+
+---
+
+[Radian](https://github.com/randy3k/radian) is a modernised version of the natively shipped R console. It provides syntax highlighting in the console,
+auto-suggestions as well as multi-line editing, which makes it a nice option especially in the Terminal setup, where you are going to be interacting
+with an R Console a lot. Installation is easily done by `pip install radian` and you can configure its behaviour. For more information see the
+project’s [GitHub](https://github.com/randy3k/radian).
