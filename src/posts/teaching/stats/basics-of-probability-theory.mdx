@@ -1,0 +1,275 @@
+---
+id: basics-of-probability-theory
+title: Basics of Probability Theory
+tags: []
+published: 01-31-2023
+lastEdited: 01-31-2023
+---
+
+Probability and statistics are dealing with and trying to make sense of
+randomness. All day we encounter phenomena that appear random to us.
+
+Probability theory is the branch of mathematics that tries to fit together the
+deterministic world of mathematics with the uncertainity confronting us in the
+physical world. It promises to sensibly model this uncertainity quantitively.
+
+> Probability theory is a mathematical framework for dealing with random events.
+> It is the foundation for statistics and machine learning.
+
+Throughout this course, we will learn about basic concepts of probability
+theory. Today we start by agreeing on some basic terminology and notation, when
+modelling random phenomena. We introduce the notion of a **sample space** as the
+set of all possible outcomes of a **random experiment**, define **events** and
+**probabilities** to them.
+
+Later in the course, we go on to define random variables and mathematical tools
+to deal with them, as well as characterise commonly observed randomness in
+nature through well-known probability distributions.
+
+All this knowledge will serve us as a basis to make sense of observed samples of
+random processes (datasets) to describe and infer knowledge in a statistically
+sound way. Defeatedly, we will admit that we can never be 100% certain about our
+statement, but we will develop tools to at least _quantify_ our uncertainity.
+
+## Random Experiments
+
+---
+
+All processes of interest in probability theory involve some kind of randomness.
+In probability theory a random process is often called a **random experiment**
+and is characterised as follows:
+
+> An experiment is called random, if the outcome of the experiment is uncertain.
+
+To make sense of the behaviour of a random process, one needs to follow three
+steps:
+
+1. **Define Outcomes**: What can we possibly observe in the random experiment?
+
+2. **Define Events**: What combination of outcomes can we possibly observe?
+
+3. **Assign Probabilities**: How likely is each event to occur?
+
+In probability theory, this triple is called the **probability space** or
+**probability triple**, which is denoted as $(\Omega, F, P)$. It is a
+mathematical construct that provides a formal model of a random experiment at
+hand. In the following sections, we will discover each element in detail.
+
+## Sample Space
+
+---
+
+Any random process produces some known range of _possible outcomes_ (= a result
+of a random experiment). The set of all possible outcomes is denoted as the
+**sample space** (sometimes also _sample description space_ or _possibility
+space_) $\Omega / S$.
+
+> The sample space $\Omega / S$ is a set, whose elements describe all possible
+> outcomes of a random experiment.
+
+### Conditions of Sample Spaces
+
+---
+
+A set $\Omega/S$ with outcomes $s_1, s_2, ..., s_n$, such that
+$\Omega = \{s_1, s_2, ..., s_n\}$ must meet some conditions in order to be a
+sample space:
+
+1. The outcomes must be **mutually exclusive**, i.e. if some elementary event
+   $A$ takes place, then no other event in the sample space can take place.
+
+2. the outcomes must be **mutually exhaustive**, i.e. every realisation of the
+   experiment will yield an outcome from the sample space (there is no other
+   outcome than the one's defined in the sample space)
+
+The sample space must have the *right granularity* depending on what we are
+interested in. We must remove irrelevant information from the sample space. In
+other words, we must choose the right level of abstraction.
+
+_Note, that the sample space $\Omega/S$ is the universal set. So for some random
+experiment, the sample space defines the entire world in observance. In Venn
+Diagram's the sample space would be the rectangle, that contains several
+subsets._
+
+### Mathematical Background
+
+---
+
+Since, after all, the sample space is nothing more than a mathematical set - so
+a collection of items, which in this case have some specified meaning, all rules
+and characteristics we have discovered apply.
+
+We can differentiate between different types of random experiments that produce
+different sets of possible outcomes. The set of outcomes of some random process,
+inherently determines the way we deal with quantifying it, so it is important to
+differentiate between the different types of sample spaces:
+
+- **Finite Sets**: Flipping a Fair Coin
+
+- **Countably Infinite**: First Heads when flipping a Fair Coin
+
+- **Infinite Sets**: Measuring Human Heights
+
+_For finite sets, we can furthermore determine the cardinality of the sample
+space, that is defined as the number of elements in the set._
+
+### Compound Random Processes
+
+---
+
+Basic to statistics is that one usually does not consider one experiment, but
+that the same experiment is performed several times. For example, suppose we
+throw a coin two, ten or a million times. When we deal with a compound random
+process, we are firstly interested in the new sample space, so the new set of
+all possible outcomes. This is easy enough to define:
+
+For $n$ repeated similar experiments with sample spaces
+$\Omega_1, \Omega_2, ..., \Omega_n$, the combined experiment has the cartesian
+product as its sample space, such that our new $\Omega$:
+
+$$
+\Omega = \Omega_1 \times \Omega_2 \times ... \times \Omega_n= \{(w_1,w_2, ...., w_n) | w_1 \in \Omega_1, w_2 \in \Omega_2, ..., w_n \in \Omega_n\}
+$$
+
+Note that for $\Omega_1$ having $r$ elements and $\Omega_2$ having $s$ elements,
+the product of the two sample spaces $\Omega_1 \times \Omega_2$ has $r \cdot s$
+elements. We can denote
+
+$$
+|\Omega| = |\Omega_1|\cdot |\Omega_2|
+$$
+
+## Events
+
+---
+
+The sample space answer "_Which outcomes can possibly occur?_". Often, we are
+interested in particular events from this set. Events therefore answer the
+question "_How likely is this event to occur?_".
+
+Mathematically, **events** are defined as subset of the sample space. Is that
+can be defined on the sample space and try to assign probabilities to the
+different outcomes that might occur. Mathematically speaking, **events** are
+defined as subset of the sample space (universal set)
+
+> In probability theory, an event is a subset of the sample space. We say that
+> an event $A$ occurs if the outcome of a single experiment is an element of the
+> set $A$.
+
+$$
+A \subset \Omega \text{ (Event A in Sample Space)}
+$$
+
+### Event Space
+
+---
+
+It is important to observe, that the bigger our sample space gets, the more
+distinct combinations are there that form a subset of the sample space. However,
+the event space - in set theory referred to as the _power set of $\Omega$ -_ is
+the set of all subsets of $\Omega$, including $\Omega$ itself and the empty set
+$\empty.$
+
+_Note, that there are some special types of events within the power set that
+have special names. Namely, we speak of the empty set $\empty$ for the set
+containing nothing and deterministically define its probability to be zero and
+elementary events (also: atomic event or singleton) for events which only
+contain a single outcome in the sample space._
+
+### Multiple Events
+
+---
+
+Since events are subsets of a bigger set, we can combine more events and denote
+the sets using the notation of mathematical set theory. Let's revisit the common
+set operations for two events $A$ and $B$ within the sample sapce $\Omega$:
+
+- **Union of Events**: $A \cup B\  (A \text{ or } B)$, meaning $A\cup B$ occurs
+  if $A$ or $B$ occurs.
+
+- **Intersection**: $A \cap B\ (A \text{ and } B)$, meaning that $A\cap B$
+  occurs if $A$ and $B$ occur.
+
+- **Complement**: $A^c = \{w\in\Omega | w \notin A\}$, meaning that $A^C$ occurs
+  if $A$ does not occur.
+
+- **Disjoint/ Mutually Exclusive**: $A\cap B=\empty$, meaning that $A$ and $B$
+  can never occur together. $A$ happening implies $~B$, and vice versa.
+
+- **Implication**: $A \in B$, meaning that an event $A$ implies event $B$ if the
+  outcomes of $A$ also lie in $B$. Implication is the opposite of disjointness.
+
+**Venn diagrams** are very useful in visualising relation between sets. In a
+Venn diagram any set is depicted by a closed region. We can use it to depict
+events and their unions/ intersections and differences in the cosmos of
+probability theory.
+
+## Probabilities
+
+---
+
+Each event can be assigned a **probability**, which quantifies how likely it is
+that the event occurs.
+
+Mathematically, we say that for some event $A$, we are seeking for a number
+$P(A)$ quantifying the likeliness of the event. As this number is a probability
+measures, it has to fulfill certain criteria. These criteria are called the
+**axioms of probabilities**.
+
+### Axioms of Probabilities
+
+---
+
+We assign a probability to some event $A$ through a probability function, such
+that $P(A)$ is a value between $0$ and $1$ that shows how likely it is that the
+event occurs.
+
+1. **Non-Negativity**: For any event $A$, $0 \le P(A) \le 1$
+
+2. **Mutually Exhaustive**: No other event than defined in the sample space can
+   occur. Therefore, the probability of the sample space is $P(\Omega)=1$
+
+3. **Additivity of Disjoint Events**: If $A_1, A_2, ..., A_N$ are disjoint
+   events, then  
+   $P(A_1 \cup A_2 \cup ... \cup A_n)=P(A_1)+P(A_2)+...+P(A_N)$
+
+4. **Probability of the complement**: For some event $A$ occurring with
+   probability $P(A)$, the probability of the event not happening is
+   $P(A^C)=1-P(A)$.
+
+   $$
+   \begin{align*}
+   P(A^C \cup A) &= 1 \\
+   P(A^C) + P(A) &= 1 \\
+   P(A^C) &= 1 - P(A) \\
+   \end{align*}
+   $$
+
+### Probability of Empty Set
+
+---
+
+Since $P(\empty)=1-P(s)=0$, also by definition occurs if the outcome of the
+experiment is an element of the subset defined by the event, since $\empty$ does
+not contain an element, this is impossible and thus $P(\empty)=0$
+
+### Probability of General Union
+
+---
+
+We have seen that the union of two disjoint events (either event $A$ or event
+$B$ happens) occurs with the probability of the sum of the two individual
+events. However, if we cannot assume the disjointness of the events, we have to
+take into consideration their intersection elementary events. The probability of
+the union of two general events is therefore:
+
+$$
+\begin{align*}
+P(A \cup B)  &= P(A \cup (B-A))\\
+             &=P(A)+P(B-A)\\
+             &=P(A)+P(B)-P(A\cap B)
+\end{align*}
+$$
+
+_Note, that we can also verify our third axiom of probabilities: The additive
+property of disjoint events, as $P(A \cap B)=0$ for $A$ and $B$ being disjoint_
