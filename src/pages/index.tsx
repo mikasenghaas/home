@@ -103,7 +103,7 @@ export default function Home() {
             AITU
           </Link>
           , where we create a community around the field of AI. Moreover, I organise the event{" "}
-          <Link href="https://studentcouncil.dk/organisations/cs-coffee-talk" variant="custom" isExternal>
+          <Link href="https://coffeetalks.itu.dk" variant="custom" isExternal>
             CS Coffee Talks
           </Link>{" "}
           and represent my university as a student ambassador.
