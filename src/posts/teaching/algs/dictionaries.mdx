@@ -1,0 +1,671 @@
+---
+id: dictionaries
+title: Dictionaries
+tags: []
+published: 03-07-2022
+lastEdited: 02-05-2023
+---
+
+Modern computing and the internet have made a vast amount of information
+accessible to everyone. The ability to efficiently search through this
+information is therefore fundamental to processing it. In this chapter, we are
+looking at classical _searching_ algorithms.
+
+As we did for _sorting algorithms_, we will start off with a naive approach to
+the general algorithmic problems and will then continuously refine the
+algorithms to tweak the performance in a way that makes the problem feasible for
+huge inputs.
+
+For a given array of $n$ key-value pairs, return the value given some key in the
+least amount of time and extra memory used.
+
+The formal description of a _search problem_ is very intuitive and should come
+natural. Often search problems are related to not only return, whether or not an
+element is present (as ie. in standard _binary search_), but also to retrieve
+some information (the _value_) that was associated to some _key_ that was being
+searched.
+
+## API: **Symbol Tables**
+
+---
+
+This behaviour is encoded in the API of the **symbol table** _(also: associative
+array, map or dictionary)_. In computer science, a symbol table associates a
+_value_ with a _key,_ into several pairs of keys and values - so called
+_key-value-pairs._ Due to this basic structure, symbol tables are also often
+referenced as **dictionaries**, since dictionaries work in a similar manner and
+allow fast lookup through the lexicographical order of its keys.
+
+### General Requirements
+
+---
+
+Our API should allow the client to insert new _key-value pairs_ into the symbol
+table with the expectation of alter being able to _search_ for the value
+associated with a given key, from among all of the key-value pairs. Further
+operations can be implemented for this basic data structure to allow more
+flexible handling of the data information stored in the symbol table for the
+client.
+
+A symbol table is a data structure for key-value pairs that supports two
+fundamental operations: _Insert (put)_ a new pair into the table and _search for
+(get)_ the value associated with a given key.
+
+### Some Design Choices
+
+---
+
+Before we start thinking of how we might implement this data structure, it is
+important to acknowledge that there are some design choices to be made when
+dealing with symbol tables:
+
+1. Duplicate Keys
+
+   Our ST might or might not allow duplicate keys. In the implementations we
+   consider -and that are most widely used - keys are unique, such that a
+   `put()` operation with for a pair, whose key is already in the ST, we update
+   the old value with the newly inserted.
+
+2. Generics
+
+   While we could specify, the type of keys and values that are allows in our ST
+   implementation, we consider the methods without specifying the types of the
+   items being processed, using generics.
+
+3. Null Keys
+
+   Keys cannot be `Null`/`None`
+
+4. Null Values
+
+We do not allow `Null`/`None` values in our ST
+
+## Sequential ST
+
+---
+
+The most basic and straightforward option for the underlying data structure for
+a symbol table is to sequentially store mappings in an association list, mostly
+implemented as a simple linked list, where mappings are represented by nodes
+containing keys and values.
+
+### Implementing `get()`
+
+---
+
+Sequentially (thus the name) search through the linked list, on each iteration
+comparing whether the given key matches with the key of the node. If we get a
+search hit, we return the value of the node, if we iterate over the whole linked
+list without a search hit and arrive at a null object, our search missed and we
+return null.
+
+Time: $O(N)$
+
+Implementing `put()`
+
+---
+
+Again, we sequentially iterate over the nodes (holding the key-value pairs) to
+check whether the key is already present in the ST. If yes, we update the value
+at the node with the search hit. If not, we create a new node with the given key
+and value and insert it at at the beginning of the list by updating pointers.
+
+Time: $O(N)$
+
+## Binary Search ST
+
+---
+
+Next, we consider a full implementation of our ordered symbol-table API, where
+at any point the keys in the symbol table are in order (this assumes that each
+key is a comparable type).
+
+The underlying data structure is a pair of parallel arrays, one for the keys and
+one for the values. At any point, the key array is sorted, which allows us to
+use the fast $lg\ N$ running time of binary search for our `get()` operation.
+
+### Implementing `get()`
+
+---
+
+Given a key, we perform a binary search on the key array, which - in the worst
+case - returns the index of the key in the array or a search hit in logarithmic
+time. We can then use this index to return the associated value from the
+parallel value array.
+
+Time: $O(lg\ N)$
+
+### Implementing `put()`
+
+---
+
+However, the `put()` operation is quite expensive, since for each insertion of a
+new pair, we need to find the correct position in the parallel arrays and then
+rearrange all elements by one for the right subarray. This operation takes
+linear time. Note that we also need to dynamically resize both arrays in order
+to allow for indefinite insertions/ calls to `put`.
+
+Time: $\sim 2N = O(N)$
+
+Note, that in an ordered ST, we can easily implement additional methods, such
+as: `min()`, `max()`, `deletemin()`, `deletemax()`, `ceiling()`, `floor()`,
+`select()`
+
+## Hash Table
+
+---
+
+There are mainly two efficient ways of implementing _symbol tables_/
+_dictionaries_ - one of which we have just learned about: _Balanced Binary
+Search Trees_, that guarantee logarithmic running time on both `get()` and
+`put()` operation by maintaining the invariant that the tree height is at most
+$log\ n$ at all times, which is an implementation of an ordered symbol table,
+which allows to implement order-based operations, such as `min()`, `max()`,
+`ceiling()`, `floor()` and more.
+
+We will now turn to a very different approach of solving the searching problem,
+known as _hash tables_. The basic idea of hash tables - sometimes also referred
+to as hash maps - is that if we could assign a unique index $0$ to $m-1$ (in an
+$m$ sized hash table) for each generic object as a key, then we could run in
+constant time complexity, since we would just need to make a computation on the
+key (which runs independently of the size of the so far inserted keys), and use
+the result to save our value at the unique index computed by this _mysterious_
+hash function.
+
+> In computing, a hash table (hash map) is a data structure that implements an
+> associative array abstract data type. A hash table uses a hash function to
+> compute an index, also called a hash code, into an array of buckets or slots,
+> from which the desired value can be found. During lookup, the key is hashed
+> and the resulting hash indicates where the corresponding value is stored.
+
+### General Procedure
+
+---
+
+Search algorithms that use hashing consist of two separate parts:
+
+1. **Hash Function**
+
+   The first part is to compute a hash function that transforms generic search
+   keys into an array index known as a hash value. The ultimate goal of any hash
+   function is to assign distinct, different hash values to each key inserted
+   into the hash function, such that the presence of a hash value enables to
+   conclude the specific (single) object that produced the specific hash value.
+   As we will see, however, this idea is generally beyond reach, which means
+   that we have to deal with the situation that two or more (but at least as
+   possible) different keys hash to the same value.
+
+2. **Collision-Resolution**
+
+   This second part of hashing search, that deals with the ambiguity of hash
+   values, is known as _collision-resolution_. That is, because keys that
+   produce the same hash value (which we ultimately want to use as a array
+   index), cause collisions in our array, that we have to deal with, if we don't
+   want to loose information.
+
+   We will discover the two main methods of dealing with the imperfection of our
+   hash function that are known as...
+
+   - ... _separate chaining_ (stack keys with equal hash values) and...
+   - ... _linear probing_ (try to store next item in bucket to the right).
+
+### Hashing
+
+---
+
+The idea of hashing is to distribute the entries (key/value pairs) across an
+array of buckets. Given a key, the algorithm computes an index that suggests
+where the entry can be found.
+
+Hashing usually involves two steps: First computing a unique number, and then
+transform it in a way that we can use it as an array index. This means, that for
+most hash values that we have to cut down the initial hash value. We usually
+achieve this functionality through _modular hashing._ Given some hash value, we
+take the modulo of the size of the array representing the symbol table. The
+modulo (`%`) operation ensures that all values are precisely between $0$ (in
+case $Hash\ Value = c \cdot Array Size$ and $m-1$ for $m$ being the size of the
+array.
+
+The following parameters need to be fulfilled for a good hashing function:
+
+1. **Consistency** Equal keys must produce the same hash value.
+2. **Efficiency** Computing hash value must be efficient to compute.
+3. **Uniform Key-Distribution** Hash values should distribute uniformly. A
+   non-uniform distribution increases the number of collisions and the cost of
+   resolving them.
+
+### Collision-Resolution
+
+---
+
+Hash collisions are practically unavoidable when hashing a random subset of a
+large set of possible keys. For example, if 2,450 keys are hashed into a million
+buckets, even with a perfectly uniform random distribution, according to
+the birthday problem there is approximately a 95% chance of at least two of the
+keys being hashed to the same slot.
+
+Therefore, almost all hash table implementations have some collision resolution
+strategy to handle such events. Some common strategies are described below. All
+these methods require that the keys (or pointers to them) be stored in the
+table, together with the associated values.
+
+1. **Separate Chaining**
+
+   In the method known as _separate chaining_, each hash bucket (that
+   potentially stores a value at the index suggested by the hash value of its
+   corresponding key) does not consist of a single slot, but is rather in itself
+   a linked list, such that colliding values are just appended to this list.
+
+   In order to implement this _stacking behaviour_ of colliding hash values, we
+   can use the _sequential search ST_ implementation that we have observed
+   earlier. This leads to the following implementation of the two main
+   functions:
+
+   **Implementing `get()`**
+
+   Querying a hash based separate chaining symbol table for some values,
+   immediately follows from the construction of the data structure. For the
+   given key, we first compute the hash value representing the index at which
+   the corresponding value must be stored, assuming the key-value pair exists in
+   the ST. In order to check, we query the _sequential search ST_ at the given
+   hash value index, and return the value of its `.get()` method. This returns
+   `None` if the bucket is empty or the specific key was not found and the
+   value, if the key was found.
+
+   **Implementing `put()`**
+
+   The _put_ operation works similarly to the _get_ operation. We first compute
+   the corresponding hash value and then put the key-value pair into the
+   _sequential search ST_ at the computed index. If the key-value pair is new
+   (key not yet within the linked list at the computed index), we also increment
+   the counter of $n$ elements in the data structure, in addition to regularly
+   `.put()` the key-value pair into the _sequential search ST_.
+
+2. **Linear Probing**
+
+   Another way of dealing with hash collisions is called _open-addressing_
+   hashing methods for collision-resolution. As the name suggest, these method
+   use open-buckets in a hash table of size at least $m >n$ (_Note, that this
+   invariant prohibts to store more than n elements in a static linear probing
+   ST, unlike our separate chaining solution_). The most simple approach to
+   implement the open-addressing method is called _linear probing_, and goes as
+   follows:
+
+   **Procedure**
+
+   The main idea of the linear probing method for collision-resolution uses the
+   non-used buckets in the _keys_ (and _vals_) array, ie. whenever there is a
+   hashing collision, we do not stack the new key-value pair into a linked list,
+   but to sequentially try to insert the key-val pair into the bucket to the
+   right until an empty bucket is found. If this invariant is maintained
+   throughout all methods (this is a bit hairy for deletion), we can retrieve
+   the corresponding value for a given key in the same way.
+
+   **Implementing `get()`**
+
+   Querying a hash based linear probing symbol table for some values,
+   immediately follows from the construction of the data structure. For the
+   given key, we first compute the hash value representing the index at which
+   the corresponding value must be stored, assuming the key-value pair exists in
+   the ST. If the keys at the computed hash index match, return the value.
+   Otherwise, we try the right bucket and continue this behaviour recursively or
+   iteratively until we either found the key or found an empty bucket, in which
+   case we return `None`.
+
+   ** Implementing `put()`**
+
+   The _put_ operation works similarly to the _get_ operation. We first compute
+   the corresponding hash value and then put the key into the keys array and the
+   value into the vals array the computed index. If the computed bucket is
+   already taken, we increment the index by one (trying out the right bucket).
+   We continue this behaviour until we have found an empty bucket where to store
+   the key-value pair.
+
+   _Note, that if the $m-1$th bucket is taken, we will continue our linear
+   probing at the $0$th index. This is encoded by incrementing the counter by
+   `(i+1)%m`._
+
+## Exercise Solutions
+
+---
+
+### 3.1.10 Insertion into SequentialSearchST
+
+---
+
+Inserting the keys `E A S Y Q U E S T I O N` into an initially empty
+`SequentialSearchST` (with arbitrary values attached to the keys; here for
+simplicity an ID indicating when the key was inserted into the data structure)
+will yield the following sequence with the following number of compares.
+
+```text
+key   value first
+E     0     E0                                0 compares
+A     1     A1 E0                             1 compare
+S     2     S2 A1 E0                          2 compares
+Y     3     Y3 S2 A1 E0                       3 compares
+Q     4     Q4 Y3 S2 A1 E0                    4 compares
+U     5     U5 Q4 Y3 S2 A1 E0                 5 compares
+E     6     U5 Q4 Y3 S2 A1 E6                 6 compares
+S     7     U5 Q4 Y3 S7 A1 E6                 4 compares
+T     8     T8 U5 Q4 Y3 S7 A1 E6              6 compares
+I     9     I9 T8 U5 Q4 Y3 S7 A1 E6           7 compares
+O     10    O10 I9 T8 U5 Q4 Y3 S7 A1 E6       8 compares
+N     11    N11 O10 I9 T8 U5 Q4 Y3 S7 A1 E6   9 compares
+Total: 55 compares
+```
+
+### 3.1.11 Insertion into BinarySearchST
+
+---
+
+Inserting the keys `E A S Y Q U E S T I O N` into an initially empty
+`BinarySearchST` (with arbitrary values attached to the keys; here for
+simplicity an ID indicating when the key was inserted into the data structure)
+will yield the following sequence with the following number of compares.
+
+```text
+          keys[]                            vals[]
+key value 0 1 2 3 4 5 6 7 8 9           N   0 1 2 3 4 5 6 7 8 9
+E   0     E                             1   0                      0 compares
+A   1     A E                           2   1 0                    2 compares
+S   2     A E S                         3   1 0 2                  2 compares
+Y   3     A E S Y                       4   1 0 2 3                2 compares
+Q   4     A E Q S Y                     5   1 0 4 2 3              3 cmp
+U   5     A E Q S U Y                   6   1 0 4 2 5 3            4 cmp
+E   6     A E Q S U Y                   6   1 6 4 2 5 3            4 cmp
+S   7     A E Q S U Y                   6   1 6 4 7 5 3            4 cmp
+T   8     A E Q S T U Y                 7   1 6 4 7 8 5 3          4 cmp
+I   9     A E I Q S T U Y               8   1 6 9 4 7 8 5 3        4 cmp
+O   10    A E I O Q S T U Y             9   1 6 9 10 4 7 8 5 3     4 cmp
+N   11    A E I N O Q S T U Y           10  1 6 9 11 10 4 7 8 5 3  5 cmp
+          A E I N O Q S T U Y               1 6 9 11 10 4 7 8 5 3
+
+Total: 38 compares
+```
+
+### 3.4.1 Insertion into HashMap with Separate Chaining
+
+---
+
+Inserting the keys `E A S Y Q U E S T I O N` into an initially empty
+`Hash Map (Separate Chaining)` of length $M=5$ using the hash function 11k % M,
+where $k$ is the index of each character in the alphabet (ie. A=1, B=2, ...)
+yields the following data structure.
+
+```text
+Index   Chain
+0       O10 -> T8 -> Y3 -> E0
+1       U5  -> A1
+2       Q4
+3
+4       N11 -> I9 -> -> S2
+```
+
+### 3.4.10 Insertion into HashMap with Linear Probing
+
+---
+
+Insert the keys `E A S Y Q U T I O N` in that order into an initially empty
+table of size M = 16 using linear probing. Use the hash function 11k % M to
+transform the kth letter of the alphabet into a table index. Then redo this
+exercise for M = 10
+
+We get thee following final structure
+
+```text
+index   keys[]    vals[]
+0       None      None
+1       S         7
+2       None      None
+3       Y         3
+4       I         9
+5       0         10
+6       None      None
+7       E         6
+8       U         5
+9       None      None
+10      N         11
+11      A         1
+12      Q         4
+13      T         8
+14      None      None
+15      None      None
+```
+
+### 3.1.13 Choosing Data Structure
+
+---
+
+Let's consider $10^3$ `put()` operations and $10^6$ `get()` operations
+intermixed with each other.
+
+The `SequentialST` uses linear time for each call to `put()`, since it has to
+search through the entire array each time to overwrite the values for keys that
+are already present in the ST. This leads to $0+1+...+N-1 \approx N^2/2$ time
+complexity, so in this case $\approx (10^3)^2/2=5 \cdot 10^5$ comparisons and
+$10^3$ object allocations (`Node()`). The $10^6$ `get()` operations mean that on
+average we can assume that there are 1000 calls to get for each call to `put()`.
+We can thus argue that the expected number of elements in the ST for the first
+1000 calls to `get` is 0.5, for the second call to `get` 1.5 and so forth. If we
+assume only search hits, then on average, we will find the key in $N/2$ time.
+Combining this with the sequence of elements we know to be in the ST for each of
+the $10^6$ calls to `get`, leads to the following total number of expected
+number of comparisons:
+
+$$
+\left[\sum_{i=1}^1000 (i \cdot 0.5) \cdot 0.5\right]\cdot 10^3=2.5 \cdot 10^8
+$$
+
+`BinarySearchSt` uses logarithmic number of compares to find the correct index
+for the new key to insert $lg\ i$ with $i$ from 1 to 10^3. Thus,
+$\sum_{i=1}^1000 lg\ i \approx 8.5 \cdot 10^3$. If the search key was not yet
+present in the ST, then the reallocations of all proceeding elements takes on
+average $2 * 2 * 2 * 10^3$. For the $10^6$ `get` operations, the Binary Search
+ST uses 10^6
+
+$$
+\left[\sum_{i=1}^1000 (lg\ i \cdot 0.5) \cdot 0.5\right]\cdot 10^3=8.5\cdot 10^6
+$$
+
+In summary, the binary search ST uses considerably fewer compares than the
+sequential search ST. It is also reasonable to consider the total memory
+allocation cost to be lower as the sequential search ST requires a minimum of 16
+bytes for creating each Node object plus 2N references to keys and values and N
+next references
+
+### 3.1.14 Choosing Data Structures
+
+---
+
+The same argument holds if we have $10^6$ `put` operations and $10^3$ `get`
+operations. Doing the maths, will convince us - again - that the BinarySearchST
+uses significantly fewer comparisons.
+
+### 3.4.4 Designing a hash function
+
+---
+
+The goal is to find the perfect hash function of the type $(a * k) % M$ for the
+letters of the alphabet that are mapped to the $k$-th position in the alphabet.
+We would like to find the best $a$ and $M$ (where $M$ should be minimal), so
+that the hash function produces unique values for the any sequence of input
+keys, ie. `S E A R C H X M P L`.
+
+The solution is bruteforcing a solution from the smallest possible search table
+we can create to fit the 10 keys (a table of length 10) and testing all possible
+variations of $a$, that create distinct hashes for this set $M$. If a
+combination of $a$ and $M$ produces unique hashes, we stop the search and return
+this combination as the result. If there does not exist a $a$ to scale the keys,
+st. the modulo operation yields unique keys, we increment the size of the table
+by 1 and continue the brute force search.
+
+```python
+def hash(key, a, M):
+  # hash single characters of the alphabet
+  assert (type(key)==str and len(key)==1)
+  k = ord(key.lower())-96
+  return (a * k) % M
+
+def perfect_hash(keys):
+  M = len(keys) # minimal hash table size
+  while True:
+    for a in range(1, M+1):
+      hash_set = set()
+      for key in keys:
+        hash_set.add(hash(key, a, M))
+      if len(hash_set) == len(keys):
+        return (a, M)
+    M+=1
+
+def main():
+  inp = 'S E A R C H X M P L'.split()
+
+  a, M = perfect_hash(inp)
+  print(a, M)
+
+  hashes = []
+  for key in inp:
+    hashes.append(hash(key, a=a, M=M))
+
+  print(inp, hashes)
+
+if __name__ == "__main__":
+  main()
+```
+
+### 3.4.5 Legal Hash-Function
+
+---
+
+A hash function is any function that can be used to map data of arbitrary size
+to fixed-size values. Ideally, the returned values - referred to as hash values,
+hash codes or more - are distributed uniformly across some range, st. we can use
+them as lookup indexes in data structures like symbol tables. However, this is
+not a requirement for a hash-function to be legal, and thus the given hash
+function is a perfectly valid hash function. However, since it maps every key to
+the same hash code it is not particularly useful. In the SymbolTable APIs, this
+would mean that we either create a long linked-list structure (in the case of
+separate chaining) at the hash bucket at index 17, that needs to be traversed in
+linear time or that we create a fill all indexes from 17 onwards with keys (in
+the case of linear probing) that need to be traversed linearly as well.
+
+```python
+def __hash__ (self):
+  return 17
+```
+
+### 3.4.13 Running Time in Hash Maps
+
+---
+
+We get linear running time for `put()` and `get()` operations if all keys hash
+to the same index as described in the exercise above.
+
+### 3.4.15 Worst Case Running Time
+
+---
+
+In the worst case all keys hash to the same index.
+
+The number of compares per insert is: 1 for the first insert, 2 for the second
+insert, 3 for the third insert and so on, until the (N/2)th insert. When the
+table is half full it is resized to 2N and the keys are reinserted, with 1, 2,
+3, ..., N/2 compares. Then, for the insert of the other keys there are N/2 + 1,
+N/2 + 2, ..., N compares per insert.
+
+This is equal to:
+
+```text
+Number of compares = (1 + 2 + 3 + ... + N/2) + 1 + 2 + 3 + ...
++ N/2 + (N/2 + 1) + (N/2 + 2) + ... + N
+Number of compares = (N/2 + 1) * N / 2 / 2 + (N + 1) * N / 2
+Number of compares = (N^2/2 + N) / 4 + (N^2 + N) / 2
+Number of compares = (N^2/2 + N) / 4 + (2N^2 + 2N) / 4
+Number of compares = (N^2/2 + (2N / 2)) / 4 + (2N^2 + 2N) / 4
+Number of compares = (N^2 + 2N) / 8 + (4N^2 + 4N) / 8
+Number of compares = (5N^2 + 6N) / 8
+```
+
+In the worst case, to insert N keys into an initially empty table, using linear
+probing with array resizing it would take $(5N^2 + 6N) / 8$ compares.
+
+### 3.4.26 LinearProbingST with Lazy Delete
+
+---
+
+```python
+from itu.algs4.searching.linear_probing_hst import LinearProbingHashST
+
+class LBHST(LinearProbingHashST):
+  def __init__(self):
+    super().__init__()
+    self.deleted_keys = 0
+
+  def _resize(self, capacity):
+        # Resizes the hash table to the given capacity by re-hashing all of the keys
+        temp = LinearProbingHashST(capacity)
+        for i in range(0, self.m):
+            if self.keys[i] is not None and self.values[i] is not None:
+                temp.put(self.keys[i], self.values[i])
+        self.keys = temp.keys
+        self.values = temp.values
+        self.m = temp.m
+
+  def put(self, key, val):
+    if key is None:
+        raise ValueError("argument to put() is None")
+    if val is None:
+        self.delete(key)
+        return
+
+    # Double table size if 50% full
+    if (self.n + self.deleted_keys) >= self.m // 2:
+        self._resize(2 * self.m)
+
+    i = self._hash(key)
+    while self.keys[i] is not None:
+        if self.keys[i] == key:
+            self.values[i] = val
+            return
+        i = (i + 1) % self.m
+    self.keys[i] = key
+    self.values[i] = val
+    self.n += 1
+
+  def delete(self, key):
+    if key is None:
+      raise ValueError('key is unspecified')
+
+    hashval = self._hash(key)
+    while self.keys[hashval] is not None:
+      if self.keys[hashval] == key:
+        self.values[hashval] = None # lazy delete
+        self.deleted_keys += 1
+        self.n -= 1
+        if self.n <= self.m // 8:
+          self._resize(self.m // 2)
+
+      hashval = (hashval + 1) % self.m
+```
+
+### 3.4.6 Hash Function
+
+---
+
+Consider the hash function k % M where k is a binary integer and M is a prime
+number larger than 2. Every time that we modify exactly one bit in an integer,
+we either add (when modifying from 0 to 1) or subtract (when modifying from 1
+to 0) a value that is a power of 2 (0, 1, 2, 4, etc). Since we are never adding
+or subtracting a prime number (other than 2) or any prime number multiples, the
+modular hash function with a prime M (other than 2) will yield a different
+result for both numbers.
+
+### 3.4.16
+
+---
+
+There are $10^4$ indices that are divisible by 100 in a hash table of length
+$10^6$. The chance of a single index being filled is 1/2, since half of the hash
+table is filled. Thus, the chance of all of the $10^4$ being filled is
+$1/2^{10^4}$, which is more or less 0.

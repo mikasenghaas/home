@@ -1,0 +1,789 @@
+---
+id: search-trees
+title: Search Trees
+tags: []
+published: 04-22-2022
+lastEdited: 02-05-2023
+---
+
+In Week 6 of the course we have dealt with the algorithmic problem of
+**searching**. Over some collection of items (data), we would like to be able to
+retrieve data elements according to some search key as fast as possible. We have
+already explored three data structures, that implement the fundamental
+operations (`put` and `get`):
+
+1. **Unordered Array**
+
+   Elements are simply added into a linear data structure (such as an array or
+   linked list) without any further order. Insertions are constant ($O(1)$) if
+   we allow for duplicate keys, otherwise linear. Retrieving elements is worst
+   case linear ($O(N)$) in case of a search miss or late search hit.
+
+2. **Ordered Array**
+
+   If we maintain order of keys in the linear data structure (typically an
+   array), we can binary search over the elements in the array to retrieve
+   information in logarithmic time ($O(lg\ N)$). However, inserting new elements
+   is worst case linear time, if an element is to be added at an early index
+   position, since this leads to moving all succeeding elements having to be
+   moved one index to the right ($O(N)$).
+
+3. **Symbol Tables/ Hash Maps/ Dictionaries**
+
+   A hash table takes a different approach and completely destroys order of the
+   keys. It uses a so-called hash function, that transforms a key into an array
+   index, at which the key should be stored and retrieved from. In an ideal
+   world, there would be no index collisions, which would lead to constant time
+   for both putting and getting elements from the data structure. With proper
+   collision-resolution techniques (see _Week 6_), we were able to achieve a
+   amortised constant time for both operation.
+
+Don't hash maps solve the searching problem? How can we possibly get better
+running time than amortised constant? The answer is: we can't. But often, we
+don't only want to store and retrieve single elements, but would like to perform
+more complex queries on our data, such as: What is the maximum key stored? Which
+keys are in the range X-Z? For these types of questions, hash maps are not
+suited, since the nature of the hash function destroys the order of keys,
+leading to a linear search over all keys for any query that is more complex
+than, _get me element with key `X`_.
+
+For this reason, we will reuse and advance the ideas of storing keys in order as
+in an ordered array (2).
+
+## Search Trees
+
+---
+
+In the ordered array implementation of a ST, we have shown how we could cut the
+cost of the search (`get()`) operation by maintaining order in the ST and using
+binary search for guaranteed logarithmic running time. How can we also make a
+call to `put` faster?
+
+To support efficient insertion, it seems that we need a linked structure. But a
+singly linked list (with one node linking to one _next_ node) prohibits the use
+of binary search, since we cannot maintain order in such an array. **Binary
+Search Trees** are the data structure to use for logarithmic time in both
+`get()` and `put()` operation.
+
+The binary search tree is a symbol-table implementation that combines the
+flexibility of insertion in a linked list (by just creating a new node and
+changing a pointer) with the efficiency of search in an ordered array.
+Specifically, using two _links_ per node (instead of one link per node in singly
+linked lists) leads to an efficient symbol-table implementation based on binary
+search tree data structure, which qualifies as one of the most fundamental
+algorithms in computer science.
+
+## Structure of Binary Search Tree
+
+---
+
+A binary search tree (BST), also called an ordered or sorted binary tree, is
+binary tree where each node has a Comparable key (and an associated value) and
+satisfies the restriction that the key in any node is larger than the keys in
+all nodes in that node's left subtree and smaller than the keys in in all nodes
+in that node's right subtree.
+
+## Implementation
+
+---
+
+We first define a new `Node` class to define the nodes in BSTs. Each node
+contains a key, a value, a left link, a right link, and a node count. The left
+link points to a BST for items with smaller keys, while the right link points to
+a BST for items with larger keys. The node count is the size of the subtree
+rooted at the specific node, ie. 1 for leaves and `size()` for the root of the
+BST. This class attribute facilitates the implementation of various ordered
+symbol-table operations.
+
+Generally, a BST is still just a data structure to store a set of _key-value_
+pairs. It is important to note that - just as with the sequential ST - the same
+set of key-value pairs can be represented with different instances of BST (or
+singly linked lists in the sequential ST) depending on the order of insertions.
+Depending on the order, the running time changes (again just as in sequential
+ST).
+
+## Runtime Analysis
+
+---
+
+The running time of searches and insertions on a BST depends heavily on the
+shape of the tree, which, in turn, is determined by the order of the insertion
+of the keys. Thereby, the same set of key-value pairs can both run in worst- or
+best-case running time.
+
+In the **best-case** a BST with _n_ keys inserted as nodes could be perfectly
+balanced, meaning that the tree would have maximal height of $ln(n)$. Since each
+operation of our ST API depends on the height of the tree as a maximal distance
+to travel, the worst-case running time. in this case would be precisely $ln(n)$
+for both searches and insertions, as we aimed for.
+
+However, there are edge-cases for the **worst-case** when the keys are ie.
+inserted in sorted or reverse sorted order, which constructs a BST similar to a
+singly linked list. In that case a search path contains _n_ nodes and the
+running time would therefore be $O(n)$ for both searches and insertions.
+
+Average running time analysis, however, tells us that in real life application,
+when the keys are inserted at random, the running time is much closer to the
+best-case than for the worst-case, which is why the standard BST algorithm is
+still commonly used, mostly due to its easy implementation.
+
+Average `put()`: $O(lg\ N)$ Average `get()`: $O(lg\ N)$
+
+Worst `put()`: $O(N)$ Worst `get()`: $O(N)$
+
+## 2-3 Balanced Search Trees (Red-Black Search Trees)
+
+---
+
+With the BST data structure, we have found an implementation of a ST that
+provides logarithmic searches and insertions in the average case and keeps an
+order of the key, such that additional order-based methods can be implemented
+for the data structure (in contrast to ie. Hash Tables).
+
+However, we have also seen, how the data structure can have a worst-case running
+time, which is not better than the running time of _SequentialST_ (the most
+simple way of storing key-value pairs), which is linear in both operation. This
+worst case occurs depending on the shape of the BST at hand to store the set of
+key-value pairs. The so called **balanced search trees** aim to give a
+logarithmic running time guarantee for both searches and insertions, by ensuring
+that the BST is balanced at all times (which means that the maximum height of
+the tree is $ln(n)$ and therefore all operation run in logarithmic time in
+worst-case.
+
+## Structure of 2-3 Trees
+
+---
+
+To get the flexibility we need to ensure maximal depth of $ln(n)$ in our search
+tree through perfect balance, and thereby guaranteed logarithmic running time,
+is to allow our tree to hold more than one key.
+
+Specifically, we are generalising our idea of nodes from the BST, such that our
+tree can consist of two different types of nodes:
+
+- **2-Nodes:** Consist of _one key (and associated values)_ and _two links_ (to
+  a left and right child, where the left is smaller and the right greater)
+
+- **3-Nodes:** Consist of _two keys (and associated values)_ and _three links_
+  (to a left, middle and right child, where the left is smaller, the middle in
+  between the two keys and the right is greater)
+
+## Implementation
+
+---
+
+### Search
+
+---
+
+The search algorithm for keys in a 2-3 tree directly generalises the idea of a
+search (`get()`) in our regular BST consisting entirely of 2-nodes. The only
+difference is that if we arrive at a 3-node, we not only check whether the given
+key is smaller or greater than the keys in the 3-node, but also if it is in
+between these two.
+
+### Insertion
+
+---
+
+The insertion operation is the more interesting part, since this is where we
+actually build up the 2-3 tree. We can consider several cases of insertions that
+can occur, which determine how we change the tree structure.
+
+1. Search Hit Just like in the regular BST, we search through the tree before
+   inserting. If we get a search hit on the way, we just change the value of the
+   associated node. The same goes for the 2-3
+2. Search Miss If our search is unsuccessful, we can either arrive at a 2- or
+   3-node at the bottom of the tree.ree.
+
+   2.1 Arriving at 2-Node If we encounter a 2-Node, we have an easy time,
+   because we can simply convert the 2-node into a 3-node with the newly added
+   key.
+
+   2.2 Arriving at 3-Node (Parent is 2-Node) If we encounter a 3-node at the
+   bottom of the tree, and its parent is a 2-node, we temporarily make a 4-node
+   (containing 3 keys and 4 links), and then move the middle key of the
+   temporary 4 node up as the second (right) element of the new 3-node
+   (converted from the old 2-node parent). We then also split up the 3-node into
+   2-nodes, where the left node is the middle child of the new parent and the
+   right node is the right child of the new parent.
+
+   2.3 Insert into a 3-node whose parent is a 3-node If the parent of the 3-node
+   at the bottom is also a 3-node, we recursively perform the exact same
+   procedure until we either reach a 2-node or the root (as a 3-node), in which
+   case, we perform the next operation.
+
+   2.4 Insert into a 3-node at the root If we try to insert an element into the
+   root, which is already a 3-node, we cannot further move the middle element
+   up. This is the only time of the algorithm, where our tree increases in size,
+   that is, we create a temporary 4-node and then split it up into 3 2-nodes,
+   with the middle node being the new root and parent of the its left and right
+   child.
+
+_Note, that splitting up a temporary 4-node in a 2-3 tree may be one of six
+possible transformations, as can be studied in the below picture. For this
+reason, there are a lot of cases to be handled in an implementation of the 2-3
+tree._
+
+## Tries
+
+---
+
+Back to strings: In Week 10, We have seen two non-comparison based sorting
+algorithms that use the properties of strings that allowed for linear sorting
+algorithms - a dramatic increase in performance compared to the general-purpose,
+comparison-based sorting algorithms that are bound to best-case runtime of
+$n\ log\ n$. A similar recipe is also available for efficiently develop a symbol
+table API, where keys are not general purpose, but strings. Whereas Balanced BST
+guarantee worst-case lookup of $log\ n$, the trie data structure is constant in
+the length of the search key. This makes this data structure perform
+significantly better for huge symbol tables, since the running time is
+independent of the number of stored items.
+
+The data structure that we are going to use, is called a trie. In computer
+science, a trie, also called digital tree or prefix tree, is a type of search
+tree, a tree data structure used to store key-value pairs (symbol table
+implementations) for keys being of type String.
+
+### Implementation
+
+---
+
+As said, the implementation of our String ST is based on a search tree, known as
+a _trie_. As with any search tree, the _trie_ is a data structure composed of
+nodes that contain links that are either _null links_ or point to references to
+other nodes. Each node is just pointed to by just one node (except for the root,
+which does not contain any links pointing to it), however in tries each node can
+point to up to $R$ - the size of the alphabet - following nodes.
+
+_Note, that tries are built from the characters of each of the string keys
+without ever storing the strings themselves. In fact, not even the characters,
+but their ASCII integer value is stored and retrieves the value._
+
+From the construction of the special data structure of the trie, the
+characteristic put and get operations on symbol tables are straight forward to
+implement recursively:
+
+### Implementing `get()`
+
+---
+
+Finding an associated value of a key is the process of traversing the trie
+guided by the characters in the search tree. We start at the root, the follow
+the link assocaited with the first character in the key; from that node we
+follow the link associated with the second character in the key; and so on and
+so forth. The following scenarios are possible:
+
+(1) Recursive Search arrives at last Digit
+
+If we can traverse the trie until we arrive at the node representing the last
+character of the search key, there are two options. If the value at this node is
+null, we return a search miss. If not, we return the value at the node.
+
+(2) Recursive Search terminates at `Null`
+
+Before arriving at the node representing the last character of the search key,
+we arrive at a null link. In that case, we return a search miss.
+
+### Implementing `put()`
+
+---
+
+The put operation operates similarly to the get operation, in fact, the first
+thing we do is doing a search: In a trie this means to use the characters of the
+key to guide us down the trie until we reach the last character of the key or a
+null link.
+
+(1) Recursive Search arrives at last digit
+
+Again, if we arrive at the last digit of the trie, we simply update the value
+field of the current node - independently if the value was null before or note
+(_Note that this keeps the invariant that our ST does not allow equal keys_)
+
+(2) Recursive Search terminates at `Null`
+
+If we encounter a null link before reaching the last character of the key, we
+need to create a node corresponding to each of the characters in the key not yet
+encountered and set the value in the last one to the value to be associated with
+the key.
+
+### Runtime Analysis
+
+---
+
+The analysis of ST implemented as _tries_ is somewhat remarkable, as it is
+immensely different from the implementations, we have encountered so far. It is
+a property of _tries_ that for a set of search keys, there exists a unique trie.
+This means, that no matter, in what way we insert the keys into the data
+structure, the resulting tree will always be the same.
+
+This also makes the run-time analysis easy. For each insertion and search in a
+trie, the number of array accesses (moving down nodes in a trie) is at most 1
+plus the length of the search key.
+
+Worst Case Runtime: $\sim w+1=O(w)$
+
+It is important to notice that the runtime is independent of the number of
+key-value pairs, which makes it an efficient data structure for huge symbol
+tables. However, it is very space inefficient, since for each character is
+stored individually and has $R$ further links. The number of links in a trie is
+therefore between $nR$ and $nwR$. To use tries effectively therefore depends
+critically on either choosing a small alphabet size $R$ or to seek better
+implementations, such as the Ternary Search Tries (TST), which combine the
+features of regular BST with tries for improved space complexity.
+
+## Exercise Solutions
+
+---
+
+### 3.2.9 Shapes of BST
+
+---
+
+With $n=2$ keys in a BST, the following shapes can occur:
+
+```text
+1
+ \
+  2
+
+  2
+ /
+1
+```
+
+With $n=3$ keys in a BST, the following shapes can occur:
+
+```text
+1
+ \
+  2
+   \
+    3
+
+  2
+ / \
+1   3
+
+    3
+   /
+  2
+ /
+1
+
+1
+ \
+  3
+ /
+2
+
+  3
+ /
+1
+ \
+  2
+```
+
+With $n=4$ keys in a BST, the following shapes can occur:
+
+```text
+Insertion order: 1 2 3 4
+ 1
+  2
+   3
+    4
+
+Insertion order: 1 2 4 3
+ 1
+  2
+   4
+  3
+
+Insertion order: 1 3 2 4, 1 3 4 2 (same shape)
+ 1
+  3
+ 2 4
+
+Insertion order: 1 4 2 3
+ 1
+  4
+ 2
+  3
+
+Insertion order: 1 4 3 2
+  1
+   4
+  3
+ 2
+
+Insertion order: 2 1 3 4, 2 3 1 4, 2 3 4 1
+ 2
+1 3
+   4
+
+Insertion order: 2 1 4 3, 2 4 1 3, 2 4 3 1
+  2
+1   4
+   3
+
+Insertion order: 3 2 1 4, 3 2 4 1, 3 4 2 1
+    3
+  2   4
+ 1
+
+Insertion order: 3 1 2 4, 3 1 4 2, 3 4 1 2
+    3
+  1   4
+   2
+
+Insertion order: 4 3 2 1
+    4
+   3
+  2
+ 1
+
+Insertion order: 4 3 1 2
+    4
+   3
+  1
+   2
+
+Insertion order: 4 2 1 3, 4 2 3 1
+    4
+   2
+  1 3
+
+Insertion order: 4 1 2 3
+    4
+   1
+    2
+     3
+
+Insertion order: 4 1 3 2
+    4
+   1
+    3
+   2
+```
+
+### 3.3.2. Trace of 2-3 Trees
+
+---
+
+Inserting the keys `Y L P M X H C R A E S` into an initially empty 2-3 tree
+yields the following tree:
+
+```text
+       P
+     /   \
+   CL      X
+ / | \    / \
+A  EH M  RS  Y
+```
+
+3.3.3 Insertion Order in 2-3 Tree
+
+Insertion Order: `A X E M R C H S` leads to:
+
+```text
+   ER
+AC HM SX
+```
+
+### 3.3.11 Trace of Red-Black BST
+
+---
+
+Inserting the keys `Y L P M X H C R A E S` into an initially empty
+red-black-tree yields the following tree:
+
+```text
+Insert Y        (B)Y
+
+       L        (B)Y
+             (R)L
+
+       P        (B)Y
+             (R)L
+                (R)P
+
+       P        (B)Y
+             (R)P
+           (R)L
+
+       P      (B)P
+           (R)L  (R)Y
+
+       P      (R)P
+           (B)L  (B)Y
+
+       P      (B)P
+           (B)L  (B)Y
+
+       M        (B)P
+           (B)L      (B)Y
+             (R)M
+
+       M       (B)P
+           (B)M     (B)Y
+         (R)L
+
+       X        (B)P
+           (B)M      (B)Y
+         (R)L      (R)X
+
+       H         (B)P
+            (B)M      (B)Y
+          (R)L      (R)X
+         (R)H
+
+       H           (B)P
+            (B)L         (B)Y
+          (R)H (R)M    (R)X
+
+       H           (B)P
+            (R)L         (B)Y
+          (B)H (B)M    (R)X
+
+       C            (B)P
+             (R)L         (B)Y
+           (B)H (B)M    (R)X
+         (R)C
+
+       R            (B)P
+             (R)L         (B)Y
+           (B)H (B)M    (R)X
+         (R)C          (R)R
+
+       R            (B)P
+             (R)L         (B)X
+           (B)H (B)M    (R)R (R)Y
+         (R)C
+
+       R            (B)P
+             (R)L         (R)X
+           (B)H (B)M    (B)R (B)Y
+         (R)C
+
+       R            (R)P
+             (B)L         (B)X
+           (B)H (B)M    (B)R (B)Y
+         (R)C
+
+       R            (B)P
+             (B)L         (B)X
+           (B)H (B)M    (B)R (B)Y
+         (R)C
+
+       A              (B)P
+               (B)L         (B)X
+             (B)H (B)M    (B)R (B)Y
+           (R)C
+          (R)A
+
+       A                 (B)P
+                  (B)L          (B)X
+             (B)C     (B)M    (B)R (B)Y
+           (R)A (R)H
+
+       A                 (B)P
+                  (B)L          (B)X
+             (R)C     (B)M    (B)R (B)Y
+           (B)A (B)H
+
+       E                 (B)P
+                   (B)L          (B)X
+              (R)C     (B)M    (B)R (B)Y
+           (B)A  (B)H
+                (R)E
+
+       S                 (B)P
+                   (B)L             (B)X
+              (R)C     (B)M    (B)R     (B)Y
+           (B)A  (B)H             (R)S
+                (R)E
+
+       S                 (B)P
+                   (B)L             (B)X
+              (R)C     (B)M     (B)S    (B)Y
+           (B)A  (B)H         (R)R
+                (R)E
+```
+
+### 3.2.11 Binary Tree Shapes
+
+---
+
+The question is asking for the number of binary search tree structures that
+result in a worst case linear running time for queries to `put()` and `get()`.
+Since at each level of depth (except the last one), we can add a left or right
+child to continue a linear structure, there are $2^{N - 1}$ binary tree shapes
+of $N$ nodes with height $N-1$.
+
+### 3.2.15 Compare-Based Methods
+
+---
+
+a) `floor("Q")` : E - Q b) `select(5)` : E - Q (and D and J for checking size of
+left subtree) c) `ceiling("Q")` : E - Q d) `rank("J") : E - Q - J e) `size("D",
+"T") : E - Q - T - E - D f) 'keys("D", "T") : E - D - Q - J - M - T - S
+
+### 3.2.20 Running Time of `keys(lo, hi)`
+
+---
+
+The range-based operation `keys(lo, hi)` is supposed to return all keys inside
+the interval specified in lo, hi. The operation runs in time proportional to the
+height of the tree plus the number of elements that are within the range.
+
+Proof: The two-argument keys() method in a BST works in the following way:
+
+1. It searches the tree until it finds the element which is equal or higher than
+   the lower bound.
+2. It adds the element to the queue and also adds all its right children that
+   are inside the search range.
+3. It adds all the other elements which are inside the search range by doing an
+   in-order search in the tree (but cutting branches once it finds elements
+   outside the range).
+
+Step 1, searching for the element which is equal or higher than the lower bound
+is a regular search in a BST which is equal, in the worst case, to the tree
+height. Steps 2 and 3 combined take R operations, where R is the number of
+elements in the range searched. There may be a constant number of other
+compares, which are the cases where the method finds an element outside the
+range and stops the search on the current branch of the tree. Combining all the
+steps the two-argument keys() in a BST is at most proportional to the tree
+height plus the number of keys in the range.
+
+### 3.2.22 Successors and Predecessors of Nodes
+
+---
+
+Proof by contradiction: If the successor has a left child, this element is both
+greater than the original node and smaller than the claimed successor. This
+would make this left child or one of its descendants the actual successor, and
+we have a contradiction.
+
+If the predecessor has a right child, this element is both smaller than the
+original node and greater than the predecessor. This would make this right child
+or one of its descendants the actual predecessor, and we have a contradiction.
+
+Consider i.e. the following binary search tree and look at key `10`, with
+successor `12` and predecessor `9`:
+
+```text
+   10
+5     15
+ 9   13
+    12 14
+```
+
+### 3.3.13 Height of Red-Black-ST
+
+---
+
+True.
+
+### 3.3.22 Comparing BST and R-B-ST
+
+---
+
+An example sequence is: `5 1 10 15 6 0`:
+
+```text
+BST
+
+Insert  5     5
+
+        1     5
+            1
+
+       10     5
+            1   10
+
+       15     5
+            1   10
+                 15
+
+        6     5
+            1    10
+                6  15
+
+        0     5
+            1    10
+           0    6  15
+
+Height: 2
+```
+
+```text
+Red-black BST
+
+Insert  5       (B)5
+
+        1        (B)5
+               (R)1
+
+       10         (B)5
+               (R)1  (R)10
+
+       10         (R)5
+               (B)1  (B)10
+
+       10         (B)5
+               (B)1  (B)10
+
+       15         (B)5
+              (B)1  (B)10
+                      (R)15
+
+       15         (B)5
+              (B)1    (B)15
+                    (R)10
+
+       6           (B)5
+              (B)1      (B)15
+                      (R)10
+                    (R)6
+
+       6            (B)5
+              (B)1      (B)10
+                      (R)6  (R)15
+
+       6            (B)5
+              (B)1      (R)10
+                      (B)6  (B)15
+
+       6           (B)10
+               (R)5      (B)15
+           (B)1   (B)6
+
+       0           (B)10
+               (R)5      (B)15
+           (B)1   (B)6
+         (R)0
+
+Height: 3
+```
+
+### Red 1: Counting Keys
+
+---
+
+We add an int size attribute to the node class. Then we perform the same "drill
+down" operation as in the first proposed solution for exercise 3.2.20. When we
+"cut off" the left subtree, we subtract the size of the left subtree from (for
+simplicity) a global count that is instantiated as the size of the root. When we
+reach the bottom, we do NOT explore the subtrees to the right. At this point,
+the count is the amount of keys between [a; ∞]. At the root, we perform the same
+"drill down" operation, but defining a right boundary instead. Then we have the
+nodes between [a; b]
+
+- in time proportional just to the height of the tree.
+
+### Red 2: Counting Odd Keys
+
+---
+
+The solution is the same as counting keys, but we modify the size attribute to
+describe the amount of odd keys in the subtree.
