@@ -1,0 +1,181 @@
+---
+id: conditional-probabilities
+title: Conditional Probabilities
+tags: []
+published: 02-20-2023
+lastEdited: 02-20-2023
+---
+
+**Conditional Probabilities** are one of the most important concepts in
+probability theory. To grasp the concept of conditional probabilities, let's
+look an example. Assume for a second, that you are God and know for a fact that
+the probability that it rains in Copenhagen is **23%**. You just know.
+
+Following our agreed-upon lingo for talking about randomness mathematically, we
+could define a random experiment. The random experiment measures the binary
+elementary events **R** ("It rains") and **NR** ("It does not rain") and we
+could denote the sample space of this experiment as $\Omega=\{R, NR\}$. With our
+god-like knowledge, we can even assign probabilities to each event in the sample
+space. We know that $P(R)=0.23$ and since elementary events are exhaustive and
+there is only one more event, $P(D)=0.77$.
+
+Given this knowledge, I could predict that it rains every day and would only be
+correct in **23%** of the cases. A pretty high-error rate, right? In real life,
+we can predict weather with astounding accuracy. How can we do that? Because we
+have more information, that makes our prediction much more accurate. Consider
+e.g. knowing the date of the year or whether it rained the day before. It seems
+natural that these events are dependent on each other. Rain probabilities are
+likely to change in the different seasons of the year, and rainy periods span
+over many days, which makes rain yesterday a good indicator of rain today. These
+are just some examples of other events outside of our random experiments, that
+related in some way with the probability of rain. We say that the event of rain
+is **dependent** on other events. We can summarise more generally:
+
+Observing some event $A$ (or knowing that it has occurred) forces us to reassess
+the probability of another event $B$, since $A$ has a direct influence on $B$.
+
+These type of probabilities are called **conditional probabilities**. Formally,
+we can compute the conditional probability of some event $A$ given $B$ (_What is
+the probability of $A$ occurring, knowing that $B$ has already occurred?)_ as
+such:
+
+$$
+P(A\ |\ B) = \frac{P(A \cap B)}{P(B)} = \frac{\text{A and B occurs}}{\text{B
+occurs}}
+$$
+
+Now, that have mathematically defined conditional probabilities, let's look at
+some of its interesting properties.
+
+### Axioms of Conditional Probabilities
+
+---
+
+It is important to notice that the conditional probability is a probability
+measure itself, meaning that is satisfies all the probability axioms we have
+discovered in _Week 1_:
+
+1. **Non-Negativity**: For any event $A$, $P(A|B) \ge 0$
+
+2. **Mutually Exclusive**: Conditional Probability $B$ given $B$ is
+   $P(B\ |\ B)=1$
+
+3. **Additivity of Disjoint Events**: If $A_1, A_2, ..., A_N$ are disjoint
+   events, then
+   $P(A_1 \cup A_2 \cup ... \cup A_n|\ B)=P(A_1|\ B)+P(A_2|\
+   B)+...+P(A_N|\ B)$
+
+### Further Derivations
+
+---
+
+**Disjoint Events.** The conditional probability $P(A|B)$ is defined to be the
+ratio between the intersection of both events and the event $B$. We know from
+Week 1, that if $A$ and $B$ are disjoint, then $A \cap B=\empty$ and therefore
+$P(A \cap B)=0$. Therefore the conditional probabilities of disjoint events are
+always $0$.
+
+$$
+P(A|\ B)=\frac{P(A\cap B)}{P(B)}=\frac{P(\empty)}{P(B)}=0\\
+P(B|\ A)=\frac{P(A\cap B)}{P(A)}=\frac{P(\empty)}{P(A)}=0
+$$
+
+This should be intuitive to you, since by definition of disjoint events, $A$
+cannot occur if $B$ has occurred, and vice versa.
+
+**Implication.** Recall from Week 1, that an event $B$ implies an event $A$,
+iff. $B \subset A$. We can talk about this property in terms of conditional
+probabilities.
+
+$$
+B \subset A \rightarrow P(A|\ B)=\frac{P(A\cap B)}{P(B)}=\frac{P(B)}{P(B)}=1
+$$
+
+Read: When $B$ is a subset of $A$, then $A$ must occur, if $B$ occurs. Thus, the
+conditional probability is $1$.
+
+In reverse, if $A$ implies $B$, thus $A \subset B$, then the conditional
+probability $P(A|B)$ simplifies to the quotient of the individual probabilities:
+
+$$
+A \subset B \rightarrow P(A|\ B)=\frac{P(A\cap B)}{P(B)}=\frac{P(A)}{P(B)}
+$$
+
+**Multiplication/ Chain Rule.** The definition of conditional probabilities
+allows us to derive so-called multiplication rule. Through simple rearrangement
+of the formula, we get the following computation for the intersection of two
+events (The event that $A$ and $B$ happened).
+
+$$
+P(A \cap B) = P(A\ |\ B) \cdot P(B) = P(B\ |\ A) \cdot P(A)
+$$
+
+**The Law of Total Probability.** The law of total probability is a fundamental
+rule in probability theory relating elementary probabilities to conditional
+probabilities. It expresses that the total probability of an outcome can be
+realised via several distinct events, hence the name.
+
+If we i.e. consider partition of events $C_1, C_2, ... ,C_m$ that are disjoint
+events such that $C_1 \cup C_2 \cup ... \cup C_m = \Omega$ (the union of
+disjoint events spans the entire sample space, thus they form a partition), the
+probability of an arbitrary event $A$ can be expressed as:
+
+$$
+P(A) = P(A \cap C_1) + P(A \cap C_2) + ... + P(A \cap C_n)
+$$
+
+**Rule of Bayes/ Bayes Theorem.** The _Rule of Bayes_, also _Bayes Theorem_, is
+one of the most useful results in conditional probability and at the core of
+what is called **Bayesian Statistics**. One use case of Bayes Theorem is to
+compute reverse conditional probabilities. So, assume we know $P(B|A)$, we can
+compute $P(A|B)$ (the opposite conditional probability) as follows:
+
+Since, we know $P(A|B)\cdot P(B)=P(A\cap B)=P(B|A)\cdot P(A)$ (multiplication
+rule), we can rewrite the definition of the conditional probability, resulting
+in Bayes' Theorem:
+
+$$
+\begin{align}
+P(A|B)
+&= \frac{P(A \cap B)}{P(B)} \\
+&= \frac{P(B|A)\cdot P(A)}{P(B)}
+\end{align}
+$$
+
+Often, in order to find $P(B)$ (the conditioning probability), we use the law of
+total probability, which results in the extended Bayes' rule:
+
+$$
+P(A|B)=\frac{P(B|A) \cdot P(A)}{P(B|A) \cdot P(A) + P(B|A^C)\cdot P(A^C)}
+$$
+
+_Note, that Bayes' Theorem follows directly from the multiplication rule and the
+law of total probability. Using our regular formula for the conditional
+probability of some events $A$ and $B$, we can reformulate the numerator holding
+the intersection of the two events using the multiplication rule and can expand
+the denominator from the law of total probability._
+
+**Independence.** We have seen, that knowledge that some event occurred might
+force us to reassess the probability of some event, as in the rain example.
+However, there are also events, that we consider completely unrelated, or
+_independent_, from each other. The fact that a coin I have tossed comes up
+head, will not change the probability that it rains tomorrow. Mathematically, we
+would call the two events _independent._ Two events are independent if one does
+not convey any information about the other. Formally, we denote:
+
+$$
+P(A|B)=P(A)\\
+P(B|A)=P(B)\\
+P(A\cap B)=P(A)\cdot P(B)
+$$
+
+**Further Derivations:**
+
+1. Independence of Complements: $A$ is independent of $B$, _then_ $A^C$ is
+   independent of $B$
+
+2. Independence is Symmetric: $A$ is independent of $B$, _then_ $B$ is
+   independent of A
+
+3. Multiplication Rule: $A$ is independent of $B$, _then_
+   $P(A \cap B) = P(A)\cdot P(B)$
