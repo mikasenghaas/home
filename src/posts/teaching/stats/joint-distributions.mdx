@@ -1,0 +1,353 @@
+---
+id: joint-distributions
+title: Joint Distributions
+tags: []
+published: 03-12-2023
+lastEdited: 03-12-2023
+---
+
+Random variables are tools that allow us to mathematically reason about
+randomness in the world. However, most processes in reality that are interesting
+to model using statistics include more than a single random variable. Think i.e.
+about a situation where we want to build a predictive statistical model. Using a
+single feature captured in a single random variable is most likely not the only
+thing affecting the variable that we would like to predict. Rather, we would
+like to be able to use two or more features to increase our predictive power. In
+order to achieve this, we - once again - need to use the tools of calculus to be
+able to talk about random processes involving two or more random variables.
+
+## Discrete Joint Distributions
+
+---
+
+**Joint Range.** Again, it first makes sense to observe the range of the joint
+distribution of two variables. The definition is analogous to defining the
+sample space of two random experiments. The joint range is the cartesian
+products of the individual ranges, i.e.
+
+$$
+R_{XY}=R_X \times R_Y = \{(x,y)|x\in R_X, y\in R_Y\}
+$$
+
+This is equivalent to saying that the range is the set of all pairs of values,
+whose compound probability (i.e. that both occur) is nonzero, i.e. the given
+event is possible. We denote formally:
+
+$$
+R_{XY}=\{(x,y)|p_{XY}(x,y)>0\}
+$$
+
+_Note, that the first definition might lead to pairs of values within $R_{XY}$
+that yield zero probability. To simplify analysis we often still include such
+pairs.\_
+
+<br />
+
+**Joint Probability Mass Function.** For some discrete random variable $X$, we
+defined its probability mass function $p_X(x)=P(X=x)$, yielding the probability
+that our random variable attains some value $x$ within its range $R_x$. The
+_joint probability mass function_ for a pair of discrete random variables $X$
+and $Y$ is a natural extension of this concept.
+
+$$
+p_{XY}=P(X=x, Y=y) = P((X=x) \text{ and } (Y=y))
+$$
+
+Note, that - just like in the single random variable case - the joint PMF must
+fulfil the condition of a probability function:
+
+1. **Non-Negativity**: $p_{XY}(x)\ge0$ for all $x\in R_{XY}$
+2. **Unity Sum**: $\sum_{(x_i, y_j)\in R_{XY}}p_{XY}(x_i,y_j)=1$
+
+<br />
+
+**Marginal PMFs.** The joint probability mass function contains all
+probabilistic information about all random variables and their interdependences.
+It therefore only makes sense, that we can derive the individual distributions
+of the random variables from the joint PMF. The individual PMFs are called
+marginal probability mass functions. In the discrete case, they can be derived
+by keeping the realisations in a single dimension constant while summing over
+all joint probabilities in the other dimension. The marginal PMFs from a joint
+probability mass function $p_{XY}$ are written as:
+
+$$
+P_X(x)=P(X=x)=\sum_{y_j \in R_Y}P_{XY}(x, y_j) \text{ for } x \in R_X
+$$
+
+$$
+P_Y(y)=P(Y=y)=\sum_{x_i \in R_X}P_{XY}(x_i, y) \text{ for } y \in R_Y
+$$
+
+_Visually, this breaks down to summing along rows and columns to obtains
+marginal probabilities if the probability mass function is written in a table_
+
+<br />
+
+**Joint Distribution Function.** As in the case of a single random variable, the
+distribution function enables us to treat pairs of discrete and pairs of
+continuous random variables in the same way. The joint distribution function F
+of two random variables $X$ and $Y$ is the function $F : R^2 \rightarrow [0, 1]$
+defined by
+
+$$
+F_{XY}(a, b) = P(X \le a, Y \le b) \text{ for } -\infty \lt a,b \lt \infty
+$$
+
+<br />
+
+**Marginal Distribution Functions.** Again, we can trace-back the individual
+distribution functions $F_X$ and $F_Y$ from the joint distribution function.
+This is done by letting the other random variable run towards positive infinity.
+We get:
+
+$$
+F_X(a) = P(X \le a) =
+P(X \le a, Y \le \infty) =
+lim_{b \rightarrow \infty} F_{XY}(a, b)
+$$
+
+$$
+F_Y(b) = P(Y \le b)
+= P(X \le 1, Y \le \infty) =
+ lim_{a \rightarrow \infty} F_{XY}(a, b)
+$$
+
+<br />
+
+### Continuous Joint Distributions
+
+---
+
+All discoveries of joint distributions of two discrete random variables
+translates into the universe of continuous random variables. We recall, that for
+some random variable $X$ defined on a continuous scale within some interval
+$[a,b]$, we can find the probability that $X$ lies within some interval by
+integration of the PDF over the integral. This method mirrors into the
+multivariate case. Now, our PDF $f:R^2 \to R$ that takes in a pair of values,
+and the probability is therefore given as the volume under some rectangle.
+
+<br />
+
+**Joint Probability Density Function.** Two random variables X and Y are jointly
+continuous if there exists a non-negative function $f:R^2 \to R$, such that for
+all numbers $a_1, a_2$ and $b_1, b_2$ with $a_1\le b_1$ and $a_2 \le b_2$, we
+have
+
+$$
+P(a_1 \le X \le b_1, a_2 \le Y \le b_2)=\int_{a_1}^{b_1}\int_{a_2}^{b_2}=f(x,y)dx\ dy
+$$
+
+_Note, that - just like in the single random variable case - the joint PDF must
+fulfil the condition of a probability function, such that it must integrate to
+unity and all values $f(x,y)\ge 0$ for all $x,y$._
+
+<br />
+
+**Joint Marginal PDFs.** We have already seen the joint cumulative function in
+the discrete case and now seek a similar definition for the continuous case.
+Luckily, the joint probability function is defined in a similar manner. We
+obtain the individual probability density function for some variable $X$ by
+integrating over the entire range by fixing the other random variable.
+
+$$
+f_X(x)=\int_{-\infty}^{\infty}f_{XY}(x,y)dy
+$$
+
+$$
+f_Y(y)=\int_{-\infty}^{\infty}f_{XY}(x,y)dx
+$$
+
+<br />
+
+**Joint Distribution Function.** As in the one-dimensional case there is a
+simple relation of derivative/ anti-derivative between the joint distribution
+function $F$ and the joint probability density function $f$:
+
+$$
+F_{XY}(a, b) = \int_{-\infty}^a \int_{-\infty}^b f(x, y) dx\ dy
+\text{ and } f_{XY}(x, y) = \frac{\delta^2}{dx\ dy} F_{XY}(x, y)
+$$
+
+## Independence
+
+---
+
+We have already seen the definition of the independence of two events $A$ and
+$B$: If the probability of $A$ occurring is not influenced by the outcome of $B$
+($P(A|B)=P(A)$), then $A$ is said to be independent of $B$, and vice versa. A
+similar definition exist for the notion of independence for random variables.
+
+Two discrete random variables $X$ and $Y$ are considered independent if:
+
+$$
+p_{XY}(x,y)=p_X(x)p_Y(y) \text{ for all } x\in R_X \text{ and } y \in R_Y
+$$
+
+Since this definition breaks in the continuous case, we can extend the
+definition for distribution functions. Two random variables $X$ and $Y$ are
+independent if and only if for every $x$ and $y$, the events $\{X\leq x\}$ and
+$\{Y\leq y\}$ are independent events. That is, $X$ and $Y$ with cumulative
+distribution functions $F_X(x)$ and $F_Y(y)$, are independent iff the combined
+random variable $(X,Y)$ has a joint cumulative distribution function
+
+$$
+F_{XY}(x, y) = F_X(x)F_Y(y) \forall\ x, y
+$$
+
+## Expectation of Joint Distributions
+
+---
+
+Last week, we introduced the notion of expectation to summarise the randomness
+encoded through a random variable into a single, informative number that told us
+about what value to expect on average from this random process. We can define
+the expectation of a joint random variable $(X, Y)$ in a similar fashion both in
+the continuous and discrete case.
+
+$$
+E[(X, Y)] = \sum_{x \in R_X} \sum_{y \in R_Y} (x, y)\ p_{XY}(x, y)
+$$
+
+$$
+E[(X, Y)] = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} (x, y)\ f_{XY}(x, y) dx\ dy
+$$
+
+Moreover, the change-of-variable formula translates into the multivariate
+setting. For the discrete case, we get:
+
+$$
+E[g(X, Y)] = \sum_{x \in R_X} \sum_{y \in R_Y} g(x, y)\ p_{XY}(x, y)
+$$
+
+And we can define a similar concept in the continuous case.
+
+Furthermore, the linearity of expectation still holds. It is generally true,
+that:
+
+$$
+E[rX + sY + t] = rE[X] + sE[Y] + t
+$$
+
+## Variance of Joint Distributions
+
+---
+
+In the previous section we have seen that for two random variables X and Y
+always $E[X + Y] = E[X] + E[Y]$. Does such a simple relation also hold for the
+variance of the sum $Var[X + Y]$ or for expectation of the product $E[XY]$?
+
+The variance of the sum of two random variables is generally not equal to the
+sum of the individual variance (thus, the linearity of expectation does not hold
+for the variance). One can show this by using the definition of variance for
+joint random variables:
+
+$$
+\begin{align*}
+  Var(X+Y) &= E[(X+Y-E[X+Y])^2] \\
+           &= E[(X-E[X])^2)+(Y-E[Y])^2+2(X-E[X])(Y-E[Y])] \\
+           &= E[(X-E[X])^2] + E[(Y-E[Y])^2] + 2E[(X-E[X])(Y-E[Y])] \\
+           &= Var(X) + Var(Y) + 2E[(X-E[X])(Y-E[Y])]
+\end{align*}
+$$
+
+Thus, the variance of the sum $X+Y$ equals to the sum of variances of $X$ and
+$Y$, plus an extra term. To some extend, this term describes how $X$ and $Y$
+influence each other. It therefore got a special name, the **covariance**.
+
+$$
+Cov(X, Y) = E[(X-E[X])(Y-E[Y])]
+$$
+
+Or from the linearity-of-expectation rule, we can rewrite this equation as:
+
+$$
+Cov(X, Y) = E[XY] - E[X]E[Y]
+$$
+
+Unpacking the formula, it becomes clear, that we are measuring the expected
+product of the deviation from each random variables from their respective
+expectation. We can thus conclude, that a positive covariance is likely because
+a realisation of the random variable $X$ larger than its expectation is likely
+to occur with a realisation of the random variable $Y$ being larger than its
+expected value. Similarly, a negative covariance hints at the fact a realisation
+of $X$ larger than the expectation likely occurs with a realisation smaller than
+the expectation of $Y$ and therefore yields a negative value. The covariance is
+zero, since there seems to be no dependence of one variable with the other. In
+that case, the random variables are said to be _uncorrelated_.
+
+It is also true, that if two random variables are _independent_, then they are
+also uncorrelated. This can simply be shown, by noting that $E[XY]=E[X]E[Y]$ for
+independent random variables, and thus:
+
+$$
+Cov(X, Y) = E[XY] - E[X]E[Y] = E[X]E[Y]-E[X]E[Y] = 0
+$$
+
+_Note that the reverse is not necessarily true. If X and Y are uncorrelated,
+they need not be independent._
+
+<br />
+
+For definition of the linearity-of-variance, this has the following consequence:
+While it is generally not true that $Var(X+Y)=Var(X)+Var(Y)$, it is true if we
+assume the random variables to be uncorrelated (and for that sake also
+independent, since independence always implies no correlation of two random
+variables). If $X$ and $Y$ are uncorrelated or independent, then
+
+$$
+Var(X+Y) = Var(X) + Var(Y)
+$$
+
+_Note, that this theorem also extends to more than two independent random
+variables_
+
+<br />
+
+**Properties of Covariance**
+
+1. Cov(X,X)=Var(X) (Transitivity)
+2. Cov(X,Y)=Cov(Y,X) (Symmetry)
+3. If $X$ and $Y$ are independent, then $Cov(X,Y)=0$ (Independence)
+4. Var(X+Y)=Var(X)+Var(Y)+2\ Cov(X,Y)
+
+**Computing with Covariance**
+
+1. Linearity of Covariance: $Cov(rX+s, tY+u)=rt(Cov(X,Y)$
+2. Joint Random Variables: Cov(X+Y,Z)=Cov(X,Z)+Cov(Y,Z)
+
+## Correlation Coefficient
+
+---
+
+We have seen, that the covariance between random variables gives an indication
+of how they influence one another. A disadvantage of the covariance is the fact
+that it depends on the units in which the random variables are represented.
+Namely, the units is the product of the units of the random variables.
+
+This is an unwanted behaviour, since i.e. the correlation between the height $H$
+and $W$ of humans gives us some value for the covariance. If we rescale the
+height from $cm$ into $m$, then we don't want the correlation of our two random
+variables to change. However, the change-of-units formulas apply for the
+covariance, such that
+
+$$
+Cov(rX+s, tY+u)=rt(Cov(X,Y))
+$$
+
+In order to account for this problem, we standardise the covariance by dividing
+it by the root of the product of the individual variances. This standardisation
+process yields to correlation coefficient:
+
+$$
+p(X,Y)=\frac{Cov(X, Y)}{\sqrt{Var(X)Var(Y)}}
+$$
+
+_Note, that if $Var(X)$ or $Var(Y)$ is zero, the above expression is not defined
+and we conclude the correlation coefficient to be zero._
+
+The nice property of the correlation coefficient $p(X,Y)$ is that it is
+unaffected by the scaling of the two parameters through its standardisation.
+Through the Cauchy-Schwarz inequality, we can prove that in fact the value of
+$p$ is always within the interval $[-1,1]$, where value close to $0$ indicate no
+correlation, values close to -1 negative correlation and values close to 1
+positive correlation.
