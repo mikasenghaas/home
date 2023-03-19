@@ -1,0 +1,156 @@
+---
+id: clt
+title: Central Limit Theorem
+tags: []
+published: 03-20-2023
+lastEdited: 03-20-2023
+---
+
+The **Central Limit Theorem (CLT)** is one of the central discoveries in
+Probability Theory, and, if you are like me, will surprise you by how bizarrely
+universal it is. Before we go into the details of what the CLT describes and how
+we can formally prove it, I think it is a good time for mentioning that many of
+the intuitions and mathematics behind this proof are similar to those of the
+**Law of Large Numbers (LLN)**. So, if you haven't read the chapter about the
+LLN yet, I highly recommend doing so
+[here](https://mikasenghaas.de/teaching/stats/lln). Furthermore, I recommend
+watching the [YouTube Video](https://www.youtube.com/watch?v=zeJD6dqJ5lo) by 3
+Blue 1 Brown, which includes exceptionally well-made visuals for the intuitions
+behind the CLT and its beauty.
+
+## Central Limit Theorem
+
+---
+
+The CLT can be thought of as an extension of the LLN, so let's first remind
+ourselves what the LLN states. If we observe an i.i.d (independent and
+identically distributed) sequence of random variables $X_1, ..., X_n$, where
+$X_i$ has some true expectation $\mu$ and standard deviation $\sigma$, and
+define a computed random variables
+
+$$
+\bar{X}_n = \frac{X_1 + ... + X_n}{n}
+$$
+
+as the average of this sequence, the LLN proves that the expectation of the
+computed RV, $E[\bar{X_n}]$, will converge towards the expectation of each
+independent trial, $E[X_i]=\mu_{X_i}$.
+
+$$
+\lim_{n \to \infty} E[\bar{X}_n] = \mu
+$$
+
+Why is this significant, you may ask? Well, you can think of this as the bridge
+between the theoretical space of probability theory and randomness in the real
+world. The LLN gives you mathematical confidence in the fact that if you observe
+a random phenomenon with some randomness enough times, then the average of all
+your samples **will converge** towards the true expected value, no matter what.
+
+<br />
+
+Now, that we have that out of the way, what is the CLT then? Well, the central
+limit theorem makes an even more general claim in a similar experiment setting:
+Again, we consider an i.i.d sequence of random variables. Note, this can be any
+discrete or continuous random process that you can think of, and you just repeat
+it over and over again in independent trials. Each of the trials follows some
+true underlying distribution $X_i$ with expectation $\mu$ and standard deviation
+$\sigma$. Again, we construct a computed random variable, this time simply
+measuring the sum of the sequence for illustration purposes
+
+$$
+S_n = X_1 + ... + X_n
+$$
+
+Now, the CLT makes the surprising claim that the distribution of this random
+variables will converge towards a normal distribution, or more formally:
+
+$$
+\lim_{n \to \infty} S_n \sim \text{Normal Distribution}
+$$
+
+Take a moment to take in this formula and unpack what it means. What the CLT is
+stating is that starting from **any** kind of distribution, discrete or
+concrete, uniform or highly skewed, no matter how you construct it, the
+distribution of the sum over an i.i.d sequence of such values will converge
+towards a bell curve, i.e. follow a normal distribution. In fact, not only some
+normal distribution but a very specific one. Using our knowledge of expectation
+(especially the linearity of expectation), we know that
+
+$$
+E[S_n] = E[(X_1 + ... + X_n)] = E[X_1]+ ... + E[X_n] = \mu + ... + \mu = n\cdot \mu
+$$
+
+And, similarly for the variance under the assumption of independence
+
+$$
+Var[S_n] = Var[(X_1 + ... + X_n)] = Var[X_1]+ ... + Var[X_n] = \sigma^2 + ... + \sigma^2 = n\cdot \sigma^2
+$$
+
+So, the standard deviation is given as $SD[S_n] = \sqrt{n}\cdot \sigma$. In that
+way, we have found the two parameters, the mean and standard deviation, of the
+normal distribution and can theoretically define the precise distribution that
+$S_n$ is going to converge towards.
+
+$$
+\lim_{n \to \infty} S_n \sim N(n\cdot \mu, \sqrt{n} \cdot \sigma)
+$$
+
+Given this, it is clear that we can also normalise $Z$ further through the
+standard normalisation, which makes the distribution follow a standard normal
+distribution:
+
+$$
+\lim_{n\to\infty} \frac{S_n - n\cdot \mu}{\sqrt{n}\cdot \sigma} \sim N(0, 1)
+$$
+
+## Usecase
+
+---
+
+So, besides being pretty cool, what can we use this for? Imagine, you were asked
+a question like this:
+
+> Consider rolling a fair die **100 times**, and adding the results. Find a
+> range of values such that you are 95% that the sum will fall into that range.
+
+Think about how you would go about solving this exercise normally. We would
+define a new random variable $S_{100}$, which describes the sum of each roll
+with the dice $X_i$, s.t.
+
+$$
+S_{100} = X_1 + ... + X_{100}
+$$
+
+Next, we would need to define the range $R_{S_{100}}$, which lists all possible
+outcomes and define the PMF/ CDF to capture the probabilities associated with
+the range of outcomes. Writing out the range of possible sums is still doable,
+as the minimal and maximal values are easily found with 100 and 600. All values
+in between are computable, so the range is $R_{S_{100}}=[100, 600]$. However,
+when it comes to assigning probabilities to each outcome, it becomes hairy. To
+assign probabilities, we would have to count the number of roll combinations to
+get the specific sum. If we visualise the experiment as a tree, this corresponds
+to counting the number of paths leading to a specific sum when summing over the
+paths. Now, as you can imagine, this tree is rather large. It has a depth of
+$100$ and branches out with six different options at each path - this amounts to
+a mind-boggling total of $6^{100}$, which is a number so large we cannot even
+imagine. So, how could we possibly compute this?
+
+<br />
+
+Of course, the **CLT comes to the rescue**. Instead of manually computing the
+probability distribution, we realise that this is an i.i.d. sequence and by the
+central limit theorem converges towards a normal distribution. With $\mu=3.5$
+and $\sigma\approx 1.71$ for a single dice roll, we can show that the
+distribution of the sum of 100 trials $S_{100}$ has mean
+$E[S_{100}]=n\cdot\mu=100\cdot 3.5=350$ and
+$SD[S_{100}]=\sqrt{100}\cdot\sigma=10 \cdot 1.71=17.1$. From the 68-95-99.7-rule
+for normal distributions, we know that 95% of the values fall within the
+symmetric range of two standard deviations, $2\sigma$, and therefore we can
+answer that the interval $E[S_{100}] \pm 2\cdot SD[S_{100}]$ is a 95% confidence
+interval for the result. Plugging in the values for the expectation and standard
+deviation we get $350 \pm 2\cdot 17.1$, which is the interval $[215.8, 384.2]$.
+
+It should have become clear, how much simpler the computation has become by
+knowing that the distribution of $S_{100}$ converges towards a normal
+distribution given the central limit theorem. It has made a computation
+seemingly impossible with our regular tools a walk in the park.
