@@ -1,0 +1,7 @@
+{
+  "grammarly.config.documentDialect": "british",
+  "grammarly.files.include": [
+    "**/*.mdx",
+    "**/*.md"
+  ]
+}
