@@ -1,0 +1,137 @@
+---
+id: bootstrapping
+title: Bootstrapping
+tags: []
+published: 04-10-2023
+lastEdited: 04-10-2023
+---
+
+In the previous chapter, we have seen statistics and probability theory in
+action for the first time. Some random phenomenon, that we don't know anything
+about yet, can be explored by sampling (ie. through experimenting). From these
+samples, we have successfully derived statistical equivalents to the most
+relevant estimators of probability distributions, such as the probability
+density function and empirical distribution function (ECDF), and numerical
+metrics, ie. sample mean, sample median, sample variance, MAD and others.
+
+All these metrics are estimates for the observed realisation of the underlying
+theoretical random variable. They _do not imply universal truth_ since further
+sampling might change the estimates (it is ie. unwise to infer that a **sample
+mean is equivalent to the expectation** since the sample mean varies depending
+on the sampling). From the law of large numbers, we know that an infinitely
+large sample converges towards its real _theoretical_ probability distribution.
+Since this however is infeasible and we are often restricted to a finite set of
+data points in real-life applications, the natural question arises: How
+trustworthy are our estimators? Or: What is the probability that our estimates
+are within some threshold?
+
+This question can be answered using a technique called **statistical
+bootstrapping.**
+
+## Linguistic Heritage
+
+---
+
+Bootstrap, or bootstrapping, is a verb that comes from the saying, **"to pull
+oneself up by his bootstraps"**. The idiom implies a person is self-sufficient,
+not requiring help from others. Similarly, in the computing world, bootstrapping
+describes a process that automatically loads and executes commands.
+
+In statistics, the idiom of self-sufficiency points to the fact that we estimate
+the probability that the deviation of a sample estimate from an **unknown
+value** is within some threshold without actually computing this unknown value.
+The method builds up sorely from the original sample.
+
+## Bootstrapping Principle
+
+---
+
+We have seen examples of sample statistics that can be used to estimate
+different model features, for instance, the empirical distribution function to
+estimate the model distribution function $F$, and the sample mean to estimate
+the expectation $\mu$ corresponding to $F$. Now, it is interesting to see, how
+close our computed sample statistics are to the model features they are supposed
+to estimate. One possible question might be: What is the probability that the
+sample mean, $\bar{x}$, and $\mu$ differ more than a given tolerance $\epsilon$:
+
+$$
+P(|\bar{X}-\mu| > \epsilon)
+$$
+
+To evaluate this probability, we first need to acknowledge that $\bar{X}-\mu$ in
+itself is a random variable because it includes the randomness of an i.i.d
+sequence of random variables that are used to compute the sample mean. However,
+we cannot simply evaluate its probability distribution, since we do not know the
+_real theoretical_ expectation $\mu$. This is where to general **bootstrap
+principle** comes in:
+
+1. **Use the dataset $x_1, x_2, ..., x_n$ to compute an estimate $\hat{F}$ for
+   the _true_ distribution of $F$.**
+
+2. **Replace the random $X_1, X_2, ..., X_n$ from $F$ by a random sample
+   $X_{1*},X_{2*}, ..., X_{n*}$ from $\hat{F}$.**
+
+3. **Approximate the probability distribution of $h(X_1, X_2, \ldots, X_n)$ by
+   that of $h(X_{1*},X_{2*}, ..., X_{n*})$.**
+
+The question that remains is what to take as an estimate $\hat{F}$ for $F$. This
+depends on how well $F$ can be specified. The so-called **empirical
+bootstrapping** does not require any intuition on the underlying statistical
+distribution, whereas the **parametric bootstrapping** relies on a prior belief
+of the theoretical distribution that underlies the empirical sample.
+
+## Empirical Bootstrapping
+
+---
+
+As the name suggests, empirical bootstrapping relies entirely on _empirically_
+observed values. When we cannot make any assumptions about the type of $F$, we
+can always estimate $F$ by the **ECDF** (Empirical Distribution Function) we
+discovered last week:
+
+$$
+\hat{F}(a)=F_n(a)=\frac{\text{Number of $x_i$ <= $a$}}{n}
+$$
+
+From this empirical distribution function $F_n$ that we use as an estimate of
+the real underlying distribution function $F$ of $X$, we can generate a
+so-called **bootstrap dataset** or **bootstrap sample** of the same length as
+the original dataset. Using this dataset we can compute the bootstrapped sample
+mean.
+
+<br />
+
+**Empirical Bootstrap in R.** As empirical bootstrapping is nothing more than
+_sampling with replacement_, we can use the built-in R function `sample` to
+generate bootstrap samples of arbitrary size.
+
+```r
+# empirical bootstrapping in R
+boot.data <- sample(data, size=length(data), replace=T)
+```
+
+## Parametric Bootstrapping
+
+---
+
+If we can make assumptions about the underlying theoretical distribution at
+hand, it is often more robust to directly estimate the distribution parameters
+from the empirical dataset and use those in the theoretical distribution
+function $F$.
+
+For example, if we are certain that the data we observed follows a normal
+distribution, then we can estimate $\mu$ and $\sigma$ from the empirical dataset
+as $\mu^*$ and $\sigma^*$ and then use these values in the true CDF of the
+normal distribution $F(\mu^*, \sigma^*)$ to draw bootstrap samples according to
+the bootstrap principle.
+
+<br />
+
+**Parametric Bootstrap in R.** In R we can use built-in functions to compute the
+empirical estimates of the distribution parameters (like ($\mu$, $\sigma$) for
+normal distributions, $\lambda$ for exponential distributions, etc.).
+
+```r
+# parametric bootstrapping in R
+boot.data <- rnorm(size=length(data), mean=mean(data), sd=mean(data))
+```
