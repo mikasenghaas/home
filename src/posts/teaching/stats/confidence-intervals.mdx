@@ -207,66 +207,92 @@ our point estimate that arises from the sampling procedure.
 
 ---
 
-In this first - most simple - case, we assume that some given data $x_1, x_2,
-..., x_n$ is a realisation of a random variable $X_1, X_2, ..., X_n$ that
-follows a normal distribution with known variance $\sigma^2$. Our task is now
-to determine the $\alpha \cdot 100\%$ confidence interval for the population
-mean, ie. given some data and its variance, how confident can we be that the
-mean of the underlying theoretical distribution lies within some interval or
-what sized interval can we construct to be $95\%$ confident that it includes
-the population mean.
+Under the assumption that our sample is **normally distributed** and that the
+true **standard deviation** $\sigma$ is known, we can construct the
+$100(1-\alpha)\%$ confidence interval relatively easy.
 
-Our model parameter is the expectation $\mu$, which we can estimate through the
-point estimator of the sample mean _$\bar{X}_n$. Now, however, we are
-interested in the distribution of this random variable, as we want to be able
-to find critical values for it. A summation of independent, identically
-distributed normal random variables in itself is a normal random variable and
-we have already shown, that its $E[\bar{X}_n]=\mu$ and
-$Var[\bar{X}_n]=\sigma^2/n$. By the central limit theorem, $\bar{X}_n$ is
-normally distributed with $N(\mu, \frac{\sigma^2}{n})$. Using standardisation,
-we can transform the distribution into a standard normal distribution ($N(0,1)$)
-$(Z=\frac{X-\mu}{\sigma})$:
+We realise that we wish to construct an interval around the true mean at
+$1-\alpha$ confidence:
 
 $$
-\frac{\bar{X}_n-\mu}{\sigma / \sqrt{n}}
+P(L_n(X_1, \ldots, X_n) \le \mu \le U_n(X_1, \ldots, X_n)) = 1 - \alpha
 $$
 
-Now, are searching for the probability that our transformed estimator
-$\bar{X}_n$ with $N(0,1)$ lies within some interval $c_l$ and $c_u$, so we can
-write:
+We will start out from our point estimator $\bar{X}_n$. By central limit
+theorem, it will converge towards a normal distribution. In earlier weeks we
+have already shown that $E[\bar{X}_n]=\mu$ and $Var[\bar{X}_n]=\sigma^2/n$ and
+so $\bar{X}_n$ converges towards $N(\mu, \sigma / \sqrt{n})$. Properly
+standardising this random distribution $(Z=\frac{X-\mu}{\sigma})$, we construct
 
 $$
-\begin{align}1- \alpha &= P(c_l \le Z \le c_u) \\ &=P(c_l \lt \frac{\bar{X_n}-\mu}{\sigma / \sqrt{n}} \lt c_u) \\ &= P(c_l \cdot \frac{\sigma}{\sqrt{n}} \lt \bar{X_n}-\mu \lt c_u \cdot \frac{\sigma}{\sqrt{n}})\\ &= \alpha=P(\bar{X_n} - c_u \cdot \frac{\sigma}{\sqrt{n}} \lt \mu \lt \bar{X_n} - c_l \cdot \frac{\sigma}{\sqrt{n}})\end{align}
+Z = \frac{\bar{X}_n - \mu}{\sigma / \sqrt{n}}
 $$
 
-We first multiply by the denominator and then subtract the sample mean. Since we
-need to change signs, $c_u$ and $c_l$ change sites.
-
-We have therefore found our lower and upper bound of the $\alpha$ confidence
-level as follows:
+, wish follows a standard normal distribution. Now, we can write out the
+following interval (just as in the **Prerequisites** section):
 
 $$
-(\bar{X_n} - c_u \cdot \frac{\sigma}{\sqrt{n}}, \bar{X_n} - c_l \cdot \frac{\sigma}{\sqrt{n}})
+P(c_l \le Z \le c_u) = 1 - \alpha
 $$
 
-Using this formula, we can compute the $100(1-\alpha)\%$ confidence intervals,
-by exchanging the constant to the critical values of the standard normal
-distribution, such that $P(Z\ge c_u)=\alpha / 2$ and $P(Z \le c_l)=\alpha
-/ 2$
-and by noticing that $z_{c_l}=-z_{c_u}$ for the standard normal distribution, we
-generally find the plug-and-play formula for the $100(1-a)\%$ confidence
-interval
+Notice, the similarity to the definition of the confidence interval we are
+after. It is not quite the same, but we are getting there. At this point, we
+should remember all the work we have done about finding interval boundaries and
+critical values. We know that we can construct a $1-\alpha$ interval for
+a standard normal distribution through the interval $(z_{\alpha /2}, -z_{\alpha /
+2}$. Since $Z$, our standardised sample mean, is a standard normal distribution,
+we can replace $c_l$ with $-z_{\alpha / 2}$ and $c_u$ with $z_{\alpha / 2}$. Thus, 
 
 $$
-(\bar{x}_n -z_{a/2} \cdot \frac{\sigma}{\sqrt{n}}, \bar{x}_n + z_{a/2} \cdot \frac{\sigma}{\sqrt{n}})
+P(-z_{\alpha / 2} \le Z \le z_{\alpha / 2}) = 1 - \alpha
 $$
 
-Example of the 95% CI: 
+We will now do a series of transformations to this equation to transform it into
+the confidence interval for the mean.
 
 $$
-(\bar{x}_n -z_{0.05/2} \cdot \frac{\sigma}{\sqrt{n}}, \bar{x}\_n - z\_{0.05/2} \cdot \frac{\sigma}{\sqrt{n}})\\
-\implies (\bar{x}\_n - 1.96\cdot \frac{\sigma}{\sqrt{n}}, \bar{x}\_n + 1.96 \cdot \frac{\sigma}{\sqrt{n}})
+\begin{align}
+1 - \alpha &= P(-z_{\alpha / 2} \le Z \le z_{\alpha / 2}) \\ 
+&=P(-z_{\alpha / 2} \le \frac{\bar{X}_n-\mu}{\sigma / \sqrt{n}} \le z_{\alpha / 2}) \\ 
+&= P(-z_{\alpha / 2} \cdot \frac{\sigma}{\sqrt{n}} \le \bar{X}_n-\mu \le z_{\alpha / 2} \cdot \frac{\sigma}{\sqrt{n}}) \\ 
+&= P(-\bar{X}_n - z_{\alpha / 2} \cdot \frac{\sigma}{\sqrt{n}} \le -\mu \le -\bar{X}_n + z_{\alpha / 2} \cdot \frac{\sigma}{\sqrt{n}}) \\ 
+&= P(\bar{X}_n + z_{\alpha / 2 }\cdot \frac{\sigma}{\sqrt{n}} \ge \mu \ge \bar{X}_n - z_{\alpha / 2} \cdot \frac{\sigma}{\sqrt{n}}) \\
+&= P(\bar{X}_n - z_{\alpha / 2 }\cdot \frac{\sigma}{\sqrt{n}} \le \mu \le \bar{X}_n + z_{\alpha / 2} \cdot \frac{\sigma}{\sqrt{n}}) 
+\end{align}
 $$
+
+_We first multiply by the denominator and then subtract the sample mean. The
+multiplication by $-1$ lead to a change in the direction of the inequalitie, as
+well as negates all terms at the inveral boundaries._
+
+<br />
+
+We have found that $L_n = \bar{X}_n - z_{\alpha / 2} \cdot \frac{\sigma}{\sqrt{n}}$
+and, similarly, $U_n = \bar{X}_n + z_{\alpha / 2} \cdot \frac{\sigma}{\sqrt{n}})$.
+
+To compute the confidence interval on a specific dataset $(x_1, \ldots, x_n)$ ,
+we compute the interval estimates $l_n$ and $u_n$, which will yield the
+following $100(1-\alpha)\%$ confidence interval.
+
+$$
+(l_n, u_n) = 
+\left(
+\bar{x_n} - z_{\alpha / 2} \cdot \frac{\sigma}{\sqrt{n}},
+\bar{x_n} + z_{\alpha / 2} \cdot \frac{\sigma}{\sqrt{n}},
+\right)
+$$
+
+For example, to compute the 95% CI for the mean of a dataset that is assumed to
+be normally distributed with known standard deviation $\sigma$, we compute the
+sample mean $\bar{x}_n$ and then compute the margins as $\pm z_{0.05 / 2} \cdot
+\frac{\sigma}{\sqrt{n}}$, which yields the following interval.
+
+$$
+(\bar{x}_n -z_{0.05/2} \cdot \frac{\sigma}{\sqrt{n}}, \bar{x}_n - z\_{0.05/2} \cdot \frac{\sigma}{\sqrt{n}})\\
+= (\bar{x}_n - 1.96\cdot \frac{\sigma}{\sqrt{n}}, \bar{x}_n + 1.96 \cdot \frac{\sigma}{\sqrt{n}})
+$$
+
+We can do this programmatically in `R` like this:
 
 ```r
 # base r implementation
@@ -291,36 +317,55 @@ ci.for.mean(test, 0.9, 5)
 ---
 
 However, if we do not know the true standard deviation/ variance of the random
-variable describing the sample mean, we cannot normalise the random variable and
-therefore not follow the procedures described above.
-
-But, we can help ourselves by using the estimator $S_n$ for the standard
-deviation. This will yield a random variable $T$, that is no longer depended on
-knowing the variance. It is often called the studentised mean and it follows a
-_t-distribution (special kind of normal distribution)_ with $n-1$ degrees of
-freedoms, such that $T\sim T(n-1)$.
+variable describing the sample mean, we cannot properly normalise the random
+variable. Clearly, our best guess for the true standard deviation is the sample
+standard deviation $S_n$, which is the unbiased estimator for $\sigma$. The
+estimator is defined as,
 
 $$
-T = \frac{\bar{X}_n - \mu}{S_n/\sqrt{n}}
+S_n = \sqrt{\frac{1}{N-1}\sum_i^N (x_i - \bar{x}_n)^2}
 $$
 
-Doing the same computations as before, we arrive at the general formula for the
-confidence interval. The only difference is that the formula replaces the, now
-unknown parameter $\sigma$, through the sample standard deviation.
+, and yields the sample standard deviation $s_n$ for a specific dataset. We can
+use $S_n$ to normalise the sample mean $\bar{X}_n$. We denote the normalised
+random variable as $T$:
 
 $$
-(\bar{X_n} - c_u \cdot \frac{s_n}{\sqrt{n}}, \bar{X_n} - c_l \cdot \frac{s_n}{\sqrt{n}})
+T = \frac{\bar{X}_n - \mu}{S_n / \sqrt{n}}
 $$
 
-Using this formula, we can compute the $100(1-\alpha)\%$ confidence intervals,
-by exchanging the constant to the critical values of the t-distribution as
-given.
+$T$ is often referred to as the studentised mean, and it no longer depends on
+the true value of $\sigma$. However, now it also does not follow a standard
+normal distribution, but a so-called **t-distribution** (a special kind of
+normal distribution) with $n-1$ degrees of freedoms. We write that $T \sim
+T(n-1)$. Again, we can write an interval for this random variable as:
+
+$$
+P(c_l \le T \le c_u) = 1 - \alpha
+$$
+
+And the critical values $c_l$ and $c_u$ now becomes the critical values from the
+t-distribution. We will denote them as $-t_{n-1, \alpha / 2}$ for $c_l$ and 
+$t_{n-1, \alpha / 2}$ for $c_l$ for $c_u$, respectively. Following the exact same
+computational steps as before, we can construct a $100(1-\alpha)\%$ confidence
+interval for the mean for normal data with unknown variance through the interval
+estimators $L_n$ and $U_n$,
+
+$$
+L_n = \bar{X_n} - c_u \cdot \frac{s_n}{\sqrt{n}} \\ 
+U_n = \bar{X_n} - c_l \cdot \frac{s_n}{\sqrt{n}})
+$$
+
+and their realisation $l_n$ and $u_n$ to compute the concrete CI given data and
+estimates for the mean and standard deviation.
 
 $$
 (\bar{x}_n -t_{n-1,a/2} \cdot \frac{s_n}{\sqrt{n}}, \bar{x}_n + t_{n-1, a/2} \cdot \frac{s_n}{\sqrt{n}})
 $$
 
-In R looks like this:
+<br />
+
+In R we can compute the following:
 
 ```r
 # base r implementation
@@ -345,10 +390,10 @@ ci.for.mean(test, 0.9)
 ---
 
 The above two plug-and-go-formulas that we derived are both assuming normality
-of the data, i.e. each data point originates independently from the same normal
-distribution. Although the CLT allows us to transform any random variable into a
-standard normal distribution for large $n$, it might be a better approach to use
-the technique of bootstrapping to compute the confidence interval.
+of the data, i.e. each data point originates from a normal distribution.
+Although the CLT allows us to transform any random variable into a standard
+normal distribution for large $n$, it might be a better approach to use the
+technique of bootstrapping to compute the confidence interval.
 
 In that, last and most general case, we suppose some given dataset
 $x_1, x_2, ..., x_n$ as a realisation of a random sample from some underlying
