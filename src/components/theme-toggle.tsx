@@ -16,7 +16,7 @@ import { capitalize } from "@/lib/utils";
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
 
-  function opposite(theme: string | undefined) {
+  const opposite = React.useCallback((theme: string | undefined) => {
     switch (theme) {
       case "light":
         return "dark";
@@ -25,11 +25,23 @@ export function ThemeToggle() {
       default:
         return "system";
     }
-  }
+  }, []);
 
-  function toggleTheme() {
+  const toggleTheme = React.useCallback(() => {
     setTheme(opposite(resolvedTheme));
-  }
+  }, [setTheme, opposite, resolvedTheme]);
+
+  React.useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        toggleTheme();
+      }
+    };
+
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, [toggleTheme]);
 
   return (
     <Tooltip>
@@ -41,7 +53,12 @@ export function ThemeToggle() {
         </Button>
       </TooltipTrigger>
       <TooltipContent>
-        <p>Switch to {capitalize(opposite(resolvedTheme))} Mode</p>
+        <p className="flex items-center gap-x-1">
+          {capitalize(opposite(resolvedTheme))} Mode
+          <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-accent px-1.5 font-mono text-[10px] font-medium text-accent-foreground opacity-100">
+            <span className="text-xs">⌘</span>J
+          </kbd>
+        </p>
       </TooltipContent>
     </Tooltip>
   );

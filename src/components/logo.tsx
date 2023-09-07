@@ -14,7 +14,7 @@ export function Logo() {
       <TooltipTrigger tabIndex={-1}>
         <Link
           href="/"
-          className="block h-12 w-12 overflow-hidden rounded-md outline-accent"
+          className="block h-12 w-12 overflow-hidden rounded-md outline-accent-foreground"
         >
           <h1 className="-mt-1 text-5xl font-bold">m</h1>
         </Link>

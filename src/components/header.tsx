@@ -5,7 +5,11 @@ import { Logo } from "@/components/logo";
 import { Menu } from "@/components/menu";
 import { ThemeToggle } from "@/components/theme-toggle";
 
-export function Header() {
+interface HeaderProps {
+  teachingPosts: string[];
+  projectPosts: string[];
+}
+export function Header({ teachingPosts, projectPosts }: HeaderProps) {
   const { scrollPosition } = useScroll();
 
   return (
@@ -19,7 +23,7 @@ export function Header() {
       <div className="container z-50 mx-auto flex items-center justify-between">
         <Logo />
         <div className="flex items-center space-x-2">
-          <Menu />
+          <Menu teachingPosts={teachingPosts} projectPosts={projectPosts} />
           <ThemeToggle />
         </div>
       </div>
