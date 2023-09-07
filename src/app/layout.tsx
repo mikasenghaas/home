@@ -20,9 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={cx("flex w-full justify-center")}>
         <Provider>
-          <div className="w-full max-w-4xl px-2">
+          <div className="container">
             <Header />
-            {children}
+            <div className="mt-40 border border-blue-200">{children}</div>
           </div>
         </Provider>
       </body>

@@ -19,7 +19,7 @@ function Hero() {
 
 function Buttons() {
   return (
-    <div className="my-8 flex items-center space-x-2 p-8">
+    <div className="my-8 flex flex-wrap items-center space-x-2 p-8">
       <Button size="lg">Primary</Button>
       <Button variant="secondary" size="lg">
         Secondary
@@ -39,6 +39,11 @@ export default function Home() {
     <>
       <Hero />
       <Buttons />
+      {Array.from(Array(20).keys()).map((el) => {
+        return (
+          <div key={el} className="h-10 w-full border border-red-200"></div>
+        );
+      })}
     </>
   );
 }
