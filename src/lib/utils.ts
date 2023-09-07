@@ -1,5 +1,12 @@
-import path from "path";
+import { type ClassValue, clsx } from "clsx";
 import fs from "fs";
+import path from "path";
+import { twMerge } from "tailwind-merge";
+
+// shadcn ui
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export function getPostPath(slug: string, type?: string) {
   return path.join(
@@ -7,7 +14,7 @@ export function getPostPath(slug: string, type?: string) {
     "src",
     "posts",
     type ? type : "",
-    slug + ".md"
+    slug + ".md",
   );
 }
 
@@ -31,4 +38,8 @@ export function readDir(filePath: string) {
       else resolve(files);
     });
   });
+}
+
+export function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
