@@ -1,27 +1,80 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+ 
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background: 210 20% 98%; /* #f9fafb */
+    --foreground: 239 84% 10%; /* #04052f */
+ 
+    --muted: 220 12% 95%; /* #F1F2F4 */
+    --muted-foreground: 239 84% 10%; /* #04052f */
+ 
+    --popover: 226 68% 94%; /* #e5eafa */
+    --popover-foreground: 222 50% 50%; /* #0e52f1 */
+ 
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --border: 216 33% 94%; /* #ebeff5 */
+    --input: 216 33% 94%; /* #ebeff5 */
+ 
+    --primary: 220 12% 95%; /* #F1F2F4 */
+    --primary-foreground: 220 26% 14%; /* #1A202C */
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --accent: 222 50% 50%; /* #0e52f1 */
+    --accent-foreground: 222 50% 50%; /* #0e52f1 */
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --ring: 222 50% 50%; /* #0e52f1 */
+ 
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 223 14% 10%; /* #16181d */
+    --foreground: 240 84% 95%; /* #e8e8fd */
+ 
+    --muted: 232 11% 15%; /* #22232a */
+    --muted-foreground: 240 84% 95%; /* #e8e8fd */
+ 
+    --popover: 222 30% 17%; /* #1e2638 */
+    --popover-foreground: 222 89% 65%; /* #5686f5 */
+ 
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --border: 228 5% 21%; /* #333438 */
+    --input: 228 5% 21%; /* #333438 */
+ 
+    /* primary buttons */
+    --primary: 232 11% 15%; /* #22232a */
+    --primary-foreground: 180 3% 94%; /* #eff0f0 */
+ 
+    /* secondary buttons */
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --accent: 222 89% 65%; /* #5686f5 */
+    --accent-foreground: 222 89% 65%; /* #5686f5 */
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+ 
+    --ring: 222 89% 65% /* #5686f5 */
   }
 }
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
