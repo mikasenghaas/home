@@ -2,6 +2,7 @@
 
 import useScroll from "@/app/hooks/use-scroll";
 import { Logo } from "@/components/logo";
+import { Menu } from "@/components/menu";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header() {
@@ -18,7 +19,7 @@ export function Header() {
       <div className="container z-50 mx-auto flex items-center justify-between">
         <Logo />
         <div className="flex items-center space-x-2">
-          <ThemeToggle />
+          <Menu />
           <ThemeToggle />
         </div>
       </div>
