@@ -11,12 +11,12 @@ import {
 export function Logo() {
   return (
     <Tooltip>
-      <TooltipTrigger>
+      <TooltipTrigger tabIndex={-1}>
         <Link
           href="/"
-          className="disabled h-16 w-16 text-5xl font-bold focus:outline-none"
+          className="block h-12 w-12 overflow-hidden rounded-md outline-accent"
         >
-          m
+          <h1 className="-mt-1 text-5xl font-bold">m</h1>
         </Link>
       </TooltipTrigger>
       <TooltipContent>Back Home</TooltipContent>
