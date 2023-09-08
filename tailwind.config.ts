@@ -19,6 +19,10 @@ module.exports = {
       },
     },
     extend: {
+      screens: {
+        xl: "1480px",
+        // => @media (min-width: 992px) { ... }
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

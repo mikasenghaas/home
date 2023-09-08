@@ -102,7 +102,7 @@
 
   /* headings */
   h1, h2, h3 {
-    @apply mt-14 font-semibold text-foreground;
+    @apply mt-14 font-semibold text-foreground scroll-m-24;
   }
 
   h1 {

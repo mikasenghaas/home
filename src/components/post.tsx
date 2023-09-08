@@ -4,6 +4,7 @@ import { serialize } from "next-mdx-remote/serialize";
 import readingTime from "reading-time";
 import rehypeKatex from "rehype-katex";
 import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
 import remarkMath from "remark-math";
 
 import MDXRemoteWrapper from "@/components/mdx-remote-wrapper";
@@ -34,7 +35,7 @@ export default async function Post({ slug, type }: PostProps) {
     mdxOptions: {
       remarkPlugins: [remarkMath],
       /* @ts-ignore, TODO: rehypeHighlight type mismatch */
-      rehypePlugins: [rehypeKatex, [rehypePrettyCode, options]],
+      rehypePlugins: [rehypeKatex, [rehypePrettyCode, options], rehypeSlug],
       format: "mdx",
     },
     parseFrontmatter: true,

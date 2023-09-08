@@ -1,9 +1,9 @@
 "use client";
 
-import useScroll from "@/app/hooks/use-scroll";
 import { Logo } from "@/components/logo";
 import { Menu } from "@/components/menu";
 import { ThemeToggle } from "@/components/theme-toggle";
+import useScroll from "@/hooks/use-scroll";
 
 interface HeaderProps {
   teachingPosts: string[];

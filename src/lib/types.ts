@@ -5,3 +5,8 @@ export type Frontmatter = {
   published: string;
   lastEdited: string;
 };
+
+export type Heading = {
+  id: string;
+  title: string;
+};
