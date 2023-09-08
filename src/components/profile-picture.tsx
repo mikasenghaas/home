@@ -12,7 +12,7 @@ export default function ProfilePicture() {
   const { resolvedTheme } = useTheme();
 
   useEffect(() => {
-    setTimeout(() => setMounted(true), 1000);
+    setMounted(true);
   }, []);
 
   if (!mounted)

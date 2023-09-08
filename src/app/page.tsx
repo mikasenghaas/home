@@ -3,34 +3,36 @@ import Image from "next/image";
 import { Logo } from "@/components/logo";
 import ProfilePicture from "@/components/profile-picture";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 
 function Hero() {
   return (
     <>
       <ProfilePicture />
-      <p className="text-4xl ">
-        Hi 👋🏻 I&apos;m Mika. I am a student and teaching assistant at the IT
-        University of Copenhagen interested in cutting-edge AI.
+      <p className="mt-10 text-4xl leading-normal md:text-5xl md:leading-normal">
+        <strong>
+          Hi <span className="animate-bounce"> 👋🏻</span>, I&apos;m Mika.
+        </strong>{" "}
+        I am a master student in computer and data science at{" "}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <a href="https://epfl.ch" target="_blank">
+              EPFL
+            </a>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p className="flex items-center gap-x-1 text-sm">
+              École Polytechnique Fédérale de Lausanne
+            </p>
+          </TooltipContent>
+        </Tooltip>
+        . My main research interest is artificial intelligence.
       </p>
-      <p className="text-accent">Test</p>
     </>
-  );
-}
-
-function Buttons() {
-  return (
-    <div className="my-8 flex flex-wrap items-center space-x-2 p-8">
-      <Button size="lg">Primary</Button>
-      <Button variant="secondary" size="lg">
-        Secondary
-      </Button>
-      <Button variant="outline" size="lg">
-        Outline
-      </Button>
-      <Button variant="link" size="lg">
-        Link
-      </Button>
-    </div>
   );
 }
 
@@ -38,12 +40,6 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Buttons />
-      {Array.from(Array(20).keys()).map((el) => {
-        return (
-          <div key={el} className="h-10 w-full border border-red-200"></div>
-        );
-      })}
     </>
   );
 }

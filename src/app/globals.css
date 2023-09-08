@@ -85,11 +85,11 @@
 
   /* texts */
   p, li {
-    @apply text-muted-foreground text-lg font-light leading-loose 2xl:text-2xl;
+    @apply text-muted-foreground text-lg font-light leading-loose;
   }
 
   a {
-    @apply text-accent-foreground font-medium hover:underline underline-offset-4;
+    @apply text-accent-foreground font-medium hover:underline underline-offset-4 focus-visible:outline-accent-foreground focus-visible:outline-offset-2;
   }
 
   strong {
