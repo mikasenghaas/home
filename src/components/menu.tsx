@@ -32,13 +32,17 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
+import { Frontmatter, FrontmatterWithSlug } from "@/lib/types";
 import { capitalize } from "@/lib/utils";
 
 interface MenuProps {
-  teachingPosts: string[];
-  projectPosts: string[];
+  teachingPostsFrontmatter: FrontmatterWithSlug[];
+  projectPostsFrontmatter: FrontmatterWithSlug[];
 }
-export function Menu({ teachingPosts, projectPosts }: MenuProps) {
+export function Menu({
+  teachingPostsFrontmatter,
+  projectPostsFrontmatter,
+}: MenuProps) {
   const [open, setOpen] = React.useState(false);
   const { resolvedTheme, setTheme } = useTheme();
   const router = useRouter();
@@ -111,30 +115,48 @@ export function Menu({ teachingPosts, projectPosts }: MenuProps) {
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Teaching">
-            {teachingPosts.map((post) => {
+            {teachingPostsFrontmatter.map((postFrontmatter) => {
               return (
                 <CommandItem
-                  key={`teaching-${post}`}
-                  onSelect={() =>
-                    navigate(`/teaching/${post.split(".").at(0)}`)
-                  }
+                  key={`teaching-${postFrontmatter.title}`}
+                  onSelect={() => navigate(`/teaching/${postFrontmatter.slug}`)}
                 >
                   <Paperclip className="mr-2 h-4 w-4" />
-                  <span>{post}</span>
+                  <span className="mr-2 flex-1 truncate">
+                    {postFrontmatter.title}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {new Date(
+                      postFrontmatter.published.replace(/-/g, "/"),
+                    ).toLocaleString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                    })}
+                  </span>
                 </CommandItem>
               );
             })}
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Projects">
-            {projectPosts.map((post) => {
+            {projectPostsFrontmatter.map((postFrontmatter) => {
               return (
                 <CommandItem
-                  key={`project-${post}`}
-                  onSelect={() => navigate(`/project/${post.split(".").at(0)}`)}
+                  key={`project-${postFrontmatter.title}`}
+                  onSelect={() => navigate(`/project/${postFrontmatter.slug}`)}
                 >
                   <Paperclip className="mr-2 h-4 w-4" />
-                  <span>{post}</span>
+                  <span className="mr-2 flex-1 truncate">
+                    {postFrontmatter.title}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {new Date(
+                      postFrontmatter.published.replace(/-/g, "/"),
+                    ).toLocaleString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                    })}
+                  </span>
                 </CommandItem>
               );
             })}

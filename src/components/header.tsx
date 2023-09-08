@@ -4,12 +4,16 @@ import { Logo } from "@/components/logo";
 import { Menu } from "@/components/menu";
 import { ThemeToggle } from "@/components/theme-toggle";
 import useScroll from "@/hooks/use-scroll";
+import { Frontmatter, FrontmatterWithSlug } from "@/lib/types";
 
 interface HeaderProps {
-  teachingPosts: string[];
-  projectPosts: string[];
+  teachingPostsFrontmatter: FrontmatterWithSlug[];
+  projectPostsFrontmatter: FrontmatterWithSlug[];
 }
-export function Header({ teachingPosts, projectPosts }: HeaderProps) {
+export function Header({
+  teachingPostsFrontmatter,
+  projectPostsFrontmatter,
+}: HeaderProps) {
   const { scrollPosition } = useScroll();
 
   return (
@@ -23,7 +27,10 @@ export function Header({ teachingPosts, projectPosts }: HeaderProps) {
       <div className="container z-50 mx-auto flex items-center justify-between">
         <Logo />
         <div className="flex items-center space-x-2">
-          <Menu teachingPosts={teachingPosts} projectPosts={projectPosts} />
+          <Menu
+            teachingPostsFrontmatter={teachingPostsFrontmatter}
+            projectPostsFrontmatter={projectPostsFrontmatter}
+          />
           <ThemeToggle />
         </div>
       </div>

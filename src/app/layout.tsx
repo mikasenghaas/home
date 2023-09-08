@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 
 import { Header } from "@/components/header";
 import Provider from "@/components/provider";
-import { getPostDir, readDir } from "@/lib/utils";
+import { FrontmatterWithSlug } from "@/lib/types";
+import { getFrontmatter, getPostDir, getPostPath, readDir } from "@/lib/utils";
 
 import "./globals.css";
 import "./katex.css";
@@ -18,15 +19,42 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // get post names
   const teachingPosts = await readDir(getPostDir("teaching"));
   const projectPosts = await readDir(getPostDir("project"));
+
+  // get post slugs
+  const getSlug = (fileName: string) => fileName.split(".").at(0) || "";
+  const teachingPostSlugs = teachingPosts.map(getSlug);
+  const projectPostSlugs = projectPosts.map(getSlug);
+
+  // get post frontmatter
+  const getFrontmatterFromSlug = (type: string) => async (slug: string) => {
+    const frontmatter = await getFrontmatter(getPostPath(slug, type));
+    return { slug, ...frontmatter };
+  };
+  const teachingPostFrontmatter = await Promise.all(
+    teachingPostSlugs.map(getFrontmatterFromSlug("teaching")),
+  );
+  const projectPostsFrontmatter = await Promise.all(
+    projectPostSlugs.map(getFrontmatterFromSlug("project")),
+  );
+
+  // sort post frontmatter
+  const byPublishingDate = (a: FrontmatterWithSlug, b: FrontmatterWithSlug) =>
+    a.published < b.published ? 1 : -1;
+  const sortedTeachingPostFrontmatter =
+    teachingPostFrontmatter.sort(byPublishingDate);
 
   return (
     <html lang="en">
       <body className={cx("flex w-full justify-center")}>
         <Provider>
           <div className="container">
-            <Header teachingPosts={teachingPosts} projectPosts={projectPosts} />
+            <Header
+              teachingPostsFrontmatter={teachingPostFrontmatter}
+              projectPostsFrontmatter={projectPostsFrontmatter}
+            />
             <div className="mt-60">{children}</div>
           </div>
         </Provider>

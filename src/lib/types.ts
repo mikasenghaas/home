@@ -6,6 +6,10 @@ export type Frontmatter = {
   lastEdited: string;
 };
 
+export type FrontmatterWithSlug = Frontmatter & {
+  slug: string;
+};
+
 export type Heading = {
   id: string;
   title: string;
