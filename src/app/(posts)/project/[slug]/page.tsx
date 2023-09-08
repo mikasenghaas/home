@@ -11,5 +11,4 @@ export default async function ProjectPost({
 }
 
 export const dynamicParams = false;
-export const generateStaticParams = () =>
-  generateStaticParamsHelper("teaching");
+export const generateStaticParams = () => generateStaticParamsHelper("project");

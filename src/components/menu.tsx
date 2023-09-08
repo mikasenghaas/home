@@ -85,7 +85,7 @@ export function Menu({ teachingPosts, projectPosts }: MenuProps) {
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          <p className="flex items-center gap-x-1">
+          <p className="flex items-center gap-x-1 text-sm">
             Open Menu
             <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-accent px-1.5 font-mono text-[10px] font-medium text-accent-foreground opacity-100">
               <span className="text-xs">⌘</span>K

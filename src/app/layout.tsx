@@ -6,6 +6,7 @@ import Provider from "@/components/provider";
 import { getPostDir, readDir } from "@/lib/utils";
 
 import "./globals.css";
+import "./katex.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,7 +27,7 @@ export default async function RootLayout({
         <Provider>
           <div className="container">
             <Header teachingPosts={teachingPosts} projectPosts={projectPosts} />
-            <div className="mt-40 border border-blue-200">{children}</div>
+            <div className="mt-60">{children}</div>
           </div>
         </Provider>
       </body>

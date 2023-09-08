@@ -53,7 +53,7 @@ export function ThemeToggle() {
         </Button>
       </TooltipTrigger>
       <TooltipContent>
-        <p className="flex items-center gap-x-1">
+        <p className="flex items-center gap-x-1 text-sm">
           {capitalize(opposite(resolvedTheme))} Mode
           <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-accent px-1.5 font-mono text-[10px] font-medium text-accent-foreground opacity-100">
             <span className="text-xs">⌘</span>J
