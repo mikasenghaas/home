@@ -1,6 +1,7 @@
 import { cx } from "class-variance-authority";
 import type { Metadata } from "next";
 
+import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import Provider from "@/components/provider";
 import { FrontmatterWithSlug } from "@/lib/types";
@@ -50,12 +51,13 @@ export default async function RootLayout({
     <html lang="en">
       <body className={cx("flex w-full justify-center")}>
         <Provider>
-          <div className="container">
+          <div className="container flex min-h-screen flex-col">
             <Header
               teachingPostsFrontmatter={teachingPostFrontmatter}
               projectPostsFrontmatter={projectPostsFrontmatter}
             />
-            <div className="mt-60">{children}</div>
+            <div className="mt-60 flex-1">{children}</div>
+            <Footer />
           </div>
         </Provider>
       </body>
