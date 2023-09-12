@@ -79,6 +79,7 @@ module.exports = {
       },
       boxShadow: {
         glow: "0 0 15px 0.5px var(--accent)",
+        "glow-xl": "0 0 40px 0.5px var(--accent)",
       },
     },
   },

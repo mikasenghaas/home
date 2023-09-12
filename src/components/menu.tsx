@@ -32,20 +32,15 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
+import { PostContext } from "@/lib/context";
 import { Frontmatter, FrontmatterWithSlug } from "@/lib/types";
 import { capitalize } from "@/lib/utils";
 
-interface MenuProps {
-  teachingPostsFrontmatter: FrontmatterWithSlug[];
-  projectPostsFrontmatter: FrontmatterWithSlug[];
-}
-export function Menu({
-  teachingPostsFrontmatter,
-  projectPostsFrontmatter,
-}: MenuProps) {
+export function Menu() {
   const [open, setOpen] = React.useState(false);
   const { resolvedTheme, setTheme } = useTheme();
   const router = useRouter();
+  const posts = React.useContext(PostContext);
 
   function opposite(theme: string | undefined) {
     switch (theme) {
@@ -115,7 +110,7 @@ export function Menu({
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Teaching">
-            {teachingPostsFrontmatter.map((postFrontmatter) => {
+            {posts!["teaching"].map((postFrontmatter) => {
               return (
                 <CommandItem
                   key={`teaching-${postFrontmatter.title}`}
@@ -139,7 +134,7 @@ export function Menu({
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Projects">
-            {projectPostsFrontmatter.map((postFrontmatter) => {
+            {posts!["project"].map((postFrontmatter) => {
               return (
                 <CommandItem
                   key={`project-${postFrontmatter.title}`}

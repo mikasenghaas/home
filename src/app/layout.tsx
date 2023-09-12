@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import { cx } from "class-variance-authority";
 import type { Metadata } from "next";
 
@@ -46,16 +48,20 @@ export default async function RootLayout({
     a.published < b.published ? 1 : -1;
   const sortedTeachingPostFrontmatter =
     teachingPostFrontmatter.sort(byPublishingDate);
+  const sortedProjectPostFrontmatter =
+    projectPostsFrontmatter.sort(byPublishingDate);
+
+  const posts = {
+    teaching: sortedTeachingPostFrontmatter,
+    project: sortedProjectPostFrontmatter,
+  };
 
   return (
     <html lang="en">
       <body className={cx("flex w-full justify-center")}>
-        <Provider>
+        <Provider posts={posts}>
           <div className="container flex min-h-screen flex-col">
-            <Header
-              teachingPostsFrontmatter={teachingPostFrontmatter}
-              projectPostsFrontmatter={projectPostsFrontmatter}
-            />
+            <Header />
             <div className="mt-60 flex-1">{children}</div>
             <Footer />
           </div>

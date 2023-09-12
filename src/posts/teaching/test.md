@@ -1,5 +1,6 @@
 ---
 title: Welcome
+course: Algorithms and Data Structures
 description: 
 tags: []
 published: 09-07-2023
