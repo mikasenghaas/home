@@ -4,6 +4,7 @@ import { useContext } from "react";
 
 import Link from "next/link";
 
+import { Section } from "@/components/section";
 import {
   Accordion,
   AccordionContent,
@@ -59,17 +60,15 @@ export function Teaching() {
   }, {} as GroupedFrontmatterWithSlug);
 
   return (
-    <>
-      <h2>Teaching Material</h2>
+    <Section>
+      <h2 className="m-0">Teaching Material</h2>
       {Object.keys(groupedTeachingPosts).map((course) => {
         return (
           <Accordion key={course} type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>
                 <div className="flex items-center gap-x-2">
-                  <span className="m-0 text-muted-foreground group-hover:underline">
-                    {course}
-                  </span>
+                  <span className="m-0 group-hover:underline">{course}</span>
                   <Badge variant="outline" className="hidden md:block">
                     {CourseInformation[course].university}
                   </Badge>
@@ -87,6 +86,6 @@ export function Teaching() {
           </Accordion>
         );
       })}
-    </>
+    </Section>
   );
 }

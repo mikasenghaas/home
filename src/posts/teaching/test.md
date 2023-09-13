@@ -39,5 +39,8 @@ $$
 This is a new post with a _link_ to my [GitHub](https://github.com/mikasenghaas). And here some math
 
 $$
-\Sigma_0^\infty i = \infty
+\begin{align*}
+  \Sigma_0^\infty i &= \infty\\
+  \Sigma_1^\infty\Sigma_1^\infty i &= \infty
+\end{align*}
 $$

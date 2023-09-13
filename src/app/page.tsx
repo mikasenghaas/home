@@ -1,4 +1,5 @@
 import { About } from "@/components/section/about";
+import { Connect } from "@/components/section/connect";
 import { Featured } from "@/components/section/featured";
 import { Hero } from "@/components/section/hero";
 import { Project } from "@/components/section/projects";
@@ -9,8 +10,8 @@ export default function Home() {
     <>
       <Hero />
       <Featured />
-      <Teaching />
       <Project />
+      <Teaching />
       <About />
     </>
   );

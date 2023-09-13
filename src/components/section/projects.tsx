@@ -7,10 +7,10 @@ import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import Image from "next/image";
 import Link from "next/link";
 
+import { Section } from "@/components/section";
+import { Button } from "@/components/ui/button";
 import { PostContext } from "@/lib/context";
 import { FrontmatterWithSlug, GroupedFrontmatterWithSlug } from "@/lib/types";
-
-import { Button } from "../ui/button";
 
 function ProjectBox({
   postFrontmatter,
@@ -54,8 +54,8 @@ export function Project() {
   const projectPostsFrontmatter = posts["project"];
 
   return (
-    <>
-      <h2>Recent Projects</h2>
+    <Section>
+      <h2 className="m-0">Recent Projects</h2>
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {projectPostsFrontmatter.slice(0, 3).map((postFrontmatter) => (
           <ProjectBox
@@ -78,6 +78,6 @@ export function Project() {
       >
         See {collapsed ? "more" : "less"}
       </Button>
-    </>
+    </Section>
   );
 }

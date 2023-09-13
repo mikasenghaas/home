@@ -6,14 +6,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-md font-medium outline-2 outline-offset-2 outline-accent-foreground shadow-glow focus-visible:outline hover:outline hover:outline-1 hover:outline-offset-0 hover:shadow-accent-foreground hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 active:scale-95 [transition:all_0.15s,color_0s,background-color_0s]",
+  "inline-flex items-center justify-center text-md font-medium",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground",
-        secondary: "bg-secondary text-secondary-foreground",
-        outline: "border bg-background",
-        link: "text-foreground decoration-accent-foreground underline-offset-4 underline-2 hover:underline hover:text-foreground hover:outline-none hover:shadow-none",
+        default:
+          "rounded-md text-md font-medium outline-2 outline-offset-2 outline-accent-foreground shadow-glow focus-visible:outline hover:outline hover:outline-1 hover:outline-offset-0 hover:shadow-accent-foreground hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 active:scale-95 [transition:all_0.15s,color_0s,background-color_0s] bg-primary text-primary-foreground",
+        secondary:
+          "rounded-md text-md font-medium outline-2 outline-offset-2 outline-accent-foreground shadow-glow focus-visible:outline hover:outline hover:outline-1 hover:outline-offset-0 hover:shadow-accent-foreground hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 active:scale-95 [transition:all_0.15s,color_0s,background-color_0s] bg-secondary text-secondary-foreground",
+        outline:
+          "rounded-md text-md font-medium outline-2 outline-offset-2 outline-accent-foreground shadow-glow focus-visible:outline hover:outline hover:outline-1 hover:outline-offset-0 hover:shadow-accent-foreground hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 active:scale-95 [transition:all_0.15s,color_0s,background-color_0s] border bg-background",
+        link: "text-accent-foreground decoration-accent-foreground underline-offset-4 underline-2 hover:underline focus-visible:outline-accent-foreground focus-visible:outline-offset-2",
       },
       size: {
         default: "h-10 px-4 py-2",
