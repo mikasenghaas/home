@@ -1,0 +1,198 @@
+---
+title: Amortised Analysis
+description:
+course: Algorithms & Data Structures
+tags: []
+published: 03-28-2022
+lastEdited: 02-05-2023
+---
+
+Whenever we encounter algorithms, we want to be able to give a good estimate of
+its running time - ideally mathematically convincing. We do this by modelling
+the running time of our algorithms as functions (usually a function
+$f: \R \to \R$ that takes the input size as an argument and returns the
+frequency of the most frequent operation of the algorithm in terms of the input
+size.
+
+In _Week 3 (Analysis of Algorithms)_ we have already equipped ourselves with the
+basic mathematical toolbox to compare running times of two algorithms - a key
+process, since we want to be able to mathematically decide which algorithm
+performs best on average, in the worst- or best case. We have introduced the
+_tilde-notation (**~**)_ and _Big-O-Notation,_ as ways to compare running times.
+
+Today, we will extend this knowledge with a way of computing the running time on
+special kinds of algorithms, using **amortised analysis.**
+
+## Key Idea
+
+---
+
+In computer science, amortised analysis is a method for analysing a given
+algorithm's 'average' complexity, or how much of a resource, especially time or
+memory, it takes to execute. The motivation for amortised analysis is that
+looking at the worst-case run time per operation, rather than per algorithm, can
+be too pessimistic.
+
+In some algorithms, some operations might be very costly, but are therefore less
+frequently executed, while the majority of the operations are very cheap. In our
+'normal' way of analysing algorithms, such an algorithm would still perform
+poorly, however in reality it might be faster.
+
+## Example: Dynamic Array
+
+---
+
+A good example for where amortised analysis is used, is the analysis of running
+time of _dynamically resizing arrays (such as Python's List or Java's
+ArrayList)_.
+
+The idea is simple. In order to allow (possibly infinitely many) pushes/ appends
+to the list, we double the size of the array, every time the array is full,
+which involves an initialisation of an $n$ sized array and $n$ copies - an
+extensive operation taking $O(n)$ time. However, this allows us to insert $n$
+more elements into the array in constant time, so we encounter a lot of cheap
+operations, which 'pay' for the high-cost doubling/ coping operation.
+
+To provide a good estimate of the running time of such an algorithm, we take the
+'average' of the operations. However, from now on, we will try to avoid the term
+“on the average.” Not because it is wrong, but because it is too broad. For more
+precision, we introduce the concept of “amortised cost”, borrowing terminology
+from the world of finance. The idea is to “write off” the costs for reduce() in
+the long run by showing that, even though a particular call may be costly, these
+expensive calls happen with such low frequency that by instead charging a slight
+cost to every operation, the expensive operation will be paid.
+
+This methods is called the aggregate analysis, which can be mathematically
+written as:
+
+Let $T(n)$ be the worst-case total running time for any sequence of $n$
+operations. The amortized time for each operation then is the average running
+time of the operation, $T(n)/n$.
+
+## Exercise Solutions
+
+---
+
+### Thore's Notes
+
+---
+
+a) Worst Case: 4km/ day Amortised: $\frac{4*5}{7}=2.9$km/day
+
+b) With regular die: 3.5km/ day With enchanted die: 1.0 km/ day. With cursed
+die: 6.0 km/ day.
+
+Worst Case: 6km
+
+Assuming he runs on weekends: 6km/ day Otherwise: $\frac{6*5}{7}=4.28$ km/ day
+
+c) Worst Case: Signing contract in December, paying 100DKK for December, then
+calling mother for 2 hours (=120minutes), for an extra of 1.100DKK.
+
+Best Case: Signing contract in January, paying 100DKK for twelve months.
+100DKK \* 12 months / 12 = 100 DKK.
+
+d) Worst Case: 200DKK (if only a single ride is taken) Amortised Case: Could be
+considered 200DKK still, since the 200DKK are paid in advance, and there is thus
+no saving up credit going on. Thus, the we can consider buying a ticket, taking
+all ten rides, buying another and taking a single ride as a scenario, where the
+first ten rides saved credit, which would lead to (200DKK+200DKK)/11=36.4 DKK/
+ride.
+
+### Exam 110530 - 2
+
+---
+
+Analysing a well-known datatype:
+
+a) A. Stack
+
+b) D. `return cap-x`
+
+c) C. $\sim 4N$
+
+d) B. constant
+
+### 1.4.29 a)
+
+---
+
+We maintain two stacks, one for the head, one for the tail of the steque. We can
+push() and enqueue() by simply pushing on the corresponding stacks (constant
+time operations). On a call to pop(), there are two cases. If the headstack is
+nonempty, then we can simply call pop(), which we know to be constant. If the
+headstack is empty, we have to push all elements of the tailstack in reverse
+order onto the headstack, so that we can access the most least recently enqueue
+object (the next to pop) on the top of the new headstack.
+
+The easiest way to see that this is amortised constant time is to consider how
+many operations may at most be performed on each element pushed or enqueued onto
+the steque. For an element pushed, popping it takes 1 operation. An element
+enqueued will first be popped from the tailstack and then pushed to the
+headstack, before being popped from the headstack. All constant time operations
+which are all happening at most one time while the element is in the data
+structure. So although a single pop() may take O(N ), the total operations
+performed for N elements is O(N ) and therefore amortised constant time. More
+precisely, we consider an arbitrary legal sequence of Push() and Pop()
+operations (such that the queue never was empty), a total of N. Each of the at
+most N elements, if it was returned by Pop() or is still in the data structure,
+participated in at most 2 push() and 2 pop() operations, one pair on tailstack
+and one pair on headstack. Hence, there have been at most 4N constant time
+operations on the underlying stacks, i.e., amortized constant.
+
+### Exam 120531 - 2
+
+---
+
+a) B. Queue
+
+b) A. `return N`
+
+c) A. $N \lt \text{A.length}$
+
+d)
+
+```text
+A = [3, null], hi = 1, lo = 0, N = 1
+```
+
+e) B. $2$
+
+f) A. $\sim 4N$
+
+g) B. constant
+
+h) B. constant in the worst case
+
+i) False, the data structure is likely to use more space than $N$, since the
+data structure only increases in space, but never decreases (there is no call to
+`rebuild()` in the `remove()` method.
+
+### Weighted Quick Find
+
+---
+
+a)
+
+`union(A, B)`: Worst Case $\sim N/2$ = $O(N)$
+
+`connected(A, B)`: Worst Case $2$ = $O(1)$
+
+b) As we are recoloring the elements in the smaller set, for each k elements
+being recolored the resulting set has grown to a size >= 2k and at least k
+elements did not need to be recolored. A set may at most grow >= 2k with k >= 1
+at most log n times, meaning each element may at most be recolored log n times.
+As log n is an upper bound for the number of recolorings per element, the upper
+bound for m union operations is $O(m\ log\ n)$ and with s added constant time
+SameSet operation it is $O(m log n + s)$.
+
+### 1.4.31 Deque with Three Stacks
+
+---
+
+If there are no rebalancing operations, each push and pop operation of the Deque
+will be constant time. If there are any rebalance operations, they take time
+linear in the current size of the Deque $n$, more precisely $3n$ (pop and push
+on stacks), perhaps two less. After the rebalance operation, the data structure
+has two stacks of size $\in [n/2 − 1/2, n/2 - 1/2]$, where the pop operation
+takes an element from the smaller one.

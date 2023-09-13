@@ -1,0 +1,571 @@
+---
+title: Sorting
+description:
+course: Algorithms & Data Structures
+tags: []
+published: 02-21-2022
+lastEdited: 02-05-2023
+---
+
+In computer science, a sorting algorithm is an algorithm that puts a collection
+of elements in a list in a certain order. The most frequently used order are
+numerical order and lexicographical (=alphabetic) order. The output of any
+sorting algorithms must satisfy two conditions:
+
+1. The output is in some **logical order** (most naturally these are ascending
+   (_from low to high)_ or descending (_from high to low), and depend on the
+   type of objects to be sorted)_ _Note: In order to sort custom objects (such
+   as weighted edges), they need to implement the `__lt__` magic method)_
+2. The output is a **permutation** (_= a reordering, yet retaining all of the
+   original elements without adding or removing elements)_ of the input
+
+## Motivation
+
+---
+
+There are many practical reasons on why to study sorting algorithms, even though
+you might use a s system sort (ie. Python uses _Timsort_):
+
+- Analysing sorting algorithms is a thorough introduction to the approach that
+  we use to compare algorithm performance throughout the book.
+
+- Similar techniques are effective in addressing other problems.
+
+- Efficient sorting is important for optimising the efficiency of other
+  algorithms (such as search and merge algorithms) that require input data to be
+  sorted.
+
+## Performance Metrics
+
+---
+
+When we deal with sorting algorithms, there are a few extra parameters that one
+might want to consider in special use cases that go beyond the standard analysis
+of run-time. For all algorithms examined within this course we will analyse the
+following performance metrics:
+
+1. **Time Complexity**
+
+   Most importantly, we will measure our algorithms performance by their
+   asymptotic run-time, both in the best-/ average- and worst-case scenario.
+   This will enable us to give run-time guarantees.
+
+2. **Space Complexity**
+
+   The amount of extra memory used by a sorting algorithm is often important to
+   consider as well. The sorting algorithms divide into two basic categories:
+   Such algorithms that sort _in-place_ (meaning that they use constant or
+   logarithmic extra memory) and those that use linear extra memory, mostly to
+   hold an auxiliary copy of the array to be sorted)
+
+3. **Stability**
+
+   A sorting algorithm sorts its input stably if elements with equal values
+   remain in their relational order. Otherwise we say an algorithm to sort
+   unstably.
+
+## Selection Sort
+
+---
+
+Selection Sort is one of the simplest, and perhaps most intuitive, sorting
+algorithms that follows an intuitive approach to sorting some input based on
+pairwise logical comparisons. Because it continuously selects the smallest/
+biggest element in the to be sorted array, it is called selection sort. The
+algorithm is easy to implement in code.
+
+### Pseudo-Code
+
+---
+
+This is the pseudo-code for sorting an array in ascending order (lowest to
+highest) using selection sort.
+
+1. Find the smallest item (_minimum_) in the array and exchange it with the
+   first item
+
+2. Find the smallest item in the array excluding the first item and exchange it
+   with the second item
+
+3. Iterate this process until the entire array has been examined ans sorted
+
+### Analysis
+
+---
+
+Selection sort is rather easy to analyse, on the first iteration, we examine all
+$n$ elements of the array and perform a single swap. On the next iteration, we
+iterate over $n-1$ elements. We therefore get the following algebraic sequence:
+
+$$
+N+(N-1)+(N-2)+\cdots+2+1=\sum_{i=1}^N-1=\frac{N^2
+- N}{2}=\frac{N^2}{2}-frac{N}{2}\sim \frac{N^2}{2} = O(N^2)
+$$
+
+Thus, the algorithm takes, $\sim \frac{1}{2}N^2$ times, so is a quadratic time
+algorithm. The algorithm is being executed independent of the input (ie. it does
+not matter, whether it receives a sorted, reversely sorted or completely
+unsorted array). Thus, the runtime estimation from above, is best-/average- and
+worst-case runtime in one.
+
+The algorithm sorts _in-place_, since we simply perform swaps of elements, and
+therefore does not use extra space. The space complexity is therefore O(1).
+
+Selection sort is unstable by default, since if we do not take additional care,
+the last occurring duplicate is going to be swapped first, resulting in a
+swapped order relational order of equivalent elements.
+
+## Insertion Sort
+
+---
+
+Insertion is another simple sorting algorithm that already offers slightly
+better performance compared to selection sort. The algorithm in a way replicates
+the way most people would sort a deck of cards: Considering the cards
+one-after-one and for each new card finding its logical position in the
+previously examined deck.
+
+### Pseudo-Code
+
+---
+
+This is the pseudo-code for sorting an array in ascending order (lowest to
+highest) using insertion sort.
+
+1. Look at the second element and exchange with the first if the second item is
+   smaller than the first
+
+2. Look at the third item. Continuously exchange with left neighbour until the
+   item is at the correct position.
+
+3. Iterate this process until the array is sorted.
+
+### Analysis
+
+---
+
+The analysis of insertion sort is more challenging, since the runtime of the
+algorithm depends heavily on the input. For sorted arrays, we simply iterate
+over the array in linear time ($\sim N-1$) compares to verify that the left
+neighbor of every item at index $1 \ge i \ge N-1$ is smaller or equal to the
+current element. The worst-case input is an array in reverse order, since here,
+we have to float every element the maximal distance on each iteration. Here, we
+get the same sequence as we got for selection sort.
+
+$$
+1+2+\cdots+(N-1)+N=\sum_{i=1}^N-1=\frac{N^2
+- N}{2}=\frac{N^2}{2}-\frac{N}{2} \sim \frac{N^2}{2} = O(N^2)
+$$
+
+On average, we can expect more swaps than in the case of sorted array and less
+swaps than in the case of a reversely sorted array. Thus, the average running
+time is $\sim \frac{N^2}{4}$, meaning that on average the runtime is still
+quadratic.
+
+Insertion sort also sorts in-place, leading to a space-complexity of $O(1)$.
+
+Unlike selection sort, insertion sort sorts stably, meaning that the relative
+order of equal items is being maintained. That is, because swaps are only made,
+when the left neighbor is strictly larger than the current item (when sorting in
+ascending order).
+
+## Merge Sort
+
+---
+
+The algorithm that we will now consider is one of the best algorithms known to
+mankind for sorting arrays of arbitrary order (_not partially sorted_). The
+algorithm was invented by _John von Neumann_ in 1945 and is our first venture
+into the type of algorithms known as _divide and conquer algorithms:_
+
+> A _divide-and-conquer algorithm_ recursively breaks down a problem into two or
+> more sub-problems of the same or related type, until these become simple
+> enough to be solved directly. The solutions to the sub-problems are then
+> combined to give a solution to the original problem.
+
+The divide-and-conquer character of merge sort is heavily based on the concept
+of merging of two already sorted/ ordered arrays into one larger ordered array.
+This operation immediately leads to the recursive method of merge sort, which
+goes as follows:
+
+### Pseudo-Code `merge()`
+
+---
+
+Merging two sorted arrays is fairly simple in itself. We simply initialise two
+pointers, call them $i$ and $j$ for the two arrays and copy over the lower
+element to a new array and then advance the pointer of the lower element. We
+continue to do so, until we have a new, merged array in the combined length of
+the two initial arrays.
+
+However, since merge sorts calls the `merge` operation often, and on larger and
+larger chunks of arrays, it is desirable that we merge in-place. This means,
+that instead of treating the two input arrays as a two separate arrays in
+memory, we consider them as adjacent subarrays of the initial array, and we sort
+based on pointers that identify these subarrays. We can then adjust the merge
+operation (while keeping the same initial idea of above), in order to merge
+without huge overhead on the space complexity we are using.
+
+```python
+def merge(arr, lo, mid, hi):
+  i, j = lo, mid+1  # pointers to start of left and right half
+  aux = [None] * len(arr)
+
+  # copy contents into auxiliary array
+  for k in range(lo, hi+1):
+      aux[k] = arr[k]
+
+  # merge back to original arr
+  for k in range(lo, hi+1):
+      # left half exhausted, take from left
+      if i > mid:
+          arr[k] = aux[j]
+          j += 1
+      # right half exhausted, take from left
+      elif j > hi:
+          arr[k] = aux[i]
+          i += 1
+      # key on right half is smaller than left (take from right)
+      elif aux[j] < aux[i]:
+          arr[k] = aux[j]
+          j += 1
+      # key on left half is smaller than right (take from left)
+      else:
+          arr[k] = aux[i]
+          i += 1
+  return arr
+```
+
+Now, that we know how to merge two sorted arrays, the question is how we can use
+this as part of a sorting algorithm.
+
+### Pseudo-Code `sort()`
+
+---
+
+There exist two different ideas of how to sort an array based on the idea of
+merging two sorted arrays.
+
+1. **Top-Down (TD) Mergesort**
+
+   Divide the unsorted list into $n$ sublists, each containing one element (a
+   list of one element is considered sorted). Repeatedly merge sublists to
+   produce new sorted sublists until there is only one sublist remaining. This
+   will be the sorted list.
+
+2. **Buttom-Up (BU) Mergesort**
+
+   Bottom-up merge sort is not a recursive divide-and-conquer algorithm. Another
+   way of implementing the merging of the subarrays (different order) is to
+   organise the merges so that we do all the merges of tiny subarrays on one
+   pass, then do a second pass to merge those subarrays in pairs, and so forth,
+   continuing until we do a merge that encompasses the whole array.
+
+_Note, that in bottom up merge sort we sort unequal sized arrays (which is not a
+problem for the `merge` operation, if the initial array is not a power of 2._
+
+### Analysis
+
+---
+
+Top-down merge sort sorts an unsorted array in time proportional to $N\ lg\ N$
+(linearithmic time). To see, the full proof of this see. Algorithms 4th.
+Edition, S&W, P. 272, _Proposition F_. At this point, it suffices to consider
+the tree of subarrays to be merged. The tree is at most $lg\ N$ deep, and if we
+consider the depths of the tree form $0-k$ with $k$ being $floor(lg\N)-1$, then
+we can say that on each level of depth, there are precisely $2^k$ nodes with
+subarrays of length $2^{n-k}$. Thus, in order to merge each subarray on the k-th
+level, we need $2^k \cdot 2^{n-k}=2^n$. Since, we do this on every of the $k$
+levels, which we know there are $lg\ N$ of, there are in total $N\ lg\ N$
+compares across the entire sorting of the array. This is independent on the size
+of the input, and thus the running time of $O(N\ lg\ N)$ is best-/ average- and
+worst-case.
+
+Bottom-up merge sort uses the same amount of compares through calls to `merge`,
+just in a different order, if the array that needs to be sorted is a power of 2.
+Otherwise, the runtime changes slightly.
+
+Both merge sort implementations maintain a single auxiliary array of length $N$,
+thus the additional space complexity is proportional to $O(N)$. This is one of
+the downsides of merge-sort.
+
+Merge sort also sorts stably, if in the merge we always choose the element from
+the left subarray to be picked first in the merge, if the current elements of
+both subarrays are equal.
+
+## Exercise Solutions
+
+---
+
+### 2.1.1 Selection Sort
+
+We get the following trace of how _selection sort_ sorts the array, by taking a
+snapshot of the array after every call to `swap`:
+
+```text
+Selection Sort
+0:      ['E', 'A', 'S', 'Y', 'Q', 'U', 'E', 'S', 'T', 'I', 'O', 'N']
+1:      ['A', 'E', 'S', 'Y', 'Q', 'U', 'E', 'S', 'T', 'I', 'O', 'N'] (swapped 0-1)
+2:      ['A', 'E', 'S', 'Y', 'Q', 'U', 'E', 'S', 'T', 'I', 'O', 'N'] (swapped 1-1)
+3:      ['A', 'E', 'E', 'Y', 'Q', 'U', 'S', 'S', 'T', 'I', 'O', 'N'] (swapped 2-6)
+4:      ['A', 'E', 'E', 'I', 'Q', 'U', 'S', 'S', 'T', 'Y', 'O', 'N'] (swapped 3-9)
+5:      ['A', 'E', 'E', 'I', 'N', 'U', 'S', 'S', 'T', 'Y', 'O', 'Q'] (swapped 4-11)
+6:      ['A', 'E', 'E', 'I', 'N', 'O', 'S', 'S', 'T', 'Y', 'U', 'Q'] (swapped 5-10)
+7:      ['A', 'E', 'E', 'I', 'N', 'O', 'Q', 'S', 'T', 'Y', 'U', 'S'] (swapped 6-11)
+8:      ['A', 'E', 'E', 'I', 'N', 'O', 'Q', 'S', 'T', 'Y', 'U', 'S'] (swapped 7-7)
+9:      ['A', 'E', 'E', 'I', 'N', 'O', 'Q', 'S', 'S', 'Y', 'U', 'T'] (swapped 8-11)
+10:     ['A', 'E', 'E', 'I', 'N', 'O', 'Q', 'S', 'S', 'T', 'U', 'Y'] (swapped 9-11)
+11:     ['A', 'E', 'E', 'I', 'N', 'O', 'Q', 'S', 'S', 'T', 'U', 'Y'] (swapped 10-10)
+
+Sorted: ['A', 'E', 'E', 'I', 'N', 'O', 'Q', 'S', 'S', 'T', 'U', 'Y'] (is_sorted: True)
+```
+
+### 2.1.4 Insertion Sort
+
+---
+
+We get the following trace of how _selection sort_ sorts the array, by taking a
+snapshot of the array after every call to `swap`:
+
+```text
+Insertion Sort
+0:      ['E', 'A', 'S', 'Y', 'Q', 'U', 'E', 'S', 'T', 'I', 'O', 'N']
+1:      ['A', 'E', 'S', 'Y', 'Q', 'U', 'E', 'S', 'T', 'I', 'O', 'N'] (swapped 1-0)
+2:      ['A', 'E', 'S', 'Q', 'Y', 'U', 'E', 'S', 'T', 'I', 'O', 'N'] (swapped 4-3)
+3:      ['A', 'E', 'Q', 'S', 'Y', 'U', 'E', 'S', 'T', 'I', 'O', 'N'] (swapped 3-2)
+4:      ['A', 'E', 'Q', 'S', 'U', 'Y', 'E', 'S', 'T', 'I', 'O', 'N'] (swapped 5-4)
+5:      ['A', 'E', 'Q', 'S', 'U', 'E', 'Y', 'S', 'T', 'I', 'O', 'N'] (swapped 6-5)
+6:      ['A', 'E', 'Q', 'S', 'E', 'U', 'Y', 'S', 'T', 'I', 'O', 'N'] (swapped 5-4)
+7:      ['A', 'E', 'Q', 'E', 'S', 'U', 'Y', 'S', 'T', 'I', 'O', 'N'] (swapped 4-3)
+8:      ['A', 'E', 'E', 'Q', 'S', 'U', 'Y', 'S', 'T', 'I', 'O', 'N'] (swapped 3-2)
+9:      ['A', 'E', 'E', 'Q', 'S', 'U', 'S', 'Y', 'T', 'I', 'O', 'N'] (swapped 7-6)
+10:     ['A', 'E', 'E', 'Q', 'S', 'S', 'U', 'Y', 'T', 'I', 'O', 'N'] (swapped 6-5)
+11:     ['A', 'E', 'E', 'Q', 'S', 'S', 'U', 'T', 'Y', 'I', 'O', 'N'] (swapped 8-7)
+12:     ['A', 'E', 'E', 'Q', 'S', 'S', 'T', 'U', 'Y', 'I', 'O', 'N'] (swapped 7-6)
+13:     ['A', 'E', 'E', 'Q', 'S', 'S', 'T', 'U', 'I', 'Y', 'O', 'N'] (swapped 9-8)
+14:     ['A', 'E', 'E', 'Q', 'S', 'S', 'T', 'I', 'U', 'Y', 'O', 'N'] (swapped 8-7)
+15:     ['A', 'E', 'E', 'Q', 'S', 'S', 'I', 'T', 'U', 'Y', 'O', 'N'] (swapped 7-6)
+16:     ['A', 'E', 'E', 'Q', 'S', 'I', 'S', 'T', 'U', 'Y', 'O', 'N'] (swapped 6-5)
+17:     ['A', 'E', 'E', 'Q', 'I', 'S', 'S', 'T', 'U', 'Y', 'O', 'N'] (swapped 5-4)
+18:     ['A', 'E', 'E', 'I', 'Q', 'S', 'S', 'T', 'U', 'Y', 'O', 'N'] (swapped 4-3)
+19:     ['A', 'E', 'E', 'I', 'Q', 'S', 'S', 'T', 'U', 'O', 'Y', 'N'] (swapped 10-9)
+20:     ['A', 'E', 'E', 'I', 'Q', 'S', 'S', 'T', 'O', 'U', 'Y', 'N'] (swapped 9-8)
+21:     ['A', 'E', 'E', 'I', 'Q', 'S', 'S', 'O', 'T', 'U', 'Y', 'N'] (swapped 8-7)
+22:     ['A', 'E', 'E', 'I', 'Q', 'S', 'O', 'S', 'T', 'U', 'Y', 'N'] (swapped 7-6)
+23:     ['A', 'E', 'E', 'I', 'Q', 'O', 'S', 'S', 'T', 'U', 'Y', 'N'] (swapped 6-5)
+24:     ['A', 'E', 'E', 'I', 'O', 'Q', 'S', 'S', 'T', 'U', 'Y', 'N'] (swapped 5-4)
+25:     ['A', 'E', 'E', 'I', 'O', 'Q', 'S', 'S', 'T', 'U', 'N', 'Y'] (swapped 11-10)
+26:     ['A', 'E', 'E', 'I', 'O', 'Q', 'S', 'S', 'T', 'N', 'U', 'Y'] (swapped 10-9)
+27:     ['A', 'E', 'E', 'I', 'O', 'Q', 'S', 'S', 'N', 'T', 'U', 'Y'] (swapped 9-8)
+28:     ['A', 'E', 'E', 'I', 'O', 'Q', 'S', 'N', 'S', 'T', 'U', 'Y'] (swapped 8-7)
+29:     ['A', 'E', 'E', 'I', 'O', 'Q', 'N', 'S', 'S', 'T', 'U', 'Y'] (swapped 7-6)
+30:     ['A', 'E', 'E', 'I', 'O', 'N', 'Q', 'S', 'S', 'T', 'U', 'Y'] (swapped 6-5)
+31:     ['A', 'E', 'E', 'I', 'N', 'O', 'Q', 'S', 'S', 'T', 'U', 'Y'] (swapped 5-4)
+
+Sorted: ['A', 'E', 'E', 'I', 'N', 'O', 'Q', 'S', 'S', 'T', 'U', 'Y'] (is_sorted: True)
+```
+
+### 2.2.2 Merge Sort
+
+---
+
+We get the following trace of how _selection sort_ sorts the array, by taking a
+snapshot of the array after every call to `merge`:
+
+```text
+Merge Sort
+Merge: (l=0, m=0, h=1): ['A', 'E', 'S', 'Y', 'Q', 'U', 'E', 'S', 'T', 'I', 'O', 'N']
+Merge: (l=0, m=1, h=2): ['A', 'E', 'S', 'Y', 'Q', 'U', 'E', 'S', 'T', 'I', 'O', 'N']
+Merge: (l=3, m=3, h=4): ['A', 'E', 'S', 'Q', 'Y', 'U', 'E', 'S', 'T', 'I', 'O', 'N']
+Merge: (l=3, m=4, h=5): ['A', 'E', 'S', 'Q', 'U', 'Y', 'E', 'S', 'T', 'I', 'O', 'N']
+Merge: (l=0, m=2, h=5): ['A', 'E', 'Q', 'S', 'U', 'Y', 'E', 'S', 'T', 'I', 'O', 'N']
+Merge: (l=6, m=6, h=7): ['A', 'E', 'Q', 'S', 'U', 'Y', 'E', 'S', 'T', 'I', 'O', 'N']
+Merge: (l=6, m=7, h=8): ['A', 'E', 'Q', 'S', 'U', 'Y', 'E', 'S', 'T', 'I', 'O', 'N']
+Merge: (l=9, m=9, h=10): ['A', 'E', 'Q', 'S', 'U', 'Y', 'E', 'S', 'T', 'I', 'O', 'N']
+Merge: (l=9, m=10, h=11): ['A', 'E', 'Q', 'S', 'U', 'Y', 'E', 'S', 'T', 'I', 'N', 'O']
+Merge: (l=6, m=8, h=11): ['A', 'E', 'Q', 'S', 'U', 'Y', 'E', 'I', 'N', 'O', 'S', 'T']
+Merge: (l=0, m=5, h=11): ['A', 'E', 'E', 'I', 'N', 'O', 'Q', 'S', 'S', 'T', 'U', 'Y']
+
+Sorted: ['A', 'E', 'E', 'I', 'N', 'O', 'Q', 'S', 'S', 'T', 'U', 'Y'] (is_sorted: True)
+```
+
+### 2.1.6 Identical Key Array
+
+---
+
+If all elements in some array $A$ are equal, then the array is already in sorted
+(since the recurrence relation of $A[i-1] <= A[i]$ is true for all indices).
+Following this argument, insertion sort will run a magnitude faster than
+selection sort, since it simply needs to verify - in linear time ($O(N)$) - that
+the array is already in sorted order, whereas selection sort will blindly do the
+$N$ swaps through $\sim \frac{1}{2}N^2$ comparisons.
+
+### 2.1.7 Reverse Order Array
+
+---
+
+The number of boolean comparisons is equivalent for sorting some array in
+reversed order through selection or insertion sort with $\sim \frac{1}{2} N^2$.
+However, selection sort needs less array accesses (calls to `swap`) for this,
+since it does $N$ swaps (independently of the running time), whereas insertion
+sort needs $N \cdot N/2$ (each of the $N$ elements is being swapped back the
+maximum distance, which is $N/2$ on average).
+
+### 2.1.8 Randomly Ordered Array
+
+---
+
+For a randomly ordered array with three unique values, the running time of
+insertion is still linear in the best case (when the values are in sorted order)
+and quadratic time in the worst-case (reverse order). It is a valid statement,
+that we can _on average_ to make less compares, since there are going to be many
+situations, where the neighboring element has the same value, in which case no
+swap is being performed.
+
+### 2.2.15 Merging Two Queues
+
+---
+
+If we are given two queues $A$ and $B$, for which we know, that their elements
+are in sorted order, we can construct a simple algorithm to merge the two queues
+into a single queue.
+
+**Pseudo-Algorithm** (Ascending Order)
+
+1. Look (`peek`) at the two least recently added elements in both queues (these
+   have to be the smallest elements in both queues). If one queue is empty,
+   always take the element from the non-empty queue.
+2. Dequeue (`dequeue`) the smaller element and enqueue (`enqueue`) it in a new
+   queue.
+3. Continue until both queues are empty.
+
+```python
+def merge(a, b):
+  ans = Queue()
+  while not a.is_empty() or not b.is_empty():
+    if a.is_empty():
+      ap = math.inf
+    elif b.is_empty():
+      bp = math.inf
+    else:
+      ap, bp = a.peek(), b.peek()
+
+    if ap < bp:
+      ans.enqueue(a.dequeue())
+    else:
+      ans.enqueue(b.dequeue())
+  return ans
+```
+
+### 2.1.3 Deck Sort
+
+---
+
+For a standard deck of cards, each card has a known correct position from index
+0 to 51. We turn over the cards at position 0 and 1, and then exchange card0
+with the card at card 0s correct position, and card 1 with the card at card 1s
+correct position.Then we turn the new cards at position 0 and 1 over again and
+repeat the exchanges. When position 0 or 1 contains the correct card, we move
+upwards through the row by turning over position 2, then 3, all the way until
+the end of the deck. In the worst case each card is checked at most twice (once
+to be put in the right place, and once when we move up through the deck)and we
+do a maximum of 52 exchanges. We can therefore sort the deck in linear time.
+
+### 2.2.17 Linked-List Merge Sort
+
+---
+
+One idea of implementing a sorting algorithm based on the `merge` operation
+using linked list data structures is to think of the input linked-list as a FIFO
+_queue_. We are going to transform the input in a way that we maintain the
+invariant that the elements are in increasing order when dequeued (since we can
+then easily merge).
+
+1. **Create Ordered Linked Lists** In a first phase, we create a list of sorted
+   lists: We do this by scanning over the input linked-list linearly and take
+   out one element at a time. We initialise a new queue linked list and enqueue
+   the item either if it is larger than the last item we have enqueued in that
+   list or if the queue is empty. If the item is smaller than the last inserted
+   item, we create a new linked list for this new element. We continue to do
+   this, until the entire original input has been passed through and we have a
+   multiple linked list in sorted order.
+
+2. **Merge Ordered Linked Lists** We then continue to merge pairs of linked
+   lists, until there is one final sorted linked list (our output). We do this
+   by looking at the first two elements of the pair of linked lists, remove the
+   smaller element and add it to a new merged linked list.
+
+### 2.1.14 Dequeue Sort
+
+---
+
+First we compare the top two cards. If the top card is bigger than the second
+card, we swap the two, remember/mark the top card, and then move the top card to
+the bottom.Then we continue to compare the top cards, swap them if the top card
+is bigger than the second, and move the top card to the bottom until the
+marked/remembered card is second in the deck. (Essentially we move the smaller
+of the top two cards to the bottom.)Once the marked card is second in the deck,
+we move the top card to the bottom and the given iteration is finished. We then
+continue to do iterations until we do an entire iteration without swapping any
+cards - at this point the deck is sorted.
+
+### 2.2.16 Natural Merge Sort
+
+---
+
+We call merging runs while copying the array once a round. Each round reduces
+the number of runs almost by a factor of 2, more precisely from k to⌈k/2⌈.
+Hence, if there are initially k runs, there are $⌈log2k⌉$ rounds. Each round
+takes linear time: Each element is scanned over once for identifying the current
+two runs, and then once more for merging.This is a total of $O(n\ log\ k)$time.
+The space requirement is the auxiliary array, but no further call-stack or
+similar non-constant size data structure.
+
+### 2.2.21 Triplicates
+
+---
+
+We assume the lists are in increasing lexicographical order. To perform a
+lexicographical comparison, loop over the positions in the string until the
+characters at this position differ or one string is finished. The comparison of
+the characters gives the order of the strings. Observe that the number of
+character comparisons is at most the length of the shorter string.
+
+Do an implicit three-way merge to find the triple: The state of your algorithm
+are one position in each list, initially position~0, together with the outcome
+of all 3 pairwise comparisons (`<`,`=`, or `>`) of the pointed to elements.
+
+If the current state has 3 equalities, output the pointed to string and stop.
+Otherwise, the comparisons identify the smallest of the three element. Increment
+the pointer in that list (by one) and perform the two lexicographical
+comparisons.
+
+Repeat until one list is finished, in which case you report that there is no
+such string.
+
+The number of string comparisons is at most 2 per string in the input.
+
+The number of character comparisons is at most twice the number of characters in
+the input: The new string is in the worst case looped over twice (but at the end
+of the string, the comparison loops certainly stops). This is also true for the
+three initial strings, think of them as being inserted in an arbitrary order.
+Then the first needs no comparison, the second needs one, and the third needs
+two as in the general case.
+
+```python
+def smallest_substring(a, b, c):
+  na, nb, nc = len(a), len(b), len(c)
+  i, j, k = 0, 0, 0
+
+  while i<na and j<nb and k<nc:
+    ea, eb, ec = a[i], b[j], c[k]
+    if ea == eb == ec:
+      return ea
+    if min(ea, eb, ec) == ea:
+      i+=1
+    if min(ea, eb, ec) == eb:
+      j+=1
+    if min(ea, eb, ec) == ec:
+      k+=1
+  return None
+```

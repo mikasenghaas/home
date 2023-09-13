@@ -1,0 +1,117 @@
+---
+title: Gradient Descent
+description:
+course: Machine Learning
+tags: []
+published: 11-01-2022
+lastEdited: 11-01-2022
+---
+
+Today, we slightly digress from the field of machine learning and look into **optimisation theory**, a branch of mathematics (!) devoted to solving
+optimisation problems. This is interesting to our machine learning journey, because the training of any parametric machine learning model (e.g. linear
+regression, logistic regression, SVMs, neural networks) boils down to some kind of optimisation problem to find the best-fitting set of model
+parameters. Whenever there does not exist an analytical solution (e.g. the closed form solution to linear regression under mean squared error loss),
+we have to use numerical solvers.
+
+Numerical solvers are a set of algorithms meant to solve any kind of optimisation problem. One of such numerical solver is the **gradient descent
+algorithm**.
+
+## Vanilla Gradient Descent
+
+---
+
+The general idea of the gradient descent algorithm is simple. Given some differentiable function $f:\R^p \rightarrow \R$, i.e. a function such that
+$\Delta f$ is defined, we wish to find a minimum of the function, that is a a set of points $\hat{x}_1,...,\hat{x}_n$, s.t. the output of $f$ is
+smaller than for any other set of points $f(\hat{x}_1,...,\hat{x}_n)\lt f(x_1,...,x_n)\ \forall \ (x_1,...,x_n)\in\R^p$.
+
+The idea of finding this minimum is to rather simple: First guess, the minimum, and then iteratively improve on this guess until we are not improving
+any more. Improving in the right direction means to go in the opposite direction of the gradient, since gradient vectors show in the opposite
+direction as the minimum. In order to have control over the speed of training, we had another hyper parameter $\alpha$ that scales the gradient step.
+Combining all of this, we get the following gradient step update.
+
+$$
+x'=x-\alpha\cdot \Delta f(x)
+$$
+
+_Read: The improved minimum $x'$ is computed by subtracting the gradient at point $x$ scaled by the learning rate $\alpha$ from the old minimum $x$.
+Doing this long enough is going to converge to a local minimum._
+
+### A Simple Example
+
+---
+
+Let’ see an example of this. We wish to find the minimum of the convex function $f(x)=x^2$. Note, that using simple calculus, we could compute the
+gradient of this $\Delta f=2x$ and could solve for $\Delta f=0$ to find that the function has a local minimum at $x=0$.
+
+We can also solve this numerically by first making a guess for the minimum $m\in\R$, and then iteratively update $m'$ by subtracting the scaled output
+of the derivative from it. This is what the following code snippet is doing. In each gradient step, we compute:
+
+$$
+m'=m-\alpha\cdot\Delta f(m)=m-\alpha \cdot 2m
+$$
+
+Convince yourself that this optimisation using gradient descent also converges to $m=0$ for around 20 epochs (gradient descent iterations) at a
+learning rate of $\alpha = 0.1$.
+
+### Application in Machine Learning
+
+---
+
+As mentioned, numerical solvers, like gradient descent are a popular tool in machine learning, because optimising for a set of hyper parameters means
+to find minima of loss functions.
+
+As loss functions and models get more complicated (e.g. in SVMs or Neural Networks), there does not exist an analytical solution anymore and we have
+to use numerical solvers. Let’s look at an example of finding the best-set of model parameters $\beta_0, ..., \beta_p$ in a linear regression model.
+
+The MSE loss function $\mathcal{L}$ can be written as
+
+$$
+\mathcal{L}=\frac{1}{n}\sum_i(y_i- \hat{y}_i)^2
+$$
+
+and in a multiple linear regression model $\hat{y}_i=\beta_0+\beta_1x_1+...+\beta_px_p$, so
+
+$$
+\mathcal{L}_{\beta_0, ...,\beta_p}=\frac{1}{n}\sum_i(y_i- (\beta_0+\beta_1x_1+...+\beta_px_p))^2
+$$
+
+Notice, that all $(x_i,y_i)$ are records in the training data and therefore functions. The output of the loss function therefore only depends on the
+model parameters, which we wish to optimise. In the first week of the course, we have seen how to derive towards each parameter and then solve
+analytically. Instead, we can just find the partial derivatives with respect to $\beta_j$ and then use gradient descent updates to find the
+best-fitting parameters. Let’s derive with respect to each $\beta_j$
+
+$$
+\frac{d\mathcal{L}}{d\beta_j}=\frac{2}{n}\sum_i(y_i- \beta_0-\beta_1x_1-...-\beta_px_p) \cdot \beta_j
+$$
+
+## Types of Gradient Descent
+
+---
+
+In machine learning, we are optimising loss-functions, with respect to all model parameters. Such a loss function is a function that takes in the
+entire training set (so all pairs $(x_i, y_i)$ of the train split) and as free variables has the model parameters.
+
+Clearly, the larger the training corpus, the longer the computation of the gradient vector. We can differ the amount of training samples we include in
+order to compute the gradient vector, which results in different types of gradient descent:
+
+1. **Batch GD**
+
+   This is the vanilla gradient descent. It computes computes the gradient vector $\Delta \mathcal{L}(x)$ including all training samples. This
+   approach is guaranteed to do always do a “correct” gradient update, but is relatively slow, since it uses all samples for computation.
+
+2. **Stochastic GD (SGD) **
+
+   The other radical approach. It computes the gradient vector $\Delta \mathcal{L}(x)$ with a single, randomly selected training sample. This is
+   equivalent to asking just a single data point how to change the model parameters for optimisation. If the point is an outlier, then we can make
+   “wrong” steps, but the computation is significantly quicker.
+
+3. **Mini-Batch GD**
+
+   In the middle of the above two. We first split the entire training data in batches (either of fixed size some power of 2, or into $n$ chunks -
+   there are different paradigms on this). Then we compute the gradient vector $\Delta \mathcal{L}(x)$ on each batch.
+
+Note, that no matter the gradient descent algorithm, we say that the optimiser has completed a single epoch, once it has passed the entire training
+sample exactly once. In batch GD this corresponds to a single gradient vector update, in SGD to $n$ updates.
+
+In practice, we usually use mini-batch GD, to get the best of both extreme worlds: Higher speed per epoch in Batch GD (using vectorisation) and better
+performance due to randomness of SGD.

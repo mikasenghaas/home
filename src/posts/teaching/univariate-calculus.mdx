@@ -1,0 +1,179 @@
+---
+title: Univariate Calculus
+description:
+course: Linear Algebra & Optimisation
+tags: []
+published: 11-10-2022
+lastEdited: 11-10-2022
+---
+
+After nine weeks of linear algebra, today we move to the optimisation part of the course. This is an essential skill for us as data scientists, as we
+are often confronted with finding the optimal way of doing something. If we are capable of modelling a process to optimise mathematically, then the
+tools we are developing in this section of the course are going to tell us how to find optimal values.
+
+The mathematical field that is involved with optimisation theory is **calculus** In its most pure form we can think of calculus as the study of
+functions in terms of derivatives and integrals.
+
+## Functions
+
+---
+
+We use function to model processes of continuity. That is, some quantity depends on some other (or a set of) quantity, then we can describe this
+dependence mathematically through a function. We can for example model the amount of distance we drove $d$, given the time we traveled $t$ or the area
+of a circle $a$ given its radius $r$. Any such function we can formally define as:
+
+A function $f$ as a rule that assigns each element $x\in D$ (called the domain of the function), exactly one elements $f(x)\in R$ (called the range of
+the function).
+
+In this course we are only considering \*real functions, meaning that both the domain $D$ and range $R$ are real-valued numbers (or vectors of such).
+We can write the dimensionality by writing up the mapping it provides:
+
+$$
+f:\R^n\rightarrow\R^m
+$$
+
+For this introduction, we will restrict the domain and range to be just the one-dimensional real-value range, that is $n=m=1$, so all the functions
+that we are studying this week are of the functional form
+
+$$
+f:\R\rightarrow\R
+$$
+
+Such functions are convenient, because derivatives and integrals are easy to compute as they only depend on a single variable, and also because we can
+plot the graph of such functions in two-dimensional space.
+
+## Derivatives
+
+---
+
+Derivatives are at the heart of calculus. The discovery of derivatives goes back to solving the problem of finding the rate of change (slope) of a
+function. Geometry provides us with a way of quantifying the ascend or descend of a linear function $f$ of the form
+
+$$
+f(x)=ax+b
+$$
+
+by taking any two pairs of points defined by this line $(x_1,f(x_1))$ and $(x_2, f(x_2))$ to compute the slope, the rate of change (which is constant
+for a line) as the quotient of the difference of the $y$-coordinates and the $x$-coordinates, so
+
+$$
+a=\frac{\Delta y}{\Delta x}=\frac{f(x_2)-f(x_1)}{x_2-x_1}
+$$
+
+But, how does this generalise to non-linear functions? Yet, alone to functions in any dimension? The first question can be answered by using limit
+theory. If we let the difference in the two randomly chosen points be infinitely small, then we get better and better approximations of the momentary
+rate of change. Mathematically, we would write
+
+$$
+lim_{\Delta x\rightarrow 0}\frac{\Delta y}{\Delta x}
+$$
+
+Or if we write the difference $\Delta x=h$, we get the following equation:
+
+$$
+lim_{\Delta h\rightarrow 0}\frac{\Delta y}{h}=\frac{f(x+h)-f(x)}{h}
+$$
+
+Now, for any kind of function $f(x)$ evaluated at some point $x'$, we can compute the momentary change by evaluating this limit expression. Consider
+as an example the non-linear second-order polynomial $f(x)=x^2$ and we wish to find the change of rate at $x'=2$. Substituing in the above equation
+gives
+
+$$
+\begin{align*}lim_{\Delta h\rightarrow 0}&\frac{f(x'+h)-f(x')}{h}\\
+=&\frac{f(2+h)-f(2)}{h}\\
+=&\frac{(2+h)^2-2^2}{h}\\
+=&\frac{4+4h+h^2-4}{h}\\
+=&\frac{4h+h^2}{h}\\
+=&\frac{h(4+h)}{h}\\
+=&\frac{4+h}{1}\\
+=&4\\
+\end{align*}
+$$
+
+Therefore, the rate of change of $f$ at $x'=2$ is $4$ and we could find the rate of change of this function for any other point $x'$. Because, this is
+tedious to do for all functions, we can find the general form (function) of the rate of change by following the above equation for a general $x$. This
+will lead to the expression:
+
+$$
+\begin{align*}lim_{\Delta h\rightarrow 0}&\frac{f(x+h)-f(x)}{h}=2x
+\end{align*}
+$$
+
+This expression is what we call the derivative $f'$ or $\frac{d}{dx}f(x)$ of the function $f$ and it is a function describing the rate of change of
+$f$ at any point of $x$. From doing the above steps for multiple general functions, a set of general differentiation rules can be deducted, that help
+to find derivatives of any type of functions without having to evaluate limit expressions.
+
+Some of the most important ones are:
+
+1. **Power Rule**: $\frac{d}{dx}x^n=nx^{n-1}$
+
+2. **Constant Multiple Rule**: $\frac{d}{dx}c f(x)=c \frac{\delta}{\delta x}f(x)$
+
+3. **Sum and Difference Rule**: $\frac{d}{dx}(f(x)+g(x))= \frac{\delta}{\delta x}f(x)+\frac{\delta}{\delta x}g(x)$
+
+4. **Product Rule**: $\frac{d}{dx}(f(x)g(x))= \frac{\delta}{\delta x}f(x)g(x)+f(x)\frac{\delta}{\delta x}g(x)$
+
+5. **Quotient Rule**: $\frac{d}{dx}(f(x)g(x))= \frac{\delta}{\delta x}f(x)g(x)-f(x)\frac{\delta}{\delta x}g(x)$
+
+6. **Chain Rule**: $\frac{dz}{dx}(f(g(x))= \frac{dz}{dy}\cdot  \frac{dy}{dx}$,\*\* if $z=f(x)$ and $y=g(x)$
+
+On top of that, it is good to know the derivatives of some commonly occurring non-linear of polynomial functions by heart:
+
+1. **Trigonometric Functions**
+
+   $\frac{\delta}{\delta x}sin(x)=cos(x)$
+
+   $\frac{\delta}{\delta x}cos(x)=-sin(x)$
+
+2. **Exponential Functions**
+
+   $\frac{\delta}{\delta x}a^x=ln(a)a^x$
+
+   $\frac{\delta}{\delta x}e^x=ln(e)e^x=e^x$
+
+3. **Logarithmic Functions**
+
+   $\frac{\delta}{\delta x}log_ax=\frac{1}{ln(a)x}$
+
+   $\frac{\delta}{\delta x}lnx=\frac{1}{ln(e)x}=\frac{1}{x}$
+
+## Optimisation
+
+---
+
+Why would we care about the rate of change of a function so much? Well, knowing about the rate of change for any functions, gives us the necessary
+tools for optimisation. Optimising a function, means to find either minimal values, i.e. a value $f(x)$, which is smaller than any other value
+$f(x)<f(x')\ \forall\ x'\in D_f$ is defined as a _global minimum_, and reversly a value $f(x)$, that is larger than any other value
+$f(x)\gt f(x')\ \forall\ x'\in D_f$ is defined as a _global maximum_.
+
+What do these two points have in common? Looking at the rate of change, in minima and maxima, the function changes from increasing to decreasing (in a
+maximum) or from decreasing to increasing (in a maximum). In either scenario, this means that the change of rate in the minimum as well as the maximum
+is $0$. This gives us a general-purpose way to identify extreme values for any kind of function.
+
+$$
+\frac{\delta}{\delta x}f(x)=0
+$$
+
+Solving this equation will gives a set of solutions of potential values of $x$ where the function is maximal or minimal. Plugging these into the
+second derivative will tell us whether the extreme point is a maximum ($\frac{\delta^2}{\delta x^2}f(x)\lt 0$), minimum
+($\frac{\delta^2}{\delta x^2}f(x)\gt 0$) or a saddle point $(\frac{\delta^2}{\delta x^2}f(x)= 0$).
+
+## Taylor Polynomials
+
+---
+
+Computing high-order derivatives of functions that are not polynomials gets computationally expensive. Therefore, if we are only interested in the
+rate of change in some limited interval, then we can use Taylor polynomials, which are polynomial approximations around non-polynomial functions.
+
+Formally we define a **Taylor polynomial**, or **Taylor series** as a polynomial $T_n(x)$ of $n$-th degree, which models an arbitrary function $f(x)$
+around some point $(a, f(a))\in f$. The general formula for is given as the power series
+
+$$
+T_n(x)=\sum_{i=0}^n\frac{f^i(a)}{i!}(x-a)^i
+$$
+
+Note, that this sum is bound by $n$, which controls the detail of approximation by specifying the maximal order of the polynomial approximation. It is
+therefore important to realise, that the more accurate we want our approximation to be, the more derivatives of the original function $f$ we have to
+compute, which is what we wanted to avoid in the first place. One therefore always has to weigh closeness of approximation against the computational
+effort needed to evaluate the derivatives and find some kind of compromise. Generally, we wish to choose the lowest order approximation that allows
+the approximation to stay functional enough for the specific usecase.

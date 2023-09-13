@@ -1,0 +1,302 @@
+---
+title: Exploratory Data Analysis
+description:
+course: Applied Statistics
+tags: []
+published: 03-27-2023
+lastEdited: 03-27-2023
+---
+
+Previously, we dealt with theoretical concepts of probability distributions.
+Some process involving randomness in nature was assumed to follow some
+theoretical distribution, whose probability mass we could model using
+mathematics. If we want to learn about a new phenomenon, we often want to learn
+about the randomness that is associated with it through conducting experiments,
+ie. if we want to learn about the speed of light, then we could construct an
+experiment to measure it.
+
+We would then model our phenomenon by the total number of independent
+experiments we conducted. The law of large numbers allows us to get a more and
+more precise picture of the actual distribution of the experiment conducted by
+repeating the experiment often.
+
+When experimenting with a new phenomenon, each run of the experiment produces
+some observation, ie. the measured speed of light. We can combine all
+observations into a so-called dataset. By exploring the dataset we can gain
+insight into what probability model suits the phenomenon.
+
+The mathematical discipline of statistics is generally concerned with the
+_collection, organisation, analysis, interpretation and presentation_ of data.
+It is usually divided into two main fields:
+
+1. **Descriptive Statistics.** Descriptive statistics summarises data from a
+   given sample using visualisation tools and numerical metrics that describe
+   the constitution of the data.
+
+2. **Inferential Statistics.** Inferential statistics draw conclusions from data
+   that is subject to random variation. Inferential analysis and interpretation
+   of data usually involve applying theoretical concepts of probability theory
+   to an observed sample.
+
+### Histogram
+
+---
+
+The classical (=originated in the 17th century), and perhaps easiest, way of
+graphically representing data is the so-called histogram. A histogram is similar
+to a bar plot (a way of visualising frequencies of categorical data), but used
+in the continuous case.
+
+The general idea of a histogram is very easy. For a sequence of $n$ observation,
+denoted as $x_1, x_2, ..., x_n$, which is a univariate dataset in some random
+variable $X$, we can define an arbitrary number of _bins_ - sometimes denoted as
+$B$ - on the interval defined by the sequence $(min(X), max(X))$. Each
+observation then naturally falls into one of these bins and increases the height
+of the bin by 1.
+
+The length of each interval/ bin is denoted by $|B_i|$ and is called the bin
+width. Bins don't necessarily need to have the same width, however, it is common
+that they are.
+
+Note that histograms are our best models for the probability distribution of the
+observed samples of some random variable. The reason to scale the histogram such
+that the total area under the curve is equal to one that if we view the data as
+being generated from some unknown probability density $f$, such a histogram can
+be used as a crude estimate of $f$ (Note that by the law of large numbers bigger
+datasets, the better approximations of the theoretical distribution). We can
+therefore scale the histogram, by dividing the absolute frequency in each bin by
+the total number of observations (the length $n$ of the dataset).
+
+With R being a programming language specifically designed for statistical
+purposes, it has extensive built-in features to deal with data. Histograms are
+easily available from the hist() function, which we can give a (or multiple)
+vectors of numbers.
+
+```r
+# native R
+hist(x, density=T)
+```
+
+```r
+# ggplot (extensive plotting funtionality)
+qplot(data, geom='histogram', main, xlab, ylab, binwidth, ...)
+
+ggplot(data=data, aes(data$col))) + geom_histogram()
+```
+
+It is important to acknowledge the fact that the same dataset can be visualised
+through several histograms that only differ in the number of bins. The least
+informative is the histogram with one bin. Here, a single bin spans the entire
+range of the observations and has height $n$. If we scale it, the bin has height
+1, since we divide the number of each bin (only one in this case) by the total
+number of records, so $\frac{n}{n}=1$.
+
+We can now gradually increase the number of bins to get a more and more precise
+graphical representation of our data. Note that at some point a too-high number
+of bins makes the histogram look chaotic. While there are intuitions for what
+the optimal number of bins is, which lead to computational approximation, the
+golden centre between low and high- resolution of histograms is still often
+found through trial and error.
+
+### Kernel Density Estimates (KDE)
+
+---
+
+Another, more modern, approach to deriving the probability density estimate for
+some continuous random variable, is the so-called kernel density estimation.
+
+In statistics, **kernel density estimation** (KDE) is a non-parametric (we are
+only using the data at hand) way to estimate the probability density function of
+a random variable. Kernel density estimation is a fundamental data smoothing
+problem where inferences about the population are made, based on a finite data
+sample. It is helpful to think of KDEs as the process of putting "a pile of
+sand" (the kernel function) around each element of the dataset. At places where
+the elements accumulate (high bin heights in this area on a histogram), the sand
+will begin to pile up smoothly.
+
+Kernel density estimates are therefore closely related to histograms but can be
+endowed with properties such as smoothness or continuity by using a suitable
+kernel. A kernel is a function $K: \R \to \R$, that has specific properties,
+specifically...
+
+- ... $K$ is a probability density function, ie. $K(u)\ge0$ and
+  $\int_{-\infty}^{\infty}K(u)du=1$
+
+- ... $K$ is symmetric around zero, ie. $K(u)=K(-u)$
+
+- ... $K(u)=0$ for $|u|>1$ (_however this kernel condition can be violated)_
+
+A complete KDE is constructed in the following way:
+
+1. **Scale Kernel** (Smoothing Parameter Bandwidth $h$)
+
+   For some kernel $K(t)$, fulfilling the above requirements, we can scale the
+   kernel by adjusting its bandwidth $h$. Smaller bandwidth correspond to more
+   dense kernels (=smaller bandwidth in histograms, less smoothing), while
+   higher bandwidths correspond to more spread out kernels (=larger bandwidth in
+   histograms, less smoothing). We can compute:
+
+   $$ K(t)=\frac{1}{h}K(\frac{t}{h}) $$
+
+2. **Put Kernel around each element in the dataset**
+
+   After having decided on a kernel and its scaling, we want to put the scaled
+   kernel around each data point in our dataset. For each datapoint $x_i$ this
+   results in the following function for its kernel that simply results from
+   shifting the scaled kernel along the x-axis.
+
+   $$ K(t)=\frac{1}{h}K(\frac{t-x_i}{h}) $$
+
+3. **Accumulate all Kernels into the KDE**
+
+   This will result in $n$ independent kernels for each datapoint in the
+   dataset. To obtain the final KDE function $f_{n,h}(t)$ we accumulate all
+   kernels by summing all scaled kernels and dividing them by $n$. This yields
+   the following final formula:
+
+   $$
+   \begin{align}
+   f_{n,h}&=\frac{1}{nh}\sum_{i=1}^{n}K(\frac{t-x_i}{h})
+   \end{align}
+   $$
+
+In R we can easily compute and visualise the KDE for a one-dimensional vector of
+random samples through:
+
+```r
+# native R
+plot(density(data, bw=bw, kernel='triangular'), col='red)
+```
+
+### Empirical Distribution Function (ECDF)
+
+---
+
+We have seen, how we can visually explore the probability density function from
+a finite sample. Another way of presenting the probability characteristics of
+some random variable is through its distribution function. We can also give a
+visual estimation of its CDF for a finite sample through the so-called
+**empirical (cumulative) distribution function**.
+
+It is denoted as $F_n(x)$ and is defined at a point $x$ as the proportion of
+elements in the dataset that are less than or equal to $x$.
+
+$$
+F_n(x) =
+\frac{\text{number of elements in data, for which $\le$ x}}{n}
+$$
+
+There are some instant properties that follow from the definition of the ECDF:
+
+1. **Minimum**
+
+   The _ECDF_ is 0 for all $x \lt min(x_1, x_2, ..., x_n)$. Since there is no
+   occurrence of values smaller than the minimum, the probability of obtaining
+   such a value is 0.
+
+2. **Maximum**
+
+   A similar argument can be constructed for the maximum. The _ECDF_ is 1 for
+   all $x \gt max(x_1, x_2, ..., x_n)$.
+
+3. **Discontinuous Function**
+
+   Within the interval of $[min,max]$, the _ECDF_ has a jump of size $1/n$ at
+   each element of the dataset and is constant between successive elements.
+
+Again, `R` provides built-in functionality to compute and plot the empirical
+distribution function for a random sample stored in a one-dimensional vector.
+
+```r
+# native R
+plot(ecdf(data))
+```
+
+### Sample Mean
+
+---
+
+The best-known method to identify the centre of a dataset is to compute the
+sample mean, by dividing the sum of all values by the total number of values:
+
+$$
+\bar{x}_n = \frac{x_1 + x_2 + ... + x_n}{n}
+$$
+
+### Sample Median
+
+---
+
+Another way of defining the centre of a dataset is through the sample median.
+The sample median is the "middle value", which means that half of the values lie
+to the left and half to the right of this value.
+
+To compute the median, we sort the univariate data column in ascending order and
+then find the value at middle index of the vector. For odd-length vectors, this
+is trivial. For even-length vectors, we take the average of the two middle
+values.
+
+Both methods of finding the "centre" of the distribution have pros and cons. The
+sample mean is the natural analogue for a dataset of what the expectation is for
+a probability distribution. However, it is very sensitive to outliers
+(observations in the dataset that deviate a lot from the bulk of data).
+
+Finding outliers is an important process when analysing datasets. There is no
+goto formula for how to deal with them, since they could be the result of wrong
+measurement, human error or be an actual element of the random process. Before
+we don't know this, we can't decide on how to proceed with analysing the centre
+of the dataset.
+
+### Sample Variance
+
+---
+
+The centre of a dataset alone often doesn't tell the full truth about the random
+variable sampled from. Especially if there exists a high variability in the
+data, the sample mean is a poor description of our data. We therefore also try
+to find the variability by computing the _sample variance_.
+
+To quantify the variability, one uses the following formula. It can be
+interpreted as the (unbiased) average squared deviation from the sample mean.
+
+$$
+s_n^2=\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x}_n)^2
+$$
+
+Since $s_n^2$ is in different units from the elements of the datasets, one often
+prefers the sample standard deviation, which is measured in the same units as
+the elements of the dataset.
+
+$$
+s_n = \sqrt{s_n²} = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x}_n)^2}
+$$
+
+### MAD
+
+---
+
+Just like the sample mean, the sample variance is very sensitive to outliers,
+especially since we square the deviation. A more robust measure of variability
+is the median of absolute deviations or MAD. It is defined as follows: Consider
+the absolute deviation of every element $x$, with respect to the sample median
+$|x_i-Med_n|$. The MAD is then obtained by taking the median over all these
+absolute deviations as follows:
+
+$$
+MAD(x_1, x_2, ..., x_n) = Med(|x_1-Med_n|, ..., |x_n-Med_n|)
+$$
+
+### Quantiles
+
+---
+
+Quantiles describe cut points in the range of all values, for which some
+percentage $p$ of the data points are smaller and $1-p$ greater. Thus, if we
+sort the elements in ascending order, st. $x_1 \le ... \le x_n$, we can use
+statistical interpolation to obtain values for $q_n(p)$.
+
+Note, that some quantiles are frequently computed and therefore have their own
+name: $q_n(0.25)$ is referred to as the lower quantile, $q_n(0.5)$ is the median
+and $q_n(0.75)$ is the upper quantile. The inter-quantile range ($IQR$) is the
+difference between the upper and lower quantile. Thus, it is the symmetric
+interval around the median, which holds holding 50% of all probability mass.

@@ -1,0 +1,198 @@
+---
+title: Support Vector Machines
+description:
+course: Machine Learning
+tags: []
+published: 10-25-2022
+lastEdited: 10-25-2022
+---
+
+In machine learning, **support-vector machines** (**SVMs**, also **support-vector networks**) are supervised learning models with associated
+learning algorithms that analyse data for classification (Support Vector Classification, SVC) and regression (Support Vector Regression, SVR)
+analysis.
+
+SVMs are considered one of the more robust statistical learning methods and were therefore extremely popular around the time they were developed in
+the 1990s and continue to be the go-to method for a high performing algorithm with little tuning.
+
+SVMs are typically used in the binary classification setting, although they can be extended for the multi-classification setting.
+
+_Disclaimer:_ I highly (!) recommend watching this [MIT lecture](https://www.youtube.com/watch?v=_PwhiWxHK8o) by Patrick Winston. It is one of the
+best lectures I have seen on machine learning and beautifully unpacks the incremental thought process behind developing mathematical theories most
+generally - here at the example of SVMs.
+
+## Developing an Understanding
+
+---
+
+It is important to understand that the father of SVMs, _Vladimir Vapnik,_ did not just come up with the advanced algorithm all in one afternoon. His
+findings are the result of years of research and iterations on the conceptually simple idea of maximal margin classification towards the advanced,
+robust algorithm of support vector machines. We will join Vapnik on his journey from a **hard-margin classifier**, to a **soft-margin classifier** and
+finally towards **support vector machines**.
+
+In this document we are going to focus on the hard-margin support vector classifier. Although hard-margin classifier have little to no use-case on
+real-life data, a majority of the theory of the more advanced classifiers is already packed into it.
+
+## **Hard Margin SVC (Maximal Margin Classifier)**
+
+---
+
+The hard margin classifier follows a conceptually simple idea of finding the hyperplane that best separates two classes (optimal separating
+hyperplane). Mathematically we can define a hyperplane in the $p$ dimensional space through the linear function
+
+$$
+b_0+b_1X_1+...+b_pX_p
+$$
+
+Alternatively, we can write this hyperplane in matrix notation, either by including or excluding the constant term $\beta_0$, respectively:
+
+$$
+\begin{align*}
+  Xw \ \ \text{(including }b_0\text{ in w)}\\
+  Xw+b \ \ \text{(exlcuding }b_0\text{ in w)}\\
+\end{align*}
+$$
+
+**\***Note, that the collection of $b_0, ..., b_p$ or $b_1, ..., b_p$, respectively is denoted as the vector of weights $w$. This is the notation in
+the initial publication of this method. For the following arguments I am going to assume the second notation (so carrying the constant term
+separately)\*
+
+### The Decision Rule
+
+---
+
+Having established (again) what a hyperplane in $p$ dimensional space looks like, the question arises of how we want to use the hyperplane for making
+predictions. Assuming that we have already found the optimal $w$ and $b$, we choose to predict…
+
+1. …towards the positive class $(y_i=1)$, if $x_i\cdot w+b \ge 0$
+2. …towards the negative class $(y_i=-1)$, if $x_i\cdot w+b \lt 0$
+
+This is equivalent to looking at the sign of the hyperplane (or if we project the hyperplane in the feature space, e.g. into 2d space, then this
+corresponds to the two sides of the 0th-level curve).
+
+Now, we know that and how we want to use a hyperplane to predict on unseen data. The big open question remaining is, how we defining optimal fit in
+this case.
+
+### Hard-Margin Constraints
+
+---
+
+The hard-margin classifier only works for linearly separable training data. In our fitting of $w$ and $b$, we therefore wish to find values such that
+for every positive sample the value of the linear model is positive and negative for any negative sample.
+
+Additionally, we will add additional constraining assumptions about the hyperplane that we are going to fit from the training set. Namely, …
+
+1. …if a training sample is negative, then $w\cdot x_- -b\ge-1$, and
+2. …if a training sample is positive, then $w\cdot x_+-b \ge 1$
+
+However, carrying around two constraints is always tedious. This is the point, where the convenience of assuming class labels to be numerically
+encoded by $-1$ for negative and $1$ for positive comes in handy, because it allows us to combine the above two constraints into a single constraint.
+
+$$
+y_i(w\cdot x_i-b)\ge 1
+$$
+
+For subset of points of the training sample we are additionally going to denote:
+
+$$
+y_i(\vec{w}\cdot x_i-b)-1 = 0
+$$
+
+### Optimisation
+
+---
+
+Now, we know that our goal is to find values for $w$ and $b$, such that for every training sample $(x_i, y_i)$, $y_i(w\cdot x_I+b)\ge 1$ (as says our
+constraint). However, if the training data is linearly separable there are infinitely many of such values for our parameters $w$ and $b$ (Convince
+yourself of this by drawing a small linearly separable classification problem with two features and think of all the lines that separate the two
+classes). We therefore need to have an opinion about which set of $w$ and $b$ is optimal. SVMs (an alternative name
+is \***\*\*\*\*\*\*\***\*\*\***\*\*\*\*\*\*\***maximum margin classifier\***\*\*\*\*\*\*\***\*\*\***\*\*\*\*\*\*\***) say that the values of $w$ and
+$b$, for which the margin of the street is largest is optimal.
+
+_Well, what is the margin of the street?_ If we look at all perpendicular distances from the training observation to a hyperplane, the smallest such
+distance is the minimal distance from the observations to the hyperplane (closest data points) and it is what we refer to as the margin. Thus, we need
+to find the hyperplane characterised by the parameters $w$ and $b$ for which the smallest distance of all perpendicular distances to the training
+samples is maximal.
+
+What is left to do is denoting this mathematically, so that we finally have an optimisation function that we wish to maximise (margin should be
+maximally large:
+
+$$
+maximise\ M=\frac{2}{||w||}
+$$
+
+_How did we arrive at this expression?_ Imagine having two support vectors, one positive $x_+$ and one negative $x_-$ (which were the vectors where
+$y_i(w\cdot x_i+b)-1=0$). Then the difference vector $(x_+-x_-)$ between these two vectors already is close to what we mean by the margin. However, it
+does not necessarily have to be perpendicular to the hyperplane. But we can make it so by using the dot product with a vector that we know to be
+perpendicular to the hyperplane, $w$. Since $w$ does not have to be a unit vector though, we have to normalise it, in order to project the difference
+vector correctly. Now, our margin became:
+
+$$
+M=(x_+-x_-)\cdot\frac{w}{||w||}
+$$
+
+Using the fact that $w\cdot x_++b=1\implies \frac{1-b}{w}$ and $w\cdot x_+-b=-1\implies \frac{-1+b}{w}$, we arrive at the expression we have seen for
+the width of the street.
+
+$$
+M=(x_+-x_i)\cdot w=\frac{1-b+1+b}{w}\cdot \frac{w}{||w||}=\frac{2}{||w||}
+$$
+
+However, we generally prefer to work with minimisation problems rather maximisation problems. We do this by first dropping the constant
+
+$$
+\begin{align*}&max\ \frac{2}{||w||}\\&=max\ \frac{1}{||w||}\\&=min\ ||w||\\&=min\ \frac{1}{2}||w||^2\end{align*}
+$$
+
+These transformations - again - are just mathematically convenient, because we have turned a maximisation problem of a non-continuous, non-convex and
+non-differentiable function, into a differentiable function that lives in convex space.
+
+### Lagrangian Function
+
+---
+
+Since we have some optimisation function $minimise\ \frac{1}{2}||w||^2$ subject to a constraint $y_i(w\cdot x_i+b)-1\ge 0$, we use Lagrangian
+multipliers to find a single function. We can construct the so-called Lagrangian function $L$ as follows:
+
+$$
+\mathcal{L}=\frac{1}{2}||w||^2-\sum_i^na_i\left[y_i(wx_i+b)-1\right]
+$$
+
+subject to the constraints:
+
+$$
+\begin{align*}
+  a\ge0 \\
+  y_i(wx_i+b)-1\ge0 \\
+  a_i[y_i(wx_i+b)-1]=0
+\end{align*}
+$$
+
+This we could hand off the an numerical solver to get back values for $w$ and $b$ to use in our decision function. However, we can do a bit more math
+and make a ground-breaking discovery.
+
+### Dual Representation
+
+---
+
+Let’s start by finding the partial derivatives with respect to $w$ and $b$ of our Lagragian function.
+
+$$
+\frac{\delta \mathcal{L}}{\delta w}=w-\sum_i^na_iy_ix_i =0\implies w=\sum_i^na_iy_ix_i
+$$
+
+$$
+\frac{\delta \mathcal{L}}{\delta b}=-\sum_i^na_iy_i=0\implies \sum_i^na_iy_i=0
+$$
+
+Interesting! We can rewrite our vector of weights $w$ as a combination of the Lagrangian multipliers and our training samples (both features and
+targets). And the sum of the product of all Lagrangian multipliers with the targets is zero
+
+We can substitute them back into our original Lagrange function to obtain a new way of displaying this function.
+
+$$
+\begin{align*}\mathcal{L}&=\frac{1}{2}(\sum_i a_iy_ix_i)(\sum_j a_jy_jx_j)-(\sum_ia_iy_ix_i)(\sum_ja_jy_jx_j)-\sum_ia_iy_ib+\sum_ia_i\\&=\frac{1}{2}(\sum_i a_iy_ix_i)(\sum_j a_jy_jx_j)-(\sum_ia_iy_ix_i)(\sum_ja_jy_jx_j)+\sum_ia_i\\&=\sum_ia_i-\frac{1}{2}(\sum_i a_iy_ix_i)(\sum_j a_jy_jx_j)\\&=\sum_ia_i-\frac{1}{2}\sum_i\sum_j a_ia_jy_iy_jx_i\cdot x_j\end{align*}
+$$
+
+This representation is known as the **dual representation**, and it is the function that is actually being solved in implementations of SVMs. A
+crucial observation here is that the Lagrangian function depends on dot products of its training features. An interesting observation (that we are
+going to leverage later to make this idea really powerful).

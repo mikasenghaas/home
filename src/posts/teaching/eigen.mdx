@@ -1,0 +1,348 @@
+---
+title: Eigenvalues & Eigenvectors
+description:
+course: Linear Algebra & Optimisation
+tags: []
+published: 10-27-2022
+lastEdited: 10-27-2022
+---
+
+The so-called eigenvalue problem is one of the most important problems in linear algebra. In essence, it asks the question whether there exist nonzero
+vectors $x\in\R^n$ such that the product with a $n\times n$ square matrix $Ax$ equals a scalar multiple of $x$.
+
+A scalar $\lambda$ (read: lambda) is called an eigenvalue of the matrix $A$, and the non-zero vector $x$ is called an eigenvector of $A$ corresponding
+to $\lambda$ if
+
+$$
+Ax=\lambda x
+$$
+
+## Geometric Intuition
+
+---
+
+Let’s take a second and let the formula speak to us. Recall from our study of matrices, that multiplying a matrix onto a vector geometrically
+corresponds to a _linear transformation_ of that vector. As an example the matrix
+
+$$
+A=\begin{bmatrix}2& 0\\ 0 & 2\end{bmatrix}
+$$
+
+stretches both coordinates of a two dimensional vector $x$ by a factor of $2$. As this is defined for every vector $x\in\R^2$, we can think of $A$ as
+a linear transformation of two-dimensional space. For example the vector $u=(1,1)$ would be transformed as follows
+
+$$
+Au=\begin{bmatrix}2& 0\\ 0 & 2\end{bmatrix}\begin{bmatrix}1\\ 1 \end{bmatrix}=\begin{bmatrix}2\\ 2 \end{bmatrix}
+$$
+
+We can think of the columns of $A$ as being a new basis for two-dimensional space (as they are linearly independent). Thus, the linear transformation
+can be viewed as a change-of-basis from the standard basis for $\R^2$ $B=\{(1, 0), (0,1)\}$ to a transformed basis $\hat{B}=\{(2,0),(0,2)\}$, which
+corresponds to the column vectors of $A$. The change of basis leads to the fact that every vector $x\in\R^2$ not has different coordinates. While our
+vector $u$ earlier had coordinates $[u]_B=(1,1)$, the changed coordinates are
+
+$$
+[u]_{\hat{B}}=(1/2, 1/2)
+$$
+
+This is sensible, since the transformation stretched the entire space by a factor of $2$, so in order to get the same vector the coordinates are half
+the coordinates compared to the standard basis.
+
+However, there is another way of thinking about such a transformation in space, which is captured in the notion of eigenvectors and eigenvalues. It is
+based on the finding, that some transformations in space defined by matrices, lead to subspaces of the original space just being scaled. This means
+that the linear transformation $Ax$ for some $x$ leads to a change in the subspace it spans, and for some it does not. These special vectors, whose
+span does not change after a linear transformation, are called the eigenvectors of the matrix $A$. Mathematically we denote this as the matrix product
+$Ax$ being equal to that same vector just being scaled $\lambda x$ and therefore we get the definition:
+
+$$
+Ax=\lambda x
+$$
+
+## Verifying Eigenvalues and Eigenvectors
+
+---
+
+This is rather simple. For any square matrix $A$, a vector $x$ and a scalar $\lambda$, to check whether $x$ is an eigenvector to the eigenvalue
+$\lambda$ of $A$, simply check whether the equality $Ax=\lambda x$ holds.
+
+## Computing Eigenvalues and Eigenvectors
+
+---
+
+This is arguably the more interesting application, since it allows us to find the eigenvalues and eigenvectors to any square matrix $A$. Let’s write
+out what it means for $A$ to have an eigenvector $x$ to the eigenvalue $\lambda$:
+
+$$
+Ax=\lambda x
+$$
+
+We have already seen this. This is just the definition of eigenvalues/-vectors. Let’s add the identify matrix into the right matrix product to make
+both sides a matrix product.
+
+$$
+Ax=\lambda Ix
+$$
+
+We can now get a single expression that equals $0$ by subtracting on either side
+
+$$
+\lambda Ix-Ax=0
+$$
+
+We see, that the vector $x$ is present in both the parts of the difference. Now, we see why we wanted the identity matrix in there: To be able to
+factor out two $n\times n$ matrices.
+
+$$
+(\lambda I-A)x=0
+$$
+
+This is a homogenous systems of linear equation (in matrix notation) and it will always have the trivial solution $x=0$ (which we deem to not be an
+eigenvector, since $A0=\lambda 0$ for any $\lambda$). Remember that we defined the null space of any matrix $A$ as the solutions for which $Ax=0$.
+Thus the above expression is actually also the null space $N(\lambda I -A)$ and it only contains interesting eigenvectors if the null space is larger
+than the the zero vector. This is only true if the $(\lambda I-A)x=0$ has infinitely many solutions, which is only the case in homogenous systems if
+the the determinant of $\lambda I- A$ is zero (note that generally $det(A)=0$, means that $Ax=b$ is inconsistent, meaning it either has no or
+infinitely many solutions. Since homogenous systems always have at least one solution, the latter must be true). We therefore arrive at a final
+expression, that is relatively easy to check.
+
+$$
+det(\lambda I-A)=0
+$$
+
+The above equation is called the characteristic equation and we use it to compute _eigenvalues_. The eigenvalues are the scalars for which
+$det(\lambda I-A)=0$. If we expand $det(\lambda I-A)$, we get a polynomial, which is called the characteristic polynomial. The eigenvalues correspond
+to the roots of the characteristic polynomial.
+
+Once we have found the eigenvalues $\lambda_1, ..., \lambda_n$, we need to solve the matrix equation $(\lambda_iI-A)x_i=0$ in order to find the
+eigenvectors corresponding to eigenvalue $\lambda_i$. This system always reduces to a matrix having at least one row o zeros because the system must
+have the non-trivial solutions. Therefore there are always infinitely many eigenvectors associated with a single eigenvector, called the
+**eigenspace**.
+
+In summary, follow the following steps to find the _eigenvalues_ and _eigenvectors_ for a square $n\times n$ matrix $A$:
+
+1. Form the characteristic equation $|\lambda I-A|=0$. It will be a polynomial equation of degree $n$ in the variable $\lambda$.
+2. Find the roots of the characteristic polynomial. These are the eigenvalues of $A$
+3. For each eigenvalue of $A$, find the eigenvectors corresponding to $\lambda_i$ by solving the homogenous system $(\lambda_iI-A)x=0$.
+
+## Eigenvalues of Triangular and Diagonal Matrix
+
+---
+
+As often, the computation simplifies if we can can assume some form for the matrix $A$ we wish to find eigenvalues and eigenvectors for. Specifically,
+if $A$ is a triangular or diagonal matrix, then the eigenvalues are the entries on the main diagonal.
+
+_Note, that this follows from the theorem that the determinant of any triangular (and therefore also diagonal) matrix is the product of the entries on
+the main diagonal. Therefore $det(\lambda I-A)=(\lambda-a_{11})\cdot ...\cdot (\lambda-a*{nn})=0$. Here it is clear that the entries on the main
+diagonal itself are solutions to the equation.*
+
+# Diagonalisation
+
+---
+
+For some matrix square matrix $A$, we can construct, the diagonalised matrix $D$ whose entries on the main diagonal are the eigenvalues of the
+original matrix, from the matrix product
+
+$$
+D=P^{-1}AP \iff A=PDP^{-1}
+$$
+
+Here, $P$ is the matrix whose columns are the linearly independent eigenvectors of $A$ and $D$ is the diagonal matrix where the elements on the main
+diagonal are the eigenvalues of $A$. Thus, to diagonalise a matrix, all we need to find is the eigenvalues and if the number of eigenvalues is equal
+to the dimension of $A$, then we it is diagonisable.
+
+In summary, to diagonalise a $n\times n$ square matrix $A$:
+
+1. Find $n$ linearly independent eigenvector $p_1, ..., p_n$ for $A$ (if possible) with corresponding eigenvalues $\lambda_1,...,\lambda_n$.
+2. Let $P$ be the $n\times n$ matrix whose columns consist of the eigenvectors $P=\begin{bmatrix}p_1 & ... & p_n\end{bmatrix}$
+3. The diagonal matrix $D=P^{-1}AP$ will have eigenvalues $\lambda_1,..., \lambda_n$ on its main diagonal. The order of the eigenvalues depends on the
+   order of the eigenvectors in
+
+Let’s again try to motivate why to even do this. Imagine you are interested in the repeated matrix product of a square matrix $A$ onto a vector $x$,
+i.e. $A(A(...(Ax)$. This can be written as $A^nx$ and it is common expression that we see, i.e. to represent flow in graphs (where $A$ describes a
+flow between states defined in $x$ over one time step) or mathematical sequences (where $A$ describes how to compute the next number given the
+previous). Raising a general matrix to a power is incredibly costly, in that it takes a lot of time and computation resources. This is, however, not
+true for diagonal matrices. Raising a diagonal matrix to the $n$-th power means to simply raise each of the elements on the diagonal elements to the
+$n$-th power. Convince yourself of this:
+
+$$
+\begin{bmatrix}
+a_{11} & \dots & 0\\
+\vdots &  \ddots & \vdots \\
+0 & \dots & a_{nn}
+\end{bmatrix}^n
+=
+\begin{bmatrix}
+a_{11}^n & \dots & 0 \\
+\vdots &  \ddots & \vdots \\
+0 & \dots & a_{nn}^n
+\end{bmatrix}
+$$
+
+It is clear that scalar powers are computationally a lot simpler and therefore preferred. So, if there was a way to rewrite $A$ into a related
+diagonal form it would immensely simplify any further computation. It turns out that for some matrices, there exists a diagonal matrix, and that it is
+closely related to eigenvectors and eigenvalues.
+
+The central question of diagonalising a square matrix $A$ is whether, there exist an invertible matrix $P$ such that $P^{-1}AP$ is diagonal. This
+leads us to the definition of a diagonalisation. By Theorem, we know that if $A$ and $B$ are similar matrices, then they have the same eigenvalues. If
+we are searching for a diagonal, similar matrix, then this must mean that the diagonalised matrix is the matrix whose entries on the main diagonal are
+the eigenvalues of $A$. From this, it follows that a matrix $A$ is diagonalisable if and only if it has $n$ eigenvalues that produce $n$ linearly
+independent eigenvectors (because the eigenvectors then span the entire vector space). The following matrix $2\times 2$ matrix
+
+$$
+A=\begin{bmatrix}1 & 2 \\ 3 & 4\end{bmatrix}
+$$
+
+has two eigenvalues $\lambda_1=0$ and $\lambda_2=5$ with eigenvectors $(2,-1)$ and $(1, 2)$ respectively. The eigenvectors are linearly independent
+and therefore span $\R^2$. We can use this property to describe the transformation of $A$ in terms of the eigenvectors. For any two basis vectors
+$v_1$ and $v_2$ we can write any $v\in\R^2$ as a linear combination of the basis vectors, so $v=xv_1+yv_2$.
+
+Consequently, we can also write any vector transformed by $A$ as a linear combination of the eigenvectors:
+
+$$
+Av=A(xv_1+xv_2)=x\cdot Av_1+y\cdot Av_2=x\cdot 0v_1+y\cdot 5v_2=5yv_2
+$$
+
+Therefore, multiplying $A$ onto $x$ collapses the first dimension of $v_1$ and stretches the second of $v_2$ by $5$. Rewriting a vector as a linear
+combination of eigenvectors can be useful, i.e. when we are searching for the matrix product $A^kx$. If $A$ is diagnosable, we can rewrite $x$ as a
+linear combination of the eigenvectors of $A$, which reduces the equation to powers of scalars instead of powers of matrices.
+
+# Missing Exercise Solutions
+
+---
+
+As promised, the solutions to **Exercise 1** and **Exercise 2** from Rasmus’ notes on eigenvalues and
+eigenvectors that we didn’t manage to discuss in class in full detail.
+
+## Exercise 1
+
+---
+
+We are considering an infinite sequence $G_0, G_1,G_2,...$, where each next elements value depends on the previous two values. Specifically, the next
+element $G_{k+1}$ is being computed as
+
+$$
+G_{k+1}=\frac{G_k}{2}+\frac{G_{k-1}}{2}
+$$
+
+Notice, that this expression is the arithmetic mean of the previous two values. To start this sequence, we need to starting values, which are given as
+$G_0=0$ and $G_1=1$. To check our understanding of the sequence, let’s compute the next element $G_2$. The formula above tells us that
+
+$$
+G_{2}=\frac{G_1}{2}+\frac{G_{0}}{2}=\frac{1}{2}+\frac{0}{2}=\frac{1}{2}
+$$
+
+Indeed, this sequence just takes the arithmetic mean of the previous two values. Now, we are interested in what value this sequence is converging
+towards. Mathematically, we denote this as
+
+$$
+lim_{k \rightarrow \infty}G_k
+$$
+
+We are going to solve this exercise with leveraging our linear algebra knowledge in eigenvalues and eigenvectors. In order, to do so, we need to
+rewrite the sequence in matrix form. Namely, we wish to construct a matrix $A$, such that the matrix product of $Ax$, where $x$ is the vector holding
+any two consecutive numbers, is the vector containing the next number and the previous. Mathematically, we would write
+
+$$
+\begin{bmatrix}G_{k+1} \\ G_k\end{bmatrix}=A\begin{bmatrix}G_{k} \\ G_{k-1}\end{bmatrix}
+$$
+
+The matrix that fulfils this property is the following matrix
+
+$$
+A=\begin{bmatrix}\frac{1}{2} & \frac{1}{2} \\ 1 & 0\end{bmatrix}
+$$
+
+since
+
+$$
+A\begin{bmatrix}G_{k} \\ G_{k-1}\end{bmatrix}=\begin{bmatrix}\frac{1}{2} & \frac{1}{2} \\ 1 & 0\end{bmatrix}\begin{bmatrix}G_{k} \\ G_{k-1}\end{bmatrix}=\begin{bmatrix}\frac{G_k}{2}+\frac{G_{k-1}}{2} \\ G_{k}\end{bmatrix}
+$$
+
+Now, we can restate our limit problem (so the question what value $G_k$ converges towards) in matrix form. Namely, we are interested in the second
+element of the vector of the following element
+
+$$
+lim_{k \rightarrow \infty}A^k\begin{bmatrix}G_{1} \\ G_{0}\end{bmatrix}
+$$
+
+We haven’t significantly simplified our problem, since evaluating large matrix powers is **very hard**. However, if we could
+rewrite the starting vector, as a linear combination of eigenvectors of $A$, then we would reduce the problem to one involving powers of eigenvalues
+again.
+
+The eigenvalues and corresponding eigenvectors of $A$ can be computed as:
+
+$$
+\begin{align*}
+   \lambda_1=1\text{ with }x_1=\begin{bmatrix}1 \\ 1\end{bmatrix}
+   \lambda_2=-\frac{1}{2}\text{ with }x_2=\begin{bmatrix}-1 \\ 2\end{bmatrix}
+\end{align*}
+$$
+
+I am not going to show the computation here, you should be able to do this too. The critical part is that the two eigenvectors of $A$, $x_1$ and $x_2$
+are linearly independent (take a second to convince you of this). By theorem, if two two-dimensional vectors are linearly independent, then they form
+a basis of $\R^2$. As this basis $B=\{x_1, x_2\}$ consists of vectors that happen to be the eigenvectors of $A$, we also call it the _eigenbasis_. As
+with any basis, we can rewrite any element of $x\in\R^2$ as a linear combination of the basis vectors so, $x=ax_1+bx_2 \forall x\in\R^2$. This must
+also be true for the starting vector of our sequence. Our goal is to find the scalars (note, that these are the coordinates of the starting vector
+relative to the eigenbasis we constructed) for which linear combination of eigenvectors is the starting vector. We can find these by solving the
+system of linear equations
+
+$$
+\begin{bmatrix}1 & -1\\-1 & 2\end{bmatrix}\begin{bmatrix}a \\ b\end{bmatrix}=\begin{bmatrix}1 \\ 0\end{bmatrix}
+$$
+
+Using our regular tools for solving SLEs, we find that $a=2/3$ and $b=1/3$. This means that we can write our starting vector $(1, 0)$ in terms of the
+eigenvectors like so
+
+$$
+\begin{bmatrix}1 \\ 0\end{bmatrix}=2/3\begin{bmatrix}1 \\ 1\end{bmatrix}+1/3\begin{bmatrix}-1 \\ 2\end{bmatrix}
+$$
+
+Let’s return to our initial problem of finding $A^k(1, 0)^T$ for infintely large $k$. Since, we have an alternative expression for our starting
+vector, let’s substitute it in.
+
+$$
+lim_{k \rightarrow \infty}A^k(2/3\begin{bmatrix}1 \\ 1\end{bmatrix} + 1/3\begin{bmatrix}-1 \\ 2\end{bmatrix})
+$$
+
+We can multiply $A^k$ into each factor
+
+$$
+lim_{k \rightarrow \infty}2/3(A^k\begin{bmatrix}1 \\ 1\end{bmatrix}) + 1/3(A^k\begin{bmatrix}-1 \\ 2\end{bmatrix})
+$$
+
+Now we finally see, why we did all this work of finding eigenvalues and vectors. The matrix product in the parentheses is the product of $A$ with its
+eigenvectors. As we know that this matrix product of $A$ and an eigenvectors is equivalent to the vector being scaled by the corresponding eigenvalue,
+we can write $Ax=\lambda x$, and so we can write $A^kx=\lambda ^kx$. Substituting in the correct eigenvalues, gives
+
+$$
+lim_{k \rightarrow \infty}2/3\cdot 1^k\begin{bmatrix}1 \\ 1\end{bmatrix} + 1/3\cdot(-\frac{1}{2})^k\begin{bmatrix}-1 \\ 2\end{bmatrix}
+$$
+
+As we are only interested in $lim_{k \rightarrow \infty}G_k$, we focus on the result of this vector equation for the second coordinate, that is
+
+$$
+lim_{k \rightarrow \infty}\frac{2}{3} \cdot 1^k \cdot 1+ \frac{1}{3}\cdot (-\frac{1}{2})^k\cdot 2
+$$
+
+We see that for infinitely large numbers of $k$, the left summand converges towards $2/3$ and the right summand towards $0$. Therefore
+
+$$
+lim_{k \rightarrow \infty}G_k=2/3
+$$
+
+## Exercise 2
+
+---
+
+We are considering the following matrix (in _network analysis_ referred to as an **adjacency matrix**) that specifies connection between elements. In
+graph notation, we would call the elements **nodes** and their connection **edges**. We consider the set of nodes $\{1, 2, 3 ,4\}$ and
+draw an edge from node $j$ to node $i$, if the elements in the adjacency matrix and these indices $A_{i,j}=1$.
+
+I cannot draw this graph here unfortunately, but all nodes should have recurrent edges to themselves (called **self-loops** in network
+science), node $1$ has outgoing edges to nodes $2,3$ and node $2$ has an outgoing edge to node $3$.
+
+We see, that the adjacency matrix tells us from which node to which node we can go in a single time step.
+
+If we square the matrix to $A^2$, then the elements in correspond to the number of ways, we can go from node $j$ to node $i$ in exactly $2$ time
+steps.
+
+It turns out, that this property holds for any timestep $k$, so the matrix power $A^k$ corresponds to the number of ways, you can go from node $j$ to
+node $i$ in exactly $k$ steps.
