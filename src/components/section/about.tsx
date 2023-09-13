@@ -1,10 +1,12 @@
+import { Section } from "@/components/section";
+
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export function About() {
   return (
-    <>
-      <h2>A few words about me</h2>
-      <p className="mt-4 text-xl leading-loose">
+    <Section>
+      <h2 className="m-0">A few words about me</h2>
+      <p className="mt-8 text-xl leading-loose">
         I am a 21-year old student from Germany studying my{" "}
         <strong>BSc. Data Science</strong> at{" "}
         <Tooltip>
@@ -56,6 +58,6 @@ export function About() {
         Apart from my studies, I work as a teaching assistant at ITU, helping
         course managers to facilitate lectures and exercise sessions.
       </p>
-    </>
+    </Section>
   );
 }

@@ -22,7 +22,7 @@ export function getPostPath(slug: string, type?: string) {
       "src",
       "posts",
       type ? type : "",
-      slug + ".md",
+      slug + ".mdx",
     );
   } catch {
     return path.join(
@@ -30,7 +30,7 @@ export function getPostPath(slug: string, type?: string) {
       "src",
       "posts",
       type ? type : "",
-      slug + ".mdx",
+      slug + ".md",
     );
   }
 }

@@ -34,7 +34,7 @@ function ProjectBox({
           <h3 className="m-0 truncate text-lg tracking-wide text-foreground transition-all group-hover:underline">
             {postFrontmatter.title}
           </h3>
-          <p className="mt-1 text-xs text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             {new Date(postFrontmatter.published).toLocaleString("en-US", {
               year: "numeric",
               month: "long",

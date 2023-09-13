@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Metadata } from "next";
 import { serialize } from "next-mdx-remote/serialize";
 import readingTime from "reading-time";
 import rehypeKatex from "rehype-katex";
@@ -10,7 +11,13 @@ import remarkMath from "remark-math";
 import MDXRemoteWrapper from "@/components/mdx-remote-wrapper";
 import { Badge } from "@/components/ui/badge";
 import type { Frontmatter } from "@/lib/types";
-import { readFile, readDir, getPostDir, getPostPath } from "@/lib/utils";
+import {
+  readFile,
+  readDir,
+  getPostDir,
+  getPostPath,
+  getFrontmatter,
+} from "@/lib/utils";
 
 type PostTypes = "teaching" | "project";
 
@@ -76,4 +83,40 @@ export async function generateStaticParamsHelper(type?: string) {
   return posts.map((post) => ({
     slug: post.split(".").at(0),
   }));
+}
+
+export async function generateMetadataHelper(
+  type: string,
+  slug: string,
+): Promise<Metadata> {
+  const frontmatter = await getFrontmatter(getPostPath(slug, type));
+
+  // formatting
+  const title = `${frontmatter.title} | Mika Senghaas`;
+  const description =
+    frontmatter.description ||
+    `${
+      type === "project" ? "A project" : "Teaching material"
+    } by Mika Senghaas`;
+  const published = new Date(frontmatter.published).toISOString();
+
+  return {
+    title: title,
+    description: description,
+    keywords: frontmatter.tags,
+    referrer: "origin-when-cross-origin",
+    authors: [{ name: "Mika Senghaas" }],
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
+    openGraph: {
+      title: title,
+      description: description,
+      type: "article",
+      publishedTime: published,
+      authors: ["Mika Senghaas"],
+    },
+  };
 }

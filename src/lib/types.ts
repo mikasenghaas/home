@@ -22,3 +22,9 @@ export type Heading = {
   id: string;
   title: string;
 };
+
+// from next
+export type Props = {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};

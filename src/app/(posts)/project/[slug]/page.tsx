@@ -1,4 +1,10 @@
-import Post, { generateStaticParamsHelper } from "@/components/post";
+import { ResolvingMetadata } from "next";
+
+import Post, {
+  generateMetadataHelper,
+  generateStaticParamsHelper,
+} from "@/components/post";
+import { Props } from "@/lib/types";
 
 interface ProjectPostProps {
   params: { slug: string };
@@ -12,3 +18,7 @@ export default async function ProjectPost({
 
 export const dynamicParams = false;
 export const generateStaticParams = () => generateStaticParamsHelper("project");
+export const generateMetadata = (
+  { params }: Props,
+  parent: ResolvingMetadata,
+) => generateMetadataHelper("project", params.slug);

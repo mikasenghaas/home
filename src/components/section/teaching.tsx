@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { PostContext } from "@/lib/context";
-import { CourseInformation } from "@/lib/meta";
+import { getCourseInformation } from "@/lib/meta";
 import { FrontmatterWithSlug, GroupedFrontmatterWithSlug } from "@/lib/types";
 
 function TeachingBox({
@@ -26,7 +26,7 @@ function TeachingBox({
       href={`/teaching/${postFrontmatter.slug}`}
       className="group hover:no-underline focus-visible:-outline-offset-[2px] focus-visible:outline-accent-foreground"
     >
-      <div className="flex h-16 cursor-pointer items-center gap-x-6 rounded-lg p-4 transition-all group-hover:bg-accent ">
+      <div className="flex h-16 cursor-pointer items-center gap-x-6 rounded-lg border-b p-4 transition-all group-hover:bg-accent ">
         <span className="w-1/5 text-xs text-muted-foreground md:w-auto">
           {new Date(postFrontmatter.published).toLocaleString("en-US", {
             year: "numeric",
@@ -61,7 +61,7 @@ export function Teaching() {
 
   return (
     <Section>
-      <h2 className="m-0">Teaching Material</h2>
+      <h2 className="m-0 mb-8">Teaching Material</h2>
       {Object.keys(groupedTeachingPosts).map((course) => {
         return (
           <Accordion key={course} type="single" collapsible>
@@ -69,9 +69,6 @@ export function Teaching() {
               <AccordionTrigger>
                 <div className="flex items-center gap-x-2">
                   <span className="m-0 group-hover:underline">{course}</span>
-                  <Badge variant="outline" className="hidden md:block">
-                    {CourseInformation[course].university}
-                  </Badge>
                 </div>
               </AccordionTrigger>
               <AccordionContent>

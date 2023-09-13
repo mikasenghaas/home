@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+
 import { TableOfContents } from "@/components/toc";
 
 interface PostLayoutProps {

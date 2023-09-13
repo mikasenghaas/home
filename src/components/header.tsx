@@ -4,7 +4,6 @@ import { Logo } from "@/components/logo";
 import { Menu } from "@/components/menu";
 import { ThemeToggle } from "@/components/theme-toggle";
 import useScroll from "@/hooks/use-scroll";
-import { Frontmatter, FrontmatterWithSlug } from "@/lib/types";
 
 export function Header() {
   const { scrollPosition } = useScroll();
