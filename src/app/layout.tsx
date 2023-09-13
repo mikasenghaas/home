@@ -69,6 +69,7 @@ export default async function RootLayout({
 export const metadata: Metadata = {
   title: "Mika Senghaas",
   description: "Master's student in Data Science at EPFL",
+  metadataBase: new URL("https://www.mikasenghaas.de"),
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#16181d" },
     { media: "(prefers-color-scheme: dark)", color: "#f9fafb" },
