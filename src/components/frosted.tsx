@@ -8,11 +8,7 @@ interface FrostedProps {
   children: React.ReactNode;
   className?: string;
 }
-export default function Frosted({
-  children,
-  className,
-  ...props
-}: FrostedProps) {
+export function Frosted({ children, className, ...props }: FrostedProps) {
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {

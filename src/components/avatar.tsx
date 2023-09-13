@@ -7,7 +7,7 @@ import Image from "next/image";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function ProfilePicture() {
+export function Avatar() {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
 

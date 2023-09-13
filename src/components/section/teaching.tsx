@@ -10,13 +10,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 import { PostContext } from "@/lib/context";
 import { CourseInformation } from "@/lib/meta";
 import { FrontmatterWithSlug, GroupedFrontmatterWithSlug } from "@/lib/types";
 
-import { Badge } from "./ui/badge";
-
-function PostLink({
+function TeachingBox({
   postFrontmatter,
 }: {
   postFrontmatter: FrontmatterWithSlug;
@@ -33,7 +32,7 @@ function PostLink({
             month: "short",
           })}
         </span>
-        <span className="flex-1 truncate text-base tracking-wide text-foreground transition-all group-hover:text-accent-foreground">
+        <span className="flex-1 truncate text-lg tracking-wide text-foreground transition-all group-hover:text-accent-foreground">
           {postFrontmatter.title}
         </span>
       </div>
@@ -60,7 +59,7 @@ export function Teaching() {
   }, {} as GroupedFrontmatterWithSlug);
 
   return (
-    <div className="mt-44">
+    <>
       <h2>Teaching Material</h2>
       {Object.keys(groupedTeachingPosts).map((course) => {
         return (
@@ -68,7 +67,9 @@ export function Teaching() {
             <AccordionItem value="item-1">
               <AccordionTrigger>
                 <div className="flex items-center gap-x-2">
-                  <span className="group-hover:underline">{course}</span>
+                  <span className="m-0 text-muted-foreground group-hover:underline">
+                    {course}
+                  </span>
                   <Badge variant="outline" className="hidden md:block">
                     {CourseInformation[course].university}
                   </Badge>
@@ -76,7 +77,7 @@ export function Teaching() {
               </AccordionTrigger>
               <AccordionContent>
                 {groupedTeachingPosts[course].map((postFrontmatter) => (
-                  <PostLink
+                  <TeachingBox
                     key={postFrontmatter.slug}
                     postFrontmatter={postFrontmatter}
                   />
@@ -86,6 +87,6 @@ export function Teaching() {
           </Accordion>
         );
       })}
-    </div>
+    </>
   );
 }
