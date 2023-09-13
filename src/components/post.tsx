@@ -118,5 +118,9 @@ export async function generateMetadataHelper(
       publishedTime: published,
       authors: ["Mika Senghaas"],
     },
+    twitter: {
+      title: title,
+      description: description,
+    },
   };
 }

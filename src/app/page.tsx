@@ -17,8 +17,3 @@ export default function Home() {
     </>
   );
 }
-
-export const metadata: Metadata = {
-  title: "Mika Senghaas",
-  description: "Master's student in Data Science at EPFL",
-};

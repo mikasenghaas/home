@@ -88,6 +88,22 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  openGraph: {
+    title: "Mika Senghaas",
+    description: "Master's student in Data Science at EPFL",
+    url: "https://mikasenghaas.de",
+    siteName: "Mika Senghaas",
+    images: [
+      {
+        url: "https://mikasenghaas.de/banner.jpeg",
+        width: 1008,
+        height: 630,
+        alt: "Mika Senghaas Avatar",
+      },
+    ],
+    locale: "en_UK",
+    type: "website",
+  },
   twitter: {
     card: "summary_large_image",
     title: "Mika Senghaas",
