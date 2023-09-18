@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 export function Featured() {
   return (
     <Section className="mt-6">
-      <Frosted className="flex h-[450px] flex-col space-y-4 sm:h-[300px] sm:flex-row sm:space-x-4 sm:space-y-0 2xl:h-[500px] 2xl:space-x-6">
+      <Frosted className="flex h-[450px] flex-col space-y-4 sm:h-[350px] sm:flex-row sm:space-x-4 sm:space-y-0 2xl:h-[500px] 2xl:space-x-6">
         <Aperture className="h-8 w-8 sm:h-12 sm:w-12 2xl:h-16 2xl:w-16" />
         <div className="flex flex-1 flex-col justify-between">
           <div>
