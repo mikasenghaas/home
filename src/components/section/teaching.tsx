@@ -63,9 +63,7 @@ export function Teaching() {
           <Accordion key={course} type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>
-                <span className="m-0 truncate group-hover:underline">
-                  {course}
-                </span>
+                <h3 className="m-0 truncate group-hover:underline">{course}</h3>
               </AccordionTrigger>
               <AccordionContent>
                 {groupedTeachingPosts[course].map((postFrontmatter) => (

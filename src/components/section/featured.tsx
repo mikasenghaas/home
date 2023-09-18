@@ -15,9 +15,9 @@ export function Featured() {
               Featured
             </p>
             <a href="https://github.com/mikasenghaas/bsc">
-              <h3 className="m-0 text-2xl sm:text-4xl">
+              <h2 className="m-0 text-2xl sm:text-4xl">
                 Navigating Indoors With Computer Vision
-              </h3>
+              </h2>
             </a>
             <p className="mt-2 line-clamp-6 leading-tight sm:w-3/4">
               In an increasingly urbanised and digitalised world, indoor
