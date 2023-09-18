@@ -29,7 +29,7 @@ function Text() {
   });
 
   return (
-    <div className="mt-10 h-[calc(100vh-300px)] text-3xl font-medium leading-normal text-muted-foreground sm:text-4xl md:h-[calc(100vh-380px)] md:text-5xl md:leading-normal lg:text-6xl lg:leading-normal">
+    <div className="mt-6 text-3xl font-medium leading-normal text-muted-foreground sm:h-96 sm:text-4xl md:text-5xl md:leading-normal lg:text-6xl lg:leading-normal 2xl:h-[500px] 2xl:text-7xl 2xl:leading-normal">
       <strong>
         Hi <span className="inline-block animate-wiggle"> 👋🏻</span>, I&apos;m
         Mika.

@@ -8,20 +8,7 @@ module.exports = {
     "./src/**/*.{ts,tsx}",
   ],
   theme: {
-    container: {
-      center: true,
-      padding: "1.5rem",
-      screens: {
-        md: "900px",
-        lg: "900px",
-        xl: "900px",
-      },
-    },
     extend: {
-      screens: {
-        "2xl": "2000px",
-        // => @media (min-width: 992px) { ... }
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -87,6 +74,9 @@ module.exports = {
         "glow-xl": "0 0 40px 0.5px var(--accent)",
       },
     },
+  },
+  corePlugins: {
+    container: false,
   },
   plugins: [require("tailwindcss-animate")],
 };

@@ -8,7 +8,7 @@ export default function PostLayout({ children }: PostLayoutProps) {
   return (
     <>
       <TableOfContents />
-      <div id="post" className="container px-0 lg:px-[4rem]">
+      <div id="post" className="container px-0 lg:px-[6rem]">
         {children}
       </div>
     </>

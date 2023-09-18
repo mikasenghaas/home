@@ -83,10 +83,15 @@
     @apply bg-background text-foreground;
   }
 
+  /* container */
+  .container {
+    @apply mx-auto w-full self-center p-6 md:w-[900px] 2xl:w-[1280px];
+  }
+
   /* texts */
   p,
   li {
-    @apply text-lg font-light leading-loose text-muted-foreground;
+    @apply text-lg font-light leading-loose text-muted-foreground 2xl:text-2xl 2xl:leading-relaxed;
   }
 
   a {
@@ -98,30 +103,30 @@
   }
 
   blockquote {
-    @apply my-2 border-l-4 border-accent-foreground bg-muted pl-4;
+    @apply my-4 border-l-4 border-accent-foreground bg-muted pl-4;
   }
 
   hr {
-    @apply my-3 mt-2;
+    @apply my-4;
   }
 
   /* headings */
   h1,
   h2,
   h3 {
-    @apply mt-14 scroll-m-24 font-semibold text-foreground;
+    @apply mt-14 scroll-m-24 font-semibold text-foreground 2xl:mt-20 2xl:scroll-m-32;
   }
 
   h1 {
-    @apply text-3xl lg:text-4xl;
+    @apply text-3xl sm:text-4xl 2xl:text-5xl;
   }
 
   h2 {
-    @apply text-2xl lg:text-3xl;
+    @apply text-2xl sm:text-3xl 2xl:text-4xl;
   }
 
   h3 {
-    @apply text-xl lg:text-2xl;
+    @apply text-xl sm:text-2xl 2xl:text-3xl;
   }
 
   /* lists */
@@ -145,12 +150,12 @@
   /* box styles */
   pre,
   code {
-    @apply my-2 rounded-lg p-3;
+    @apply my-4 rounded-lg p-3;
   }
 
   code {
     /* bg and text color only applies for inline code, other uses rehype-highlight */
-    @apply bg-accent p-1 text-sm text-accent-foreground;
+    @apply bg-accent p-1 text-sm text-accent-foreground 2xl:text-base;
   }
 
   pre {
@@ -158,7 +163,7 @@
   }
 
   pre code {
-    @apply m-0 bg-transparent text-sm;
+    @apply m-0 bg-transparent text-base 2xl:text-lg;
   }
 
   /* rehype-prettier-code */
@@ -222,10 +227,5 @@
 
   code[data-line-numbers-max-digits="3"] > [data-line]::before {
     width: 3rem;
-  }
-
-  /* post styling */
-  #post img {
-    @apply rounded-lg;
   }
 }

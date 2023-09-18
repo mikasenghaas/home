@@ -21,9 +21,9 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={cx("flex w-full justify-center")}>
         <Provider postsFrontmatter={postsFrontmatter}>
-          <div className="container flex min-h-screen flex-col">
+          <div className="container flex min-h-screen max-w-full flex-col">
             <Header />
-            <div className="mt-40 flex-1 sm:mt-60">{children}</div>
+            <div className="mt-40 flex-1 sm:mt-56 2xl:mt-96">{children}</div>
             <Footer />
           </div>
         </Provider>

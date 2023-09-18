@@ -18,7 +18,7 @@ export function MDXImage(props: MDXImageProps) {
         style={{ width: "100%", height: "auto" }} // optional
         {...props}
       />
-      <p className="mt-2 text-sm italic text-muted-foreground">
+      <p className="mt-2 text-sm italic text-muted-foreground 2xl:text-base">
         {props.caption}
       </p>
     </div>

@@ -7,18 +7,14 @@ export function Avatar() {
   const { resolvedTheme } = useTheme();
 
   return (
-    <Image
-      src={`/mikasenghaas-${
-        resolvedTheme !== "system" && resolvedTheme ? resolvedTheme : "dark"
-      }.jpeg`}
-      alt="Mika Senghaas Avatar"
-      style={{
-        objectFit: "cover",
-        borderRadius: "50px",
-      }}
-      width={100}
-      height={100}
-      quality={50}
-    />
+    <div className="relative h-24 w-24 overflow-hidden rounded-full 2xl:h-36 2xl:w-36">
+      <Image
+        src={`/mikasenghaas-${
+          resolvedTheme !== "system" && resolvedTheme ? resolvedTheme : "dark"
+        }.jpeg`}
+        alt="Mika Senghaas Avatar"
+        fill
+      />
+    </div>
   );
 }

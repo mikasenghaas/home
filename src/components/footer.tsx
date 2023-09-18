@@ -15,10 +15,10 @@ import { Tooltip } from "@/components/ui/tooltip";
 
 export function Footer() {
   return (
-    <div className="mb-12 mt-16 w-full ">
+    <div className="mb-12 mt-16 w-full 2xl:mt-24">
       <hr />
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-        <span className="text-sm sm:text-base">
+        <span className="text-sm sm:text-base 2xl:text-xl">
           Reach me{" "}
           <Tooltip>
             <DropdownMenu>
@@ -73,7 +73,7 @@ export function Footer() {
             </DropdownMenu>
           </Tooltip>
         </span>
-        <p className="text-xs text-muted-foreground sm:text-sm">
+        <p className="text-xs text-muted-foreground sm:text-sm 2xl:text-base">
           &copy; Mika Senghaas {moment().format("YYYY")}
         </p>
       </div>

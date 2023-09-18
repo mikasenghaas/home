@@ -41,7 +41,7 @@ function ProjectBox({
           />
         </AspectRatio>
         <div className="py-2">
-          <h3 className="m-0 truncate text-lg tracking-wide text-foreground decoration-accent-foreground transition-all group-hover:underline">
+          <h3 className="m-0 truncate text-lg tracking-wide text-foreground decoration-accent-foreground transition-all group-hover:underline 2xl:text-xl">
             {postFrontmatter.title}
           </h3>
           <p className="text-sm text-muted-foreground">

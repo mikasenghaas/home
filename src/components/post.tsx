@@ -55,16 +55,18 @@ export default async function Post({ slug, type }: PostProps) {
 
   return (
     <>
-      <h1 className="py-8 text-5xl sm:text-6xl">{frontmatter.title}</h1>
+      <h1 className="py-8 text-5xl sm:text-6xl 2xl:text-7xl">
+        {frontmatter.title}
+      </h1>
       <div className="flex items-center space-x-2">
-        <p className="text-base font-medium text-foreground sm:text-lg">
+        <p className="text-base font-medium text-foreground sm:text-lg 2xl:text-xl">
           {renderLongDate(frontmatter.published)}
         </p>
-        <Badge className="select-none bg-accent text-xs text-accent-foreground transition-none">
+        <Badge className="select-none bg-accent text-xs text-accent-foreground transition-none 2xl:text-sm">
           {readingTime(content).text}
         </Badge>
       </div>
-      <p className="sm:text-md mb-8 text-sm">
+      <p className="mb-12 text-sm sm:text-base 2xl:text-xl">
         Last Updated {renderLongDate(frontmatter.lastEdited)}
       </p>
       <MDXRemoteWrapper {...serializedContent} components={components} />
