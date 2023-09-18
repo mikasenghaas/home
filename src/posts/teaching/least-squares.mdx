@@ -1,0 +1,85 @@
+---
+title: Least Squares Method
+description:
+course: Applied Statistics
+tags: []
+published: 04-18-2023
+lastEdited: 04-18-2023
+---
+
+A widely spread method to compute this best-fitting line is called the method of
+least squares. As the name suggests: We are trying to find the line that
+minimises the sum of squared deviation between every data point and the
+regression line. Formally, we define:
+
+$$
+S(a,b)=\sum_{i=1}^n (y_i-a-bx_i)^2
+$$
+
+Note, that the $i$th term in the sum is the squared distance in the vertical
+direction from $(x_i,y_i)$ to the regression line - as we defined it. To find
+the regression parameters $a$ ("y-intercept") and $b$ ("slope of the line") we
+need to minimise $S$. We do this by finding the two partial derivatives of
+$\frac{\delta S}{\delta a}$ and $\frac{\delta S}{\delta b}$ and set them to
+zero.
+
+$$
+\begin{align*}
+   \frac{\delta}{\delta a}S(a,b)=0\leftrightarrow\sum_{i=1}^n(y_i-a-bx_i)=0 \\
+   \frac{\delta}{\delta b}S(a,b)=0\leftrightarrow\sum_{i=1}^n(y_i-a-bx_i)x_i =0
+\end{align*}
+$$
+
+After some transformations, we arrive at the two terms.
+
+$$
+\begin{align*}
+   na+b\sum_{i=1}^nx_i=\sum_{i=1}^ny_i \\
+   a\sum_{i=1}^nx_i+b\sum_{i=1}^nx_i^2=\sum_{i=1}^n x_iy_i
+\end{align*}
+$$
+
+We have two equations in two unknown parameters $a$ and $b$, that we need to
+solve. After solving we find that
+
+$$
+\hat{b}=\frac{n\sum x_iy_i-(\sum x_i)(\sum y_i)}{n\sum x_i^2 - (\sum x_i)^2}
+$$
+
+$$
+\hat{a}=\hat{y}_n-\hat{b}\hat{x}_n
+$$
+
+We can use these formulas to deterministically find the regression parameters
+between the samples of two random variables $X$ and $Y$.
+
+## Linear Regression in Code
+
+---
+
+We can easily compute the least square fit between the realisation of two random
+variables in base R.
+
+```r
+# linear regression in base r
+plot(reponse ~ predictor, main='Correlation between X and Y', xlab='X',
+ylab='Y')
+# linear model
+model <- lm(response ~ predictor) abline(model, col='red')
+```
+
+Similarly, we can use the `ggplot` package, to
+
+```r
+ggplot(
+   data = Cars93,
+   aes(x = Horsepower, y = MPG.highway))
+   + geom_point()
+   + geom_smooth(formula=y~x, method = "lm", se = FALSE)
+   + labs(
+      title='Scatter of Horspower to Fuel Consumption',
+      subtitle='Linear Regression through Least Squares',
+      x='Horsepower',
+      y='Fuel Consumption (Miles per Gallon)'
+   )
+```

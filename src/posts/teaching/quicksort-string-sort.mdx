@@ -1,0 +1,476 @@
+---
+title: Quicksort & String Sorts
+description:
+course: Algorithms & Data Structures
+tags: []
+published: 04-03-2022
+lastEdited: 02-05-2023
+---
+
+Strings are the way of representing written text, and therefore language, in
+computer code. We can think of the ADT (=_Abstract Data Type_) `String` as a
+`char[]` (array of characters). In Java, `Strings` are not a primitive data type
+like `int`, `double`, `boolean` or`char`, but a more abstract class. Python
+however is more high-level and abstracts the distinction between single
+characters and an 'array of characters' (Strings) away.
+
+## Basic Properties
+
+---
+
+- **Character Sequence:** Strings are a sequence of characters. Characters are
+  of type `char` and can have $2^{16}$ possible values.
+
+- **Immutability:** Strings (in Java) are immutable, so that we can use them in
+  assignment statements and as arguments and return values from methods without
+  having to worry about their value changing
+
+- **Indexing:** We can index a `String` represented as an array of characters in
+  constant time through regular indexing of an array. Java's `String` class
+  implemented this functionality in constant time through the class method
+  `charAt()`
+
+- **Length:** We can find the length of a string in constant time through the
+  class method `.length()` on Java strings.
+
+- **Substring:** Java's substring method implemented the extract a specified
+  substring operations. The running time verifies in different versions of Java.
+
+- **Concatenation:** We can concatenate two strings (appending one string to the
+  other) in time proportional to the sum of the length of both strings (create
+  new char array, and then copy over from both strings)
+
+## String Sorts
+
+---
+
+As we have seen, comparison-based algorithms (such as insertion sort, merge
+sort, heap sort or quick sort) have a lower bound for the time complexity of
+$n*log(n)$, meaning that there is mathematically no better way of sorting
+through this method than in time complexity relative to $n\
+log(n)$.
+
+In this section, however, we look at methods that take advantages of special
+properties of strings to develop sorts for string keys that are more efficient
+than the general-purpose sorts we have already discovered.
+
+### Basis: Key-Indexed Counting
+
+---
+
+Both types of radix sorts (non-comparison based algorithms to sort strings) are
+based on the same idea of sorting single characters (so strings of length 1),
+and only differ in the way of how to approach the sorting of string of $len>1$.
+Let's therefore first consider the example of sorting a regular array of single
+characters (that may i.e. be associated to a grade of a student).
+
+Key-indexed counting follows the following steps:
+
+1. **Array Initialisation**
+
+Key-Indexed counting maintains two arrays during execution, one of length $R$
+(the radix, so the number of unique elements in the alphabet considered), which
+is used to count the frequency of characters. The second one is in the length
+$N$ - the size of the input, i.e. the number of single characters examined, and
+is used to distribute the sorted data into.
+
+Time: $\sim N + R + 1$
+
+2. **Count Frequency**
+
+Next, we count the frequency of all elements in the given array. Instead of
+increasing the count variable at the integer-encoded position (i.e. "A" is 65 in
+ASCII alphabet), we increment the counter at the position $r+1$, so at 66 in the
+case of "A". What we are really counting is the number of "A"s at the position
+of the "B"s. This complication will come in handy, when we convert these
+frequencies into starting indices for each character when distributing the data.
+
+Time: $\sim 3N$
+
+3. **Convert Frequency to Indices**
+
+Knowing the frequency of each of the characters in the array, we can easily
+determine the starting index of each of the unique characters. We can easily
+compute a cumulative sum over the array.
+
+Time: $\sim 3N$
+
+4. **Distribute Data**
+
+The last step is distributing the keys in the original array into the auxiliary
+array using the count array we have created. We iterate over the original array
+linearly and put the current character at the index as specified in the count
+array. At each step, we increment the index saved for this character by 1, so
+that the next occurrence of the character is distributed to the index to the
+right and not just overwrites the previously distributed value.
+
+```python
+def sort(arr, R=256):
+  # key-indexed count sort of character array, based on
+  # 256 ascii alphabet
+
+  # initialise arrays
+  N = len(arr)
+  aux = [None]*N
+  count = [0]*(R+1)
+
+  # count frequency
+  for i in range(N):
+    idx = ord(arr[i]) # index of char in alphabet
+    count[idx] += 1 # count occurrence
+
+  # frequency to starting index
+  for i in range(R-1):
+    count[i+1] += count[i]
+
+  # distribute data
+  for i in range(N):
+    idx = ord(arr[i]) # index of char in alphabet
+    aux[count[idx]] = arr[i] # distribute data at idx
+    count[idx] += 1 # next occurrence goes to the spot to the right
+
+  # copy back
+  arr = aux
+
+  return arr
+```
+
+In summary, key-indexed counting is a way of sorting single characters
+efficiently. In total, as follows from the individual costs of all loops, we do
+$\sim 11N+4R+1$ array access to stably sort $N$ items, whose keys are integers
+between $0$ and $R-1$ (i.e. 256 in ASCII standard).
+
+When $R$ is within a constant factor of $N$, then key-indexed counting is a
+linear-time sort, that beats the mathematical lower bound that exists for
+comparison-based sorting algorithms. This makes it an extremely effective
+sorting algorithm, especially for small alphabets (i.e. sort a DNA string, where
+$R=4$).
+
+One of KIC's most remarkable features is that it sorts input **stably**, i.e. it
+maintains relative order of its elements. Only because of this feature, we can
+use this technique to develop more advanced methods of sorting strings of length
+greater than $1$ as we shall see.
+
+## LSD (=Least-Significant Digit-First) String Sort
+
+---
+
+The _least-significant-first (LSD)_ string sort is the first of two ways of
+making use of key-indexed counting for sorting strings in linear time. The idea
+is an easy extension of the simple sorting of strings of length 1.
+
+We now go through the array of strings that needs to be sorted $w$ (length of
+longest strings) times from right-to-left (hence _LSD)._ Surprisingly, this
+indeed sorts the array. This is because of the property of the counting
+implementation to be stable (maintaining relative order of input).
+
+The usual implementation of LSD only works on a list of equal sized strings.
+However, we can extend the basic algorithm to also sort arrays of strings of
+different length. This can be achieved by a few auxiliary functions. We first
+compute the length of the longest string in the array. We use this knowledge in
+our sorting. Whenever we encounter a string to sort that is smaller than the
+longest string (this happens, when the counter d that goes through the columns
+is larger than the string itself (=a[i].length())), we append a 0 to the item,
+which will sort it as low as possible.
+
+This means that `['aa', 'a']` gets sorted to `['a', 'aa']`. (Lower length
+strings are considered `<` higher length strings)
+
+## MSD (Most-Significant-Digit-First)
+
+---
+
+As we have seen, the basic version of LSD can only sort arrays of strings that
+are of equal length. A more general, and maybe also more intuitive approach to
+sorting strings is the opposite way of LSD - and therefore the second radix
+sort - called MSD (=_most-significant-digit first)_.
+
+MSD is based on the idea that we can sort arrays of strings recursively from
+left-to-right by establishing a rough pre-order through sorting through
+key-indexed-counting on the first digit, which creates subarrays of strings that
+start with the same digit. Then we can recursively sort the second, third and so
+forth digit in the strings of each subarray to step-by-step sort the array.
+
+## Quicksort
+
+---
+
+The quick sort, sometimes also referred to as partition-exchange sort, algorithm
+is probably more widely used than any other sorting algorithm. It is
+particularly popular, because it is not difficult to implement, works well for a
+variety of different kinds of input data, and is substantially faster than any
+other sorting method in typical applications. It is better than merge sort in a
+way that it sorts in-place and does not require an auxiliary array during
+computation. However, efficient implementations of quick sort do not preserve
+relational order between equal elements, thus it is not a stable sort.
+
+### Algorithmic Procedure
+
+---
+
+Just like mergesort, quicksort is also a recursive divide-and-conquer algorithm,
+which means that it divided the problem into smaller, similar problems and then
+combines the single solutions into one big solution. At its core, _quicksort_
+depends on the partitioning of an array, which means to adjust the contents of
+an array in a way that a _pivot_ element ends up in its final position and all
+elements to its left are smaller, and to its right greater
+
+1. Arbitrary select an element, called _pivot,_ from the array → _Sedgewick &
+   Wayne Convention: Pivot is always the first element in the current subarray_
+2. Partitioning: Reorder the array so that all element with values less than the
+   pivot come before the pivot, while all elements with greater values than the
+   pivot come after t (equal values can go either way). After this partitioning,
+   the pivot is in its final position.
+
+3. Recursively partition the two subarrays around the pivot ($[lo, j-1]$ and
+   $[j+1, hi]$, if _pivot_ at index $j$) until all elements are at their final
+   position. The base case of the recursion is reached for arrays of size zero
+   or one.
+
+_The choice of the pivot element and the partition operation can be done in
+several different ways; the choice of specific implementation schemes greatly
+affects the algorithm's performance_
+
+### Analysis
+
+---
+
+_Quick sort_ uses $\sim 2n\ lg\ n$ compares (and one-sixth that many exchanges)
+on the average to sort an array of length $n$ with distinct keys. This time
+complexity occurs when assuming that in each partitioning step, the two arising
+subarrays are equally big. In this case, the _divide-and-conquer_ techniques
+guarantees linearithmic time complexity.
+
+There are however worst-case scenarios depending on the input, that cause the
+algorithm to run in quadratic time. This happens, when the input is already
+sorted or in reversed sorted order. In that case we would scan through $(n-1)$
+on each partitioning step and only advance our pivot by $1$ in each step. We
+would then run in similar time as _selection sort_. In order to prevent this
+worst-case scenario, we shuffle the input in advance. By arguments of
+probability theory, we neglect the infinitely small risk of worst-case input.
+
+## Exercise Solutions
+
+---
+
+### 2.3.2 Trace of Quicksort
+
+---
+
+```text
+Initial Array:
+['E', 'I', 'N', 'S', 'S', 'O', 'A', 'Q', 'U', 'E', 'T', 'Y']
+
+Partioned Array from 0-11 (Pivot: 0):
+['A', 'E', 'E', 'S', 'S', 'O', 'N', 'Q', 'U', 'I', 'T', 'Y']
+
+Partioned Array from 0-1 (Pivot: 0):
+['A', 'E', 'E', 'S', 'S', 'O', 'N', 'Q', 'U', 'I', 'T', 'Y']
+
+Partioned Array from 3-11 (Pivot: 3):
+['A', 'E', 'E', 'Q', 'I', 'O', 'N', 'S', 'U', 'S', 'T', 'Y']
+
+Partioned Array from 3-6 (Pivot: 3):
+['A', 'E', 'E', 'N', 'I', 'O', 'Q', 'S', 'U', 'S', 'T', 'Y']
+
+Partioned Array from 3-5 (Pivot: 3):
+['A', 'E', 'E', 'I', 'N', 'O', 'Q', 'S', 'U', 'S', 'T', 'Y']
+
+Partioned Array from 8-11 (Pivot: 8):
+['A', 'E', 'E', 'I', 'N', 'O', 'Q', 'S', 'T', 'S', 'U', 'Y']
+
+Partioned Array from 8-9 (Pivot: 8):
+['A', 'E', 'E', 'I', 'N', 'O', 'Q', 'S', 'S', 'T', 'U', 'Y']
+
+Final Sorted Array:
+['A', 'E', 'E', 'I', 'N', 'O', 'Q', 'S', 'S', 'T', 'U', 'Y']
+```
+
+### 2.3.3 Maximum Number of Exchanges of Maximum
+
+---
+
+The maximum number of times during the execution of Quick.sort() that the
+largest item can be exchanged, for an array of length N is $floor(N / 2)$. This
+worst case occurs, when the largest element is always moved two places to the
+right in each partition. Consider the following examples:
+
+```text
+[10, 9]
+[8, 10, 7, 9]
+[6, 10, 8, 5, 7, 9]
+[4, 10, 6, 3, 8, 5, 7, 9]
+[2, 10, 4, 1, 6, 3, 8, 5, 7, 9]
+```
+
+_Note that this answer is specific to this version of quicksort in which the
+first element is always selected as the pivot._
+
+### 2.3.8 Compares in equal key array
+
+---
+
+An equal length array is the best case for quick sort, since the two pointers in
+the partition function are guaranteed to cross exactly in the middle (and will
+thus induce a perfect divide-and-conquer recursive call into equal length
+subarrays). The number of compares is therefore $O(N\ lg\
+N)$.
+
+### 5.1.2 Trace of LSD
+
+---
+
+```text
+input   d=1   d=0   output
+no      pa    ai    ai
+is      pe    al    al
+th      of    co    co
+ti      th    fo    fo
+fo      th    go    go
+al      th    is    is
+go      ti    no    no
+pe      ai    of    of
+to      al    pa    pa
+co      no    pe    pe
+to      fo    th    th
+th      go    th    th
+ai      to    th    th
+of      co    ti    ti
+th      to    to    to
+pa      is    to    to
+```
+
+### 5.1.2 Trace of MSD
+
+---
+
+```text
+input   d=0   d=1   output
+no      al    ai    ai
+is      ai    al    al
+th      co    co    co
+ti      fo    fo    fo
+fo      go    go    go
+al      is    is    is
+go      no    no    no
+pe      of    of    of
+to      pe    pa    pa
+co      pa    pe    pe
+to      th    th    th
+th      ti    th    th
+ai      to    th    th
+of      to    ti    ti
+th      th    to    to
+pa      th    to    to
+```
+
+### 2.3.5 Sorting an array with two distinct keys
+
+---
+
+We can use a single call to partition.
+
+### 2.3.4 Worst Case Inputs for Quicksort
+
+---
+
+A worst case to quick sort occurs, when each recursive call does not divide the
+subarray in equal parts, but leads to sorting one array of length 1 (just the
+pivot element) and the other of $N-1$ (where $N$ is the size of the subarray
+previously sorted). Any array of elements where all pivot elements will put the
+remaining unsorted elements in one of its partitions, the other being empty,
+will work.
+
+Example arrays are both strictly increasing
+
+```text
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+```
+
+and strictly decreasing
+
+```text
+[10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+```
+
+, but also
+
+```text
+[1, 10, 9, 8, 7, 6, 5, 4, 3, 2]
+[10, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+### 2.3.13 Recursive Depth of Quicksort
+
+---
+
+**Best case**: Perfectly partitioned in half each level, meaning the recursion
+depth will be $\lg{N}$ in the input size.
+
+**Worst case**: Partitioned on minimal or maximal element at each recursive
+step, giving a recursion depth of $N$.
+
+### 5.1.17 Constant Space Key-Indexed Counting
+
+---
+
+Key-indexed counting uses an auxiliary array to distribute the keys in according
+to the frequency-derived indices in the `count` array. In order to make the
+algorithm to use space independently of the size of the array to be sorted, thus
+$O(1)$ (constant time), the goal to change the algorithm such that we don't need
+to use the auxiliary array.
+
+Assuming that $R$ is regarded as constant, we can compute the counts of each key
+in an array just like the version in the book. Then where the version in the
+book moves the element to the correct entry in the `aux` array, we instead start
+at the first array entry, write the element to its rightful place within the
+array (and increment the relevant entry in count[]), and then instantly continue
+with the element that we just overwrote (we must have kept a reference to that
+element before overwriting). We continue this approach, until we have seen every
+element in the array.
+
+### Exam Question: 120531 3d)-j)
+
+---
+
+(d) (e) (f) (g) (h) (i) (j) Selection Sort
+
+### 2.3.17 Sentinels
+
+---
+
+The partitioning algorithm (2.5) advances two pointers. One from lo->hi and one
+from hi->lo, until either has a conflict with the pivot element. In the worst
+case, one pointer advances to out of the bounds of the subarray to be sorted.
+For this reason, the classical implementation has a check for whether the $i$
+pointer (going from lo->hi) is hitting hi, in which case the loop breaks (same
+goes for $j$ in the other direction).
+
+The test against the left end of the subarray is redundant since the
+partitioning item acts as a sentinel (v is never less than a[lo]). To enable
+removal of the other test, put an item whose key is the largest in the whole
+array into a[length-1] just after the shuffle. This item will never move (except
+possibly to be swapped with an item having the same key) and will serve as a
+sentinel in all subarrays involving the end of the array. Note: When sorting
+interior subarrays, the leftmost entry in the subarray to the right serves as a
+sentinel for the right end of the subarray.
+
+### 2.3.15 Nuts and Bolts
+
+---
+
+To solve this problem, we can take an arbitrary bolt and compare it with each
+nut. If the nut is smaller than the bolt, we put it to the left, if it is larger
+than the bolt, we put to the right and if it fits we put it right next to the
+bolt (but still compare all nuts to the bolt). Once we are done, we take a new
+random bolt, and first compare it to the nut that fit the first bolt, to
+determine if it is smaller or larger than the first bolt. If it is smaller, then
+we repeat the process for the partition of nuts that were smaller than the first
+bolt and otherwise we do it on the partition that was larger. Using this
+approach we can do a binary search on the partitions to find the relevant
+partition for each new bolt that we pick up, which is significantly more
+efficient than comparing each unused bolt to each unused nut.
+
+Note that we must first shake the bag in such a way that smaller bolts and nuts
+do not float to the top of the bag achieving a randomly distributed pile of nuts
+and bolts before we start the algorithm.

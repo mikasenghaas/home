@@ -1,0 +1,140 @@
+---
+title: Logistic Regression
+description:
+course: Machine Learning
+tag: []
+published: 09-06-2022
+lastEdited: 09-06-2022
+---
+
+This week we are learning about logistic regression - a natural extension of linear regression to binary classification problems. As part of the
+family of linear models, logistic regression assumes a linear relationship between its input features, but this time to model a qualitative response
+$Y=\{0, 1\}$ (thus it not a _regression_ but a _classification_ problem). This change in the problem setting leads to some adjustments to the decision
+function and optimisation of hyper-parameters.
+
+## General Form
+
+---
+
+Logistic regression solves binary classification problems. For a data set of $n$ observations in $p$ features (collected in a feature matrix
+$\bold{X}\in \R^{n \times p}$), the goal of the model is to decide, whether an observation belongs to one of two classes. These classes (also:
+categories/ labels) are modelled as the response $Y$, which is a discrete random variable with a finite range $R_Y=\{0, 1\}$. It is common to
+numerically denote the two classes as $0$ and $1$ for binary classification problems. Here, $1$ is referred to as a positive and $0$ as a negative
+sample.
+
+Logistic regression uses the fact that we are modelling (only) a binary response. The output of a decision function can thus be interpreted as the
+probability of the default (typically _positive_) class $1$, $P(Y=1\ |\ \bold{X})$. Then, the probability of the other class follows logically
+according to the law of total probability (the probability that some observation is either $0$ or $1$ is 100%), thus
+$P(Y=0\ |\ \bold{X})=1-P(Y=1\ |\ \bold{X})$.
+
+Given the two probabilities, a threshold $h\in\{0,1\}$ can be chosen that determines, which class label to output given the computed probabilities.
+
+$$
+\begin{cases}1&\text{, if }\hat{f}(\bold{X}) \ge 0.5\\0&\text{, else }\end{cases}
+$$
+
+The default is $h=0.5$, in which case we classify the label with the larger (conditional) posterior probability.
+
+Now, how do we model the decision function $\hat{f}$ to output the probability of the default class? Clearly, our simple linear model fails in doing
+so, since it outputs values in a real-valued range. For the output to be interpretable as a probability, we need to squash it in the range of
+$[0, 1]$.
+
+We seek a decision function $\hat{f}$, for which $R_{\hat{f}}=[0,1]$. The simplest function satisfying this constraint is the so-called **sigmoid
+(\***logistic* or *squashing)\* function:
+
+$$
+S(x)=\frac{1}{1+e^{-x}}=\frac{e^x}{e^x+1}
+$$
+
+However, this function doesn't take any further arguments, so the function can't learn (ie. the function above is always symmetric around the y-axis).
+In order to use it for machine learning and classification model, we need to find parameters, that can be estimated, such that we can find a
+well-fitting function for any data. In the _simple logistic regression_ setting, we can use the exact same regression parameters as we used in the
+simple linear regression and use its regression/ model parameters in our new logistic function. We do this, by composing the original linear model
+with the sigmoid function:
+
+$$
+\begin{align*}
+\text{Simple Linear Regression: }&h_0(x)=\theta_0+\theta_1x \\
+\text{Sigmoid Function: }&h_1(x)=\frac{1}{1+e^{-x}} = \frac{e^x}{e^x+1} \\
+\text{Combined Logistic Function: }&h_1 \circ h_0(x)=\frac{1}{1+e^{-\theta_0 - \theta_1x}}
+\end{align*}
+$$
+
+_Note that the model parameter $\theta_0$ shits the curve horizontally along the x-axis and $\theta_1$ determines how compressed the graph is (shape
+of S-shaped curve)_
+
+```python
+import numpy as np
+
+lm = lambda x, w: x @ w
+sigmoid = lambda z: 1 / (1 + np.exp(-z))
+
+def logistic(x, w):
+	return sigmoid(lm(x, w)) # composed sigmoid and linear model
+```
+
+## Estimating Model Weights
+
+---
+
+We have successfully adapted our simple linear decision function into the logistic function, which now outputs values that are in the range $[0, 1]$
+and therefore interpretable as the probability of observing the positive class given some set of features. However, out of the space of all logistic
+functions $\hat{f}:\R^p \rightarrow \R$ mapping a set of features $\bold{X}$ into a probability measure, some are better and some are worse fits. Our
+goal is to reduce the _reducible error_ to find the set of hyper-parameters that best fit the training data.
+
+In the regular linear regression setting, we used the model of RSS (residual sum of squared errors) or the MSE (mean squared error, $\frac{RSS}{n}$)
+as a cost-function, in order to find the best-fitting model parameters. In the classification setting, this approach doesn't work as well for the
+following reasons:
+
+1. The resulting cost-function $J(\theta)$ is a **non-convex** function (since we squared a fraction with exponential functions), of which it is not
+   easy to find a global minimum (ie. through GD)
+2. We don't want to calculate distances but probabilities (thus scaling and penalises errors might be wrong)
+
+We would rather have a way of measuring the difference between the outputted probability and the actual class membership. The loss function that does
+this is called **cross-entropy** (also: _negative log-likelihood function_) and it is one of the most widely used loss functions for classification
+problems.
+
+The goal of the learner is to output probabilities as close to their real labels, ie. for true values $y_i =1$ we want probabilities as close to $1$
+as possible and for false values $y_i=0$, we want probabilities as close to $0$ as possible. This shows, that depending on the true label in the
+training data, we would like to measure our error differently. We namely separate two cases:
+
+1. For any sample $x_i$ with label $1$, the goal is to find $\theta$'s that $P(y_i=1|x_i;\theta)$ is as close as possible to $1$
+2. For any sample $x_i$ with label $0$, the goal is to find $\theta$'s that $1-P(y_i=1|x_i;\theta)$ is as close as possible to $1$ (as close as
+   possible to $0$)
+
+Let’s step-by-step derive the loss function achieving this. First, we start with defining the likelihood function for a set of predictions. It is
+defined as the product of predicted probabilities for the true label.
+
+$$
+L_\theta(y, \hat{y})=\prod_i^n \begin{cases}\hat{y}_i&\text{, if } y_i=1\\1-\hat{y}_i&\text{, if }y_i=0\end{cases}
+$$
+
+We can use a neat little trick of power terms ($a^0=1, a^1=a$) to write this expression into a single line.
+
+$$
+L_\theta(y, \hat{y})=\prod_i^n \hat{y}_i^{y_i}\cdot (1-\hat{y}_i)^{1-y_i}
+$$
+
+Taking the log of this turns the product into a sum and the power terms into products. This speeds up our computation.
+
+$$
+L(y, \hat{y})=\sum_{i=1}^n\left[y_i\ log(\hat{y}_i)+(1-y_i)\ log(1-\hat{y}_i)\right]
+$$
+
+The larger the value of this function, the closer we were to the correct labels. Since we prefer to minimise a function measuring our error (_cost/
+loss function_) rather than to maximise a function measuring the quality of fit, we negate this function, to finally obtain the negative
+log-likelihood function:
+
+$$
+NLL(y, \hat{y})=-\sum_{i=1}^n\left[y_i\ log(\hat{y}_i)+(1-y_i)\ log(1-\hat{y}_i)\right]
+$$
+
+**Minimising the Cost-Function**
+
+---
+
+There does not exist a closed-form solution for the cross-entropy cost function. However, since it is a convex function, an optimisation algorithm
+like g*radient descent* is a good choice for optimising our parameters. We will learn about this later in the course.
+
+For now, rely on a ready-to-use implementation like `sklearn`'s
+[LogisticRegression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html).

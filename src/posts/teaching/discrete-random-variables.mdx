@@ -1,0 +1,367 @@
+---
+title: Discrete Random Variables
+description:
+course: Applied Statistics
+tags: []
+published: 02-21-2023
+lastEdited: 02-21-2023
+---
+
+Whenever we observe some (single) random process in nature, we can define the
+sample space holding all possible outcomes and assign probabilities to each
+single (elementary) event. These two properties are provide a complete
+probabilistic description of that specific experiment.
+
+However, most often we are only interested in certain (numeric) features of the
+random process. Such numeric features can be modelled through **random
+variables**.
+
+### Definition
+
+---
+
+In probability and statistics, a random variable, usually denoted through
+capital letters such as $X$, is described informally as a variable whose values
+depend on outcomes of a random phenomenon. Mathematically, a random variable is
+a function defined on a probability space (sample space) that maps from the
+sample space (domain) to the real numbers (range).
+
+$$
+X : \Omega \rightarrow R
+$$
+
+### Domain and Range
+
+---
+
+The domain of some random variable $X$ is inherently defined through the random
+experiment the random variable is associated with, since the domain of the
+random variable is just the entire sample space $\Omega/S$. If we i.e. consider
+two consecutive rolls of a dice, then the domain of some $X$ that is associated
+with this random experiment is
+
+$$
+D_X=\Omega/S=\{(x_1,x_2)|\ x_1,x_2\in\{1,2,3,4,5,6\}\}
+$$
+
+The _range_ (sometimes _image_) of a random variable $X$, shown by $Range(X)$ or
+$R_X$, is the set of all possible values $X$ can contain. We differentiate
+between _discrete_ and _continuous_ random variables, depending on whether the
+set of all numbers the random variable can obtain is finite or infinite.
+
+### Probability Distributions
+
+---
+
+Just as we needed a probability function that associated probabilities to each
+event defined in the event space, we need a probabilistic measure for describing
+the behaviour of our random variable. For the different types of random
+variables, we will encounter different probabilistic functions, namely:
+
+- Probability Mass Function (PMF) in the discrete case
+
+- Probability Density Function (PDF) in the continuous case
+
+- Cumulative Distribution Function (CDF) in both the discrete and continuous
+  case
+
+### Discrete Random Variables
+
+---
+
+Formally, a discrete random variable is a function $X: \Omega \to E$ that is
+defined on the domain of the sample space of the observed experiment and
+computes a finite number of values $x_1, x_2, ..., x_n$ or an countably infinite
+number of values $x_1, x_2, ...$ (where discrete means that there is no in
+between those values) in a measurable space $E$. The discrete random variable
+thereby is a specific feature we are interested in that is defined on a discrete
+scale.
+
+### Probability Mass Function (PMF)
+
+---
+
+Once a discrete random variable $X$ is introduced, the sample space $\Omega$ is
+not of that much importance anymore. It suffices to list the possible values of
+$X$ ($R_X$) and their corresponding probabilities. The information about the
+probabilities of each value of $X$ is contained in the so-called **probability
+mass function** (or short: **PMF**). The function describes how the probability
+mass is distributed over all possible values of $X$ (hence the name). We denote
+formally:
+
+The **probability mass function** $f$ (sometimes also: $p$) of a discrete random
+variable $X$ is a discontinuous function $f/p: \R \to [0,1]$, defined as:
+
+$$
+p_X(x)=f_X(x)=P(X=x)\ \forall\ -\infty \le x \le \infty
+$$
+
+_Note that the PMF is defined on the domain of the entire real-numbers. However,
+we often only report for the values the random variable can obtain and disregard
+all others by defining $f(x)=P(X=x)=0\ \forall\ x \notin \R_X$._
+
+Since the PMF is a probability function, it has the following two properties:
+
+1. Non-Negativity: $0 \ge p(x) \ge 1$ for all $x \in R$
+
+2. Unity Sum: $\sum_{x \in R_X} p(x) = 1$
+
+### Cumulative Distribution Function (CDF)
+
+---
+
+Another way to describe the probability distribution of a _discrete random
+variable_ $X$ is through a so-called distribution function, also cumulative
+distribution function (or short: **CDF**). Just like the PMF, it contains all
+probabilistic information of $X$. Unlike the PMF however, the CDF can also be
+computed for continuous random variables, and therefore allows us to treat them
+in the same way. We denote formally:
+
+The **distribution function** or **cumulative distribution** function $F$ of a
+random variable $X$ is the function $F:\R \to [0,1]$, defined as:
+
+$$
+F_X(x)=P(X\le x) \text{ for} -\infty \le x \le \infty \text{ or } x \in R_X
+$$
+
+For _discrete random variables_, the two functions (PMF and CDF) are closely
+linked to one another, ie. the distribution function $F$ can be expressed in
+terms of the probability mass function $p$, and vice versa.
+
+$$
+F_X(x)=P(X\le x) = \sum_{x_i \le x} P(X=x_i)=\sum_{x_i \le x} f_X(x_i)
+$$
+
+**Properties**
+
+1. For two values $a\le b$, it must follow that $F(a) \le F(b)$, since the event
+   $\{X \le a\}$ is contained in $\{X \le b\}$ if $a \le b$
+
+2. Since $F(a)$ is a probability function, its values are always on the range
+   $[0,1]$
+
+3. $F$ approaches 0 for $x$ approaching negative infinity and 1 for $x$
+   approaching positive infinity, independent of the problem at hand. Formally,
+   we denote: $\lim_{x \to \infty} F(x)  = 1$ and $\lim_{x \to -\infty}F(x)=0$
+
+## Theoretical Distributions of Random Variables
+
+---
+
+Certain random variables occur very often in probability theory because they
+well describe many natural or physical processes. Their distributions,
+therefore, have gained special importance in probability theory. Some
+fundamental discrete distributions are the discrete uniform, Bernoulli,
+binomial, negative binomial, Poisson and geometric distributions. Important
+continuous distributions include the continuous uniform, normal, exponential,
+gamma and beta distributions.
+
+### Discrete Uniform Distribution
+
+---
+
+The simplest discrete distribution is the so-called _discrete uniform
+distribution_. Because it is so intuitive and often the first encountered
+example in every introduction to probability theory, it is often not even named.
+
+A discrete uniform distribution is a symmetric probability distribution wherein
+a finite number of possible values are equally likely to be observed. This means
+that for each elementary event $s_i$ for all $s_i \in \Omega$, we can assign
+equal probabilities. From the fact that the probabilities for each event in a
+sample space is the number of occurrences divided by the number of all possible
+outcomes, we can define the probability for each elementary event for some
+discrete uniform distributed process as $P(x_i)=\frac{1}{|\Omega |}$ .
+
+We denote that some discrete random variable $X$ is distributed uniformly as
+$X \sim U(a, b)$ for $a$, $b$ being integers, such as $a \le b$ and
+$n=|\Omega|=b-a+1$. The distribution functions are then defined as:
+
+$$
+f_X(x)=
+\begin{cases}
+   \frac{1}{b-a+1}=\frac{1}{n} \text{ for }a \le x \le b \\ 0
+   \text{ else}
+\end{cases}
+$$
+
+$$
+F_X(x)=\frac{\lfloor x \rfloor -a+1}{n}
+$$
+
+## Bernoulli Distribution
+
+The Bernoulli distribution is used whenever we observe some experiment that
+involves randomness that only has two possible outcomes, often referred to as
+success and failure and typically integer-encoded as $1$ and $0$. We model this
+through a Bernoulli distributed, discrete random variable $X$. In contrast to
+the uniform discrete distribution, the two possible event within the sample
+space, must not have equal probability. We denote the probability of success
+($P(X=1)$) as $p$ and, as a consequence, the probability of failure as
+$P(X=0)=1-p$.
+
+Since the entire distribution is well-defined through the success probability
+(by the additivity of probabilities, we can compute the counter-probability
+through $1-p$), the Bernoulli distribution only has a single function parameter.
+
+We say that $X$ is a Bernoulli experiment and denote $X \sim Ber(p)$ for some
+$0 \le p \le 1$. Then, we can define the PMF and CDF as follows:
+
+$$
+p_X(x)=
+\begin{cases}
+   p \text{ for x=1}\\
+   1-p \text{ for x=0} \\
+   0 \text{else}
+\end{cases}
+$$
+
+$$
+F(x)=
+\begin{cases}
+   0 \text{ if x < 0} \\
+   1-p \text{ if 0 <= x < 1} \\
+   1 \text{if x>=1}
+\end{cases}
+$$
+
+### Binomial Distribution
+
+---
+
+The natural extension of a single _Bernoulli trial_, where we are given the
+probability of success with some $p$, is to perform $n$ independent Bernoulli
+trials - also called _Bernoulli sequence_ - and model our random variable $X$ as
+the number of successes in the performed $n$ trials.
+
+We denote this extension of the Bernoulli distribution as the _binomial
+distribution_ (or the other way around: $Ber(p)= Bin(n=1,p)$). The binomial
+distribution with parameters $n$, the number of independent Bernoulli trials and
+$p$, the success probability on each trial, is the discrete probability
+distribution of the number of successes in a sequence of $n$ independent
+Bernoulli experiments, so experiment that ask yes-no question, and each with its
+own boolean-valued outcome.
+
+We say, that some discrete random variable $X$ is binomially distributed, st.
+$X \sim Bin(n,p)$ with $n$ the number of trials $n \in \N=\{1, 2, ..., n\}$ and
+$p \in [0,1]$. The range $R_X$ is the sequence of natural numbers from 0 to $n$,
+since these are the minimal and maximum number of successes in $n$ Bernoulli
+trials ($R_X=\{0, 1, 2, ...,n\}$). The PMF and CDF are defined as:
+
+$$
+p(X=k)=
+\begin{cases}
+   {n \choose k}p^k(1-p)^{n-k} \text{ for } k\in R_X \\
+   0 \text{ else}
+\end{cases}
+$$
+
+, where ${n \choose k}$ is the _binomial coefficient_. The binomial coefficient
+, used in the context of combinatorics, computes the number of ways to choose
+$k$ elements from a set of $n$ elements. Mathematically, we can compute:
+
+$$
+{n \choose k} = \frac{n!}{k!(n-k)!}
+$$
+
+We read the formula as follows: $k$ successes occur with probability $p^k$ and
+$n-k$ failures occur with probability $(1-p)^{n-k}$. However, the $k$ successes
+can occur anywhere among the $n$ trials, and there are $n \choose k$ different
+ways of distributing $k$ successes in a sequence of $n$ trials.
+
+$$
+F*X(k)=\sum*{i=0}^k {n \choose i} p^i (1-p)^{n-i}
+$$
+
+We have easy access to the PMF, CDF, Inverse CDF and a way to sample randomly
+from the distribution in base R:
+
+```r
+# pmf (probability of having k successes in n trials with success prob p)
+dbinom(x, size, prob)
+
+# cdf (probability of having at most k successes in n trials with success prob p)
+pbinom(x, size, prob)
+
+# inverse cdf (k successes such that the probability of being at most this k is given by p) for which prob x is guaranteed
+qbinom(p, size, prob)
+
+# n samples from Bin(n,p)
+qbinom(n, size, prob)
+```
+
+### Geometric Distribution
+
+---
+
+The geometric distribution is another way of investigating $n$ independent
+Bernoulli trials, each with a success probability of $p$. This time, however, we
+are not interested in the number of successes $k$ within this Bernoulli
+sequence, but are rather interested in the fact, at which trail we obtain our
+first success. We can model such a discrete random variable through the
+geometric distribution.
+
+_Note, that there exist two different conventions when talking about geometric
+distributions, depending on how we interpret the parameter $k$:_
+
+1. $k = \text{First Success}$: The probability distribution of the number $X$ of
+   Bernoulli experiments needed to get one success, defined on the set
+   $\{n \in Z : n>0\} =\{1,2,3, ...\}$
+
+2 .$k = \text{Failures before First Success}$: The probability distribution of
+the number $Y=X-1$ of failures before the first success, defined on the set
+$\{n \in
+   Z : n \ge 0\} =\{0,1,2,3, ...\}$ → R uses this
+
+_We see that the two ways of denoting the geometric distributions are only
+shifted by 1. Which one of these is called "the" geometric distributions is a
+matter of convention and convenience._
+
+We denote a discrete random variable to follow a geometric distribution and
+denote $X \sim Geo(p)$ for $p\in [0,1]$ giving the success probability.
+
+$R_X(first\ success)=\{1,2, 3, ...\}$ and
+$R_X(failures\ before\ success)=\{0, 1, 2, ...\}$
+
+_Note, that the geometric distribution is defined on a countably infinite sample
+space. This means that there are (potentially) infinitely large values for $k$,
+modelling that the success never occurs._
+
+A discrete random variable $X$ has a geometric distribution with parameter $p$,
+where $0 \le p \le 1$ and $p$ is the probability of success in each Bernoulli
+experiment. We can denote the distributions as follows
+
+$$
+p_X(k)=
+\begin{cases}
+(1-p)^{k-1}p \text{ for } k\in R_X \\
+0 \text { else}
+\end{cases}
+$$
+
+_(for $k = \text{First Success}$)_
+
+$$
+p_X(k)=
+\begin{cases} (1-p)^{k}p \text{ for } k\in R_X \\
+0 \text{ else}
+\end{cases}
+$$
+
+_($k = \text{Failures before First Success}$)_
+
+_Note, that R uses the convention of $k$ failures before the first success, and
+thus dgeom(0, prob) is well-defined._
+
+```r
+# pmf (probability of having x failures before first success (x+1 trials for first success))
+dgeom(x, prob)
+
+# cdf (probability of having at most x failures before first success)
+pgeom(x, prob)
+
+# inverse cdf (outputs the value of X for which the probability is at most p)
+qgeom(p, prob)
+
+# n samples from Geo(p)
+rgeom(n, prob)
+```

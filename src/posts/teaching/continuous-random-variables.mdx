@@ -1,0 +1,355 @@
+---
+title: Continuous Random Variables
+description:
+course: Applied Statistics
+tags: []
+published: 02-27-2023
+lastEdited: 02-27-2023
+---
+
+Many experiments have outcomes that take values on a continuous scale. Such
+experiment can be measured with infinite precision, e.g. heights, weights,
+volumes, time, and many more. Such experiments have an infinite sample space. If
+we want to investigate the behaviour of such random processes more, our _so-far
+developed tools for analysing probabilities of events fail_ and we need to
+develop new methods. To do so, we introduce the concept of continuous random
+variables.
+
+## Continuous Random Processes
+
+---
+
+The core challenge of **continuous random processes** seems to be that the
+outcomes of the experiments (or ranges of the continuous random variables) can
+be measured with infinite precision. While so far, we were perfectly able to
+talk about the probability of some specific event in the sample space occurring
+(ie. the probability of the sum of two dices, modelled as the discrete random
+variable $X$, can be computed through $P(X=2)$ or from the PMF as $p_X(2)$),
+this notion becomes difficult to argue for in the continuous case.
+
+### A Thought Experiment
+
+---
+
+Imagine you were interested in the probability of a person being 180cm tall.
+Confidently, you would go out, meet many people and measure their height. When
+back home, you collect the data and estimate the sought-after probability as the
+number of people who were approximately 180cm tall divided by the number of all
+people you talked to. While this experiment might make sense empirically, it is
+mathematically faulty.
+
+That is, because your measuring device is likely to only measure heights to a
+certain precision of decimal places. This leads to people being measured the
+same height, when in reality one is marginally taller than the other.
+
+This imprecision allowed you to talk about probabilities of a continuous measure
+as if it was discrete. The world of mathematics does not allow for such
+imprecision:
+
+If the probability that a human is 180cm has some probability $p$ associated,
+then naturally we can refine this event into more precise heights, such as
+$[...,
+180.0, 180.1, ..., 180.9]$ (similarly we could refine these values), which
+each have much lower probabilities than $p$. Continuing the refinement process
+to more and more decimals, the probabilities of the possible values of the
+outcomes become smaller and smaller, ultimately approaching zero. Thus, for some
+$x\in R_X$ where $X$ is continuous, $P(X=x)=0$. This phenomena is often called
+the **convergence of probabilities**.
+
+So, how do we go about the issue of observing any value on a continuous range
+with zero probability?
+
+### Probability Density Function (PDF)
+
+---
+
+The solution to the convergence of probabilities lies in fixing our view to
+intervals of values. We can define the general interval $[a,b]$ on the range
+$R_X$ of some continuous random variable $X$. The probability in this interval
+will stay unchanged no matter how precise our measurements of the random
+variable. This observation is the central idea of dealing with random variables
+and will lead the way to mathematically talk about such random events.
+
+Clearly, the PMF, which simply maps a finite set of outcomes to a probability
+measure is not sufficient to capture this subject. We need a analogous concept,
+that aligns with the notion of measuring probabilities on intervals. The
+**probability density function** (PDF) stores the probability density rather
+than the probability mass. It is formally defined as follows.
+
+A continuous random variable $X$ has a probability density function
+$f: \R \to \R$ associated with it, that for any numbers $a$ and $b$ with
+$a \le b$, we get:
+
+$$
+P(a \le x \le b) = \int_a^b f(x) \ dx
+$$
+
+Thus, the probability that some value of a continuous random variable $X$ lies
+within an interval $[a,b]$ is equal to the area under the probability density
+function $f$ of $X$ over the interval $[a,b]$.
+
+From the infinite precision in measurements it also follows, that we don't care
+about whether the boundaries of the intervals are including or excluding:
+
+$$
+P(a \le X \le b) = P(a \lt X \le b) = P(a \le X \lt b) = P(a \lt X \lt b)
+$$
+
+Just as the PMF, the PDF fulfills the properties of a function measuring
+probabilities:
+
+- **Non-Negativity**: $f(x) \ge 0$ _for all $x\in\R$_
+
+- **Integrate to Unity**: $\int_{-\infty}^{\infty}f(x)\ dx=1$
+
+- **Derivative of $F_X$**: $\frac{\delta f}{\delta x}F_X(x) =f_X(x)$
+
+### (Cumulative) Distribution Function (CDF)
+
+---
+
+In the discrete case, computing the CDF was kind of tedious and the purpose was
+not entirely clear. In the continuous case, it should be obvious why we like the
+CDF. Every time, we would like to compute some probability measure from the PDF
+$f_X$, we have to compute the integral over the function over some range. It is
+only natural, to simply find the _antiderivative_ $F$, which automatically
+yields the area under the graph for any $x$. Now, we only have to evaluate a
+function expression, instead of doing integral calculus to obtain probabilities.
+
+We can define the CDF for a continuous random variable $X$, in the analogous way
+to the discrete case. Instead of summing, we integrate the PDF until the value
+of interest. The CDF in the continuous case is a continuous (_in contrast to the
+discontinuous CDF in the discrete case_) real value function $F_X: \R \to
+\R$,
+such that.
+
+$$
+F_X(x) = P(X\le x) = \int_{- \infty}^x f_X(x)\ dx
+$$
+
+## Theoretical (Continuous) Distributions
+
+---
+
+### Uniform Distribution
+
+---
+
+The _continuous uniform distribution_ describes continuous random variables that
+describe experiments that are completely arbitrary, except that we know that the
+outcomes lies within certain bounds. A well-suited example for thinking about
+the continuous uniform distribution the random experiment of waiting times for a
+bus (when we have no knowledge about the departure of the previous bus), but
+know that there must be a bus within some interval from 0 to $b$ minutes.
+
+<br />
+
+**Notation.** $U(a,b)$ or $Unif(a,b)$ for some values $a,b\in \R$, for which
+$-\infty \lt a \lt b \lt \infty$
+
+_Note, that by convention the continuous uniform distribution with $a=0$ and
+$b=1$ is called the standard uniform distribution as is denoted as
+$X \sim U(0,1)$._
+
+<br />
+
+**Distributions.** For some continuous uniform process, modelled as
+$X \sim Unif(a,b)$, we can talk about its probability density through the PDF
+$f_x$ and CDF $F_X$:
+
+$$
+f(x) =
+\begin{cases}
+  \frac{1}{b-a}& \text{if } a \le x \le b \\
+  0 & \text{else }\\
+\end{cases}
+$$
+
+$$
+F(x)=
+\begin{cases}
+0 \text{ for x < 0}\\
+\frac{x-a}{b-a} \text{ for x in [a,b]}\\
+1 \text{  else}
+\end{cases}
+$$
+
+<br />
+
+And we have access to the distribution in `R`.
+
+```r
+dunif(x, min=0, max=10) # pdf
+punif(q, min=0, max=10) # cdf
+qunif(p, min=0, max=10) # inverse cdf
+runif(n, min=0, max=10) # simulate n samples
+```
+
+### Exponential Distribution
+
+---
+
+The exponential distribution is closely related to the geometric distribution in
+the discrete case. Namely, the higher the value of the continuous random
+variable $X$, the less probable is the event. Negative values of $X$ are not
+possible. It is often used to model the time elapsed between events, such as the
+waiting time before the next customer enters the store or the time between
+earthquakes.
+
+<br />
+
+**Notation.** $Exp(\lambda)$, where $\lambda$ is called the _rate_ or _inverse
+scale_, and is $\lambda \gt 0$
+
+<br />
+
+**Distributions.** A continuous random variable has a **exponential
+distribution** with parameter $\lambda$ if its probability density function $f$
+and distribution function $F$ are given by
+
+$$
+f_X(x) =
+\begin{cases}
+\lambda e^{-\lambda x} \text{ if } x\ge 0\\
+0 \text{ if } x \lt 0
+\end{cases}
+$$
+
+$$
+F_X(x) = 1-e^{-\lambda x} \text{\ for\ } x \ge 0
+$$
+
+<br />
+
+And we have access to the distribution in `R`.
+
+```r
+dexp(x, rate=.5) # pdf
+pexp(q, rate=.5) # cdf
+qexp(p, rate=.5) # inverse cdf
+rexp(n, rate=.5) # simulate n samples
+```
+
+### Normal Distribution
+
+---
+
+The normal distribution plays a central role in probability theory and
+statistics and is the most well-known distribution. It is useful because a lot
+of natural phenomena appear normally distributed. It was first found by the
+mathematician C.F. Gauss, and is therefore also called Gaussian Distribution.
+
+<br />
+
+**Notation.** $X\sim N(\mu, \sigma^2)$ where $\mu$ is the mean (sometimes
+referred to as the _location_) and $\sigma^2>0$ is the variance (sometimes
+referred to as the _squared scale_)
+
+<br />
+
+**Distributions.** A continuous random variable has a **normal distribution**
+with parameters $\lambda$ and $\sigma$ if its probability density function $f$
+is given by
+
+$$
+f_X(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}
+\text{ for } -\infty \lt x \lt \infty
+$$
+
+<br />
+
+And we can use the distribution in `R` through
+
+```r
+dnorm(x, mean=0, sd=1) # pdf
+pnorm(q, mean=0, sd=1) # cdf
+qnorm(p, mean=0, sd=1) # inverse cdf
+rnorm(n, mean=0, sd=1) # simulate n samples
+```
+
+### Standard Normal Distribution
+
+---
+
+Unfortunately, there exist no closed formula (_explicit expression_) for the
+CDF, because $f$ has no anti-derivative.
+
+We therefore seek another way of being able to compute probabilities from any
+normal distribution, i.e. if I consider the random variable $X\sim N(180, 25)$
+modelling the heights of humans, then I want to be able to quantify the
+probability that a random human is smaller than i.e 170cm. To do so, we use a
+trick to compute the values of any normal distribution:
+
+**Standardisation.** We can transform an arbitrary normally distributed random
+variable into a $N(0,1)$ distributed random variable, by the so-called
+_normalisation/ standardisation:_
+
+$$
+Z=\frac{X-\mu_X}{\sigma_X}
+$$
+
+When we have obtained the so-called _Z-Score_, which we can use to compute
+probabilities of random variables that are normally distributed, but not the
+standard normal distribution.
+
+We can use this property for the above defined example, i.e.
+
+$z=\frac{170-180}{5}=-2$
+
+From the table for the standard normal distribution $\Phi(-2)$, we obtain
+$0.0228$ for the value $\Phi(2)$. By symmetry of the standard normal
+distribution, we can therefore conclude that $P(X \le 170)=2.28\%$
+
+## Quantiles
+
+---
+
+With a _continuous random variable $X$_ and some number $0 \le p \le 1$, we can
+compute the $p$th quantile or 100$pth$ percentile for the distribution of $X$,
+such that:
+
+$$
+F(q_p) = P(X\le q_p)=p
+$$
+
+Hence, we need to find the smallest $q$, such that the probability that the
+_continuous random variable_ appears in the interval smaller equal to this $q$,
+with a probability of $p$.
+
+Note, that this computation is nothing more than computing an x-value using a
+specified value for y. With your calculus background knowledge, it should be
+clear that we can compute this value from the inverse function of the CDF.
+Therefore,
+
+$$
+F_{Inv}(p) = q_p
+$$
+
+For most distributions, like the uniform or the exponential distribution the
+inverse function can be found easily, and therefore it is easy to compute
+arbitrary quantiles.
+
+For normal distributions we have to make use of the standard normal distribution
+table again. Instead of looking up corresponding $p$'s for $z$-values, we now
+search for a specified $p$ and find the closest corresponding $z$-value.
+
+### Generalisation of Quantiles
+
+---
+
+In statistics and probability, quantiles are cut points dividing the range of a
+probability distribution into continuous intervals with equal probabilities, or
+dividing the observations in a sample in the same way. Common quantiles have
+special names, such as
+
+- **two-quantiles** (=two groups, in between these two groups is the median)
+- **quartiles** (four groups),
+- **deciles** (ten groups), and
+- **percentiles** (100 groups).
+
+The groups created are termed halves, thirds, quarters, etc., though sometimes
+the terms for the quantile are used for the groups created, rather than for the
+cut points.
+
+_Note that the five number summary is also just a collection of different
+quartiles (including the 0th and 4th quartile)._

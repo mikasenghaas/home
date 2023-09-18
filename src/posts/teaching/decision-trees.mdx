@@ -1,0 +1,189 @@
+---
+title: Decision Trees
+description:
+course: Machine Learning
+tags: []
+published: 09-27-2022
+lastEdited: 09-27-2022
+---
+
+*Decision Trees (DTs)* are a non-parametric supervised learning method used both for classification and regression. The goal is to create a model that
+predicts the value of a target variable by learning simple decision rules inferred from the data features. A tree can be seen as a piecewise constant
+approximation function. Unlike all classifiers we have seen so far, decision trees are approximating posterior class probabilities (discriminative
+learner) by inferring a hierarchical decision structure that is constructed in a way to maximise class separation at each level.
+
+## **Tree-Based Inference**
+
+---
+
+In this section, we will explore the _tree-based learning approach_ for regression and classification, as it is entirely different from learners we
+have seen so far. Remember, that all machine learning models separate into _discriminative_ and _generative_ models.
+
+_Discriminative models_ directly the posterior class probabilities $P(Y=k\ |\ X)$ and predict towards the highest posterior. The discriminative models
+we have seen so far are either parametric, like linear, logistic and softmax regression (which assumed a linear relationship) or used a distance-based
+approximation of the conditional distribution as KNN did.
+
+_Generative models_ model the joint probability distribution through the product of class conditionals and class priors and have to make simplifying
+assumptions about the feature distributions to estimate these.
+
+Tree-based approaches also fall into the category of discriminative models, but their learning is fundamentally different than the parametric learners
+we have seen so far. Tree-based approaches are based on the idea of _stratifying_ or _segmenting_ the feature space into a number of simple regions
+(hyper-rectangles) The prediction is then based on identifying which region a new data point belongs to and predicts the mean of those values.
+
+**Refresher: Tree Data Type**
+
+Before we jump into how to learn a regression/ classification tree structure, let’s remind ourselves about the tree data type. Trees are a special
+type of graph (mathematical object of nodes connecting through vertices), where each node in the graph has single incoming vertex and two outgoing (in
+the case of a binary tree) vertices. Exceptions are only the root node (start), which has no ingoing vertex and leave nodes, which have no outgoing
+vertices.
+
+In classification and regression trees, the root of the tree refers to the decision split from the feature that is most useful in making the
+prediction. All further nodes are called _internal nodes_, except the leaves, which are sometimes called _terminal nodes_. That is, because the
+predictive model returns the value in the terminal node, whenever it arrives there.
+
+## **Regression/ Classification Trees**
+
+---
+
+Regression and classification trees are special trees. Nodes are representing decision rules (if feature $X<val$, then do this, else this) or decision
+regions in the case of terminal nodes. Edges connect multiple nodes with each other, that is which decision rule to apply after a prior decision has
+been made.
+
+We can divide our study of decision trees in the regression and classification setting into _training_ and _inference_ process:
+
+1. In the _learning phase_, we wish to divide the feature space - that is, the set of possible values for $X_1, X_2, ..., X_p$ - into $J$ distinct and
+   non-overlapping regions $R_1, R_2, ..., R_j$
+2. In the _inference phase_, we use the learned decision regions, such that for every observation that falls into the region $R_j$, we make the same
+   prediction (either mean value or majority class depending on type of problem)
+
+### **Learning/ Training**
+
+---
+
+The structure of nodes and vertices is learned from training data and will result in a partition of the $p$ dimensional input feature space into
+simple decision regions (hyper-rectangles in $p$-dimensional space, rectangles in $2$-dimensional space). Let’s denote the feature space as the set of
+all possible values $\{(x_1, ..., x_p)| X_{1,...,p}\in\R \}$ and the resulting $j$ decision regions as $R_1, ..., R_j$. The question is now how to
+best partition the feature space into the decision regions. Analogous to the learners have seen so far, we wish to define a loss-function that we need
+to minimise. The goal is to find the decision regions (hyper rectangles) $R_1, ..., R_j$ that minimise a loss function. Consider i.e. for regression
+problems the sum square error across all $j$ decision regions.
+
+$$
+\sum_{j=1}^J\sum_{y_i\in R_j}(y_i-\hat{y}_{R_j})^2
+$$
+
+Here, _$\hat{y}_{R*J}$ is the mean response for the training observations within the $j$-th box.*
+
+Or in the classification setting, the misclassification error across the $j$ decision regions
+
+$$
+\sum_{j=1}^J\sum_{y_i\in R_j}I(y_i, \hat{y}_{R_j})
+$$
+
+_Here, $\hat{y}_{R*j}$ is the majority class within the $j$-th decision regions and $I()$ is a indicator function that is $1$ if $y_i\ne
+\hat{y}*{R*j}$, else $0$.*
+
+However, it is computationally infeasible to consider every possible partition of the feature space into $J$ boxes. For this reason, we take the
+_top-down, greedy_ approach, that is known as \***\*recursive binary splitting**. We say that the approach is _top-down_, since we begin splitting the
+feature space so that we construct a tree from the top (start at the root) and then recursively split the feature space. It is said to be _greedy_,
+since at each step of the tree-building process, the _best_ split is made at that particular step, rather than looking ahead and picking a split that
+will lead to a better tree in some future step.
+
+In the recursive binary splitting, for each feature $X_i$ and cut point $s$ we could make to (binary) partition the feature space, st. $\{X| X<s\}$
+and $\{X|X\ge s\}$ form two sets, we try to find the cut point $s$ that best minimises the loss of prediction. Doing this for every feature $X_i$, we
+can find the root of our node, which is the feature $X_i$ and cut point $s$, that maximise the accuracy of our predictive model. Mathematically, we
+want to minimise the equation (find $i$ and $s$):
+
+$$
+\sum_{i:x_i\in R_1(j, s)}L(y_i, \hat{y}_{R_1})+\sum_{i:x_i\in R_2(j, s)}L(y_i,\hat{y}_{R_2})
+$$
+
+For regression problems, we commonly use the RSS or MSE as a loss-function. In classification problems, commonly used loss-functions are _gini
+impurity_ and _entropy impurity_. Both measures are designed with the idea, that in an ideal tree a terminal node is pure (i.e. consists only of a
+single class), so on the way to finding pure terminal nodes, we wish to find cut points that minimise impurity in the two splits they create.
+Gini-impurity of a set $S$ of integers $1, ...,k$ with $p_k$ being the proportion of class $k$ in the set:
+
+$$
+G(S)=\sum_k^Kp_k(1-p_k)=1-\sum_k^Kp_k^2
+$$
+
+_Note, that for binary classification this expression reduces to $2p(1-p)$._
+
+Another impurity function is the entropy impurity, which is also defined on a set $S$ of integers $1,...,k$ with $p_k$ as the proportion of class $k$
+in the set.
+
+$$
+H(S)=-\sum_{k}^Kp_k\cdot log\ p_k
+$$
+
+In contrast to consider each possible partition there is, this computation is computationally light and is especially fast when the number of features
+$p$ is not too large. Now we recursively apply the procedure to the two partitions $R_1$ and $R_2$ that were found. We stop the recursion and at a
+stopping criterion, this could either be a maximum number of decision regions to find, or when a split of regions does not provide a further
+minimisation of the loss (ie. a possible split of $R_i$ into $R_{i+1}$a nd $R_{i+2}$ has the property that $Loss(R_i)<Loss(R_{i+1}+R_{i+2})$.
+
+### **Inference**
+
+---
+
+The learned tree structure can then be simply followed top-to-bottom until a terminal node (decision node) is reached. The input sample is predicted
+according to the prediction of the terminal node. In that way, infinitely many input samples will result in the same prediction.
+
+A good visual intuition for the decision process of decision trees is given by 2-class classification problems. Each horizontal or vertical cut
+represents a single decision rule (inside a decision node) and after all cuts together partition the plane into a finite amount of decision regions,
+in which the prediction is going towards the majority class
+
+_Note, that decision trees can be seen as an extension of the Mean-Regression baseline for regression problems and Majority-Class-Classifier in
+regression problems. Still, the inferred decision structure of decision trees is still likely to be an oversimplification of the true relationship
+between a set of features $\bold{X}$ and the target $Y$._
+
+## Regularisation: Reducing Overfitting
+
+---
+
+One of the major flaws of decision trees is that, when not stopped according to some criteria, they will converge towards 100% training accuracy for
+any data - and thus highly overfit the data. It is therefore an important topic for decision trees to think about how to reduce overfitting.
+
+**Pre-Pruning**
+
+---
+
+Pre-Pruning is the process of stopping the generation of the tree earlier than the natural convergence of fully pure leaf nodes. There can be
+different metrics that can stop (pre-prune) the process of tree generations, such as:
+
+- `max_depth` (specifying the maximum depth of the tree)
+- `max_nodes` (maximum number of nodes to consider)
+- `max_leaf_nodes` (maximum number of leaf nodes to consider)
+- `min_num_in_leaf` (the minimum number of nodes in leaf nodes, default: 1)
+
+Each of these variables can be maintained in the `DecisionTree` class during fitting and before every further split of nodes all pre-pruning criteria
+are checked, and the fitting is stopped, if one evaluates `False`.
+
+**Post-Pruning**
+
+---
+
+Post-Pruning is the reverse process of pre-pruning that is based on the idea of fully growing out a decision tree and then reducing the variance of
+the model by pruning it back.
+
+The idea is to remove subtrees in the decision trees when they are overfitting.
+
+A common procedure in constructing a decision tree constructing therefore is _tree pruning_, which is the process of reducing the complexity a fully
+grown out decision tree, so that the tree generalises better. Thus, the general strategy of tree pruning is to grow a very large tree $T_0$, and the
+_prune_ it back in order to obtain a subtree. Intuitively, we would like to find the subtree that reduces the lowest test error rate, which we can
+estimate from cross-validation. However, estimating the cross-validation for every possible subtree would infeasible, and thus we restrict our search
+to a small set of subtrees for consideration.
+
+_Cost complexity pruning_ - also known as _weakest link pruning_ - gives us a way to do just this. Rather than considering every possible subtree, we
+consider a sequences of trees indexed by a nonnegative tuning parameter $\alpha$. For each value of $\alpha$ there corresponds a subtree $T\sub T_0$,
+st.
+
+$$
+\sum_{m=1}^{|T|}\sum_{x_i\in R_m}(y_i-\hat{y}_{R_m})^2+\alpha|T|
+$$
+
+is minimal. Here $|T|$ indicates the number of terminal nodes of a tree $T$ (ie. we punish the number of decision regions, since those are likely to
+be responsible for overfit), $R_m$ is the rectangle (decision regions) corresponding to the $m$-th terminal node, and $\hat{y}_{R_m}$is the mean of
+response in the decision regions $R_m$.
+
+The hyper parameter $\alpha$ controls the trade-off between the subtree's complexity and its fit to the training data. When $\alpha =0$, then we
+construct the large initial tree $T_0$. If $\alpha>>1000$ (very large), then we are likely to construct a tree consisting just of a node (ie. have a
+single decision region, ie. always predicting the mean of the entire data: baseline model).

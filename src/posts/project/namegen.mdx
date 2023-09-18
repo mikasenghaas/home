@@ -1,0 +1,21 @@
+---
+title: Namegen
+summary: Full-stack web app for custom-trained recurrent neural network for name generation
+tags: [Deep Learning, NLP, Webdev]
+published: 07-01-2022
+lastEdited: 07-01-2022
+---
+
+**Namegen** is a web application to generate novel names for people, companies or whatever you want to name. At the core of a project is a custom trained character-level recurrent neural network model for natural language generation, written from scratch in PyTorch. The model was trained on a large corpus of names from around the world. One of the core features is that the name generation can be conditioned on gender, origin, name length and a selection of starting letters to make it easier to find the perfect name for your needs.
+I built Namegen as a fun summer project within a couple of days to deepen my knowledge of recurrent cells. The code does not use Pytorch's built-in recurrent module but implements the forward pass of the RNN cell from scratch.
+
+> Notice: As of November 2022 Heroku disabled its free-tiers. I decided to discontinue the hosting of the webapp and backend. However, you can still browse through the source code for the frontend and backend (including the training, evaluaton and deployment of the RNN Pytroch model)
+> on [GitHub](https://www.github.com/namegen).
+
+<br />
+
+<Image
+  src="/img/namegen-webapp.jpeg"
+  alt="The Namegen webapp"
+  caption="The Namegen webapp"
+/>

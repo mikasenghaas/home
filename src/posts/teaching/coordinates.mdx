@@ -1,0 +1,173 @@
+---
+title: Coordinates
+description:
+course: Linear Algebra & Optimisation
+tags: []
+published: 10-06-2022
+lastEdited: 10-06-2022
+---
+
+In the third week of our journey into the world of abstract mathematics through vector spaces, we are investigating bases of vector spaces further.
+Recall from the [previous week](https://www.jonas-mika.de/teaching/lao/basis-and-dimension), that a set of vectors $S=\{s_1, ..., s_n\}$ is a bases
+for some vector space $V$, iff. the set is linearly independent (_proof by showing that $c_1s_1\cdot ...\cdot c_ns_n=0$ only has the trivial solution
+$c_1=...=c_n=0$)_ and that the set spans the vector space (_proof by showing that for each $u\in V$, $c_1s_1\cdot ...\cdot c_ns_n=u$ has a unique
+solution)._ This week we are going to learn how bases can be seen as ways of constructing coordinate systems to identify elements in the vector space
+relative to a basis, which sometimes allows us to identify high-dimensional vectors through a lower-dimensional coordinate vector.
+
+Lastly, we are going to define special bases, such as _orthogonal_ and _orthonormal_ bases, that on top of the two bases conditions satisfy more
+conditions, which allows for certain nice operations.
+
+## Coordinates
+
+---
+
+Coordinates are something that is firmly engrained in our mathematical understanding. From a very young age, we are used to represent points,
+functions in a coordinate system (usually two-dimensional). Our understanding of coordinates and a coordinate system so-far, however, is limited to
+the standard bases of the one-dimensional number line $\R$ and two-/ and three-dimensional space $\R^2$ and $\R^3$. That is, that nobody would argue
+with me that that the point $(1, 1)$ is one-step to the right and top from the origin in $\R^2$. Today, we will see that the concept of _coordinates_
+and a _coordinate system_ (a) is a general concept of abstract vector spaces, and as such also applies to vector spaces of e.g. matrices and
+polynomials and (b) depends on the bases chosen to represent the vector space.
+
+Both observation will result an entirely new way of coordinates, for example
+
+- _Regarding (a):_ We can represent polynomials of at most 1 degree in a two-dimensional coordinate system
+- _Regarding (b):_ The coordinate $(1,1)$ can represent any 2d vector, and not only $(1, 1)$ itself.
+
+### Mathematical Definition
+
+---
+
+Recall, that if $B=\{b_1, ..., b_n\}$ is a basis for some vector space $V$, then every vector $u\in V$ can be written as a linear combination of the
+vectors in $B$ (since $B$ spans $V$):
+
+$$
+c_1b_1+...+c_nb_n=u
+$$
+
+The scalars $c_1, ..., c_n$ are unique for every $u$. From this uniqueness statement, it follows that I can also represent each vector in $u$ through
+the unique set of scalars $(c_1, ..., c_n)$. Because this is true no matter the vector space or vector, we denote the set of scalars as the
+coordinates of vector $u$ relative to the basis $B$. We denote the coordinate vector as:
+
+$$
+[u]_B=(c_1\ ...\ c_n)^T
+$$
+
+The high school intuition of what a coordinate system and coordinates are is not flawed. The coordinate system gives us a general way of identifying
+all elements in a vector space (_here the standard basis allows us to represent any two-dimensional vector)_ and the coordinates are identifiers in
+this system. The special thing about all coordinate system we have observed so far is, that the coordinates are equal to the actual elements, that is
+the vector $u=(1, 1)\in\R^2$ also, has the coordinates $[u]_B=(1, 1)$, since with $B$ being the standard normal bases
+$1\cdot (1,0)+1\cdot (0, 1)=(1, 1)$. In our extended definition of coordinates, a bases to a vector space defines a coordinate system and the
+coordinates identify elements in this vector space following the logic of the coordinate system.
+
+### Motivation
+
+---
+
+Now, you may ask, what the advantage is of representing a $n$ dimensional vector $u\in\R^n$ through a vector of $n$ scalars $[u]_B$. If the basis
+spans the entire vector space, then the coordinates are indeed a redundant way of identifying each vector in $V$. If, however, $B$ is a subspace of
+$V$, then the coordinate vectors are going to be in a lower dimensionality, i.e. they only require as many scalars as the dimension of the basis is.
+
+One might fear that working with coordinates would lead to an overhead on computation time: Suppose for example that you have vectors $v$ and $w$
+represented by their coordinates $[v]_B$ and $[w]_B$ respectively. To compute the coordinates of $v + w$ one would then first compute $v$ from $[v]_B$
+and $w$ from $[w]_B$ , then compute $v+w$ and finally convert back to the coordinates of $v+w$ to save space. However, a theorem tells us that sum of
+two coordinate vectors is also the sum of the coordinates of the vectors summed, so $[v]_B+[w]_B=[u+w]_B$ holds.
+
+### Computing Coordinates of Vectors
+
+---
+
+As many of the tasks in linear algebra we have seen so far, computing coordinates relative to a basis boils down to solving a system of linear
+equations. Consider some vector $v\in V$, that we wish to represent in its coordinate form $[v]_B$ relative to some basis $B$.
+
+This means, that we wish to find the scalars $c_1, ..., c_n$, such that
+
+$$
+c_1b_1+...+c_nb_n=v
+$$
+
+Writing this system of linear equations yields a system in $n$ unknowns. We can collect all basis vectors as column vectors of some matrix
+$P=\begin{bmatrix}b_1 & ...& b_n\end{bmatrix}$ and the vector of scalars as $[v]_B$, then the above system is equivalent to:
+
+$$
+P[v]_B=v
+$$
+
+Following the rules of matrix observation, this system is solved for $[v]_B$ by using the inverse of $P$
+
+$$
+[v]_B=P^{-1}v
+$$
+
+_This means, that if we find the inverse of the matrix $P$ (collecting bases vectors as column vectors of a matrix), then we can find every coordinate
+vector through a single matrix product)._
+
+### Computing Vectors from Coordinates
+
+---
+
+The reverse operation is a lot simpler. Given a basis $B$ and of some vector space $V$ and the coordinates of a vector $v\in V$ $[v]_B$, we can
+reconstruct the original vector $v$ as a linear combination of the basis vectors and the coordinate vector.
+
+$$
+v=c_1b_1+...+c_nb_n=P[v]_B
+$$
+
+## Orthonormal and Orthogonal Matrices
+
+---
+
+Before we define _orthonormal_ and _orthogonal_ matrices, let’s recall the properties of orthogonal vectors and normality of a vector.
+
+---
+
+Consider two vectors $u, v\in \R^n$, then the two vectors are orthogonal iff.
+
+$$
+u \bullet v=u_1v_1+...+u_nv_n=0
+$$
+
+A vector $u\in\R$ is called normal, if its length (measured by euclidean distance) is $1$, that is:
+
+$$
+\begin{align*}
+  |u|=\sqrt{u_1^2+...+u_n^2}&=1\\
+  u_1^2+...+u_n^2&=1\\
+  u\bullet u&=1
+\end{align*}
+$$
+
+Combining the above two, yields that a set of vectors $u_1, ..., u_n\in\R$ are orthonormal (each pair is orthogonal and each vector is normal) iff.
+
+$$
+u_i\bullet u_j=0 \ \forall\  i, j
+$$
+
+$$
+u_i\bullet u_i=1 \ \forall\  i
+$$
+
+---
+
+Now, if the the vectors of the basis of a vector space are orthonormal, then we say that the basis is orthonormal. One reason orthonormal bases are
+interesting is that computing the coordinates relative to such as basis is particularly simple: Just compute the dot product of the vector with each
+of the vectors in the basis.
+
+To see this, we make use of the fact that if the matrix $P$, whose columns are the basis vectors is orthonormal, then the inverse $P^{-1}=P^T$. Too
+see this, write
+
+$$
+P=\begin{bmatrix}\vert &  & \vert \\b_1 & ... & b_n \\ \vert & ... & \vert \end{bmatrix}
+$$
+
+and we know that $PP^{-1}=I$. To show that $P^{-1}=P^T$ for orthonormal matrices, we need to show that $PP^T=I$.
+
+$$
+\begin{align*}PP^T&=\begin{bmatrix}\vert &  & \vert \\b_1 & ... & b_n \\ \vert & & \vert \end{bmatrix}\begin{bmatrix}\vert &  & \vert \\b_1 & ... & b_n \\ \vert & & \vert \end{bmatrix}^T\\&=\begin{bmatrix}\vert &  & \vert \\b_1 & ... & b_n \\ \vert & & \vert \end{bmatrix}\begin{bmatrix}- & b_1 & -\\& \vdots & \\- & b_n & -\end{bmatrix}\\ &=\begin{bmatrix}b_1\bullet b_1 & \dots &b_1 \bullet b_n \\ & \vdots & \\b_n\bullet b_1 & \dots & b_n\bullet b_n\end{bmatrix}=I \text{ (if P orthonormal)}\end{align*}
+$$
+
+Using this theorem, we can simplify the general equation to find coordinates of a vector relative to a basis $P^{-1}v=[v]_B$, to $P^Tv=[v]_B$. This
+means that each coordinate is just the dot product of a basic vector and the original vector:
+
+$$
+P^Tv=\begin{bmatrix}b_1\bullet v \\ \vdots \\ b_n\bullet v\end{bmatrix}
+$$
