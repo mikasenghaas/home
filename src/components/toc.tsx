@@ -7,19 +7,25 @@ import * as ProgressPrimitive from "@radix-ui/react-progress";
 import { useHeadings } from "@/hooks/use-headings";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import useScroll from "@/hooks/use-scroll";
+import { useWindowSize } from "@/hooks/use-window-size";
 
 export function TableOfContents() {
   const { headings } = useHeadings();
   const { scrollPosition, scrollPercentage } = useScroll();
+  const { height } = useWindowSize();
   const [activeId, setActiveId] = React.useState("");
   useIntersectionObserver(setActiveId);
+
+  React.useEffect(() => {
+    console.log(height);
+  }, [height]);
 
   return (
     <div className="fixed left-4 flex h-1/2 w-72">
       <ProgressPrimitive.Root
-        className={`relative hidden h-full w-1 overflow-hidden rounded-full bg-accent opacity-0 transition-opacity lg:block ${
+        className={`relative hidden h-full w-1 overflow-hidden rounded-full bg-accent opacity-0 transition-opacity ${
           scrollPosition > 300 && "lg:opacity-100"
-        }`}
+        } ${height > 2000 && "lg:block"}`}
       >
         <ProgressPrimitive.Indicator
           className="h-full w-full flex-1 bg-accent-foreground transition-all duration-75"
