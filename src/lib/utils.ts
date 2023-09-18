@@ -97,7 +97,9 @@ export async function getPostsFrontmatter() {
 
   // sort post frontmatter
   const byPublishingDate = (a: FrontmatterWithSlug, b: FrontmatterWithSlug) =>
-    a.published < b.published ? -1 : 1;
+    moment(a.published, "MM-DD-YYYY") < moment(b.published, "MM-DD-YYYY")
+      ? 1
+      : -1;
   const sortedTeachingPostFrontmatter =
     teachingPostFrontmatter.sort(byPublishingDate);
   const sortedProjectPostFrontmatter =
@@ -150,7 +152,7 @@ export function renderShortDate(date: string) {
 }
 
 export function renderMediumDate(date: string) {
-  return moment(date, "MM-DD-YYYY").format("MMMM YY");
+  return moment(date, "MM-DD-YYYY").format("MMMM YYYY");
 }
 
 export function renderLongDate(date: string) {
