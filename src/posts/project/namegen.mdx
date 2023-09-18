@@ -6,16 +6,16 @@ published: 07-01-2022
 lastEdited: 07-01-2022
 ---
 
-**Namegen** is a full-stack summer project of mine. The core product is a \*trained recurrent network model for natural language generation, written
-from scratch in PyTorch. The model generates novel names for people, companies or whatever you want to name by having learned from a large corpus of
-names from around the world.
+**Namegen** is a web application to generate novel names for people, companies or whatever you want to name. At the core of a project is a custom trained character-level recurrent neural network model for natural language generation, written from scratch in PyTorch. The model was trained on a large corpus of names from around the world. One of the core features is that the name generation can be conditioned on gender, origin, name length and a selection of starting letters to make it easier to find the perfect name for your needs.
+I built Namegen as a fun summer project within a couple of days to deepen my knowledge of recurrent cells. The code does not use Pytorch's built-in recurrent module but implements the forward pass of the RNN cell from scratch.
 
-I built a full-stack web application around the machine learning model including a backend structure for user authentication (using server-side
-session cookies) to store liked names in a PostgreSQL database.
+> Notice: As of November 2022 Heroku disabled its free-tiers. I decided to discontinue the hosting of the webapp and backend. However, you can still browse through the source code for the frontend and backend (including the training, evaluaton and deployment of the RNN Pytroch model)
+> on [GitHub](https://www.github.com/namegen).
 
-_However, as of November 2022 my hosting service Heroku does not offer free tiers, so the backend (and therefore the app's functionality) is
-unavailable_
+<br />
 
-You can still browse through the source code for the frontend and backend (including the training, evaluaton and deployment of the RNN Pytroch model)
-on [GitHub](https://www.github.com/namegen) and you are also welcome to check out the _broken_ webapp at
-[https://www.namegen.de](https://www.namegen.de).
+<Image
+  src="/assets/namegen-webapp.jpeg"
+  alt="The Namegen webapp"
+  caption="The Namegen webapp"
+/>
