@@ -11,10 +11,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
 import { PostFrontmatterContext } from "@/lib/context";
 import { FrontmatterWithSlug, GroupedFrontmatterWithSlug } from "@/lib/types";
-import { getCourseInformation } from "@/lib/utils";
 import { renderShortDate } from "@/lib/utils";
 
 function TeachingBox({

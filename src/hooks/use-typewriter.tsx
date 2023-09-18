@@ -1,14 +1,5 @@
 import * as React from "react";
 
-import { clear } from "console";
-import next from "next";
-
-enum Phase {
-  Typing,
-  Pausing,
-  Deleting,
-}
-
 const randomInInterval = (min: number, max: number) =>
   Math.floor(Math.random() * (min - max + 1)) + min;
 
@@ -54,6 +45,14 @@ export function useTypewriter({
 
   return { message: typed };
 }
+
+/* eslint-disable */
+enum Phase {
+  Typing,
+  Pausing,
+  Deleting,
+}
+/* eslint-enable */
 
 export function useTypewriters({
   messages,

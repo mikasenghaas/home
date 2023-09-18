@@ -1,5 +1,3 @@
-import { ResolvingMetadata } from "next";
-
 import Post, {
   generateMetadataHelper,
   generateStaticParamsHelper,
@@ -18,7 +16,5 @@ export default async function ProjectPost({
 
 export const dynamicParams = false;
 export const generateStaticParams = () => generateStaticParamsHelper("project");
-export const generateMetadata = (
-  { params }: Props,
-  parent: ResolvingMetadata,
-) => generateMetadataHelper("project", params.slug);
+export const generateMetadata = ({ params }: Props) =>
+  generateMetadataHelper("project", params.slug);

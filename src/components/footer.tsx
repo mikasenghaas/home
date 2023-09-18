@@ -2,7 +2,6 @@
 
 import { Github, Instagram, Linkedin, Music } from "lucide-react";
 import moment from "moment";
-import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,8 +14,6 @@ import { TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Tooltip } from "@/components/ui/tooltip";
 
 export function Footer() {
-  const router = useRouter();
-
   return (
     <div className="mb-12 mt-16 w-full ">
       <hr />

@@ -14,7 +14,7 @@ import {
 import { capitalize } from "@/lib/utils";
 
 export function ThemeToggle() {
-  const { theme, resolvedTheme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   const opposite = React.useCallback((theme: string | undefined) => {
     switch (theme) {

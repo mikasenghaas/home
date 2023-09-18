@@ -1,6 +1,3 @@
-import { Metadata } from "next";
-
-import { About } from "@/components/section/about";
 import { Featured } from "@/components/section/featured";
 import { Hero } from "@/components/section/hero";
 import { Project } from "@/components/section/projects";

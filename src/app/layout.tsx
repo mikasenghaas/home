@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { cx } from "class-variance-authority";
-import type { Metadata } from "next";
 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";

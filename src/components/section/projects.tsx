@@ -10,7 +10,7 @@ import Link from "next/link";
 import { Section } from "@/components/section";
 import { Button } from "@/components/ui/button";
 import { PostFrontmatterContext } from "@/lib/context";
-import { FrontmatterWithSlug, GroupedFrontmatterWithSlug } from "@/lib/types";
+import { FrontmatterWithSlug } from "@/lib/types";
 import { renderMediumDate } from "@/lib/utils";
 
 function ProjectBox({
@@ -59,7 +59,7 @@ export function Project() {
   const [slice, setSlice] = React.useState(3);
 
   React.useEffect(() => {
-    function updateSlice(ev: UIEvent) {
+    function updateSlice() {
       const width = window.innerWidth;
       if (width < 640) {
         setSlice(4);
