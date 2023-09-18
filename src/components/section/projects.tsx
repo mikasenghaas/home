@@ -33,8 +33,8 @@ function ProjectBox({
           className="relative overflow-hidden rounded-lg transition-all group-hover:shadow-glow group-hover:shadow-accent-foreground group-hover:outline group-hover:outline-1 group-hover:outline-accent-foreground group-active:scale-95"
         >
           <Image
-            src={`/assets/${postFrontmatter.slug}.jpeg`}
-            alt="test"
+            src={`/img/${postFrontmatter.slug}.jpeg`}
+            alt={`Title Image for ${postFrontmatter.title}`}
             fill={true}
             sizes="(max-width: 640px) 50vw, 33vw"
             className="object-cover transition-transform group-hover:scale-105"

@@ -28,7 +28,6 @@
           "type": "image/png"
        }
     ],
-    "theme_color": "#FFFFFF",
-    "background_color": "#FFFFFF",
-    "display": "standalone"
+    "theme_color": "#16181d",
+    "background_color": "#16181d",
  }

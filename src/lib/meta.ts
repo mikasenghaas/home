@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     url: "https://mikasenghaas.de",
     images: [
       {
-        url: "/banner.jpeg",
+        url: "/img/og.jpeg",
         width: 1200,
         height: 630,
         alt: "Mika Senghaas Avatar",
@@ -69,6 +69,6 @@ export const metadata: Metadata = {
     title: "Mika Senghaas",
     description: "Master's student in Data Science at EPFL",
     creator: "@mikasenghaas",
-    images: ["/banner.jpeg"],
+    images: ["/img/og.jpeg"],
   },
 };
