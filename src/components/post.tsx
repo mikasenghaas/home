@@ -9,6 +9,7 @@ import rehypeSlug from "rehype-slug";
 import remarkMath from "remark-math";
 
 import MDXRemoteWrapper from "@/components/mdx-remote-wrapper";
+import { MDXImage } from "@/components/mdx/image";
 import { Badge } from "@/components/ui/badge";
 import type { Frontmatter } from "@/lib/types";
 import {
@@ -26,6 +27,8 @@ interface PostProps {
   slug: string;
   type?: PostTypes;
 }
+
+const components = { Image: MDXImage };
 
 const options = {
   theme: {
@@ -61,10 +64,10 @@ export default async function Post({ slug, type }: PostProps) {
           {readingTime(content).text}
         </Badge>
       </div>
-      <p className="mb-8 text-base sm:text-lg">
+      <p className="sm:text-md mb-8 text-sm">
         Last Updated {renderLongDate(frontmatter.lastEdited)}
       </p>
-      <MDXRemoteWrapper {...serializedContent} />
+      <MDXRemoteWrapper {...serializedContent} components={components} />
     </>
   );
 }

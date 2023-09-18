@@ -12,9 +12,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
-import { PostContext } from "@/lib/context";
-import { getCourseInformation } from "@/lib/meta";
+import { PostFrontmatterContext } from "@/lib/context";
 import { FrontmatterWithSlug, GroupedFrontmatterWithSlug } from "@/lib/types";
+import { getCourseInformation } from "@/lib/utils";
 import { renderShortDate } from "@/lib/utils";
 
 function TeachingBox({
@@ -40,7 +40,7 @@ function TeachingBox({
 }
 
 export function Teaching() {
-  const posts = useContext(PostContext);
+  const posts = useContext(PostFrontmatterContext);
   if (!posts) return;
 
   const teachingPosts = posts["teaching"];

@@ -5,7 +5,7 @@ import path from "path";
 import { twMerge } from "tailwind-merge";
 import yaml from "yaml";
 
-import { Frontmatter } from "./types";
+import { Frontmatter, FrontmatterWithSlug } from "./types";
 
 // shadcn ui
 export function cn(...inputs: ClassValue[]) {
@@ -73,8 +73,84 @@ export function shuffle(arr: any[]) {
   return arr.sort(() => Math.random() - 0.5);
 }
 
+export async function getPostsFrontmatter() {
+  // get post names
+  const teachingPosts = await readDir(getPostDir("teaching"));
+  const projectPosts = await readDir(getPostDir("project"));
+
+  // get post slugs
+  const getSlug = (fileName: string) => fileName.split(".").at(0) || "";
+  const teachingPostSlugs = teachingPosts.map(getSlug);
+  const projectPostSlugs = projectPosts.map(getSlug);
+
+  // get post frontmatter
+  const getFrontmatterFromSlug = (type: string) => async (slug: string) => {
+    const frontmatter = await getFrontmatter(getPostPath(slug, type));
+    return { slug, ...frontmatter };
+  };
+  const teachingPostFrontmatter = await Promise.all(
+    teachingPostSlugs.map(getFrontmatterFromSlug("teaching")),
+  );
+  const projectPostsFrontmatter = await Promise.all(
+    projectPostSlugs.map(getFrontmatterFromSlug("project")),
+  );
+
+  // sort post frontmatter
+  const byPublishingDate = (a: FrontmatterWithSlug, b: FrontmatterWithSlug) =>
+    a.published < b.published ? -1 : 1;
+  const sortedTeachingPostFrontmatter =
+    teachingPostFrontmatter.sort(byPublishingDate);
+  const sortedProjectPostFrontmatter =
+    projectPostsFrontmatter.sort(byPublishingDate);
+
+  const posts = {
+    teaching: sortedTeachingPostFrontmatter,
+    project: sortedProjectPostFrontmatter,
+  };
+
+  return posts;
+}
+
+export function getCourseInformation(course: string) {
+  switch (course) {
+    case "Algorithms & Data Structures":
+      return {
+        title: "Algorithms & Data Structures",
+        university: "IT University of Copenhagen",
+      };
+      break;
+    case "Linear Algebra & Optimisation":
+      return {
+        title: "Linear Algebra & Optimisation",
+        university: "IT University of Copenhagen",
+      };
+      break;
+    case "Applied Statistics":
+      return {
+        title: "Applied Statistics",
+        university: "IT University of Copenhagen",
+      };
+      break;
+    case "Machine Learning":
+      return {
+        title: "Machine Learning",
+        university: "IT University of Copenhagen",
+      };
+      break;
+    default:
+      return {
+        title: "Unknown Course",
+        university: "Unknown University",
+      };
+  }
+}
+
 export function renderShortDate(date: string) {
   return moment(date, "MM-DD-YYYY").format("MMM YY");
+}
+
+export function renderMediumDate(date: string) {
+  return moment(date, "MM-DD-YYYY").format("MMMM YY");
 }
 
 export function renderLongDate(date: string) {

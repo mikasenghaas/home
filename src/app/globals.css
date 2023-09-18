@@ -97,6 +97,10 @@
     @apply font-medium text-foreground;
   }
 
+  blockquote {
+    @apply my-2 border-l-4 border-accent-foreground bg-muted pl-4;
+  }
+
   hr {
     @apply my-3 mt-2;
   }
@@ -218,5 +222,10 @@
 
   code[data-line-numbers-max-digits="3"] > [data-line]::before {
     width: 3rem;
+  }
+
+  /* post styling */
+  #post img {
+    @apply rounded-lg;
   }
 }

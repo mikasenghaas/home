@@ -9,9 +9,9 @@ import Link from "next/link";
 
 import { Section } from "@/components/section";
 import { Button } from "@/components/ui/button";
-import { PostContext } from "@/lib/context";
+import { PostFrontmatterContext } from "@/lib/context";
 import { FrontmatterWithSlug, GroupedFrontmatterWithSlug } from "@/lib/types";
-import { renderShortDate } from "@/lib/utils";
+import { renderMediumDate } from "@/lib/utils";
 
 function ProjectBox({
   postFrontmatter,
@@ -45,7 +45,7 @@ function ProjectBox({
             {postFrontmatter.title}
           </h3>
           <p className="text-sm text-muted-foreground">
-            {renderShortDate(postFrontmatter.published)}
+            {renderMediumDate(postFrontmatter.published)}
           </p>
         </div>
       </div>
@@ -54,7 +54,7 @@ function ProjectBox({
 }
 
 export function Project() {
-  const posts = useContext(PostContext);
+  const posts = useContext(PostFrontmatterContext);
   const [collapsed, setCollapsed] = React.useState(true);
   const [slice, setSlice] = React.useState(3);
 

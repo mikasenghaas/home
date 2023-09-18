@@ -3,8 +3,6 @@
 import * as React from "react";
 
 import {
-  Calculator,
-  Calendar,
   Command,
   Smile,
   Home,
@@ -17,7 +15,6 @@ import {
   Music,
 } from "lucide-react";
 import { useTheme } from "next-themes";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -36,15 +33,14 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
-import { PostContext } from "@/lib/context";
-import { Frontmatter, FrontmatterWithSlug } from "@/lib/types";
+import { PostFrontmatterContext } from "@/lib/context";
 import { capitalize, renderShortDate } from "@/lib/utils";
 
 export function Menu() {
   const [open, setOpen] = React.useState(false);
   const { resolvedTheme, setTheme } = useTheme();
   const router = useRouter();
-  const posts = React.useContext(PostContext);
+  const posts = React.useContext(PostFrontmatterContext);
 
   function opposite(theme: string | undefined) {
     switch (theme) {

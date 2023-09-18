@@ -4,19 +4,19 @@ import * as React from "react";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { PostContext } from "@/lib/context";
+import { PostFrontmatterContext } from "@/lib/context";
 import { FrontmatterWithSlug } from "@/lib/types";
 
 export default function Provider({
-  posts,
+  postsFrontmatter,
   children,
 }: {
-  posts: Record<string, FrontmatterWithSlug[]>;
+  postsFrontmatter: Record<string, FrontmatterWithSlug[]>;
   children: React.ReactNode;
 }) {
   return (
     <>
-      <PostContext.Provider value={posts}>
+      <PostFrontmatterContext.Provider value={postsFrontmatter}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -25,7 +25,7 @@ export default function Provider({
         >
           <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
         </ThemeProvider>
-      </PostContext.Provider>
+      </PostFrontmatterContext.Provider>
     </>
   );
 }
