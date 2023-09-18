@@ -32,7 +32,7 @@ export function Footer() {
                   </Button>
                 </TooltipTrigger>
               </DropdownMenuTrigger>
-              <TooltipContent>Reach out</TooltipContent>
+              <TooltipContent>Give me a ping</TooltipContent>
               <DropdownMenuContent>
                 <DropdownMenuItem
                   onSelect={() =>

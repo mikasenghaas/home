@@ -55,7 +55,7 @@ export default async function Post({ slug, type }: PostProps) {
 
   return (
     <>
-      <h1 className="py-8 text-5xl sm:text-6xl 2xl:text-7xl">
+      <h1 className="m-0 py-8 text-5xl sm:text-6xl 2xl:text-7xl">
         {frontmatter.title}
       </h1>
       <div className="flex items-center space-x-2">
