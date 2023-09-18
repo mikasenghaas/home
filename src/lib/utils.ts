@@ -1,12 +1,9 @@
 import { type ClassValue, clsx } from "clsx";
 import fs from "fs";
-import { compileMDX } from "next-mdx-remote/rsc";
+import moment from "moment";
 import path from "path";
-import rehypeKatex from "rehype-katex";
-import rehypePrettyCode from "rehype-pretty-code";
-import rehypeSlug from "rehype-slug";
-import remarkMath from "remark-math";
 import { twMerge } from "tailwind-merge";
+import yaml from "yaml";
 
 import { Frontmatter } from "./types";
 
@@ -50,19 +47,9 @@ export function readFile(filePath: string) {
 
 export async function getFrontmatter(filePath: string) {
   const content = await readFile(filePath);
-  const { frontmatter } = await compileMDX<Frontmatter>({
-    source: content,
-    options: {
-      mdxOptions: {
-        remarkPlugins: [remarkMath],
-        /* @ts-ignore, TODO: rehypeHighlight type mismatch */
-        rehypePlugins: [rehypeKatex, [rehypePrettyCode], rehypeSlug],
-        format: "mdx",
-      },
-      parseFrontmatter: true,
-    },
-  });
-  return frontmatter;
+  const frontmatter = content.match(/---(.|\n)*?---/)?.[0].slice(3, -3);
+
+  return yaml.parse(frontmatter as string) as Frontmatter;
 }
 
 export function readDir(filePath: string) {
@@ -76,4 +63,20 @@ export function readDir(filePath: string) {
 
 export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function choice(arr: any[]) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+export function shuffle(arr: any[]) {
+  return arr.sort(() => Math.random() - 0.5);
+}
+
+export function renderShortDate(date: string) {
+  return moment(date, "MM-DD-YYYY").format("MMM YY");
+}
+
+export function renderLongDate(date: string) {
+  return moment(date, "MM-DD-YYYY").format("Do MMMM YYYY");
 }

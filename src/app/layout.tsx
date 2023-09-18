@@ -40,7 +40,7 @@ export default async function RootLayout({
 
   // sort post frontmatter
   const byPublishingDate = (a: FrontmatterWithSlug, b: FrontmatterWithSlug) =>
-    a.published < b.published ? 1 : -1;
+    a.published < b.published ? -1 : 1;
   const sortedTeachingPostFrontmatter =
     teachingPostFrontmatter.sort(byPublishingDate);
   const sortedProjectPostFrontmatter =
@@ -52,12 +52,12 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={cx("flex w-full justify-center")}>
         <Provider posts={posts}>
           <div className="container flex min-h-screen flex-col">
             <Header />
-            <div className="mt-60 flex-1">{children}</div>
+            <div className="mt-40 flex-1 sm:mt-60">{children}</div>
             <Footer />
           </div>
         </Provider>
@@ -70,10 +70,7 @@ export const metadata: Metadata = {
   title: "Mika Senghaas",
   description: "Master's student in Data Science at EPFL",
   metadataBase: new URL("https://www.mikasenghaas.de"),
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#16181d" },
-    { media: "(prefers-color-scheme: dark)", color: "#f9fafb" },
-  ],
+  themeColor: "#16181d",
   manifest: "/manifest.json",
   robots: {
     index: true,

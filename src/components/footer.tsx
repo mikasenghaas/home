@@ -1,6 +1,7 @@
 "use client";
 
-import { Github, Instagram, Linkedin } from "lucide-react";
+import { Github, Instagram, Linkedin, Music } from "lucide-react";
+import moment from "moment";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -19,8 +20,8 @@ export function Footer() {
   return (
     <div className="mb-12 mt-16 w-full ">
       <hr />
-      <div className="flex items-center justify-between">
-        <p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <span className="text-sm sm:text-base">
           Reach me{" "}
           <Tooltip>
             <DropdownMenu>
@@ -60,12 +61,23 @@ export function Footer() {
                   <Instagram className="mr-2 h-4 w-4" />
                   <span>Instagram</span>
                 </DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={() =>
+                    window.open(
+                      "https://open.spotify.com/user/1atznoygdksoddgocmbl4buli?si=17e9e23d34ab4aad",
+                      "_blank",
+                    )
+                  }
+                >
+                  <Music className="mr-2 h-4 w-4" />
+                  <span>Spotify</span>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </Tooltip>
-        </p>
-        <p className="text-sm text-muted-foreground">
-          &copy; Mika Senghaas {new Date().getFullYear()}
+        </span>
+        <p className="text-xs text-muted-foreground sm:text-sm">
+          &copy; Mika Senghaas {moment().format("YYYY")}
         </p>
       </div>
     </div>

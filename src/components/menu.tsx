@@ -13,6 +13,8 @@ import {
   Moon,
   Github,
   Linkedin,
+  Instagram,
+  Music,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -36,7 +38,7 @@ import {
 } from "@/components/ui/tooltip";
 import { PostContext } from "@/lib/context";
 import { Frontmatter, FrontmatterWithSlug } from "@/lib/types";
-import { capitalize } from "@/lib/utils";
+import { capitalize, renderShortDate } from "@/lib/utils";
 
 export function Menu() {
   const [open, setOpen] = React.useState(false);
@@ -126,30 +128,22 @@ export function Menu() {
               <Linkedin className="mr-2 h-4 w-4" />
               <span>LinkedIn</span>
             </CommandItem>
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading="Teaching">
-            {posts!["teaching"].map((postFrontmatter) => {
-              return (
-                <CommandItem
-                  key={`teaching-${postFrontmatter.title}`}
-                  onSelect={() => navigate(`/teaching/${postFrontmatter.slug}`)}
-                >
-                  <Paperclip className="mr-2 h-4 w-4" />
-                  <span className="mr-2 flex-1 truncate">
-                    {postFrontmatter.title}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    {new Date(
-                      postFrontmatter.published.replace(/-/g, "/"),
-                    ).toLocaleString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                    })}
-                  </span>
-                </CommandItem>
-              );
-            })}
+            <CommandItem
+              onSelect={() => window.open("https://instagram.com/mikasenghaas")}
+            >
+              <Instagram className="mr-2 h-4 w-4" />
+              <span>Instagram</span>
+            </CommandItem>
+            <CommandItem
+              onSelect={() =>
+                window.open(
+                  "https://open.spotify.com/user/1atznoygdksoddgocmbl4buli?si=17e9e23d34ab4aad",
+                )
+              }
+            >
+              <Music className="mr-2 h-4 w-4" />
+              <span>Spotify</span>
+            </CommandItem>
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Projects">
@@ -164,12 +158,26 @@ export function Menu() {
                     {postFrontmatter.title}
                   </span>
                   <span className="text-xs text-muted-foreground">
-                    {new Date(
-                      postFrontmatter.published.replace(/-/g, "/"),
-                    ).toLocaleString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                    })}
+                    {renderShortDate(postFrontmatter.published)}
+                  </span>
+                </CommandItem>
+              );
+            })}
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Teaching">
+            {posts!["teaching"].map((postFrontmatter) => {
+              return (
+                <CommandItem
+                  key={`teaching-${postFrontmatter.title}`}
+                  onSelect={() => navigate(`/teaching/${postFrontmatter.slug}`)}
+                >
+                  <Paperclip className="mr-2 h-4 w-4" />
+                  <span className="mr-2 flex-1 truncate">
+                    {postFrontmatter.title}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {renderShortDate(postFrontmatter.published)}
                   </span>
                 </CommandItem>
               );

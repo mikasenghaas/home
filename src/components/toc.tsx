@@ -14,10 +14,6 @@ export function TableOfContents() {
   const [activeId, setActiveId] = React.useState("");
   useIntersectionObserver(setActiveId);
 
-  React.useEffect(() => {
-    console.log(activeId);
-  }, [activeId]);
-
   return (
     <div className="fixed left-4 flex h-1/2 w-72">
       <ProgressPrimitive.Root

@@ -13,7 +13,6 @@ export default function Home() {
       <Featured />
       <Project />
       <Teaching />
-      <About />
     </>
   );
 }

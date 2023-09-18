@@ -5,23 +5,15 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 
-import { Skeleton } from "@/components/ui/skeleton";
-
 export function Avatar() {
-  const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted)
-    return <Skeleton className="h-[100px] w-[100px] rounded-full" />;
 
   return (
     <Image
-      src={`/mikasenghaas-${resolvedTheme}.jpeg`}
-      alt="profile-picture"
+      src={`/mikasenghaas-${
+        resolvedTheme !== "system" && resolvedTheme ? resolvedTheme : "dark"
+      }.jpeg`}
+      alt="Mika Senghaas Avatar"
       style={{
         objectFit: "cover",
         borderRadius: "50px",
@@ -29,7 +21,6 @@ export function Avatar() {
       width={100}
       height={100}
       quality={50}
-      priority
     />
   );
 }

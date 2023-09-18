@@ -17,6 +17,7 @@ import {
   getPostDir,
   getPostPath,
   getFrontmatter,
+  renderLongDate,
 } from "@/lib/utils";
 
 type PostTypes = "teaching" | "project";
@@ -51,26 +52,17 @@ export default async function Post({ slug, type }: PostProps) {
 
   return (
     <>
-      <h1 className="py-8 text-4xl xl:text-5xl 2xl:text-6xl">
-        {frontmatter.title}
-      </h1>
+      <h1 className="py-8 text-5xl sm:text-6xl">{frontmatter.title}</h1>
       <div className="flex items-center space-x-2">
-        <p className="text-lg font-medium text-foreground">
-          {new Date(frontmatter.published.replace(/-/g, "/")).toLocaleString(
-            "en-US",
-            { year: "numeric", month: "long", day: "numeric" },
-          )}
+        <p className="text-base font-medium text-foreground sm:text-lg">
+          {renderLongDate(frontmatter.published)}
         </p>
         <Badge className="select-none bg-accent text-xs text-accent-foreground transition-none">
           {readingTime(content).text}
         </Badge>
       </div>
-      <p className="mb-8">
-        Last Updated{" "}
-        {new Date(frontmatter.published.replace(/-/g, "/")).toLocaleString(
-          "en-US",
-          { year: "numeric", month: "long", day: "numeric" },
-        )}
+      <p className="mb-8 text-base sm:text-lg">
+        Last Updated {renderLongDate(frontmatter.lastEdited)}
       </p>
       <MDXRemoteWrapper {...serializedContent} />
     </>
@@ -103,8 +95,6 @@ export async function generateMetadataHelper(
   return {
     title: title,
     description: description,
-    keywords: frontmatter.tags,
-    referrer: "origin-when-cross-origin",
     authors: [{ name: "Mika Senghaas" }],
     formatDetection: {
       email: false,

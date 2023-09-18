@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext } from "react";
-import React from "react";
+import * as React from "react";
 
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import Image from "next/image";
@@ -11,6 +11,7 @@ import { Section } from "@/components/section";
 import { Button } from "@/components/ui/button";
 import { PostContext } from "@/lib/context";
 import { FrontmatterWithSlug, GroupedFrontmatterWithSlug } from "@/lib/types";
+import { renderShortDate } from "@/lib/utils";
 
 function ProjectBox({
   postFrontmatter,
@@ -27,18 +28,24 @@ function ProjectBox({
       }`}
     >
       <div className="cursor-pointer ">
-        <AspectRatio ratio={1 / 1} className="relative rounded-t-lg">
-          <Image src="/openai1.jpeg" alt="test" fill={true} objectFit="cover" />
+        <AspectRatio
+          ratio={1}
+          className="relative overflow-hidden rounded-lg transition-all group-hover:shadow-glow group-hover:shadow-accent-foreground group-hover:outline group-hover:outline-1 group-hover:outline-accent-foreground group-active:scale-95"
+        >
+          <Image
+            src={`/assets/${postFrontmatter.slug}.jpeg`}
+            alt="test"
+            fill={true}
+            sizes="(max-width: 640px) 50vw, 33vw"
+            className="object-cover transition-transform group-hover:scale-105"
+          />
         </AspectRatio>
         <div className="py-2">
-          <h3 className="m-0 truncate text-lg tracking-wide text-foreground transition-all group-hover:underline">
+          <h3 className="m-0 truncate text-lg tracking-wide text-foreground decoration-accent-foreground transition-all group-hover:underline">
             {postFrontmatter.title}
           </h3>
           <p className="text-sm text-muted-foreground">
-            {new Date(postFrontmatter.published).toLocaleString("en-US", {
-              year: "numeric",
-              month: "long",
-            })}
+            {renderShortDate(postFrontmatter.published)}
           </p>
         </div>
       </div>
@@ -49,6 +56,24 @@ function ProjectBox({
 export function Project() {
   const posts = useContext(PostContext);
   const [collapsed, setCollapsed] = React.useState(true);
+  const [slice, setSlice] = React.useState(3);
+
+  React.useEffect(() => {
+    function updateSlice(ev: UIEvent) {
+      const width = window.innerWidth;
+      if (width < 640) {
+        setSlice(4);
+      } else {
+        setSlice(3);
+      }
+    }
+
+    window.addEventListener("resize", updateSlice);
+    return () => {
+      window.removeEventListener("resize", updateSlice);
+    };
+  }, []);
+
   if (!posts) return;
 
   const projectPostsFrontmatter = posts["project"];
@@ -56,15 +81,15 @@ export function Project() {
   return (
     <Section>
       <h2 className="m-0">Recent Projects</h2>
-      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {projectPostsFrontmatter.slice(0, 3).map((postFrontmatter) => (
+      <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
+        {projectPostsFrontmatter.slice(0, slice).map((postFrontmatter) => (
           <ProjectBox
             key={postFrontmatter.slug}
             postFrontmatter={postFrontmatter}
             show={true}
           />
         ))}
-        {projectPostsFrontmatter.slice(3).map((postFrontmatter) => (
+        {projectPostsFrontmatter.slice(slice).map((postFrontmatter) => (
           <ProjectBox
             key={postFrontmatter.slug}
             postFrontmatter={postFrontmatter}

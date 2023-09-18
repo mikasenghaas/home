@@ -12,15 +12,14 @@ module.exports = {
       center: true,
       padding: "1.5rem",
       screens: {
-        md: "700px",
-        lg: "700px",
-        xl: "700px",
-        "2xl": "900px",
+        md: "900px",
+        lg: "900px",
+        xl: "900px",
       },
     },
     extend: {
       screens: {
-        xl: "1480px",
+        "2xl": "2000px",
         // => @media (min-width: 992px) { ... }
       },
       colors: {
@@ -72,10 +71,16 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        wiggle: {
+          "0%, 100%": { transform: "rotate(0deg)" },
+          "50%": { transform: "rotate(10deg)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        // run animation twice
+        wiggle: "wiggle 0.5s ease-in-out 3",
       },
       boxShadow: {
         glow: "0 0 15px 0.5px var(--accent)",
@@ -83,5 +88,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/line-clamp")],
 };
