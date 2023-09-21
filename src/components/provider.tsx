@@ -2,6 +2,8 @@
 
 import * as React from "react";
 
+import { Analytics } from "@vercel/analytics/react";
+
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { PostFrontmatterContext } from "@/lib/context";
@@ -23,7 +25,10 @@ export default function Provider({
           enableSystem
           disableTransitionOnChange
         >
-          <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
+          <TooltipProvider delayDuration={0}>
+            {children}
+            <Analytics />
+          </TooltipProvider>
         </ThemeProvider>
       </PostFrontmatterContext.Provider>
     </>
