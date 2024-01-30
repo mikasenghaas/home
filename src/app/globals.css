@@ -150,7 +150,7 @@
   /* box styles */
   pre,
   code {
-    @apply my-4 rounded-lg p-3;
+    @apply my-4 rounded-lg;
   }
 
   code {
@@ -163,7 +163,7 @@
   }
 
   pre code {
-    @apply m-0 bg-transparent text-base 2xl:text-lg;
+    @apply m-0 px-2 py-4 bg-transparent text-base 2xl:text-lg;
   }
 
   /* rehype-prettier-code */
@@ -171,18 +171,18 @@
     @apply my-4;
   }
 
-  html.dark pre[data-theme="light"],
-  html.dark code[data-theme="light"],
-  html.dark div[data-rehype-pretty-code-title][data-theme="light"],
-  html.dark div[data-rehype-pretty-code-caption][data-theme="light"] {
-    @apply hidden;
+  code[data-theme*=" "],
+  code[data-theme*=" "] span {
+    color: var(--shiki-light);
+    background-color: var(--shiki-light-bg);
   }
-
-  html.light pre[data-theme="dark"],
-  html.light code[data-theme="dark"],
-  html.light div[data-rehype-pretty-code-title][data-theme="dark"],
-  html.light div[data-rehype-pretty-code-caption][data-theme="dark"] {
-    @apply hidden;
+  
+  @media (prefers-color-scheme: dark) {
+    code[data-theme*=" "],
+    code[data-theme*=" "] span {
+      color: var(--shiki-dark);
+      background-color: var(--shiki-dark-bg);
+    }
   }
 
   /* highlight line */

@@ -1,10 +1,13 @@
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
+
+export const viewport: Viewport = {
+  themeColor: "#16181d",
+}
 
 export const metadata: Metadata = {
   title: "Mika Senghaas",
   description: "Master's student in Data Science at EPFL",
   metadataBase: new URL("https://www.mikasenghaas.de"),
-  themeColor: "#16181d",
   manifest: "/manifest.json",
   icons: [
     {

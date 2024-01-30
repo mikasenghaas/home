@@ -45,7 +45,7 @@ export default async function Post({ slug, type }: PostProps) {
   >(content, {
     mdxOptions: {
       remarkPlugins: [remarkMath],
-      /* @ts-ignore, TODO: rehypeHighlight type mismatch */
+      /* @ts-ignore */
       rehypePlugins: [rehypeKatex, [rehypePrettyCode, options], rehypeSlug],
       format: "mdx",
     },
@@ -92,8 +92,7 @@ export async function generateMetadataHelper(
   const title = `${frontmatter.title} | Mika Senghaas`;
   const description =
     frontmatter.description ||
-    `${
-      type === "project" ? "A project" : "Teaching material"
+    `${type === "project" ? "A project" : "Teaching material"
     } by Mika Senghaas`;
   const published = new Date(frontmatter.published).toISOString();
 
