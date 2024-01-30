@@ -10,14 +10,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Tooltip } from "@/components/ui/tooltip";
 
 export function Footer() {
   return (
     <div className="mb-12 mt-16 w-full 2xl:mt-24">
       <hr />
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justifCannot read properties of undefined (reading 'mathFlowInside')ckay-between">
         <span className="text-sm text-muted-foreground sm:text-base 2xl:text-xl">
           Reach me{" "}
           <DropdownMenu>
