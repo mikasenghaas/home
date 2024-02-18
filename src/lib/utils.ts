@@ -77,11 +77,13 @@ export async function getPostsFrontmatter() {
   // get post names
   const teachingPosts = await readDir(getPostDir("teaching"));
   const projectPosts = await readDir(getPostDir("project"));
+  const workPosts = await readDir(getPostDir("work"));
 
   // get post slugs
   const getSlug = (fileName: string) => fileName.split(".").at(0) || "";
   const teachingPostSlugs = teachingPosts.map(getSlug);
   const projectPostSlugs = projectPosts.map(getSlug);
+  const workPostSlugs = workPosts.map(getSlug);
 
   // get post frontmatter
   const getFrontmatterFromSlug = (type: string) => async (slug: string) => {
@@ -94,6 +96,9 @@ export async function getPostsFrontmatter() {
   const projectPostsFrontmatter = await Promise.all(
     projectPostSlugs.map(getFrontmatterFromSlug("project")),
   );
+  const workPostsFrontmatter = await Promise.all(
+    workPostSlugs.map(getFrontmatterFromSlug("work")),
+  );
 
   // sort post frontmatter
   const byPublishingDate = (a: FrontmatterWithSlug, b: FrontmatterWithSlug) =>
@@ -104,10 +109,12 @@ export async function getPostsFrontmatter() {
     teachingPostFrontmatter.sort(byPublishingDate);
   const sortedProjectPostFrontmatter =
     projectPostsFrontmatter.sort(byPublishingDate);
+  const sortedWorkPostFrontmatter = workPostsFrontmatter.sort(byPublishingDate);
 
   const posts = {
     teaching: sortedTeachingPostFrontmatter,
     project: sortedProjectPostFrontmatter,
+    work: sortedWorkPostFrontmatter,
   };
 
   return posts;
@@ -120,25 +127,21 @@ export function getCourseInformation(course: string) {
         title: "Algorithms & Data Structures",
         university: "IT University of Copenhagen",
       };
-      break;
     case "Linear Algebra & Optimisation":
       return {
         title: "Linear Algebra & Optimisation",
         university: "IT University of Copenhagen",
       };
-      break;
     case "Applied Statistics":
       return {
         title: "Applied Statistics",
         university: "IT University of Copenhagen",
       };
-      break;
     case "Machine Learning":
       return {
         title: "Machine Learning",
         university: "IT University of Copenhagen",
       };
-      break;
     default:
       return {
         title: "Unknown Course",

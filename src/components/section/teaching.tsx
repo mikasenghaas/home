@@ -57,7 +57,7 @@ export function Teaching() {
 
   return (
     <Section className="mb-20">
-      <h2 className="m-0 mb-8">Teaching Material</h2>
+      <h2 className="m-0 mb-8">Selected Lecture Notes</h2>
       {Object.keys(groupedTeachingPosts).map((course) => {
         return (
           <Accordion key={course} type="single" collapsible>

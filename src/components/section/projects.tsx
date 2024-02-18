@@ -62,7 +62,7 @@ export function Project() {
     function updateSlice() {
       const width = window.innerWidth;
       if (width < 640) {
-        setSlice(4);
+        setSlice(2);
       } else {
         setSlice(3);
       }
@@ -80,7 +80,7 @@ export function Project() {
 
   return (
     <Section>
-      <h2 className="m-0">Recent Projects</h2>
+      <h2 className="m-0">Projects & Initiatives</h2>
       <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
         {projectPostsFrontmatter.slice(0, slice).map((postFrontmatter) => (
           <ProjectBox

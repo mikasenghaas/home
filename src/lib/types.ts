@@ -7,6 +7,8 @@ export type Frontmatter = {
   title: string;
   description?: string;
   course?: Course;
+  links?: Link[];
+  authors?: Author[];
   tags: string[];
   published: string;
   lastEdited: string;
@@ -17,6 +19,17 @@ export type FrontmatterWithSlug = Frontmatter & {
 };
 
 export type GroupedFrontmatterWithSlug = Record<string, FrontmatterWithSlug[]>;
+
+export type Link = {
+  title: string;
+  href: string;
+};
+
+export type Author = {
+  firstName: string;
+  lastName: string;
+  href?: string;
+};
 
 export type Heading = {
   id: string;
