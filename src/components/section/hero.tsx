@@ -44,7 +44,9 @@ function HeroText() {
         Hi <span className="inline-block animate-wiggle"> 👋🏻</span>, I&apos;m
         Mika.
       </strong>{" "}
-      <span>I am a master student in computer and data science at </span>
+      <span>
+        I am a master student and research assistant in data science at{" "}
+      </span>
       <Tooltip>
         <TooltipTrigger asChild>
           <a href="https://epfl.ch" target="_blank">
