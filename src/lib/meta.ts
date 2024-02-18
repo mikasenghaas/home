@@ -2,7 +2,7 @@ import { Metadata, Viewport } from "next";
 
 export const viewport: Viewport = {
   themeColor: "#16181d",
-}
+};
 
 export const metadata: Metadata = {
   title: "Mika Senghaas",
