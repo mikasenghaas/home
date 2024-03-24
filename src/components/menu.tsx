@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import {
+  File,
   Command,
   Home,
   Paperclip,
@@ -100,6 +101,10 @@ export function Menu() {
               <Home className="mr-2 h-4 w-4" />
               <span>Back Home</span>
             </CommandItem>
+            <CommandItem onSelect={() => navigate("cv.pdf")}>
+              <File className="mr-2 h-4 w-4" />
+              <span>Check out my CV</span>
+            </CommandItem>
             <CommandItem onSelect={() => toggleTheme()}>
               <Sun className="mr-2 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0" />
               <Moon className="absolute mr-2 h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
@@ -109,6 +114,7 @@ export function Menu() {
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Socials">
+            {" "}
             <CommandItem
               onSelect={() => window.open("https://github.com/mikasenghaas")}
             >
