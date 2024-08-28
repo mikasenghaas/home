@@ -151,13 +151,13 @@ export function getCourseInformation(course: string) {
 }
 
 export function renderShortDate(date: string) {
-  return moment(date, "MM-DD-YYYY").format("MMM YY");
+  return moment(date, "YYYY-MM-DD").format("MMM YY");
 }
 
 export function renderMediumDate(date: string) {
-  return moment(date, "MM-DD-YYYY").format("MMMM YYYY");
+  return moment(date, "YYYY-MM-DD").format("MMMM YYYY");
 }
 
 export function renderLongDate(date: string) {
-  return moment(date, "MM-DD-YYYY").format("Do MMMM YYYY");
+  return moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
 }
