@@ -12,6 +12,7 @@ export type Frontmatter = {
   tags: string[];
   published: string;
   lastEdited: string;
+  publish?: boolean;
 };
 
 export type FrontmatterWithSlug = Frontmatter & {

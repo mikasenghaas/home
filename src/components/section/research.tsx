@@ -73,7 +73,7 @@ function LinkList({ links }: { links: Link[] | undefined }) {
   );
 }
 
-function WorkItem({
+function ResearchItem({
   postFrontmatter,
 }: {
   postFrontmatter: FrontmatterWithSlug;
@@ -87,7 +87,7 @@ function WorkItem({
   );
 }
 
-function YearlyWorkItems({
+function YearlyResearchItems({
   year,
   posts,
 }: {
@@ -99,24 +99,25 @@ function YearlyWorkItems({
       <p className="mb-4 mt-14 text-sm">{year}</p>
       <div className="flex flex-col space-y-8 2xl:space-y-12">
         {posts.map((post) => (
-          <WorkItem key={post.slug} postFrontmatter={post} />
+          <ResearchItem key={post.slug} postFrontmatter={post} />
         ))}
       </div>
     </div>
   );
 }
 
-export function Work() {
+export function Research() {
   const posts = useContext(PostFrontmatterContext);
 
   if (!posts) return;
 
-  const workPostsFrontmatter = posts["work"];
+  const researchPostsFrontmatter = posts["research"];
 
   // compute map of work posts by year
-  let workPostsFrontmatterByYear = workPostsFrontmatter.reduce(
+  let researchPostsFrontmatterByYear = researchPostsFrontmatter.reduce(
     (acc, postFrontmatter) => {
       const year = new Date(postFrontmatter.published).getFullYear();
+      if (!postFrontmatter.publish) return acc;
       if (!acc[year]) {
         acc[year] = [];
       }
@@ -127,18 +128,18 @@ export function Work() {
   );
 
   // years in descending order
-  let years = Object.keys(workPostsFrontmatterByYear).sort((a, b) => {
+  let years = Object.keys(researchPostsFrontmatterByYear).sort((a, b) => {
     return parseInt(b) - parseInt(a);
   });
 
   return (
     <Section>
-      <h2 className="m-0">Work & Publications</h2>
+      <h2 className="m-0">Research</h2>
       {years.map((year) => (
-        <YearlyWorkItems
+        <YearlyResearchItems
           key={year}
           year={parseInt(year)}
-          posts={workPostsFrontmatterByYear[year]}
+          posts={researchPostsFrontmatterByYear[year]}
         />
       ))}
     </Section>
