@@ -166,8 +166,8 @@ export function Menu() {
             })}
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Teaching">
-            {posts!["teaching"].map((postFrontmatter) => {
+          <CommandGroup heading="TLDR">
+            {posts!["tldr"].map((postFrontmatter) => {
               return (
                 <CommandItem
                   key={`teaching-${postFrontmatter.title}`}

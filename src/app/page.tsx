@@ -3,6 +3,7 @@ import { Hero } from "@/components/section/hero";
 import { Project } from "@/components/section/projects";
 import { Teaching } from "@/components/section/teaching";
 import { Research } from "@/components/section/research";
+import { TLDR } from "@/components/section/tldr";
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
       <Featured />
       <Research />
       <Project />
-      <Teaching />
+      <TLDR />
     </>
   );
 }
