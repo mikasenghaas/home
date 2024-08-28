@@ -9,9 +9,11 @@ export type Frontmatter = {
   course?: Course;
   links?: Link[];
   authors?: Author[];
+  organisation?: string;
   tags: string[];
   published: string;
   lastEdited: string;
+  released?: string;
   publish?: boolean;
 };
 

@@ -75,49 +75,39 @@ export function shuffle(arr: any[]) {
 
 export async function getPostsFrontmatter() {
   // get post names
-  const teachingPosts = await readDir(getPostDir("teaching"));
-  const projectPosts = await readDir(getPostDir("project"));
-  const researchPosts = await readDir(getPostDir("research"));
+  // Get all subdirectories of src/posts
+  const postTypes = await readDir(getPostDir());
 
-  // get post slugs
-  const getSlug = (fileName: string) => fileName.split(".").at(0) || "";
-  const teachingPostSlugs = teachingPosts.map(getSlug);
-  const projectPostSlugs = projectPosts.map(getSlug);
-  const researchPostSlugs = researchPosts.map(getSlug);
+  // Function to process each post type
+  const processPostType = async (type: string) => {
+    const posts = await readDir(getPostDir(type));
+    const getSlug = (fileName: string) => fileName.split(".").at(0) || "";
+    const postSlugs = posts.map(getSlug);
 
-  // get post frontmatter
-  const getFrontmatterFromSlug = (type: string) => async (slug: string) => {
-    const frontmatter = await getFrontmatter(getPostPath(slug, type));
-    return { slug, ...frontmatter };
-  };
-  const teachingPostFrontmatter = await Promise.all(
-    teachingPostSlugs.map(getFrontmatterFromSlug("teaching")),
-  );
-  const projectPostsFrontmatter = await Promise.all(
-    projectPostSlugs.map(getFrontmatterFromSlug("project")),
-  );
-  const researchPostsFrontmatter = await Promise.all(
-    researchPostSlugs.map(getFrontmatterFromSlug("research")),
-  );
+    const getFrontmatterFromSlug = async (slug: string) => {
+      const frontmatter = await getFrontmatter(getPostPath(slug, type));
+      return { slug, ...frontmatter };
+    };
 
-  // sort post frontmatter
-  const byPublishingDate = (a: FrontmatterWithSlug, b: FrontmatterWithSlug) =>
-    moment(a.published, "YYYY-MM-DD") < moment(b.published, "YYYY-MM-DD")
-      ? 1
-      : -1;
-  const sortedTeachingPostFrontmatter =
-    teachingPostFrontmatter.sort(byPublishingDate);
-  const sortedProjectPostFrontmatter =
-    projectPostsFrontmatter.sort(byPublishingDate);
-  const sortedResearchPostFrontmatter = researchPostsFrontmatter.sort(byPublishingDate);
+    const postFrontmatter = await Promise.all(
+      postSlugs.map(getFrontmatterFromSlug)
+    );
 
-  const posts = {
-    teaching: sortedTeachingPostFrontmatter,
-    project: sortedProjectPostFrontmatter,
-    research: sortedResearchPostFrontmatter,
+    const byPublishingDate = (a: FrontmatterWithSlug, b: FrontmatterWithSlug) =>
+      moment(a.published, "YYYY-MM-DD") < moment(b.published, "YYYY-MM-DD")
+        ? 1
+        : -1;
+
+    return postFrontmatter.sort(byPublishingDate);
   };
 
-  return posts;
+  // Process all post types
+  const posts = await Promise.all(
+    postTypes.map(async (type) => [type, await processPostType(type)])
+  );
+
+  // Convert the array of [type, posts] to an object
+  return Object.fromEntries(posts);
 }
 
 export function getCourseInformation(course: string) {
