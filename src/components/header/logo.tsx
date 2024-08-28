@@ -1,12 +1,12 @@
-"use client";
+"use client"
 
 import Link from "next/link";
-
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
+
 
 export function Logo() {
   return (

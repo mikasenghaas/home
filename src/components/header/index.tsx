@@ -1,9 +1,9 @@
 "use client";
 
-import { Logo } from "@/components/logo";
-import { Menu } from "@/components/menu";
-import { ThemeToggle } from "@/components/theme-toggle";
 import useScroll from "@/hooks/use-scroll";
+import { Logo } from "@/components/header/logo";
+import { Menu } from "@/components/header/menu";
+import { ThemeToggle } from "@/components/header/theme-toggle"
 
 export function Header() {
   const { scrollPosition } = useScroll();
