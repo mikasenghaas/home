@@ -14,20 +14,18 @@ import { cn } from "@/lib/utils";
 
 function Title({ title, slug }: { title: string; slug: string }) {
   return (
-    <Link href={`/tldr/${slug}`} className="text-base sm:text-lg font-light hover:underline">
-        <h3 className="m-0">{title}</h3>
-    </Link>
+    <Link href={`/tldr/${slug}`}><h3 className="m-0">{title}</h3></Link>
   );
 }
 
 export function Organisation({ organisation, className }: { organisation: string | undefined, className?: string }) {
   if (!organisation) return null;
-  return <span className={cn("text-accent-foreground text-base sm:text-lg font-light", className)}>{organisation}</span>;
+  return <span className={cn("text-accent-foreground text-lg font-light", className)}>{organisation}</span>;
 }
 
 export function Released({ released, className }: { released: string | undefined, className?: string }) {
     if (!released) return null;
-    return <p className={cn("text-muted-foreground text-base sm:text-lg font-light", className)}>({new Date(released).getFullYear()})</p>;
+    return <p className={cn("text-muted-foreground text-lg font-light", className)}>({new Date(released).getFullYear()})</p>;
 }
 
 function ResearchItem({

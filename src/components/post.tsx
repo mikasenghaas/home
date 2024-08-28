@@ -43,7 +43,7 @@ function TLDRHeader({ frontmatter }: { frontmatter: Frontmatter }) {
         {frontmatter.title}
       </h1>
       <div className="flex items-center space-x-2 mb-8 mt-2">
-        <Organisation organisation={frontmatter.organisation}/>
+        <Organisation organisation={frontmatter.organisation} className="truncate"/>
         <span className="mx-1 text-muted-foreground">•</span>
         <AuthorList authors={frontmatter.authors} />
         <Released released={frontmatter.released} />

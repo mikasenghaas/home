@@ -1,0 +1,41 @@
+---
+title: DiLoCo - Distributed Low-Communication Training for Language Models
+organisation: Google Deepmind
+authors:
+  - firstName: Arthur
+    lastName: Douillard
+  - firstName: Qixuan
+    lastName: Feng
+  - firstName: Andrei A.
+    lastName: Rusu
+links:
+  - title: arXiv
+    href: http://arxiv.org/abs/2311.08105
+released: 2024-11-14
+published: 2024-08-24
+lastEdited: 2024-08-24
+publish: true
+---
+
+<List>
+  <ListItem>
+  Google Deepmind paper on how to train large-scale Transformers in a distributed setting, i.e. on GPUs all over the world with low bandwidth
+  </ListItem>
+  <ListItem>
+  Proposes a variant of [FedAvg](https://arxiv.org/abs/1602.05629), called **DiLoCo**, which distributes data shards on $k$ local workers, each holding a local copy of the model, training for $H$ inner steps using AdamW and then communicating their model state to a global model which is updated every $H$ steps for $T$ steps using Nesterov optimiser
+  </ListItem>
+  <ListItem>
+	- DiLoCo reaches the same performance as the synchronous baseline while spending less clock-time (uses compute in parallel) and communicates less than full data parallelism
+	- DiLoCo is robust to the data distribution, i.e. performance is stable for an i.i.d random data partition and a non-i.i.d partition based on sharding data based on clustering of samples
+	- DiLoCo easily scales to many workers, but there are diminishing returns for the generalisation improvements for $k \gt 8$ workers
+	- DiLoCo works for various model sizes as performance improves monotonically when increasing the number of parameters from 60M to 150M to 400M
+	- No outer-decay of learning rate necessary as inner learning is decayed and therefore the averaged gradient norms are already decaying and don't have to be decayed more
+	- DiLoCo can adapt to varying compute resources available over the course of training (e.g. double/ halve compute during training, or step-wise increase/ decrease compute) - the final performance is only a function of the overall compute available during the entire training
+	- DiLoCo's performance only reduces marginally if clients fail to communicate their gradient updates (final perplexity is ~2% higher, but training is less stable and more spikey)
+	- Interestingly, the DiLoCo framework of inner and outer optimisation (originally designed with $k>1$ workers in mind) was shown to also accelerate the training on a single worker
+  </ListItem>
+  <ListItem>
+	- Assumes that workers are homogenous (i.e. complete async setting where the fastest worker has to wait for the slowest is fine when the speed is similar, but is inefficient if it is not)
+	- Is not optimal in terms of FLOP and data efficiency (is only quicker because of increased parallelism)
+  </ListItem>
+</List>

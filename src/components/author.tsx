@@ -36,28 +36,28 @@ export function AuthorList({ authors, short }: { authors: Author[] | undefined, 
   if (short) {
     return (
       <>
-      <Author
-        author={authors[0]}
-        includeFirstName={false}
-        className="text-base font-light text-muted-foreground sm:text-lg"
-      />
-      <span className="text-muted-foreground"> et. al</span>
+        <Author
+          author={authors[0]}
+          includeFirstName={false}
+          className="text-base font-light text-muted-foreground sm:text-lg"
+        />
+        <span className="font-light text-muted-foreground sm:text-lg">et al.</span>
       </>
     );
   }
   return (
-    <div className="flex flex-wrap items-center overflow-auto text-muted-foreground">
-        {authors.map((author, index) => (
-          <React.Fragment key={`${author.firstName}_${author.lastName}`}>
-            <Author
-              author={author}
-              includeFirstName={true}
-              className="text-base font-light text-muted-foreground sm:text-lg"
-            />
-            {index < authors.length - 1 && <span>,</span>}
-            {index < authors.length - 1 && <span>&nbsp;</span>}
-          </React.Fragment>
-        ))}
+    <div className="flex items-center text-muted-foreground truncate">
+      {authors.map((author, index) => (
+        <React.Fragment key={`${author.firstName}_${author.lastName}`}>
+          <Author
+            author={author}
+            includeFirstName={true}
+            className="text-base font-light text-muted-foreground sm:text-lg"
+          />
+          {index < authors.length - 1 && <span>,</span>}
+          {index < authors.length - 1 && <span>&nbsp;</span>}
+        </React.Fragment>
+      ))}
     </div>
   );
 }
