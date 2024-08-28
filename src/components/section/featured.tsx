@@ -1,39 +1,33 @@
-import { Aperture } from "lucide-react";
 import Link from "next/link";
 
 import { Frosted } from "@/components/frosted";
 import { Section } from "@/components/section";
-import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 
 export function Featured() {
   return (
-    <Section className="mt-6">
-      <Frosted className="flex h-[450px] flex-col space-y-4 sm:h-[350px] sm:flex-row sm:space-x-4 sm:space-y-0 2xl:h-[500px] 2xl:space-x-6">
-        <Aperture className="h-8 w-8 sm:h-12 sm:w-12 2xl:h-16 2xl:w-16" />
-        <div className="flex flex-1 flex-col justify-between">
-          <div>
-            <p className="mb-2 text-xs font-semibold text-accent-foreground 2xl:text-base">
-              Featured
+    <Section className="mt-12">
+      <Frosted className="flex flex-col sm:flex-row gap-4 p-6">
+        <div className="flex-1">
+          <p className="text-sm text-accent-foreground">Featured</p>
+          <Link href="/project/addiscoder">
+            <h2 className="text-2xl sm:text-3xl mt-2">I spent my summer in Addis Ababa, Ethiopia 🇪🇹</h2>
+          </Link>
+          <p className="mt-2 text-lg leading-snug 2xl:mt-6 2xl:text-2xl">
+              I was part of the amazing team that ran <span
+              className="text-white">AddisCoder 2024</span>. Read more about my
+              journey of a month in Ethiopia, where we taught the country&apos;s
+              most talented high schoolers write their first lines of code in Week 1
+              and solve complex dynamic programming problems in Week 4.
             </p>
-            <Link href="/project/bsc">
-              <h2 className="m-0 text-2xl sm:text-4xl 2xl:text-5xl">
-                Navigating Indoors With Computer Vision: Using Deep Learning for
-                Room-Level Indoor Localisation
-              </h2>
-            </Link>
-            <p className="mt-2 line-clamp-3 text-lg leading-tight 2xl:mt-6 2xl:text-2xl">
-              In my bachelor thesis I investigated whether state-of-the-art deep
-              learning architectures for image and video classification (CNNs,
-              CRNNs, Transformers) can accuractely predict <i>where</i> a human
-              is located in an indoor environment given only information from
-              the camera feed.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-end gap-1">
-            <Badge className="text-xs 2xl:text-base">Thesis</Badge>
-            <Badge className="text-xs 2xl:text-base">Computer Vision</Badge>
-            <Badge className="text-xs 2xl:text-base">Deep Learning</Badge>
-          </div>
+        </div>
+        <div className="flex-1 relative aspect-video">
+          <Image
+            src="/img/addiscoder1.jpeg"
+            alt="AddisCoder"
+            className="object-cover rounded-lg"
+            fill
+          />
         </div>
       </Frosted>
     </Section>
