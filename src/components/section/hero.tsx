@@ -13,16 +13,17 @@ import { shuffle } from "@/lib/utils";
 
 const facts = [
   "I love my morning coffee ritual.",
+  "currently I enjoy reading decentralised AI papers.",
   ...shuffle([
-    "AI research fascinates me.",
     "I ran the CPH Marathon 2023.",
+    "I am fascinated by nature-inspired algorithms for AI.",
     "I listen to UK hip-hop 74% of the time.",
-    "I like cheffing it up from time to time.",
-    "I dream about opening a café.",
-    "I like getting out of my comfort zone.",
+    "one day I will open a café.",
+    "I like escaping comfort.",
     "I am curious by nature.",
     "I used to play football for FCSP.",
     "you can find me in the mountains on Sundays.",
+    "I love learning.",
   ]),
 ];
 
