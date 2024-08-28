@@ -43,7 +43,7 @@ export function Frosted({ children, className, ...props }: FrostedProps) {
     <div
       ref={ref}
       className={cn(
-        "relative rounded-xl border p-6 before:pointer-events-none before:absolute before:left-0 before:top-0 before:-z-50 before:h-full before:w-full before:rounded-xl before:bg-[radial-gradient(circle_at_var(--x,_0px)_var(--y,_0px),hsl(var(--accent-foreground)),_transparent)] before:opacity-30",
+        "relative rounded-xl border p-8 before:pointer-events-none before:absolute before:left-0 before:top-0 before:-z-50 before:h-full before:w-full before:rounded-xl before:bg-[radial-gradient(circle_at_var(--x,_0px)_var(--y,_0px),hsl(var(--accent-foreground)),_transparent)] before:opacity-20",
         className,
       )}
       {...props}
