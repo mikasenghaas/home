@@ -15,7 +15,7 @@ export function Featured() {
           </Link>
           <p className="mt-2 text-lg leading-snug 2xl:mt-6 2xl:text-2xl">
               I was part of the amazing team that ran <span
-              className="text-white">AddisCoder 2024</span>. Read more about my
+              className="text-foreground">AddisCoder 2024</span>. Read more about my
               journey of a month in Ethiopia, where we taught the country&apos;s
               most talented high schoolers write their first lines of code in Week 1
               and solve complex dynamic programming problems in Week 4.
