@@ -80,8 +80,8 @@ export function TLDR() {
         <h2 className="mt-0">TLDR 📮</h2>
         <p className="mt-4 mb-8 leading-snug">
             I enjoy reading academic papers and well-written technical blog posts.
-            I try to frequently read papers and capture the key ideas and takeaways
-            in a five concise bullet points. I collect them here.
+            I capture the key ideas and takeaways in five concise bullet points,
+            and collect them here.
         </p>
         <ResearchItems posts={posts["tldr"]} />
       </Frosted>

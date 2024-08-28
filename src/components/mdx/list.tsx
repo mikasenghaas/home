@@ -29,10 +29,7 @@ type MDXListItemProps = {
 
 export function MDXListItem(props: MDXListItemProps) {
   return (
-    <li className="relative bg-popover my-4 p-4 pl-8 rounded-lg list-none mx-0">
-      {props.number && (
-        <span className="absolute top-2 left-2 text-sm font-bold text-accent-foreground">{props.number}</span>
-      )}
+    <li className="relative bg-popover my-4 p-4 rounded-lg list-none mx-0">
       {props.children}
     </li>
   );
