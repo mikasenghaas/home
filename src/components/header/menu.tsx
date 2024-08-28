@@ -179,8 +179,8 @@ export function Menu() {
             {posts!["tldr"].map((postFrontmatter) => {
               return (
                 <CommandItem
-                  key={`teaching-${postFrontmatter.title}`}
-                  onSelect={() => navigate(`/teaching/${postFrontmatter.slug}`)}
+                  key={`tldr-${postFrontmatter.title}`}
+                  onSelect={() => navigate(`/tldr/${postFrontmatter.slug}`)}
                 >
                   <Paperclip className="mr-2 h-4 w-4" />
                   <span className="mr-2 flex-1 truncate">
