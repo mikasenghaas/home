@@ -7,7 +7,7 @@ import Image from "next/image";
 export function Featured() {
   return (
     <Section className="mt-12">
-      <Frosted className="flex flex-col sm:flex-row gap-4">
+      <Frosted className="flex flex-col sm:flex-row gap-8 p-4 sm:p-8">
         <div className="flex-1">
           <p className="text-sm text-accent-foreground">Featured</p>
           <Link href="/project/addiscoder">

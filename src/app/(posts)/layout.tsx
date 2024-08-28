@@ -15,7 +15,7 @@ export default function PostLayout({ children }: PostLayoutProps) {
   return (
     <>
       <TableOfContents />
-      <div id="post" className="px-4 lg:px-[4rem]">
+      <div id="post" className="lg:px-[4rem]">
         <Tooltip>
           <TooltipTrigger asChild>
             <Link href="/">Home</Link>

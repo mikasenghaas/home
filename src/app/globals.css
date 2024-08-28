@@ -85,7 +85,7 @@
 
   /* container */
   .container {
-    @apply mx-auto w-full self-center p-6 md:w-[900px] 2xl:w-[1280px];
+    @apply mx-auto w-full self-center p-5 md:w-[900px] 2xl:w-[1280px];
   }
 
   /* texts */
