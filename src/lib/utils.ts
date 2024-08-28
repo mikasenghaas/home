@@ -102,7 +102,7 @@ export async function getPostsFrontmatter() {
 
   // sort post frontmatter
   const byPublishingDate = (a: FrontmatterWithSlug, b: FrontmatterWithSlug) =>
-    moment(a.published, "MM-DD-YYYY") < moment(b.published, "MM-DD-YYYY")
+    moment(a.published, "YYYY-MM-DD") < moment(b.published, "YYYY-MM-DD")
       ? 1
       : -1;
   const sortedTeachingPostFrontmatter =
