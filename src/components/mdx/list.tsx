@@ -14,7 +14,7 @@ export function MDXList(props: MDXListProps) {
     <ul>
       {React.Children.map(childrenArray, (child, index) => {
         if (React.isValidElement(child) && child.type === MDXListItem) {
-          return React.cloneElement(child, {number: index+1});
+          return React.cloneElement(child, { number: index + 1 } as Partial<MDXListItemProps>);
         }
         return child;
       })}
