@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Instagram, Linkedin, Music } from "lucide-react";
+import { Github, Instagram, Linkedin, Music, Twitter } from "lucide-react";
 import moment from "moment";
 
 import { Button } from "@/components/ui/button";
@@ -43,6 +43,14 @@ export function Footer() {
               >
                 <Linkedin className="mr-2 h-4 w-4" />
                 <span>LinkedIn</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={() =>
+                  window.open("https://x.com/mikasenghaas")
+                }
+              >
+                <Twitter className="mr-2 h-4 w-4" />
+                <span>Twitter</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onSelect={() =>

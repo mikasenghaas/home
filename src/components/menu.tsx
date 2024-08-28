@@ -13,6 +13,7 @@ import {
   Linkedin,
   Instagram,
   Music,
+  Twitter,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
@@ -128,6 +129,14 @@ export function Menu() {
             >
               <Linkedin className="mr-2 h-4 w-4" />
               <span>LinkedIn</span>
+            </CommandItem>
+            <CommandItem
+              onSelect={() =>
+                window.open("https://x.com/mikasenghaas")
+              }
+            >
+              <Twitter className="mr-2 h-4 w-4" />
+              <span>Twitter</span>
             </CommandItem>
             <CommandItem
               onSelect={() => window.open("https://instagram.com/mikasenghaas")}
