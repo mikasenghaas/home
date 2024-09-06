@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import Image from "next/image";
 import {
   File,
   Command,
@@ -12,7 +13,6 @@ import {
   Github,
   Linkedin,
   Instagram,
-  Music,
   Twitter,
 } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -146,13 +146,19 @@ export function Menu() {
             </CommandItem>
             <CommandItem
               onSelect={() =>
-                window.open(
-                  "https://open.spotify.com/user/1atznoygdksoddgocmbl4buli?si=17e9e23d34ab4aad",
-                )
+                window.open("https://open.spotify.com/user/1atznoygdksoddgocmbl4buli?si=17e9e23d34ab4aad",)
               }
             >
-              <Music className="mr-2 h-4 w-4" />
+              <Image src="/svg/spotify.svg" alt="Strava logo" height={16} width={16} className="ml-0.5 mr-2 dark:invert" />
               <span>Spotify</span>
+            </CommandItem>
+            <CommandItem
+              onSelect={() =>
+                window.open("https://www.strava.com/athletes/113531314")
+              }
+            >
+              <Image src="/svg/strava.svg" alt="Strava logo" height={16} width={16} className="ml-0.5 mr-2 dark:invert" />
+              <span>Strava</span>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />

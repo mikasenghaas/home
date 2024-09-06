@@ -1,6 +1,7 @@
 "use client";
 
-import { Github, Instagram, Linkedin, Music, Twitter } from "lucide-react";
+import Image from "next/image";
+import { Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import moment from "moment";
 
 import { Button } from "@/components/ui/button";
@@ -68,8 +69,19 @@ export function Footer() {
                   )
                 }
               >
-                <Music className="mr-2 h-4 w-4" />
+                <Image src="/svg/spotify.svg" alt="Strava logo" height={16} width={16} className="mr-2 dark:invert" />
                 <span>Spotify</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={() =>
+                  window.open(
+                    "https://www.strava.com/athletes/113531314",
+                    "_blank",
+                  )
+                }
+              >
+                <Image src="/svg/strava.svg" alt="Strava logo" height={16} width={16} className="mr-2 dark:invert" />
+                <span>Strava</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
