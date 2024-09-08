@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import moment from "moment";
+import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -46,9 +46,7 @@ export function Footer() {
                 <span>LinkedIn</span>
               </DropdownMenuItem>
               <DropdownMenuItem
-                onSelect={() =>
-                  window.open("https://x.com/mikasenghaas")
-                }
+                onSelect={() => window.open("https://x.com/mikasenghaas")}
               >
                 <Twitter className="mr-2 h-4 w-4" />
                 <span>Twitter</span>
@@ -69,18 +67,30 @@ export function Footer() {
                   )
                 }
               >
-                <Image src="/svg/spotify.svg" alt="Strava logo" height={16} width={16} className="mr-2 dark:invert" />
+                <Image
+                  src="/svg/spotify.svg"
+                  alt="Strava logo"
+                  height={16}
+                  width={16}
+                  className="mr-2 dark:invert"
+                />
                 <span>Spotify</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onSelect={() =>
                   window.open(
-                    "https://www.strava.com/athletes/113531314",
+                    "https://www.strava.com/athletes/mikasenghaas",
                     "_blank",
                   )
                 }
               >
-                <Image src="/svg/strava.svg" alt="Strava logo" height={16} width={16} className="mr-2 dark:invert" />
+                <Image
+                  src="/svg/strava.svg"
+                  alt="Strava logo"
+                  height={16}
+                  width={16}
+                  className="mr-2 dark:invert"
+                />
                 <span>Strava</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
