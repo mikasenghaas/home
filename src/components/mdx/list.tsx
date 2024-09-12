@@ -24,12 +24,14 @@ export function MDXList(props: MDXListProps) {
 
 type MDXListItemProps = {
   children: React.ReactNode;
+  title?: string;
   number?: number;
 };
 
 export function MDXListItem(props: MDXListItemProps) {
   return (
-    <li className="relative bg-popover my-4 p-4 rounded-lg list-none mx-0">
+    <li className="flex flex-col space-y-2 bg-popover my-4 p-4 rounded-lg list-none mx-0">
+      <span className="text-sm text-accent-foreground">{props.title}</span>
       {props.children}
     </li>
   );
