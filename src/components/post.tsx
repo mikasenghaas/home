@@ -24,9 +24,9 @@ import {
 import { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { Organisation, Released} from "@/components/section/tldr";
 import { AuthorList } from "@/components/author";
-import { ArxivButton } from "./arxiv-button";
+import { ArxivButton, GenericButton } from "@/components/buttons";
 
-type PostTypes = "teaching" | "project" | "tldr";
+type PostTypes = "teaching" | "project" | "tldr" | "tswm";
 
 
 const options = {
@@ -36,7 +36,7 @@ const options = {
   },
 };
 
-function TLDRHeader({ frontmatter }: { frontmatter: Frontmatter }) {
+function PaperSummaryHeader({ frontmatter }: { frontmatter: Frontmatter }) {
   return (
     <>
       <h1 className="m-0 mt-12 text-4xl sm:text-5xl 2xl:text-6xl">
@@ -53,7 +53,15 @@ function TLDRHeader({ frontmatter }: { frontmatter: Frontmatter }) {
           <span className="font-medium text-foreground">{renderLongDate(frontmatter.published)}</span>
           <span className="text-muted-foreground">Last Updated {renderLongDate(frontmatter.lastEdited)}</span>
         </div>
-        <ArxivButton link={frontmatter.links?.at(0)} />
+        <div className="flex flex-row space-x-2 items-center">
+        {frontmatter.links?.map((link) => {
+          if (link.title === "arXiv") {
+            return <ArxivButton key={link.title} link={link} />
+          } else {
+            return <GenericButton key={link.title} link={link}/>
+          }
+        })}
+        </div>
       </div>
     </>
   )
@@ -81,8 +89,8 @@ function RegularHeader({ frontmatter, readingTime }: { frontmatter: Frontmatter,
 }
 
 function PostHeader({ frontmatter, readingTime, type }: { frontmatter: Frontmatter, readingTime: string, type: PostTypes }) {
-    if (type === "tldr") {
-      return <TLDRHeader frontmatter={frontmatter} />
+    if (type === "tldr" || type === "tswm") {
+      return <PaperSummaryHeader frontmatter={frontmatter} />
     } else {
       return <RegularHeader frontmatter={frontmatter} readingTime={readingTime} />
     }

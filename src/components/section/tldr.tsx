@@ -77,11 +77,13 @@ export function TLDR() {
   return (
     <Section>
       <Frosted className="before:opacity-10">
-        <h2 className="mt-0">TLDR 📮</h2>
+        <h2 className="mt-0">TL;DR 📮</h2>
         <p className="mt-4 mb-8 leading-snug">
-            I enjoy reading academic papers and well-written technical blog posts.
-            I capture the key ideas and takeaways in five concise bullet points,
-            and collect them here.
+            I enjoy reading academic papers and well-written technical blog
+            posts.  I capture the key ideas and takeaways in five concise bullet
+            points.  Sometimes, five is not enough - in that case, there is a
+            <i>Too Short; Want More</i> (TSWM) button to get a more detailed
+            summary.
         </p>
         <ResearchItems posts={posts["tldr"]} />
       </Frosted>

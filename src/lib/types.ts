@@ -26,6 +26,7 @@ export type GroupedFrontmatterWithSlug = Record<string, FrontmatterWithSlug[]>;
 export type Link = {
   title: string;
   href: string;
+  description?: string;
 };
 
 export type Author = {
