@@ -11,21 +11,24 @@ links:
     href: https://arxiv.org/abs/2403.13187
 released: 2024-03-19
 published: 2024-08-28
-lastEdited: 2024-08-28
+lastEdited: 2024-09-12
 publish: true
 ---
 
 <List>
-  <ListItem>
-  Sakana paper introducing automated model merging techniques in parameter space (PS) and data flow space (DFS) to evolve pre-trained finetuned models
+  <ListItem title="Introduction">
+  Introduces evolutionary optimisation of model merging recipes to evolve pre-trained finetuned models at low computational cost
   </ListItem>
-  <ListItem>
-  Unlocks new capabilities by merging of existing fine-tuned models with low computational cost
+  <ListItem title="Motivation">
+  Unlock new capabilities by simple merging of abundantly available fine-tuned models without gradient-based optimisation
   </ListItem>
-  <ListItem>
-  Extends common manual model merging techniques in parameter space (PS) and data flow space (DFS) by automating the search over combination possibilities through evolutionary algorithms
+  <ListItem title="Research Question">
+  Can classical model merging techniques be automated via evolutionary algorithms?
   </ListItem>
-  <ListItem>
-  Proof-of-concept by merging a general Japanese and math model into a single Japanese math model
+  <ListItem title="Methodology">
+  Defines a search space of model merging recipes in parameter space (PS) and data flow space (DFS) and applies evolutionary algorithms to search for optimal recipes
+  </ListItem>
+  <ListItem title="Results">
+  Merged general Japanese and math model surpasses parent models on Japenese math benchmarks
   </ListItem>
 </List>
