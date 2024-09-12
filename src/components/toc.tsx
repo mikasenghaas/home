@@ -16,12 +16,8 @@ export function TableOfContents() {
   const [activeId, setActiveId] = React.useState("");
   useIntersectionObserver(setActiveId);
 
-  React.useEffect(() => {
-    console.log(height);
-  }, [height]);
-
   return (
-    <div className="fixed left-4 flex h-1/2 w-72">
+    <div className="fixed left-4 flex h-1/2 w-72 pointer-events-none" style={{ zIndex: -1 }}>
       <ProgressPrimitive.Root
         className={`relative hidden h-full w-1 overflow-hidden rounded-full bg-accent opacity-0 transition-opacity ${
           scrollPosition > 300 && "lg:opacity-100"
@@ -40,7 +36,7 @@ export function TableOfContents() {
           scrollPosition > 600 && "xl:opacity-100"
         }`}
       >
-        <ul className="">
+        <ul className="pointer-events-auto">
           {headings.map((heading) => (
             <li key={heading.id} className="mb-4 list-none text-sm">
               <a
