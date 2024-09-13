@@ -1,0 +1,42 @@
+---
+title: SWARM Parallelism - Training Large Models Can Be Surprisingly Communication-Efficient
+organisation: HSE, UW, Yandex
+authors:
+  - firstName: Max
+    lastName: Ryabinin
+  - firstName: Tim
+    lastName: Dettmers
+  - firstName: Michael
+    lastName: Diskin
+  - firstName: Michael
+    lastName: Diskin
+  - firstName: Alexander
+    lastName: Borzunov
+links:
+  - title: arXiv
+    href: https://arxiv.org/abs/2301.11913
+released: 2023-01-27
+published: 2024-09-13
+lastEdited: 2024-09-13
+publish: true
+---
+
+<List>
+  <ListItem title="Introduction">
+  HSE paper devising an adaptive load-balancing strategy to enable pipeline parallelism for unreliable, heterogeneous workers connected over the Internet
+  </ListItem>
+  <ListItem title="Motivation">
+  Utilise ubiquitous heterogeneous computing resources for training large-scale foundation models, overcoming limitations of traditional data centre approaches
+  </ListItem>
+  <ListItem title="Problem">
+  Traditional pipeline parallelism suffers from bottlenecks due to the slowest worker and lack of robustness to worker failures, leading to inefficient resource utilisation
+  </ListItem>
+  <ListItem title="Methodology">
+  The SWARM framework partitions a set of workers into swarms, where each peer in a swarm handles the same subset of layers. There are two main components enabling robustness and efficiency:
+    1. **Stochastic wiring**: Dynamically routes requests between pipeline stages based on worker performance (e.g. higher throughput workers are assigned more requests)
+    2. **Adaptive swarm balancing**: Reallocates workers between stages to balance workload and handle failures/additions (e.g. move workers from underutilised to overutilised stages)
+  </ListItem>
+  <ListItem title="Results">
+  Experimental results show higher GPU utilisation and good convergence in heterogeneous, unreliable distributed setup
+  </ListItem>
+</List>
