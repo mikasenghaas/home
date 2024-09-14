@@ -82,7 +82,7 @@ export function TLDR() {
             I enjoy reading academic papers and well-written technical blog
             posts.  I capture the key ideas and takeaways in five concise bullet
             points.  Sometimes, five is not enough - in that case, there is a
-            <i>Too Short; Want More</i> (TSWM) button to get a more detailed
+            <i> Too Short; Want More</i> (TSWM) button to get a more detailed
             summary.
         </p>
         <ResearchItems posts={posts["tldr"]} />
