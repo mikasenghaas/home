@@ -1,0 +1,38 @@
+---
+title: Distributed Inference and Fine-tuning of Large Language Models Over The Internet
+organisation: HSE, UW, HuggingFace
+authors:
+  - firstName: Alexander
+    lastName: Borzunov
+  - firstName: Max
+    lastName: Ryabinin
+  - firstName: Artem 
+    lastName: Chumachenko
+links:
+  - title: Petals
+    href: https://github.com/bigscience-workshop/petals
+  - title: arXiv
+    href: https://arxiv.org/abs/2312.08361
+released: 2023-12-13
+published: 2024-09-14
+lastEdited: 2024-09-14
+publish: true
+---
+
+<List>
+  <ListItem title="Introduction">
+    Develops novel distributed algorithm for inferencing large-scale LLMs in a distributed, unreliable setting over the Internet
+  </ListItem>
+  <ListItem title="Motivation">
+    Auto-regressive decoding in LLMs requires significant computation time and redundant recalculations, making distributed inference challenging, especially in unreliable environments
+  </ListItem>
+  <ListItem title="Problem">
+    Existing methods for LLM inference do not account for geographically distributed and unreliable setups, leading to inefficient communication or computation redundancy in failure-prone systems for 
+  </ListItem>
+  <ListItem title="Methodology">
+    Introduces a new swarm-based algorithm, separating devices into **clients** and **servers**, using attention caches to reduce communication and computational requirements. It ensures fault-tolerance by caching activations on both client and server sides, enabling efficient recovery in case of failure.
+  </ListItem>
+  <ListItem title="Results">
+    Outperforms caching-with-restarts and cache-less inference strategies, achieving a balance between performance and fault tolerance across all tested environments, including LLaMA 2 (70B) and BLOOM (176B), with 10x higher throughput compared to parameter offloading
+  </ListItem>
+</List>
