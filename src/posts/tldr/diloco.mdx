@@ -1,0 +1,44 @@
+---
+title: DiLoCo - Distributed Low-Communication Training of Language Models
+organisation: Google DeepMind
+authors:
+  - firstName: Arthur 
+    lastName: Douillard
+  - firstName: Qixuan 
+    lastName: Feng
+  - firstName: Andrei A.
+    lastName:  Rusu
+links:
+  - title: arXiv
+    href: https://arxiv.org/abs/2311.08105
+released: 2023-11-24
+published: 2024-08-24
+lastEdited: 2024-09-19
+publish: true
+---
+
+<List>
+  <ListItem title="Introduction">
+    Google DeepMind paper introducing **DiLoCo**, a low-bandwidth data parallel training approach for decentralised learning, inspired by federated learning
+  </ListItem>
+  <ListItem title="Motivation">
+    Improve training efficiency in distributed data parallel training by reducing communication overhead
+  </ListItem>
+  <ListItem title="Problem">
+    Standard data parallel training requires frequent synchronisation of gradients across all workers, causing idle time for GPUs in low-bandwidth settings
+  </ListItem>
+  <ListItem title="Methodology">
+    DiLoCo proposes an inner-outer optimisation scheme, in which workers train for $H \sim 500$ steps on local data shards using AdamW before synchronising gradients using a global Nesterov optimiser.
+  </ListItem>
+  <ListItem title="Results">
+    The authors carefully analyse efficiency and performance of the algorithm:
+        1. **Performance**: DiLoCo matches synchronous baselines while reducing clock-time and communication
+        2. **Robustness**: It is robust to i.i.d and non-i.i.d data distributions, and adapts naturally to dynamic worker availability
+        3. **Efficiency**: It performs well even with missing updates, though stability may suffer.  
+  </ListItem>
+  <ListItem title="Limitations">
+    DiLoCo faces the same limitations as standard data parallel training:
+        1. **Scale**: DiLoCo does not naturally scale to huge models, as each worker has to hold a copy of the entire model
+        2. **Heterogeneity**: DiLoCo assumes homogeneous workers and communication
+  </ListItem>
+</List>
