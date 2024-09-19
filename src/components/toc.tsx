@@ -13,15 +13,18 @@ export function TableOfContents() {
   const { headings } = useHeadings();
   const { scrollPosition, scrollPercentage } = useScroll();
   const { height } = useWindowSize();
+  console.log(height);
   const [activeId, setActiveId] = React.useState("");
   useIntersectionObserver(setActiveId);
+
+  if (headings.length === 0 && height < 3000) return null;
 
   return (
     <div className="fixed left-4 flex h-1/2 w-72 pointer-events-none" style={{ zIndex: -1 }}>
       <ProgressPrimitive.Root
         className={`relative hidden h-full w-1 overflow-hidden rounded-full bg-accent opacity-0 transition-opacity ${
           scrollPosition > 300 && "lg:opacity-100"
-        } ${height > 2000 && "lg:block"}`}
+        } ${height > 3000 && "lg:block"}`}
       >
         <ProgressPrimitive.Indicator
           className="h-full w-full flex-1 bg-accent-foreground transition-all duration-75"
