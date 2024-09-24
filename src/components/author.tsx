@@ -46,13 +46,15 @@ export function AuthorList({ authors, short }: { authors: Author[] | undefined, 
     );
   }
   return (
-    <div className="flex items-center text-muted-foreground truncate">
+    <div className="flex flex-wrap items-center text-muted-foreground truncate">
       {authors.map((author, index) => (
         <React.Fragment key={`${author.firstName}_${author.lastName}`}>
           <Author
             author={author}
             includeFirstName={true}
-            className="text-base font-light text-muted-foreground sm:text-lg"
+            className={`text-base font-light text-muted-foreground sm:text-lg ${
+              author.firstName === 'Mika' && author.lastName === 'Senghaas' ? 'underline underline-offset-4 ' : ''
+            }`}
           />
           {index < authors.length - 1 && <span>,</span>}
           {index < authors.length - 1 && <span>&nbsp;</span>}

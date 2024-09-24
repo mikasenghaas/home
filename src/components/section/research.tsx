@@ -4,55 +4,10 @@ import { useContext } from "react";
 import * as React from "react";
 
 import { Section } from "@/components/section";
+import { AuthorList } from "@/components/author";
 import { PostFrontmatterContext } from "@/lib/context";
 import { FrontmatterWithSlug } from "@/lib/types";
-import type { Author, Link } from "@/lib/types";
-import { cn } from "@/lib/utils";
-
-function Author({ author, className }: { author: Author; className: string }) {
-  if (!author) return null;
-
-  if (author.href) {
-    return (
-      <a
-        href={author.href}
-        target="_blank"
-        className={cn(
-          "cursor-pointer text-nowrap after:content-[','] last:after:content-none",
-          className,
-        )}
-      >
-        {`${author.firstName.at(0)}. ${author.lastName}`}
-      </a>
-    );
-  } else {
-    return (
-      <span
-        className={cn(
-          "text-nowrap after:content-[','] last:after:content-none",
-          className,
-        )}
-      >
-        {`${author.firstName.at(0)}. ${author.lastName}`}
-      </span>
-    );
-  }
-}
-
-function AuthorList({ authors }: { authors: Author[] | undefined }) {
-  if (!authors) return null;
-  return (
-    <div className="flex flex-wrap items-center space-x-1 overflow-auto text-muted-foreground">
-      {authors.map((author) => (
-        <Author
-          key={`${author.firstName.toLowerCase()}_${author.lastName.toLowerCase()}`}
-          author={author}
-          className="text-base font-light text-muted-foreground sm:text-lg"
-        />
-      ))}
-    </div>
-  );
-}
+import type { Link } from "@/lib/types";
 
 function LinkList({ links }: { links: Link[] | undefined }) {
   if (!links) return null;
