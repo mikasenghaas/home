@@ -13,7 +13,6 @@ export function TableOfContents() {
   const { headings } = useHeadings();
   const { scrollPosition, scrollPercentage } = useScroll();
   const { height } = useWindowSize();
-  console.log(height);
   const [activeId, setActiveId] = React.useState("");
   useIntersectionObserver(setActiveId);
 
