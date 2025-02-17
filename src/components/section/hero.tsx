@@ -13,15 +13,13 @@ import { shuffle } from "@/lib/utils";
 
 const facts = [
   "I love my morning coffee ritual.",
-  "currently I enjoy reading decentralised AI papers.",
   ...shuffle([
-    "I ran the CPH Marathon 2023.",
+    "I was a TA in the AddisCoder 2024 program.",
+    "I train for the SF Marathon 2025.",
     "I am fascinated by nature-inspired algorithms for AI.",
     "I listen to UK hip-hop 74% of the time.",
     "one day I will open a café.",
-    "I like escaping comfort.",
-    "I am curious by nature.",
-    "I used to play football for FCSP.",
+    "I used to play football for St. Pauli.",
     "you can find me in the mountains on Sundays.",
     "I love learning.",
   ]),
@@ -45,9 +43,7 @@ function HeroText() {
         Hi <span className="inline-block animate-wiggle"> 👋🏻</span>, I&apos;m
         Mika.
       </strong>{" "}
-      <span>
-        I am a master student and research assistant in data science at{" "}
-      </span>
+      <span>I am a master student at{" "}</span>
       <Tooltip>
         <TooltipTrigger asChild>
           <a href="https://epfl.ch" target="_blank">
@@ -59,6 +55,11 @@ function HeroText() {
             École Polytechnique Fédérale de Lausanne
           </span>
         </TooltipContent>
+        <span> and research intern at{" "}
+          <a href="https://primeintellect.ai/" target="_blank">
+            Prime Intellect
+          </a>
+        </span>
       </Tooltip>
       <span>. {startMessage}</span>
       <span aria-label={selectedFact}>{fact}</span>
