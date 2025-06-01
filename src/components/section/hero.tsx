@@ -55,7 +55,7 @@ function HeroText() {
             École Polytechnique Fédérale de Lausanne
           </span>
         </TooltipContent>
-        <span> and research intern at{" "}
+        <span> and research engineer at{" "}
           <a href="https://primeintellect.ai/" target="_blank">
             Prime Intellect
           </a>
