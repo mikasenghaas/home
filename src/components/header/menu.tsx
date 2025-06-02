@@ -144,22 +144,6 @@ export function Menu() {
             </CommandItem>
             <CommandItem
               onSelect={() =>
-                window.open(
-                  "https://open.spotify.com/user/1atznoygdksoddgocmbl4buli?si=17e9e23d34ab4aad",
-                )
-              }
-            >
-              <Image
-                src="/svg/spotify.svg"
-                alt="Strava logo"
-                height={16}
-                width={16}
-                className="ml-0.5 mr-2 dark:invert"
-              />
-              <span>Spotify</span>
-            </CommandItem>
-            <CommandItem
-              onSelect={() =>
                 window.open("https://www.strava.com/athletes/mikasenghaas")
               }
             >

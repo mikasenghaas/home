@@ -62,23 +62,6 @@ export function Footer() {
               <DropdownMenuItem
                 onSelect={() =>
                   window.open(
-                    "https://open.spotify.com/user/1atznoygdksoddgocmbl4buli?si=17e9e23d34ab4aad",
-                    "_blank",
-                  )
-                }
-              >
-                <Image
-                  src="/svg/spotify.svg"
-                  alt="Strava logo"
-                  height={16}
-                  width={16}
-                  className="mr-2 dark:invert"
-                />
-                <span>Spotify</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onSelect={() =>
-                  window.open(
                     "https://www.strava.com/athletes/mikasenghaas",
                     "_blank",
                   )
