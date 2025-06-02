@@ -19,7 +19,7 @@ export function Featured() {
         <div className="flex-1 relative aspect-video">
           <Link href="https://x.com/PrimeIntellect/status/1879916015813009484" target="_blank" rel="noopener noreferrer">
             <Image
-              src="/img/butterfly.jpeg"
+              src="/img/intellect2.jpeg"
               alt="Prime Intellect"
               className="object-cover rounded-lg"
               fill
