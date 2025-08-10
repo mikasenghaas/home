@@ -11,11 +11,8 @@ import {
   Moon,
   Github,
   Linkedin,
-  Instagram,
-  Twitter,
 } from "lucide-react";
 import { useTheme } from "next-themes";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -123,38 +120,18 @@ export function Menu() {
               <span>GitHub</span>
             </CommandItem>
             <CommandItem
+              onSelect={() => window.open("https://x.com/mikasenghaas")}
+            >
+              <span className="ml-[1.5px] mr-[10px] mt-[-1px] text-2xl">𝕏</span>
+              <span>Twitter</span>
+            </CommandItem>
+            <CommandItem
               onSelect={() =>
                 window.open("https://linkedin.com/in/mikasenghaas")
               }
             >
               <Linkedin className="mr-2 h-4 w-4" />
               <span>LinkedIn</span>
-            </CommandItem>
-            <CommandItem
-              onSelect={() => window.open("https://x.com/mikasenghaas")}
-            >
-              <Twitter className="mr-2 h-4 w-4" />
-              <span>Twitter</span>
-            </CommandItem>
-            <CommandItem
-              onSelect={() => window.open("https://instagram.com/mikasenghaas")}
-            >
-              <Instagram className="mr-2 h-4 w-4" />
-              <span>Instagram</span>
-            </CommandItem>
-            <CommandItem
-              onSelect={() =>
-                window.open("https://www.strava.com/athletes/mikasenghaas")
-              }
-            >
-              <Image
-                src="/svg/strava.svg"
-                alt="Strava logo"
-                height={16}
-                width={16}
-                className="ml-0.5 mr-2 dark:invert"
-              />
-              <span>Strava</span>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />

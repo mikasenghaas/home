@@ -1,8 +1,7 @@
 "use client";
 
-import { Github, Instagram, Linkedin, Twitter } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
 import moment from "moment";
-import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -38,43 +37,18 @@ export function Footer() {
                 <span>GitHub</span>
               </DropdownMenuItem>
               <DropdownMenuItem
+                onSelect={() => window.open("https://x.com/mikasenghaas")}
+              >
+                <span className="ml-[1.5px] mr-2 text-xl">𝕏</span>
+                <span>Twitter</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
                 onSelect={() =>
                   window.open("https://linkedin.com/in/mikasenghaas")
                 }
               >
                 <Linkedin className="mr-2 h-4 w-4" />
                 <span>LinkedIn</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onSelect={() => window.open("https://x.com/mikasenghaas")}
-              >
-                <Twitter className="mr-2 h-4 w-4" />
-                <span>Twitter</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onSelect={() =>
-                  window.open("https://instagram.com/mikasenghaas", "_blank")
-                }
-              >
-                <Instagram className="mr-2 h-4 w-4" />
-                <span>Instagram</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onSelect={() =>
-                  window.open(
-                    "https://www.strava.com/athletes/mikasenghaas",
-                    "_blank",
-                  )
-                }
-              >
-                <Image
-                  src="/svg/strava.svg"
-                  alt="Strava logo"
-                  height={16}
-                  width={16}
-                  className="mr-2 dark:invert"
-                />
-                <span>Strava</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
