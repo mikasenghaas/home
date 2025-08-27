@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { Avatar } from "@/components/avatar";
+import Image from "next/image";
 import {
   Tooltip,
   TooltipContent,
@@ -26,16 +27,16 @@ const facts = [
 ];
 
 function HeroText() {
-  const { message: startMessage } = useTypewriter({
-    message: "Oh, and ",
-    initialDelay: 1000,
-    typing_interval_min: 95,
-  });
+  // const { message: startMessage } = useTypewriter({
+  //   message: "Oh, and ",
+  //   initialDelay: 1000,
+  //   typing_interval_min: 95,
+  // });
 
-  const { message: fact, selectedMessage: selectedFact } = useTypewriters({
-    messages: facts,
-    initial_delay: 2000,
-  });
+  // const { message: fact, selectedMessage: selectedFact } = useTypewriters({
+  //   messages: facts,
+  //   initial_delay: 2000,
+  // });
 
   return (
     <div className="mt-6 h-80 text-3xl font-medium leading-normal text-muted-foreground sm:h-96 sm:text-4xl md:text-5xl md:leading-normal lg:text-6xl lg:leading-normal 2xl:h-[500px] 2xl:text-7xl 2xl:leading-normal">
@@ -56,13 +57,11 @@ function HeroText() {
           </span>
         </TooltipContent>
         <span> and research engineer at{" "}
-          <a href="https://primeintellect.ai/" target="_blank">
+          <a href="https://x.com/primeintellect" target="_blank">
             Prime Intellect
-          </a>
+          </a>.
         </span>
       </Tooltip>
-      <span>. {startMessage}</span>
-      <span aria-label={selectedFact}>{fact}</span>
     </div>
   );
 }
