@@ -5,17 +5,20 @@ import Post, {
 import { Props } from "@/lib/types";
 
 interface TLDRPostProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export default async function TLDRPost({
-  params: { slug },
+  params,
 }: TLDRPostProps) {
+  const { slug } = await params;
   return <Post slug={slug} type="tldr" />;
 }
 
 export const dynamicParams = false;
 export const generateStaticParams = () =>
   generateStaticParamsHelper("tldr");
-export const generateMetadata = ({ params }: Props) =>
-  generateMetadataHelper("tldr", params.slug);
+export const generateMetadata = async ({ params }: Props) => {
+  const { slug } = await params;
+  return generateMetadataHelper("tldr", slug);
+};
