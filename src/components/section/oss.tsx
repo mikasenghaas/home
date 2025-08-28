@@ -220,7 +220,7 @@ export function OSS() {
 
   return (
     <Section className="relative overflow-x-visible">
-      <h2 className="mb-8 mt-0">OSS</h2>
+      <h2 className="mb-8 mt-0">Open Source</h2>
       {error && (
         <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg">
           <p className="text-sm">Error loading GitHub data: {error}</p>
