@@ -143,7 +143,8 @@ export async function POST(request: NextRequest) {
           if (cached) {
             return { owner, repo, data: cached.data, cached: true, stale: true };
           }
-          return { owner, repo, error: error.message };
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          return { owner, repo, error: errorMessage };
         }
       })
     );
