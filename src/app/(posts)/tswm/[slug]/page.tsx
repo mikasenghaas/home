@@ -5,20 +5,17 @@ import Post, {
 import { Props } from "@/lib/types";
 
 interface TSWMPostProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 export default async function TSWMPost({
-  params,
+  params: { slug },
 }: TSWMPostProps) {
-  const { slug } = await params;
   return <Post slug={slug} type="tswm" />;
 }
 
 export const dynamicParams = false;
 export const generateStaticParams = () =>
   generateStaticParamsHelper("tswm");
-export const generateMetadata = async ({ params }: Props) => {
-  const { slug } = await params;
-  return generateMetadataHelper("tswm", slug);
-};
+export const generateMetadata = ({ params }: Props) =>
+  generateMetadataHelper("tswm", params.slug);

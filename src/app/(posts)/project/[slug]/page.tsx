@@ -5,19 +5,16 @@ import Post, {
 import { Props } from "@/lib/types";
 
 interface ProjectPostProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 export default async function ProjectPost({
-  params,
+  params: { slug },
 }: ProjectPostProps) {
-  const { slug } = await params;
   return <Post slug={slug} type="project" />;
 }
 
 export const dynamicParams = false;
 export const generateStaticParams = () => generateStaticParamsHelper("project");
-export const generateMetadata = async ({ params }: Props) => {
-  const { slug } = await params;
-  return generateMetadataHelper("project", slug);
-};
+export const generateMetadata = ({ params }: Props) =>
+  generateMetadataHelper("project", params.slug);
